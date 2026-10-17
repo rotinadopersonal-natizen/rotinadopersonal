@@ -1469,7 +1469,20 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
 .rp-row{display:flex;justify-content:space-between}
 #rpAcct{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center}
 #rpAcct[hidden]{display:none}
-#rpAcct .rp-sheet{background:#fff;color:#222;width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:18px 16px 24px;font-family:system-ui,sans-serif}
+.rp-foot{text-align:center;margin-top:22px;font-size:12.5px;color:#8d8778}
+.rp-foot a,.rp-chk a{color:#d4a24c}
+.rp-chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:14px;color:#cfc8b8;line-height:1.4}
+.rp-chk input{width:20px;height:20px;flex:0 0 20px;margin-top:1px;accent-color:#d4a24c}
+.rp-ro{font-size:14px;color:#a9a395;margin:2px 0 0}
+#rpAcct .rp-sheet label{display:block;font-size:13px;color:#555;margin:10px 0 4px}
+#rpAcct .rp-sheet input{width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1px solid #ccc;font-size:16px}
+#rpAcct .rp-sm{display:flex;gap:8px;margin-top:10px}
+#rpAcct .rp-sm .rp-btn{margin-top:0;font-size:14px;padding:11px}
+#rpAcct .rp-amsg{min-height:18px;font-size:13px;margin:8px 0 0;color:#2e7d32}
+#rpAcct .rp-amsg.bad{color:#c62828}
+#rpAcct .rp-links{display:flex;justify-content:space-between;margin-top:12px;font-size:13.5px}
+#rpAcct .rp-links a,#rpAcct .rp-links button{color:#8a6420;background:none;border:0;padding:4px 0;font-size:13.5px;cursor:pointer;text-decoration:underline}
+#rpAcct .rp-sheet{max-height:92vh;overflow:auto;background:#fff;color:#222;width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:18px 16px 24px;font-family:system-ui,sans-serif}
 </style>
 <div id="rpLogin">
   <div class="rp-box">
@@ -1485,18 +1498,37 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
       <p class="rp-or">ou</p>
       <button class="rp-btn rp-sec" id="rpGoogle">Entrar com Google</button>
     </div>
+    <div id="rpPerfil" hidden>
+      <p class="rp-sub" style="margin:-6px 0 6px;color:#f3efe6;font-size:16px;font-weight:700">Complete seu cadastro</p>
+      <p class="rp-ro" id="rpPEmail"></p>
+      <label for="rpPNome">Seu nome</label>
+      <input id="rpPNome" autocomplete="name">
+      <label for="rpPTel">Telefone / WhatsApp</label>
+      <input id="rpPTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000">
+      <label class="rp-chk"><input type="checkbox" id="rpPAceite"><span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">Termos de uso e a Política de privacidade</a>.</span></label>
+      <button class="rp-btn rp-pri" id="rpPGo">Continuar</button>
+      <button class="rp-link" id="rpPOut" style="display:block;margin:12px auto 0">Sair</button>
+    </div>
     <p class="rp-msg" id="rpMsg" role="status"></p>
+    <p class="rp-foot"><a href="termos.html" target="_blank" rel="noopener">Termos de uso e privacidade</a></p>
   </div>
 </div>
 <div id="rpAcct" hidden><div class="rp-sheet" role="dialog" aria-modal="true" aria-label="Sua conta">
-  <p style="margin:0 0 4px;font-weight:700">Sua conta</p>
-  <p id="rpWho" style="margin:0 0 14px;color:#555;font-size:14px"></p>
-  <button class="rp-btn rp-pri" id="rpOut">Sair da conta</button>
+  <p style="margin:0 0 2px;font-weight:700;font-size:17px">Minha conta</p>
+  <p id="rpWho" style="margin:0 0 4px;color:#555;font-size:14px"></p>
+  <label for="rpANome">Nome</label>
+  <input id="rpANome" autocomplete="name">
+  <label for="rpATel">Telefone / WhatsApp</label>
+  <input id="rpATel" type="tel" inputmode="tel" autocomplete="tel">
+  <div class="rp-sm"><button class="rp-btn rp-pri" id="rpASave">Salvar dados</button><button class="rp-btn" style="background:#eee" id="rpAPass">Trocar senha</button></div>
+  <p class="rp-amsg" id="rpAMsg" role="status"></p>
+  <div class="rp-links"><a href="termos.html" target="_blank" rel="noopener">Termos e privacidade</a><button id="rpAHelp">Excluir minha conta</button></div>
+  <button class="rp-btn" style="background:#1a1a1a;color:#fff" id="rpOut">Sair da conta</button>
   <button class="rp-btn" style="background:#eee" id="rpClose">Fechar</button>
 </div></div>
 <script>
 (function(){
-  var cfg=window.RP_FIREBASE;
+  var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com";
   var msg=function(t,ok){ var m=document.getElementById("rpMsg"); m.textContent=t||""; m.className="rp-msg"+(ok?" ok":""); };
   if(!cfg||!cfg.apiKey||!window.firebase){ msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
   firebase.initializeApp(cfg);
@@ -1533,19 +1565,56 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
       onSnapshot:function(cb,err){ return c.onSnapshot(function(qs){ cb(wrapQs(qs)); },err||function(){}); } }; } };
   var DL={ save:function(o){ var u=URL.createObjectURL(o.data); var a=document.createElement("a"); a.href=u; a.download=o.filename||"arquivo"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },4000); return Promise.resolve(); } };
 
-  var started=false;
-  auth.onAuthStateChanged(function(u){
-    if(!u){ $("rpLogin").hidden=false; return; }
+  var started=false, ME=null, PERFIL=null;
+  var TERMOS_V="2026-10-16";
+  var telOk=function(t){ return (t||"").replace(/\D/g,"").length>=10; };
+  var fmtTel=function(t){ var d=(t||"").replace(/\D/g,"").slice(0,11); if(d.length<3) return d; if(d.length<=6) return "("+d.slice(0,2)+") "+d.slice(2); if(d.length<=10) return "("+d.slice(0,2)+") "+d.slice(2,6)+"-"+d.slice(6); return "("+d.slice(0,2)+") "+d.slice(2,7)+"-"+d.slice(7); };
+  ["rpPTel","rpATel"].forEach(function(id){ $(id).addEventListener("input",function(){ this.value=fmtTel(this.value); }); });
+  var perfilRef=function(){ return fs.doc("cadastros/"+ME.uid); };
+  var cacheKey=function(){ return "rp_perfil_"+ME.uid; };
+  var cacheGet=function(){ try{ return JSON.parse(localStorage.getItem(cacheKey())||"null"); }catch(e){ return null; } };
+  var cacheSet=function(p){ try{ localStorage.setItem(cacheKey(),JSON.stringify(p)); }catch(e){} };
+  var perfilOk=function(p){ return !!(p&&p.nome&&telOk(p.telefone)&&p.aceiteTermos===TERMOS_V); };
+  var salvarPerfil=function(dados){ var p=Object.assign({},PERFIL||{},dados,{email:ME.email||"",atualizadoEm:new Date().toISOString()}); if(!p.criadoEm) p.criadoEm=new Date().toISOString(); PERFIL=p; cacheSet(p);
+    return perfilRef().set(p,{merge:true}).then(function(){ return true; }).catch(function(){ return false; }); };
+
+  function startApp(u){
     if(started) return; started=true;
     /* Aparelho compartilhado: se outra pessoa entrou antes, limpa o que ficou guardado dela. */
-    try{ var prev=localStorage.getItem("rp_uid"); if(prev!==u.uid){ var keep=localStorage.getItem("fzV"); localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); localStorage.setItem("rp_uid",u.uid); } }catch(e){}
+    try{ var prev=localStorage.getItem("rp_uid"); if(prev!==u.uid){ var keep=localStorage.getItem("fzV"); var pc=PERFIL; localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); localStorage.setItem("rp_uid",u.uid); if(pc) cacheSet(pc); } }catch(e){}
     window.claude={ use:function(n){ if(n==="db") return Promise.resolve(DB); if(n==="user") return Promise.resolve({id:function(){ return Promise.resolve(u.uid); },email:u.email}); if(n==="downloads") return Promise.resolve(DL); return Promise.resolve(null); } };
     $("rpLogin").hidden=true;
     var code=document.getElementById("appjs").textContent; var s=document.createElement("script"); s.textContent=code; document.body.appendChild(s);
     var pill=document.getElementById("cloudPill");
-    if(pill&&!document.getElementById("rpAcctBtn")){ var b=document.createElement("button"); b.id="rpAcctBtn"; b.className="pill"; b.style.cssText="margin:4px 0 0 4px;cursor:pointer;border:0"; b.textContent="Conta"; pill.insertAdjacentElement("afterend",b);
-      b.onclick=function(){ $("rpWho").textContent=u.email||"Conta Google"; $("rpAcct").hidden=false; }; }
+    if(pill&&!document.getElementById("rpAcctBtn")){ var b=document.createElement("button"); b.id="rpAcctBtn"; b.className="pill"; b.style.cssText="margin:4px 0 0 4px;cursor:pointer;border:0"; b.textContent="Minha conta"; pill.insertAdjacentElement("afterend",b);
+      b.onclick=abrirConta; }
+  }
+  function abrirConta(){ $("rpWho").textContent=ME.email||"Conta Google"; $("rpANome").value=(PERFIL&&PERFIL.nome)||ME.displayName||""; $("rpATel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpAMsg").textContent="";
+    var temSenha=(ME.providerData||[]).some(function(p){ return p.providerId==="password"; }); $("rpAPass").style.display=temSenha?"":"none";
+    $("rpAcct").hidden=false; }
+  function pedirPerfil(u){ $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
+    $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); }
+  $("rpPGo").onclick=function(){ var n=$("rpPNome").value.trim(), t=$("rpPTel").value.trim();
+    if(n.length<2){ msg("Digite seu nome."); return; } if(!telOk(t)){ msg("Digite o telefone com DDD."); return; } if(!$("rpPAceite").checked){ msg("Para continuar, aceite os Termos de uso."); return; }
+    var btn=this; btn.disabled=true; msg("Salvando…",true);
+    salvarPerfil({nome:n,telefone:t,aceiteTermos:TERMOS_V,aceiteEm:new Date().toISOString()}).then(function(){ btn.disabled=false; msg(""); startApp(ME); }); };
+  $("rpPOut").onclick=function(){ auth.signOut().then(function(){ location.reload(); }); };
+
+  auth.onAuthStateChanged(function(u){
+    if(!u){ $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; return; }
+    if(started) return; ME=u;
+    PERFIL=cacheGet();
+    if(perfilOk(PERFIL)){ startApp(u); perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } else salvarPerfil({}); }).catch(function(){}); return; }
+    msg("Aguarde…",true);
+    var done=false; var fim=function(){ if(done) return; done=true; msg(""); if(perfilOk(PERFIL)) startApp(u); else pedirPerfil(u); };
+    setTimeout(fim,6000);
+    perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } fim(); }).catch(fim);
   });
+  $("rpASave").onclick=function(){ var n=$("rpANome").value.trim(), t=$("rpATel").value.trim(), m=$("rpAMsg");
+    if(n.length<2){ m.className="rp-amsg bad"; m.textContent="Digite seu nome."; return; } if(!telOk(t)){ m.className="rp-amsg bad"; m.textContent="Digite o telefone com DDD."; return; }
+    m.className="rp-amsg"; m.textContent="Salvando…"; salvarPerfil({nome:n,telefone:t}).then(function(ok){ m.className="rp-amsg"+(ok?"":" bad"); m.textContent=ok?"Dados salvos ✓":"Salvo neste aparelho. Vai para a nuvem quando a conexão voltar."; }); };
+  $("rpAPass").onclick=function(){ var m=$("rpAMsg"); auth.sendPasswordResetEmail(ME.email).then(function(){ m.className="rp-amsg"; m.textContent="Enviamos um link para "+ME.email+" (veja o spam)."; }).catch(function(x){ m.className="rp-amsg bad"; m.textContent=em(x); }); };
+  $("rpAHelp").onclick=function(){ var m=$("rpAMsg"); m.className="rp-amsg"; m.innerHTML='Para excluir sua conta e todos os dados, envie um e-mail para <a href="mailto:'+RP_CONTATO+'?subject=Excluir%20minha%20conta">'+RP_CONTATO+'</a>. Antes, baixe um backup em Cadastro.'; };
   $("rpClose").onclick=function(){ $("rpAcct").hidden=true; };
   $("rpAcct").addEventListener("click",function(e){ if(e.target.id==="rpAcct") $("rpAcct").hidden=true; });
   $("rpOut").onclick=function(){ this.textContent="Salvando…"; setTimeout(function(){ fs.waitForPendingWrites().catch(function(){}).then(function(){ try{ var keep=localStorage.getItem("fzV"); localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); }catch(e){} return auth.signOut(); }).then(function(){ location.reload(); }); },1200); };
