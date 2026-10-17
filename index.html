@@ -1416,6 +1416,11 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .payal-x{position:absolute;top:4px;right:6px;border:0;background:none;color:#fff;font-size:20px;cursor:pointer;padding:2px 6px}
 .prazo{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0;font-size:13px;display:grid;gap:6px}
 .prazo.atras{border-color:#E53935;background:rgba(229,57,53,.07)}.prazo.atras>b{color:#E53935}
+.prz-p{display:grid;gap:4px}.prz-p label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:4px 8px;border-radius:8px;background:var(--surface)}
+.prz-p label.ok{color:var(--muted)}.prz-p label.atras{color:#E5534B;font-weight:700}.prz-p input{width:52px;font-size:13px;padding:4px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.maisal{border:1.5px solid #d4a24c;border-radius:10px;padding:8px 10px;margin:8px 0;font-size:13px;line-height:1.5}.maisal small{color:var(--muted)}
+.av3{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.av3 label{font-size:11.5px}.av3 .inp{font-size:14px;padding:7px 6px;min-width:0}
+.vencbox{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:grid;gap:6px}.vencbox .vrow{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;align-items:center;font-size:12.5px}.vencbox .inp{font-size:14px;padding:6px;min-width:0}
 .prz-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .prz-g label{display:grid;gap:3px;font-size:11px;font-weight:700;color:var(--muted)}
 .prz-g input{font-size:13px;padding:5px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0;width:100%}
@@ -4494,7 +4499,7 @@ function pacUso(a){const p=a.pacote;if(a.tipo!=='pacote'||!p||!(+p.total))return
   const val=p.validade||'',dv=val?Math.round((dOf(val)-dOf(hoje))/864e5):null,perd=+p.perdidas||0;
   return {used,total:+p.total,rest:+p.total-used-perd,perdidas:perd,pend,inicio:p.inicio,validade:val,dias:dv,vencido:val?dv<0:false};}
 function pacTagP(a){return pacTagHTML(pacUso(a))}
-const FORMAS={mensal:'Mensal',parcelas:'2 parcelas',semanal:'Semanal',trimestral:'Trimestral',semestral:'Semestral',anual:'Anual',outra:'Outra'};
+const FORMAS={mensal:'Mensal',parcelas:'Em 2+ vezes',semanal:'Semanal',trimestral:'Trimestral',semestral:'Semestral',anual:'Anual',outra:'Outra'};
 
 function agendaDoDia(k){
   const wd=dOf(k).getDay(), recs=dayData(k).registros||{}, out=[];
@@ -4845,14 +4850,23 @@ function addMes(ym,n){const [y,m]=ym.split('-').map(Number);const d=new Date(y,m
 const pad2=n=>String(n).padStart(2,'0');
 function diaVenc(a){ return Math.min(31,Math.max(1,+a.diaVenc||10)); }
 function prazoDe(a,ym,pp){ pp=pp||{}; if(pp.ate) return pp.ate; if(pp.venc) return pp.venc; const [y,m]=ym.split('-').map(Number); const last=new Date(y,m,0).getDate(); return ym+'-'+pad2(Math.min(diaVenc(a),last)); }
+/* cada parte com sua data de vencimento; o que já foi pago cobre as partes em ordem */
+function dueParts(r,ym){ const pp=r.pp||{}, last=new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate();
+  const L=(r.a.forma==='parcelas'&&r.partes&&r.partes.length>1&&r.partes[0].dia)? r.partes.map(t=>({v:t.v,l:t.l,k:t.k,due:ym+'-'+pad2(Math.min(t.dia,last))})) : [{v:r.valor,l:'',k:'',due:prazoDe(r.a,ym,{})}];
+  if(pp.ate||pp.venc){ const d=pp.ate||pp.venc; L.forEach(t=>{ if(t.due<d) t.due=d; }); }
+  let cob=r.pago; return L.map(t=>{ const c=Math.min(t.v,Math.max(0,cob)); cob-=c; return {...t,cob:c,resta:Math.max(0,t.v-c)}; }); }
+function proxPrazo(r,ym){ const L=dueParts(r,ym), t=L.find(x=>x.resta>0.005); return t? t.due : L[L.length-1].due; }
 function vencidos(){ if(!loadedA) return []; const hoje=today(), out=new Map(); const ini=(INICIO||hoje).slice(0,7);
   for(let k=2;k>=0;k--){ const ym=addMes(hoje.slice(0,7),-k); if(ym<ini) continue; let F; try{ F=finCalc(ym); }catch(e){ continue; }
-    F.rows.forEach(r=>{ if(r.stt!=='no'&&r.stt!=='part') return; const pz=prazoDe(r.a,ym,r.pp); if(hoje<=pz) return; if(!out.has(r.a.id)) out.set(r.a.id,{a:r.a,ym,prazo:pz,prometido:!!(r.pp&&r.pp.ate),falta:Math.max(0,r.valor-r.pago)}); else out.get(r.a.id).falta+=Math.max(0,r.valor-r.pago); }); }
+    F.rows.forEach(r=>{ if(r.stt!=='no'&&r.stt!=='part') return; const L=dueParts(r,ym).filter(t=>t.resta>0.005&&hoje>t.due); if(!L.length) return;
+      const falta=L.reduce((t,x)=>t+x.resta,0);
+      if(!out.has(r.a.id)) out.set(r.a.id,{a:r.a,ym,prazo:L[0].due,prometido:!!(r.pp&&r.pp.ate),falta}); else out.get(r.a.id).falta+=falta; }); }
   return [...out.values()]; }
-function prazoHTML(r){ if(r.stt!=='no'&&r.stt!=='part') return ''; const pp=r.pp||{}, pz=prazoDe(r.a,st.month,pp), atras=today()>pz;
+function prazoHTML(r){ if(r.stt!=='no'&&r.stt!=='part') return ''; const pp=r.pp||{}, pz=proxPrazo(r,st.month), atras=today()>pz, multi=r.a.forma==='parcelas'&&r.partes.length>1&&r.partes[0].dia;
   const dias=atras? Math.round((dOf(today())-dOf(pz))/864e5) : 0;
   return `<div class="prazo ${atras?'atras':''}">${atras?`<b>⚠ Vencido há ${dias} dia${dias>1?'s':''}</b> (${pp.ate?'prometeu':'venceu'} ${pz.slice(8,10)}/${pz.slice(5,7)})`:`<b>📅 ${pp.ate?'Prometeu pagar até':'Vence'} ${pz.slice(8,10)}/${pz.slice(5,7)}</b>`}
-    <div class="prz-g"><label>Vence todo dia<input type="number" inputmode="numeric" min="1" max="31" data-diavenc="${r.a.id}" value="${diaVenc(r.a)}"></label>
+    ${multi?`<div class="prz-p">${dueParts(r,st.month).map((t,i)=>`<label class="${t.resta<=0.005?'ok':today()>t.due?'atras':''}"><span>${i+1}ª · ${brl(t.v)} · ${t.resta<=0.005?'✓ paga':today()>t.due?'vencida':'a pagar'}</span><span>dia <input type="number" inputmode="numeric" min="1" max="31" data-pdia="${i}" data-id="${r.a.id}" value="${r.partes[i].dia}"></span></label>`).join('')}</div>`:''}
+    <div class="prz-g">${multi?'':`<label>Vence todo dia<input type="number" inputmode="numeric" min="1" max="31" data-diavenc="${r.a.id}" value="${diaVenc(r.a)}"></label>`}
     <label>Neste mês vence em<input type="date" data-pvenc="${r.a.id}" value="${pp.venc||''}"></label>
     <label>Pendente até (combinado)<input type="date" data-pate="${r.a.id}" value="${pp.ate||''}"></label></div></div>`; }
 function payDateHTML(id,k,v){ const d=typeof v==='string'&&/^\d{4}-/.test(v)? v : ''; return `<label class="pdate">pago em <input type="date" data-paydate="${k}" data-id="${id}" value="${d}"></label>`; }
@@ -4861,7 +4875,7 @@ const AV_EXTRA=['Aula avulsa','Aula extra','Reposição paga'];
 const AV_MOT=['Aula avulsa','Aula extra','Reposição paga','Diferença / ajuste','Pagou a mais','Outros'];
 function partesDe(a,valor){
   const f=a.forma||'mensal';
-  if(f==='parcelas'){ const va=valorAula(a); return [{k:'p1',l:'1ª parcela',v:valor/2},{k:'p2',l:'2ª parcela',v:valor/2}].map(t=>va>0?{...t,aulas:Math.round(t.v/va)}:t); }
+  if(f==='parcelas'){ const va=valorAula(a); return parcSplit(parcList(a),valor).map((p,i)=>({k:'p'+(i+1),l:(i+1)+'ª · dia '+p.dia,v:p.v,dia:p.dia})).map(t=>va>0?{...t,aulas:Math.round(t.v/va)}:t); }
   if(f==='semanal'){ const spw=Math.max(1,(a.slots||[]).length), va=valorAula(a);
     if(va>0){ const perW=va*spw, n=Math.max(1,Math.round(valor/perW)); return Array.from({length:n},(_,i)=>{ const v= i<n-1? perW : Math.max(0,valor-perW*(n-1)); return {k:'s'+(i+1),l:(i+1)+'ª semana',v,aulas:Math.round(v/va)}; }); }
     return [1,2,3,4].map(i=>({k:'s'+i,l:i+'ª semana',v:valor/4})); }
@@ -4885,8 +4899,8 @@ function kpiPanel(rows,ym){
   if(st.kpi==='rec'){
     const L=rows.filter(r=>r.stt!=='adv'&&r.stt!=='perm'&&(r.pago+(r.avX||0))>0.005);
     const A=ativos().filter(a=>a.adiantado&&a.adiantado.recebidoEm===ym&&+a.adiantado.valor>0);
-    const tot=L.reduce((t,r)=>t+r.pago+(r.avX||0),0)+A.reduce((t,a)=>t+ +a.adiantado.valor,0);
-    return `<div class="card kpanel"><h3>Já pagaram em ${mesCurto(ym)}</h3>${L.length||A.length?`<div class="klist">${L.map(r=>`<div class="krow ok">${nm(r)}<span>${brl(r.pago+(r.avX||0))}${r.stt==='part'?` <small>de ${brl(r.valor)}</small>`:''}${r.avX?` <small>inclui ${brl(r.avX)} extra</small>`:''}</span></div>`).join('')}${A.map(a=>`<div class="krow ok"><button class="kname" data-goto="${a.id}">${esc(a.nome)}</button><span>${brl(+a.adiantado.valor)} <small>adiantado até ${mesCurto(a.adiantado.ate)}</small></span></div>`).join('')}</div><div class="ktot">Total recebido <b>${brl(tot)}</b></div>`:'<p class="note">Ninguém pagou ainda neste mês.</p>'}</div>`;
+    const tot=L.reduce((t,r)=>t+Math.min(r.pago,r.valor)+(r.avX||0),0)+A.reduce((t,a)=>t+ +a.adiantado.valor,0);
+    return `<div class="card kpanel"><h3>Já pagaram em ${mesCurto(ym)}</h3>${L.length||A.length?`<div class="klist">${L.map(r=>`<div class="krow ok">${nm(r)}<span>${brl(Math.min(r.pago,r.valor)+(r.avX||0))}${r.pago>r.valor+0.005?` <small class="neg">+${brl(r.pago-r.valor)} a mais</small>`:''}${r.stt==='part'?` <small>de ${brl(r.valor)}</small>`:''}${r.avX?` <small>inclui ${brl(r.avX)} extra</small>`:''}</span></div>`).join('')}${A.map(a=>`<div class="krow ok"><button class="kname" data-goto="${a.id}">${esc(a.nome)}</button><span>${brl(+a.adiantado.valor)} <small>adiantado até ${mesCurto(a.adiantado.ate)}</small></span></div>`).join('')}</div><div class="ktot">Total recebido <b>${brl(tot)}</b></div>`:'<p class="note">Ninguém pagou ainda neste mês.</p>'}</div>`;
   }
   if(st.kpi==='pend'){
     const L=rows.filter(r=>r.stt==='no'||r.stt==='part');
@@ -4907,7 +4921,7 @@ function finCardHTML(f){ const [y,m]=f.ym.split('-').map(Number), br=BR(), G=TH(
     <div class="pc-logo">${logoHTML()}<span class="pc-n">${esc(br.nome).toUpperCase()}</span><span class="pc-s">${esc(br.sub).toUpperCase()}</span></div>
     <p class="pc-k">FINANCEIRO · ${MESES[m-1].toUpperCase()} ${y}</p>
     <div class="pc-tiles" style="grid-template-columns:repeat(3,1fr)">${tile(brl(f.prev),'previsto')}${tile(brl(f.rec),'recebido',G)}${tile(brl(f.pend!=null?f.pend:Math.max(0,f.prev-f.rec)),'a receber',(f.pend!=null?f.pend:f.prev-f.rec)>0.005?RED:'')}</div>
-    <p class="pc-k" style="margin-top:6px">PAGARAM · ${ok.length}</p><div>${ok.map(r=>li(r,r.stt==='adv'?'adiantado':r.stt==='pac'?'pacote':brl(r.pago),G)).join('')||'<p class="pc-p">Ninguém ainda.</p>'}</div>
+    <p class="pc-k" style="margin-top:6px">PAGARAM · ${ok.length}</p><div>${ok.map(r=>li(r,r.stt==='adv'?'adiantado':r.stt==='pac'?'pacote':brl(Math.min(r.pago,r.valor)),G)).join('')||'<p class="pc-p">Ninguém ainda.</p>'}</div>
     <p class="pc-k" style="margin-top:6px">FALTA RECEBER · ${no.length}</p><div>${no.map(r=>li(r,brl(Math.max(0,r.valor-r.pago))+(r.stt==='part'?' (parcial)':''),RED)).join('')||'<p class="pc-p">Todos pagaram.</p>'}</div>
     ${pm.length?`<p class="pc-k" style="margin-top:6px">PERMUTAS · ${pm.length}</p><div>${pm.map(r=>li(r,'permuta')).join('')}</div>`:''}
     ${f.advNovo?`<p class="pc-p">O recebido inclui ${brl(f.advNovo)} de pagamentos adiantados recebidos neste mês.</p>`:''}
@@ -4947,7 +4961,10 @@ function finCalc(ym){
   for(const a of ativos()){const d=a.adiantado;if(d&&d.recebidoEm===ym&&+d.valor>0){prev+= +d.valor;rec+= +d.valor;advNovo+= +d.valor}}
   /* a receber = soma do que cada aluno ainda deve (quem pagou a mais não abate a dívida dos outros) */
   const pend=rows.filter(r=>r.stt==='no'||r.stt==='part').reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0);
-  return {prev,rec,rows,advNovo,advCob,pend};
+  /* quem pagou mais que o valor do mês: o excesso não entra no recebido (senão previsto ≠ recebido + a receber) e aparece em aviso */
+  const mais=rows.filter(r=>r.stt!=='adv'&&r.stt!=='perm'&&r.pago>r.valor+0.005).map(r=>({a:r.a,v:r.pago-r.valor}));
+  const excesso=mais.reduce((t,x)=>t+x.v,0); rec-=excesso;
+  return {prev,rec,rows,advNovo,advCob,pend,mais,excesso};
 }
 function renderPag(){
   const ym=st.month,[y,m]=ym.split('-').map(Number);
@@ -4955,14 +4972,15 @@ function renderPag(){
     <div class="t"><h2>Pagamentos · ${MESES[m-1]} ${y}</h2><small>Toque na parcela paga ou lance o valor que o aluno pagou</small></div>
     <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>`;
   if(!loadedA){main.innerHTML=h+`<div class="empty">Carregando…</div>`;return}
-  const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend}=F;
-  st._fin={ym,prev,rec,rows,advNovo,pend};
+  const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend,mais,excesso}=F;
+  st._fin={ym,prev,rec,rows,advNovo,pend,excesso};
   const ord={no:0,part:1,ok:2,adv:3,pac:3,na:4,perm:5};rows.sort((p,q)=>ord[p.stt]-ord[q.stt]||p.a.nome.localeCompare(q.a.nome,'pt-BR'));
   h+=`<div class="row-actions" style="margin:0 0 6px"><button class="ghost" data-finpdf>📄 Relatório financeiro de ${mesCurto(ym)} (PDF)</button></div>
   <div class="kpis"><div class="kpi"><b>${brl(prev)}</b><span>previsto no mês</span></div>
     <button class="kpi kbtn ${st.kpi==='rec'?'on':''}" data-kpi="rec" aria-expanded="${st.kpi==='rec'}"><b class="pos">${brl(rec)}</b><span>recebido <i>${st.kpi==='rec'?'▴':'▾'} quem pagou</i></span></button>
     <button class="kpi kbtn ${st.kpi==='pend'?'on':''}" data-kpi="pend" aria-expanded="${st.kpi==='pend'}"><b class="${pend>0.005?'neg':''}">${brl(pend)}</b><span>a receber <i>${st.kpi==='pend'?'▴':'▾'} quem falta</i></span></button>
     <button class="kpi kbtn ${st.kpi==='quit'?'on':''}" data-kpi="quit" aria-expanded="${st.kpi==='quit'}"><b>${rows.filter(r=>r.stt==='ok'||r.stt==='adv'||r.stt==='pac').length}/${rows.filter(r=>r.stt!=='na'&&r.stt!=='perm').length}</b><span>alunos quitados <i>${st.kpi==='quit'?'▴':'▾'} ver lista</i></span></button></div>
+  ${mais.length?`<div class="maisal"><b>⚠ ${brl(excesso)} lançados a mais</b> (fora do recebido): ${mais.map(x=>`<button class="kname" data-goto="${x.a.id}">${esc(first(x.a.nome))} +${brl(x.v)}</button>`).join(' ')}<br><small>Pagaram mais que o valor do mês. Confira se não marcou duas vezes (parcela + "outro valor"). Se foi aula extra, lance em "+ outro valor" como Aula extra.</small></div>`:''}
   ${kpiPanel(rows,ym)}
   ${(()=>{ const L=ativos().filter(a=>!isFicha(a)&&!r_perm(a)&&mensal(a)>0); const tot=L.reduce((t,a)=>t+mensal(a),0), au=L.reduce((t,a)=>t+contratadas(a),0); const H=horasMes(ym);
     return tot&&au?`<div class="card" style="margin-block:8px 0"><h3>Média do seu trabalho</h3><div class="kpis" style="margin:0"><div class="kpi"><b>${brl(tot/au)}</b><span>média por aula (${brl(tot)} ÷ ${au} aulas)</span></div>${H.prev?`<div class="kpi"><b>${brl(tot/H.prev)}</b><span>média por hora (${H.prev}h no mês)</span></div>`:''}</div><p class="note" style="margin:8px 0 0">Soma das mensalidades dos alunos de aula, sem ficha nem permuta. Por hora: dupla ou trio no mesmo horário conta 1 hora.</p></div>`:''; })()}
@@ -4980,7 +4998,7 @@ function renderPag(){
     ${st.advId===r.a.id?advForm(r.a):r.stt==='adv'?`<div class="parts"><button data-advopen="${r.a.id}">Editar adiantamento</button><button data-advrm="${r.a.id}">Remover adiantamento</button></div>`:''}
     ${prazoHTML(r)}
     ${r.bruto&&r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='pac'?`<div class="paygrid">${r.pk?'':`<select data-forma="${r.a.id}" aria-label="Forma de pagamento de ${esc(r.a.nome)}">${Object.entries(FORMAS).map(([v,l])=>`<option value="${v}" ${(r.a.forma||'mensal')===v?'selected':''}>${l}</option>`).join('')}</select>`}
-      ${r.partes.length>1?`<div class="partlist"><p class="partsum">${(r.a.forma==='parcelas')?`Paga em <b>2 parcelas de ${brl(r.partes[0].v)}</b>`:`Paga <b>por semana</b>: ${r.partes.length} pagamentos${r.partes[0].aulas?` de ${r.partes[0].aulas} aula${r.partes[0].aulas>1?'s':''}`:''}`}</p>
+      ${r.partes.length>1?`<div class="partlist"><p class="partsum">${(r.a.forma==='parcelas')?`Paga em <b>${r.partes.length} vezes</b>: ${r.partes.map(t=>brl(t.v)).join(' + ')}`:`Paga <b>por semana</b>: ${r.partes.length} pagamentos${r.partes[0].aulas?` de ${r.partes[0].aulas} aula${r.partes[0].aulas>1?'s':''}`:''}`}</p>
         ${r.partes.map(t=>`<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l}${t.aulas?` <small>· ${t.aulas} aula${t.aulas>1?'s':''}</small>`:''}</span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':'a pagar'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}</div>`).join('')}
         ${r.partes.some(t=>t.aulas)?(()=>{ const tot=r.partes.reduce((s2,t)=>s2+(t.aulas||0),0), pg=r.partes.filter(t=>r.pp[t.k]).reduce((s2,t)=>s2+(t.aulas||0),0); return `<p class="partsum">Aulas pagas: <b class="${pg>=tot?'pos':''}">${pg} de ${tot}</b></p>`; })():''}</div>`
       :`<div class="parts">${r.partes.map(t=>`<button data-pay="${t.k}" data-id="${r.a.id}" class="${r.pp[t.k]?'on':''}" aria-pressed="${!!r.pp[t.k]}">${r.pp[t.k]?'✓ ':''}${t.l}</button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}`).join('')}</div>`}</div>
@@ -5206,6 +5224,7 @@ main.addEventListener('change',e=>{
       const n=JSON.parse(JSON.stringify(a));n.pacote.mesCob=nm;alunos.set(id,n);saveAluno(n);render();
       toast(`Pagamento do pacote passou para ${mesCurto(nm)}`);return}
   }
+  if(e.target.dataset&&e.target.dataset.pdia!=null&&e.target.dataset.id){const a=alunos.get(e.target.dataset.id);if(!a)return;const i=+e.target.dataset.pdia,v=Math.min(31,Math.max(1,parseInt(e.target.value,10)||10));const L=parcList(a);L[i].dia=v;const n=Object.assign({},a,{parc:L.map(p=>p.v?{dia:p.dia,v:p.v}:{dia:p.dia}),nParc:L.length});alunos.set(a.id,n);saveAluno(n);render();toast(`${i+1}ª parcela vence dia ${v}`);return}
   if(e.target.dataset&&e.target.dataset.diavenc){const id=e.target.dataset.diavenc,a=alunos.get(id);if(!a)return;const v=Math.min(31,Math.max(1,parseInt(e.target.value,10)||10));const n=Object.assign({},a,{diaVenc:v});alunos.set(id,n);saveAluno(n);render();toast('Vence todo dia '+v);return}
   if(e.target.dataset&&(e.target.dataset.pvenc||e.target.dataset.pate)){const id=e.target.dataset.pvenc||e.target.dataset.pate,f=e.target.dataset.pvenc?'venc':'ate',v=e.target.value;mutPag(st.month,d=>{d[id]=d[id]||{};if(v)d[id][f]=v;else delete d[id][f]});toast(v?(f==='ate'?'Pendente até ':'Vence em ')+v.slice(8,10)+'/'+v.slice(5,7):'Data removida');return}
   if(e.target.dataset&&e.target.dataset.paydate){const id=e.target.dataset.id,k=e.target.dataset.paydate,v=e.target.value||today();mutPag(st.month,d=>{d[id]=d[id]||{};d[id][k]=v});toast('Data do pagamento: '+v.slice(8,10)+'/'+v.slice(5,7));return}
@@ -5654,7 +5673,17 @@ function delStudentFull(st){ if(!st) return; const pl=planOf(st); if(pl) pl.sess
   if(!S.students.some(s=>s.id===S.active)) S.active=S.students[0].id; }
 let cadDraft=null;
 const CAD_DN={0:"Dom",1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb"};
-const CAD_FORMAS={mensal:"Mensal",parcelas:"2 parcelas",semanal:"Semanal",trimestral:"Trimestral",semestral:"Semestral",anual:"Anual",outra:"Outra"};
+function parcDefDias(n){ return ({2:[10,25],3:[5,15,25],4:[5,12,19,26],5:[5,10,15,20,25],6:[5,9,13,17,21,25]})[n]||[10,25]; }
+function parcList(a){ const n=Math.min(6,Math.max(2,parseInt(a.nParc,10)||2)), P=Array.isArray(a.parc)?a.parc:[], D=parcDefDias(n);
+  return Array.from({length:n},(_,i)=>{ const x=P[i]||{}; return {dia:Math.min(31,Math.max(1,parseInt(x.dia,10)||(i===0&&+a.diaVenc?+a.diaVenc:D[i]))), v:+x.v>0? +x.v : 0}; }); }
+function parcSplit(L,valor){ const fix=L.reduce((t,p)=>t+(p.v||0),0), nA=L.filter(p=>!p.v).length;
+  if(fix>valor+0.005||(!nA&&Math.abs(fix-valor)>0.005&&fix<=0)){ L=L.map(p=>({...p,v:0})); return parcSplit(L,valor); }
+  const autos=L.map((p,i)=>p.v?-1:i).filter(i=>i>=0); const resto=Math.max(0,valor-fix), base=nA? Math.floor(resto/nA*100)/100 : 0;
+  const out=L.map(p=>({...p,v:p.v||base}));
+  if(nA){ const li=autos[autos.length-1]; out[li].v=Math.round((resto-base*(nA-1))*100)/100; }
+  else { const s=out.reduce((t,p)=>t+p.v,0); out[out.length-1].v=Math.round((out[out.length-1].v+valor-s)*100)/100; }
+  return out; }
+const CAD_FORMAS={mensal:"Mensal",parcelas:"Parcelado",semanal:"Semanal",trimestral:"Trimestral",semestral:"Semestral",anual:"Anual",outra:"Outra"};
 function cadList(){ const out=[]; const seen=new Set();
   if(presOn()) PRES.alunos().forEach(a=>{ const st=byPid(a.id); if(st) seen.add(st.id); out.push({a,st}); });
   S.students.filter(s=>!seen.has(s.id)).forEach(st=>out.push({a:null,st}));
@@ -5665,7 +5694,9 @@ function cadOpen(a,st){ const ph=st?st.phase:1;
     valorAula:a? (a.valorAula||((a.mensalidade&&a.contratadas)? a.mensalidade/a.contratadas : "")||"") : "", valorFicha:(a&&a.valorFicha)||"", contratadas:(a&&a.contratadas)||"", forma:(a&&a.forma)||"mensal",
     ativo:a? a.ativo!==false : true, permuta:!!(a&&a.permuta), formaObs:(a&&a.formaObs)||"", slots:a? clean(a.slots||[]) : st? getSlots(st) : [{d:1,h:"07:00"}],
     phase:ph, peso:(st&&st.peso)||"", alt:(st&&st.alt)||"", ob:!!(st&&st.ob), novo: st? !!st.novo : true, junto:"",
-    pacTotal:(a&&a.pacote&&a.pacote.total)||"", pacValor:(a&&a.pacote&&a.pacote.valor)||"", pacIni:(a&&a.pacote&&a.pacote.inicio)||isoD(new Date()), pacVal:(a&&a.pacote&&a.pacote.validade)||"", pacParc:String((a&&a.pacote&&a.pacote.parc)||2), pacForma:(a&&a.pacote&&(a.pacote.forma||((+a.pacote.parc||1)>1?"parcelas":"")))||"avista", renArm:false, delArm:false };
+    pacTotal:(a&&a.pacote&&a.pacote.total)||"", pacValor:(a&&a.pacote&&a.pacote.valor)||"", pacIni:(a&&a.pacote&&a.pacote.inicio)||isoD(new Date()), pacVal:(a&&a.pacote&&a.pacote.validade)||"", pacParc:String((a&&a.pacote&&a.pacote.parc)||2), pacForma:(a&&a.pacote&&(a.pacote.forma||((+a.pacote.parc||1)>1?"parcelas":"")))||"avista", renArm:false, delArm:false,
+    diaVenc:String((a&&+a.diaVenc)||10), nParc:String(a&&a.forma==="parcelas"? (parseInt(a.nParc,10)||2) : 1) };
+  { const P=(a&&a.forma==="parcelas"&&Array.isArray(a.parc))? a.parc : []; for(let i=0;i<6;i++){ const x=P[i]; cadDraft["pd"+i]=x&&+x.dia? String(x.dia) : ""; cadDraft["pv"+i]=x&&+x.v>0? String(x.v) : ""; } }
   renderCadastro(); window.scrollTo(0,0); }
 function cadTotal(){ const v=document.getElementById("view-cadastro"); const d=cadDraft||{};
   const va=+String((v&&v.querySelector("#cd-va")||{}).value??d.valorAula??"").replace(",",".")||0;
@@ -5708,17 +5739,29 @@ function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const fich
     <div class="cslots">${d.slots.map((s,i)=>`<div class="cslot" data-cslot="${i}"><select class="inp" data-csd id="cs-d${i}" aria-label="Dia">${[1,2,3,4,5,6,0].map(n=>[String(n),CAD_DN[n]]).map(([n,l])=>`<option value="${n}" ${s.d===+n?"selected":""}>${DAY_N[l]}</option>`).join("")}</select><input class="inp" type="time" step="300" data-csh id="cs-h${i}" value="${esc(s.h)}" aria-label="Horário"><button class="icon-btn" data-csrm="${i}" aria-label="Remover horário">×</button></div>`).join("")}</div>
     <button class="btn small" data-csadd style="justify-self:start">+ Horário</button>`}
     ${d.tipo==="pacote"?"":`<span class="label">Valores</span>`}
-    <div class="avform">${ficha?`<label>Valor mensal da ficha (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorFicha" id="cd-vf" value="${esc(d.valorFicha)}"></label>`
+    <div class="avform ${ficha||d.tipo==="pacote"||d.tipo==="avulsa"?"":"av3"}">${ficha?`<label>Valor mensal da ficha (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorFicha" id="cd-vf" value="${esc(d.valorFicha)}"></label>`
       :d.tipo==="pacote"?"":d.tipo==="avulsa"?`<label>Valor por aula (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorAula" id="cd-va" value="${esc(d.valorAula)}"></label>`
-      :`<label>Valor por aula (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorAula" id="cd-va" value="${esc(d.valorAula)}"></label>
-      <label>Aulas por mês<input class="inp" type="number" data-cd="contratadas" id="cd-ct" value="${esc(d.contratadas)}" placeholder="${auto} (automático)"></label>`}
-      ${d.tipo==="pacote"||d.tipo==="avulsa"?"":`<label>Forma de pagamento<select class="inp" data-cd="forma" id="cd-fp" data-cre>${Object.entries(CAD_FORMAS).map(([k,l])=>`<option value="${k}" ${d.forma===k?"selected":""}>${l}</option>`).join("")}</select></label>`}</div>
+      :`<label>Valor/aula (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorAula" id="cd-va" value="${esc(d.valorAula)}"></label>
+      <label>Aulas/mês<input class="inp" type="number" data-cd="contratadas" id="cd-ct" value="${esc(d.contratadas)}" placeholder="${auto} auto"></label>`}
+      ${d.tipo==="pacote"||d.tipo==="avulsa"?"":`<label>${ficha?"Forma de pagamento":"Pagamento"}<select class="inp" data-cd="forma" id="cd-fp" data-cre>${Object.entries(CAD_FORMAS).map(([k,l])=>`<option value="${k}" ${d.forma===k?"selected":""}>${l}</option>`).join("")}</select></label>`}</div>
     ${d.forma==="outra"&&d.tipo!=="pacote"&&d.tipo!=="avulsa"?`<label class="label" style="display:grid;gap:4px">Como ${esc(first(d.nome)||"o aluno")} paga<input class="inp" data-cd="formaObs" id="cd-fo" value="${esc(d.formaObs)}" placeholder="ex.: paga dia 10, metade no PIX e metade no cartão"></label>`:""}
+    ${cadVencHTML()}
     ${ficha||d.tipo==="pacote"||d.tipo==="avulsa"?(d.tipo==="pacote"&&+d.pacTotal&&+d.pacValor?`<div class="note" style="margin:0">${(+d.pacValor).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})} ÷ ${d.pacTotal} aulas = <b>${(d.pacValor/d.pacTotal).toLocaleString("pt-BR",{style:"currency",currency:"BRL"})} por aula</b></div>`:""):`<div class="note" id="cd-mens" style="margin:0">${cadTotal()}</div>`}
 <div class="cchk"><label><input type="checkbox" data-cd="ativo" id="cd-at" ${d.ativo?"checked":""}> Aluno ativo</label><label><input type="checkbox" data-cd="permuta" id="cd-pm" ${d.permuta?"checked":""}> Permuta</label></div>
     <div class="row"><button class="btn primary" data-cadsave>Salvar</button><button class="btn" data-cadx>Cancelar</button>${isNew?"":`<button class="btn ${d.ativo?"danger":""}" data-cadativo>${d.ativo?"Inativar aluno":"Reativar aluno"}</button>`}</div>
     ${isNew?"":`<div class="cdel">${d.delArm?`<p>Excluir apaga <b>${esc(first(d.nome))}</b> de vez: cadastro, treino e histórico de presença. Se a ideia é só parar de cobrar, use <b>Inativar</b>, que guarda o histórico.</p><div class="row"><button class="btn danger" data-caddelok>Sim, excluir de vez</button><button class="btn" data-caddelno>Não</button></div>`:`<button class="btn small ghost danger" data-caddel>Excluir aluno</button>`}</div>`}
     <p class="muted" style="font-size:12px">Mudar o horário fixo vale daqui pra frente. Para mudar só um dia, ajuste direto na Chamada da Presença.</p></div>`; }
+function cadMensal(){ const d=cadDraft||{}; if(d.tipo==="ficha") return +String(d.valorFicha).replace(",",".")||0;
+  const va=+String(d.valorAula).replace(",",".")||0, ct=parseInt(d.contratadas,10)||((d.slots||[]).length*4); return va*ct; }
+function cadVencHTML(){ const d=cadDraft; if(d.tipo==="pacote"||d.tipo==="avulsa") return "";
+  const n=d.forma==="parcelas"? Math.min(6,Math.max(2,+d.nParc||2)) : 1; d._np=n; const R=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const opts=`<label style="display:grid;gap:3px;font-size:11.5px;font-weight:700">Paga em<select class="inp" data-cd="nParc" id="cd-np" data-cre>${[1,2,3,4,5,6].map(k=>`<option value="${k}" ${k===n?"selected":""}>${k===1?"1 vez (mês inteiro)":k+" vezes"}</option>`).join("")}</select></label>`;
+  if(d.forma==="semanal") return `<span class="label">Vencimento</span><div class="vencbox"><small class="muted">Semanal: cada semana é marcada no Financeiro.</small></div>`;
+  if(n===1) return `<span class="label">Vencimento</span><div class="vencbox"><div class="avform av3">${opts}<label style="display:grid;gap:3px;font-size:11.5px;font-weight:700">Vence todo dia<input class="inp" type="number" inputmode="numeric" min="1" max="31" data-cd="diaVenc" id="cd-dv" value="${esc(d.diaVenc)}"></label></div></div>`;
+  const DF=parcDefDias(n); for(let i=0;i<n;i++) if(!+d["pd"+i]) d["pd"+i]=String(DF[i]); const tot=cadMensal(), L=parcSplit(Array.from({length:n},(_,i)=>({dia:+d["pd"+i]||DF[i],v:+String(d["pv"+i]||"").replace(",",".")||0})),tot);
+  return `<span class="label">Vencimento</span><div class="vencbox"><div class="avform av3">${opts}</div>
+    ${L.map((p,i)=>`<div class="vrow"><b>${i+1}ª</b><label style="display:grid;gap:2px;font-size:11px">dia<input class="inp" type="number" inputmode="numeric" min="1" max="31" data-cd="pd${i}" id="cd-pd${i}" value="${esc(d["pd"+i])}"></label><label style="display:grid;gap:2px;font-size:11px">valor (R$)<input class="inp" type="number" inputmode="decimal" data-cd="pv${i}" id="cd-pv${i}" data-cre value="${esc(d["pv"+i])}" placeholder="${tot?R(p.v)+" auto":"auto"}"></label></div>`).join("")}
+    <small class="muted">${tot?`Total do mês ${R(tot)}: ${L.map(p=>R(p.v)).join(" + ")}. `:""}Deixe o valor vazio para dividir o restante igual entre as parcelas.</small></div>`; }
 function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!nome){ toast("Coloque o nome do aluno"); return; }
   if(d.tipo==="pacote"&&d.pacVal&&d.pacIni&&d.pacVal<d.pacIni){ toast(`"Usar até" (${ddmm(d.pacVal)}/${d.pacVal.slice(0,4)}) está antes do início (${ddmm(d.pacIni)}/${d.pacIni.slice(0,4)}). Confira as datas.`); return; }
   let pid=d.pid;
@@ -5728,6 +5771,8 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
     else if(d.tipo==="ficha"){ a.valorFicha=parseFloat(d.valorFicha)||0; a.slots=[]; } else { a.valorAula=parseFloat(String(d.valorAula).replace(",","."))||0; a.contratadas=parseInt(d.contratadas,10)||0; a.slots=d.slots; delete a.mensalidade; }
     if(d.tel.trim()) a.tel=d.tel.trim(); else delete a.tel;
     if(d.forma==="outra"&&String(d.formaObs||"").trim()) a.formaObs=String(d.formaObs).trim(); else delete a.formaObs;
+    if(d.tipo!=="pacote"&&d.tipo!=="avulsa"){ if(d.forma==="parcelas"){ const n=Math.min(6,Math.max(2,+d.nParc||2)); a.nParc=n; a.parc=Array.from({length:n},(_,i)=>{ const dia=Math.min(31,Math.max(1,parseInt(d["pd"+i],10)||parcDefDias(n)[i])), v=+String(d["pv"+i]||"").replace(",",".")||0; return v>0?{dia,v}:{dia}; }); a.diaVenc=a.parc[0].dia; }
+      else { delete a.nParc; delete a.parc; a.diaVenc=Math.min(31,Math.max(1,parseInt(d.diaVenc,10)||10)); } }
     if(a.ativo===false&&base.ativo!==false) a.inativoDesde=isoD(new Date()).slice(0,7); if(a.ativo) delete a.inativoDesde;
     pid=PRES.upsert(a); }
   let st=(d.sid&&stById(d.sid))||(pid&&byPid(pid));
@@ -5777,7 +5822,11 @@ document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e
   if(b.hasAttribute("data-csadd")){ cadPull(); cadDraft.slots.push({d:1,h:"07:00"}); renderCadastro(); return; }
   if(b.dataset.csrm!=null){ cadPull(); cadDraft.slots.splice(+b.dataset.csrm,1); renderCadastro(); return; }
 });
-document.getElementById("view-cadastro").addEventListener("change",e=>{ if(!cadDraft) return; if(e.target.hasAttribute("data-cre")){ cadPull(); renderCadastro(); } });
+document.getElementById("view-cadastro").addEventListener("change",e=>{ if(!cadDraft) return; if(e.target.hasAttribute("data-cre")){ cadPull();
+    if(e.target.id==="cd-np"||e.target.id==="cd-fp"){ const o=Math.max(2,+cadDraft._np||2), DO=parcDefDias(o); for(let i=0;i<6;i++) if(cadDraft["pd"+i]===String(DO[i])) cadDraft["pd"+i]=""; }
+    if(e.target.id==="cd-np"){ if(+cadDraft.nParc>1) cadDraft.forma="parcelas"; else if(cadDraft.forma==="parcelas") cadDraft.forma="mensal"; }
+    if(e.target.id==="cd-fp"){ if(cadDraft.forma==="parcelas"&&+cadDraft.nParc<2) cadDraft.nParc="2"; if(cadDraft.forma!=="parcelas") cadDraft.nParc="1"; }
+    renderCadastro(); } });
 document.getElementById("view-cadastro").addEventListener("input",e=>{ if(!cadDraft||!/^cd-(va|ct)$|^cs-/.test(e.target.id||"")) return; const el=document.getElementById("cd-mens"); if(!el) return;
   el.innerHTML=cadTotal(); });
 
