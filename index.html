@@ -1398,6 +1398,15 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .agpo input{width:30px;height:30px;border:0;padding:0;background:none;cursor:pointer}
 .agcor .lk{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:12.5px;justify-self:start;padding:2px}
 #agview .agday{background:var(--line)!important;border-color:var(--line)!important}
+.xhead,.xband,.xrow,.xtot{grid-template-columns:52px minmax(0,1fr) repeat(3,34px) 42px 32px!important}
+@media (min-width:480px){.xhead,.xband,.xrow,.xtot{grid-template-columns:58px minmax(0,1fr) repeat(3,64px) 62px 58px!important}}
+.xg{grid-template-columns:14px auto;column-gap:3px;padding-left:1px!important}
+.xg>*{grid-column:2}
+.xg>.xmic{grid-column:1;grid-row:1 / span 3;align-self:stretch;width:14px;min-height:60px;border:0;border-radius:7px;background:#1e8e3e;color:#fff;font-size:10px;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl}
+.xg>.xmic.on{background:#E53935;animation:vozp 1s infinite}
+@keyframes vozp{50%{opacity:.55}}
+#vozPill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:9999;background:#1e8e3e;color:#fff;border-radius:14px;padding:10px 14px;max-width:92vw;box-shadow:0 4px 14px rgba(0,0,0,.25);display:grid;gap:2px;font-size:14px}
+#vozPill[hidden]{display:none}#vozPill span{font-size:13px;opacity:.95}
 </style>
 
 <div class="wrap" id="wrap">
@@ -1562,6 +1571,14 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
       <button class="rp-btn rp-pri" id="rpPGo">Continuar</button>
       <button class="rp-link" id="rpPOut" style="display:block;margin:12px auto 0">Sair</button>
     </div>
+    <div id="rpBloq" hidden>
+      <p class="rp-sub" style="margin:-6px 0 8px;color:#f3efe6;font-size:17px;font-weight:700" id="rpBTit">Aguardando liberação</p>
+      <p class="rp-ro" id="rpBTxt" style="line-height:1.5"></p>
+      <a class="rp-btn rp-pri" id="rpBWa" style="display:block;text-align:center;text-decoration:none;margin-top:16px" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="rp-btn rp-sec" id="rpBMail" style="display:block;text-align:center;text-decoration:none">Enviar e-mail</a>
+      <button class="rp-btn" style="background:#2a2e36;color:#fff" id="rpBAgain">Já fui liberado · tentar de novo</button>
+      <button class="rp-link" id="rpBOut" style="display:block;margin:12px auto 0">Sair</button>
+    </div>
     <p class="rp-msg" id="rpMsg" role="status"></p>
     <p class="rp-foot"><a href="termos.html" target="_blank" rel="noopener">Termos de uso e privacidade</a></p>
   </div>
@@ -1647,6 +1664,44 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
   var DL={ save:function(o){ var u=URL.createObjectURL(o.data); var a=document.createElement("a"); a.href=u; a.download=o.filename||"arquivo"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },4000); return Promise.resolve(); } };
 
   var started=false, ME=null, PERFIL=null;
+  var OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1";
+  /* Convite: guarda o código do link até a conta ser criada */
+  try{ var cq=new URLSearchParams(location.search).get("convite"); if(cq){ localStorage.setItem("rp_convite",cq.trim()); history.replaceState(null,"",location.pathname); } }catch(e){}
+  var conviteCod=function(){ try{ return localStorage.getItem("rp_convite")||""; }catch(e){ return ""; } };
+  if(conviteCod()){ creating=true; $("rpGo").textContent="Criar conta"; $("rpToggle").textContent="Já tenho conta"; $("rpPass").autocomplete="new-password"; msg("Você recebeu um convite! Crie sua conta para começar.",true); }
+  var tsMs=function(v){ if(v==null) return null; if(v.toMillis) return v.toMillis(); if(v.seconds!=null) return v.seconds*1000; var t=Date.parse(v); return isNaN(t)?null:t; };
+  var dBR=function(ms){ return new Date(ms).toLocaleDateString("pt-BR"); };
+  var acessoValido=function(a){ return !!(a&&a.status==="liberado"&&(tsMs(a.validoAte)==null||tsMs(a.validoAte)>Date.now())); };
+  var acKey=function(){ return "rp_acesso_"+ME.uid; };
+  function bloquear(tit,txt){ $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg("");
+    $("rpBTit").textContent=tit; $("rpBTxt").textContent=txt;
+    var t=encodeURIComponent("Olá! Criei minha conta no Rotina do Personal ("+(ME.email||"")+") e quero liberar o acesso.");
+    if(RP_SUP_WA){ $("rpBWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t; $("rpBWa").style.display=""; } else $("rpBWa").style.display="none";
+    $("rpBMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Liberar acesso - Rotina do Personal")+"&body="+t; }
+  $("rpBAgain").onclick=function(){ location.reload(); };
+  $("rpBOut").onclick=function(){ auth.signOut().then(function(){ location.reload(); }); };
+  function usarConvite(cod){ var cref=fs.doc("convites/"+cod);
+    return cref.get().then(function(s){ if(!s.exists) throw {msg:"Esse convite não existe. Confira o link."}; var c=s.data(); if(c.usado&&c.usadoPor!==ME.uid) throw {msg:"Esse convite já foi usado por outra conta."};
+      var dias=+c.dias||0; var val= dias>0? firebase.firestore.Timestamp.fromMillis(Date.now()+dias*864e5) : null;
+      var b=fs.batch(); b.update(cref,{usado:true,usadoPor:ME.uid,usadoEm:firebase.firestore.FieldValue.serverTimestamp()});
+      var ac={status:"liberado",validoAte:val,convite:cod,criadoEm:firebase.firestore.FieldValue.serverTimestamp()};
+      b.set(fs.doc("acessos/"+ME.uid),ac); return b.commit().then(function(){ try{ localStorage.removeItem("rp_convite"); }catch(e){} return {status:"liberado",validoAte:dias>0?Date.now()+dias*864e5:null}; }); }); }
+  function checarAcesso(u,ok){
+    if(u.uid===OWNER){ ok(); return; }
+    var cache=null; try{ cache=JSON.parse(localStorage.getItem(acKey())||"null"); }catch(e){}
+    var guarda=function(a){ try{ localStorage.setItem(acKey(),JSON.stringify({status:a.status,validoAte:tsMs(a.validoAte)})); }catch(e){} };
+    msg("Verificando acesso…",true);
+    fs.doc("acessos/"+u.uid).get().then(function(s){ var a=s.exists? s.data() : null;
+      if(acessoValido(a)){ guarda(a); msg(""); ok(); return; }
+      var cod=conviteCod();
+      if(cod&&!(a&&a.status==="bloqueado")) return usarConvite(cod).then(function(a2){ guarda(a2); msg(""); ok(); });
+      if(a&&a.status==="bloqueado") bloquear("Acesso suspenso","Seu acesso está suspenso. Seus dados continuam guardados. Fale com o suporte para reativar.");
+      else if(a&&tsMs(a.validoAte)) bloquear("Seu acesso venceu","O acesso venceu em "+dBR(tsMs(a.validoAte))+". Seus dados continuam guardados: é só renovar para continuar de onde parou.");
+      else bloquear("Aguardando liberação","Sua conta foi criada! Agora falta a liberação do acesso. Fale com a gente pelo botão abaixo.");
+    }).catch(function(e){
+      if(e&&e.msg){ bloquear("Convite inválido",e.msg+" Se precisar, peça um novo convite."); try{ localStorage.removeItem("rp_convite"); }catch(x){} return; }
+      if(acessoValido(cache)){ msg(""); ok(); return; }
+      bloquear("Não foi possível verificar","Confira a internet e toque em tentar de novo. ("+((e&&e.code)||"erro")+")"); }); }
   var TERMOS_V="2026-10-16";
   var telOk=function(t){ return (t||"").replace(/\D/g,"").length>=10; };
   var fmtTel=function(t){ var d=(t||"").replace(/\D/g,"").slice(0,11); if(d.length<3) return d; if(d.length<=6) return "("+d.slice(0,2)+") "+d.slice(2); if(d.length<=10) return "("+d.slice(0,2)+") "+d.slice(2,6)+"-"+d.slice(6); return "("+d.slice(0,2)+") "+d.slice(2,7)+"-"+d.slice(7); };
@@ -1659,9 +1714,10 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
   var salvarPerfil=function(dados){ var p=Object.assign({},PERFIL||{},dados,{email:ME.email||"",atualizadoEm:new Date().toISOString()}); if(!p.criadoEm) p.criadoEm=new Date().toISOString(); PERFIL=p; cacheSet(p);
     return perfilRef().set(p,{merge:true}).then(function(){ return true; }).catch(function(){ return false; }); };
 
-  function startApp(u){
+  function startApp(u){ if(started) return; checarAcesso(u,function(){ abrirApp(u); }); }
+  function abrirApp(u){
     if(started) return;
-    if(document.readyState==="loading"||!document.getElementById("appjs")){ document.addEventListener("DOMContentLoaded",function(){ startApp(u); },{once:true}); return; }
+    if(document.readyState==="loading"||!document.getElementById("appjs")){ document.addEventListener("DOMContentLoaded",function(){ abrirApp(u); },{once:true}); return; }
     started=true;
     /* Aparelho compartilhado: se outra pessoa entrou antes, limpa o que ficou guardado dela. */
     try{ var prev=localStorage.getItem("rp_uid"); if(prev!==u.uid){ var keep=localStorage.getItem("fzV"); var pc=PERFIL; localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); localStorage.setItem("rp_uid",u.uid); if(pc) cacheSet(pc); } }catch(e){}
@@ -3474,6 +3530,37 @@ function sugFor(m,prev){ if(!m||!prev||!prev.a) return null; const w=curWkPlan(m
   let c=pc, lab=[]; if(pc){ if(w.c==="sobe"){ c=pc+loadInc(pc); lab.push(`+${loadInc(pc)} kg`); } else if(w.c==="desce"){ c=Math.max(1,Math.round(pc*0.85)); lab.push("menos peso"); } }
   if(tr>pr) lab.push(`+${tr-pr} reps`); else if(tr<pr) lab.push(`${tr} reps`);
   return {s:ts,r:tr,c:pc?String(c).replace(".",","):"",lab:lab.join(" · ")||"manter"}; }
+/* ---------- Ditado por voz na linha do exercício ---------- */
+let vozRow=null, vozRec=null;
+const VOZ_N={um:1,uma:1,dois:2,duas:2,"três":3,tres:3,quatro:4,cinco:5,seis:6,sete:7,oito:8,nove:9,dez:10,onze:11,doze:12,treze:13,quatorze:14,catorze:14,quinze:15,dezesseis:16,dezessete:17,dezoito:18,dezenove:19,vinte:20,trinta:30,quarenta:40,cinquenta:50,sessenta:60,setenta:70,oitenta:80,noventa:90,cem:100,cento:100};
+function vozParse(txt){ let t=" "+String(txt||"").toLowerCase().replace(/,/g,".")+" ";
+  t=t.replace(/[a-zçãõéêíóú]+/g,w=> VOZ_N[w]!=null? String(VOZ_N[w]) : w);
+  t=t.replace(/(\d+)0 e (\d)\b/g,(m,a,b)=>String(+a*10+ +b)).replace(/(\d+) e meio/g,"$1.5").replace(/(\d+) e (\d+)(?= ?(kg|quilo|kilo))/g,"$1.$2");
+  const o={}; let m;
+  if((m=t.match(/(\d+)\s*(?:x|vezes|por)\s*(\d+)/))){ o.s=m[1]; o.r=m[2]; }
+  if((m=t.match(/(\d+)\s*s[ée]ries?/))) o.s=m[1];
+  if((m=t.match(/(\d+)\s*(?:repeti[çc][õoãa](?:es|o)?|reps?\b|vezes)/))) o.r=m[1];
+  if((m=t.match(/(\d+(?:\.\d+)?)\s*(?:kg|quilos?|kilos?|k\b)/))||(m=t.match(/(?:com|carga(?: de)?|peso(?: de)?)\s*(\d+(?:\.\d+)?)/))) o.c=m[1].replace(".",",");
+  const nums=(t.match(/\d+(?:\.\d+)?/g)||[]);
+  if(!o.s&&!o.r&&!o.c&&nums.length>=2){ o.s=nums[0]; o.r=nums[1]; if(nums[2]) o.c=nums[2].replace(".",","); }
+  const cut=t.search(/\d|\bs[ée]ries?\b|\bcom\b|\bcarga\b/); let nm=(cut>0? t.slice(0,cut) : (nums.length? "" : t)).replace(/\b(exerc[íi]cio|fazer|fiz|de|o|a)\s*$/,"").trim();
+  if(nm) o.n=nm.charAt(0).toUpperCase()+nm.slice(1);
+  return o; }
+function vozApply(row,o){ const set=(id,v)=>{ const el=document.getElementById(id); if(!el||v==null) return; el.value=v; el.dispatchEvent(new Event("input",{bubbles:true})); el.dispatchEvent(new Event("change",{bubbles:true})); };
+  set("n1-"+row.id,o.n); set("x-"+row.id+"-as",o.s); set("x-"+row.id+"-ar",o.r); set("x-"+row.id+"-ac",o.c); }
+function vozStart(row){ const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(vozRec){ try{ vozRec.stop(); }catch(e){} return; }
+  if(!SR){ toast("Este navegador não tem ditado. Use o 🎤 do teclado do celular."); return; }
+  const rec=new SR(); vozRec=rec; vozRow=row.id; rec.lang="pt-BR"; rec.interimResults=true; rec.maxAlternatives=1; let fin="";
+  const pill=document.getElementById("vozPill")||(()=>{ const d=document.createElement("div"); d.id="vozPill"; document.body.appendChild(d); return d; })();
+  const mark=on=>{ const b=document.querySelector(`[data-row="${row.id}"] [data-mic]`); if(b) b.classList.toggle("on",on); };
+  pill.innerHTML=`<b>🎤 Ouvindo…</b><span>Ex.: “supino reto 4 séries 10 repetições 40 quilos”</span>`; pill.hidden=false; mark(true);
+  rec.onresult=e=>{ let tmp=""; for(let i=e.resultIndex;i<e.results.length;i++){ if(e.results[i].isFinal) fin+=e.results[i][0].transcript+" "; else tmp+=e.results[i][0].transcript; } pill.innerHTML=`<b>🎤 Ouvindo…</b><span>${esc((fin+tmp).trim()||"…")}</span>`; };
+  rec.onerror=e=>{ const c=e&&e.error; if(c==="not-allowed"||c==="service-not-allowed") toast("Libere o microfone para este site nas permissões do navegador."); else if(c==="no-speech") toast("Não ouvi nada. Toque no 🎤 e fale de novo."); else if(c!=="aborted") toast("Não consegui ouvir ("+c+")."); };
+  rec.onend=()=>{ vozRec=null; vozRow=null; pill.hidden=true; mark(false); const txt=fin.trim(); if(!txt) return; const o=vozParse(txt);
+    if(!o.n&&!o.s&&!o.r&&!o.c){ toast("Não entendi: “"+txt+"”"); return; } vozApply(row,o);
+    toast("🎤 "+[o.n,o.s&&o.r?o.s+"×"+o.r:o.s?o.s+" séries":o.r?o.r+" reps":"",o.c?o.c+" kg":""].filter(Boolean).join(" · ")); };
+  try{ rec.start(); }catch(e){ vozRec=null; vozRow=null; pill.hidden=true; mark(false); toast("Não consegui abrir o microfone."); } }
 function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const k=rowReg(row,"a"); const named=!!row.n1.trim()||!!row.reg;
   const isoSo=row.iso&&(row.a.isoM||"so")==="so";
@@ -3487,7 +3574,7 @@ function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const same= sg&&String(row.a.s)===String(sg.s)&&String(row.a.r)===String(sg.r)&&String(row.a.c).replace(".",",")===String(sg.c);
   const sgH= sg? `<span class="xs xsn"><button class="xsug ${same?"ok":""}" data-sugok='${esc(JSON.stringify({s:sg.s,r:sg.r,c:sg.c}))}' title="Toque para usar a sugestão">${same?"✓ ":"Sug. "}${esc(sg.lab)}</button></span><span class="xs num">${sg.s}</span><span class="xs num">${sg.r}</span><span class="xs num">${sg.c||""}</span><span class="xs"></span>` : "";
   return `<div class="xrow xr1 ${sg?"xr-sug":""} ${row.iso?"xr-iso":""} ${row.cj?"cja":""} ${linkPrev?"cjb":""} ${SB.length?"xr-subs":""}" data-row="${row.id}" ${SB.length?`style="grid-template-rows:repeat(${K},auto)!important"`:""}>
-    <div class="xg" ${SB.length?`style="grid-row:span ${K}"`:""}><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar com a linha de baixo">Conj</button><button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
+    <div class="xg" ${SB.length?`style="grid-row:span ${K}"`:""}><button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício" title="Falar: ex. supino 4 séries 10 repetições 40 quilos">🎤</button><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar com a linha de baixo">Conj</button><button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
       <button class="rb on r-${k} ${named?"":"dim"}" data-reg aria-expanded="${regPick===row.id}" aria-label="${REG_LABEL[k]}${rowSz(row,k)?` · músculo ${rowSz(row,k)==="G"?"grande":"pequeno"}`:""}: toque para trocar" title="${REG_LABEL[k]} · toque para trocar">${ICO[k]}${rowSz(row,k)?`<i class="rsz">${rowSz(row,k)}</i>`:""}</button>
       ${regPick===row.id?`<div class="regpick" role="menu">${[["MMSS","G","💪 Superior · grande"],["MMSS","P","💪 Superior · pequeno"],["MMII","G","🦵 Inferior · grande"],["MMII","P","🦵 Inferior · pequeno"],["Core","","🎯 Core"]].map(([R,z,t])=>`<button role="menuitem" data-regset="${R}|${z}" class="${k===R&&(R==="Core"||rowSz(row,k)===z)?"on":""}">${t}</button>`).join("")}</div>`:""}</div>
     <span class="xp xpn">${pv?`<small class="xsp"><b>Sem. Pass.</b> ${esc(pn||"—")}</small>`:""}${true?`<span class="xacts">${cpTo?`<button class="xcp" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Escolher a técnica">${row.tec?esc(TEC_SH[row.tec]||row.tec):"técnica"}</button>`:""}</span>`:""}
@@ -3928,6 +4015,7 @@ function sesClick(e){
   if(b.dataset.setreg){ const det=regionOfName(row.n1); const v=b.dataset.setreg; row.reg= v===det? null : v; save(); refreshNumbers(sid); return; }
   if(b.dataset.sugok){ const v=JSON.parse(b.dataset.sugok); row.a.s=String(v.s); row.a.r=String(v.r); if(v.c!=="") row.a.c=String(v.c); rer(); markStart(sid); autoPres(sid); return; }
   if(b.hasAttribute("data-isot")){ if(row.iso){ delete row.iso; delete row.a.sec; delete row.a.isoM; } else { row.iso=true; row.a.isoM= row.n1.trim()&&num(row.a.r)? "fim":"so"; row.a.isoS=""; if(row.a.isoM==="so") row.a.r=""; } save(); rer(); return; }
+  if(b.hasAttribute("data-mic")){ vozStart(row); return; }
   if(b.hasAttribute("data-cjt")){ row.cj=!row.cj; rer(); return; }
   if(b.hasAttribute("data-tecb")){ tecPick= tecPick===row.id? null : row.id; regPick=null; renderSessao(); return; }
   if(b.dataset.tecset!==undefined){ const msg=tecApply(row,b.dataset.tecset); tecPick=null; save(); rer(); toast(msg); return; }

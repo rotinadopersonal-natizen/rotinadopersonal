@@ -1,12 +1,47 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == "0HtqKqXRaLN9hQ34QlPmG4nB2fi1";
+    }
+    function acessoOk(uid) {
+      return exists(/databases/$(database)/documents/acessos/$(uid))
+        && get(/databases/$(database)/documents/acessos/$(uid)).data.status == "liberado"
+        && (get(/databases/$(database)/documents/acessos/$(uid)).data.validoAte == null
+            || get(/databases/$(database)/documents/acessos/$(uid)).data.validoAte > request.time);
+    }
+    function convite(cod) {
+      return get(/databases/$(database)/documents/convites/$(cod)).data;
+    }
     match /data/users/{uid}/{rest=**} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if request.auth != null && request.auth.uid == uid && (isAdmin() || acessoOk(uid));
     }
     match /cadastros/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
-      allow read: if request.auth != null && request.auth.uid == "0HtqKqXRaLN9hQ34QlPmG4nB2fi1";
+      allow read: if isAdmin();
+    }
+    match /acessos/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(["status", "validoAte", "convite", "criadoEm"])
+        && request.resource.data.status == "liberado"
+        && convite(request.resource.data.convite).usado == false
+        && getAfter(/databases/$(database)/documents/convites/$(request.resource.data.convite)).data.usadoPor == request.auth.uid
+        && ((convite(request.resource.data.convite).dias == 0 && request.resource.data.validoAte == null)
+            || (convite(request.resource.data.convite).dias > 0
+                && request.resource.data.validoAte is timestamp
+                && request.resource.data.validoAte <= request.time + duration.value(convite(request.resource.data.convite).dias + 1, "d")));
+    }
+    match /convites/{cod} {
+      allow get: if request.auth != null;
+      allow read, write: if isAdmin();
+      allow update: if request.auth != null
+        && resource.data.usado == false
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["usado", "usadoPor", "usadoEm"])
+        && request.resource.data.usado == true
+        && request.resource.data.usadoPor == request.auth.uid;
     }
   }
 }
