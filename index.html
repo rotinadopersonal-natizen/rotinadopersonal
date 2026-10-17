@@ -1626,7 +1626,7 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 </div></div>
 <script>
 (function(){
-  var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com"; var RP_SUP_WA=window.RP_SUP_WA||"";
+  var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com"; var RP_SUP_WA=window.RP_SUP_WA||"5531988260268";
   var msg=function(t,ok){ var m=document.getElementById("rpMsg"); m.textContent=t||""; m.className="rp-msg"+(ok?" ok":""); };
   if(!cfg||!cfg.apiKey||!window.firebase){ msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
   firebase.initializeApp(cfg);
@@ -3537,12 +3537,14 @@ function vozParse(txt){ let t=" "+String(txt||"").toLowerCase().replace(/,/g,"."
   t=t.replace(/[a-zçãõéêíóú]+/g,w=> VOZ_N[w]!=null? String(VOZ_N[w]) : w);
   t=t.replace(/(\d+)0 e (\d)\b/g,(m,a,b)=>String(+a*10+ +b)).replace(/(\d+) e meio/g,"$1.5").replace(/(\d+) e (\d+)(?= ?(kg|quilo|kilo))/g,"$1.$2");
   const o={}; let m;
-  if((m=t.match(/(\d+)\s*(?:x|vezes|por)\s*(\d+)/))){ o.s=m[1]; o.r=m[2]; }
+  if((m=t.match(/(\d+)\s*(?:x|vezes|por|de)\s*(\d+)(?!\s*(?:\.\d+)?\s*(?:kg|quilos?|kilos?|k\b))/))){ o.s=m[1]; o.r=m[2]; }
   if((m=t.match(/(\d+)\s*s[ée]ries?/))) o.s=m[1];
+  if(!o.r&&(m=t.match(/(\d+)\s*s[ée]ries?\s*(?:de|com|por)?\s*(\d+)(?!\s*(?:\.\d+)?\s*(?:kg|quilos?|kilos?|k\b))/))) o.r=m[2];
   if((m=t.match(/(\d+)\s*(?:repeti[çc][õoãa](?:es|o)?|reps?\b|vezes)/))) o.r=m[1];
   if((m=t.match(/(\d+(?:\.\d+)?)\s*(?:kg|quilos?|kilos?|k\b)/))||(m=t.match(/(?:com|carga(?: de)?|peso(?: de)?)\s*(\d+(?:\.\d+)?)/))) o.c=m[1].replace(".",",");
   const nums=(t.match(/\d+(?:\.\d+)?/g)||[]);
   if(!o.s&&!o.r&&!o.c&&nums.length>=2){ o.s=nums[0]; o.r=nums[1]; if(nums[2]) o.c=nums[2].replace(".",","); }
+  else if(!o.s&&!o.r&&o.c){ const rest=nums.slice(); const ci=rest.lastIndexOf(o.c.replace(",",".")); if(ci>=0) rest.splice(ci,1); if(rest.length>=2){ o.s=rest[0]; o.r=rest[1]; } }
   const cut=t.search(/\d|\bs[ée]ries?\b|\bcom\b|\bcarga\b/); let nm=(cut>0? t.slice(0,cut) : (nums.length? "" : t)).replace(/\b(exerc[íi]cio|fazer|fiz|de|o|a)\s*$/,"").trim();
   if(nm) o.n=nm.charAt(0).toUpperCase()+nm.slice(1);
   return o; }
@@ -4876,7 +4878,7 @@ function finCardHTML(f){ const [y,m]=f.ym.split('-').map(Number), br=BR(), G=TH(
   return `<div class="pcard" style="${thVars()}">
     <div class="pc-logo">${logoHTML()}<span class="pc-n">${esc(br.nome).toUpperCase()}</span><span class="pc-s">${esc(br.sub).toUpperCase()}</span></div>
     <p class="pc-k">FINANCEIRO · ${MESES[m-1].toUpperCase()} ${y}</p>
-    <div class="pc-tiles" style="grid-template-columns:repeat(3,1fr)">${tile(brl(f.prev),'previsto')}${tile(brl(f.rec),'recebido',G)}${tile(brl(Math.max(0,f.prev-f.rec)),'a receber',f.prev-f.rec>0.005?RED:'')}</div>
+    <div class="pc-tiles" style="grid-template-columns:repeat(3,1fr)">${tile(brl(f.prev),'previsto')}${tile(brl(f.rec),'recebido',G)}${tile(brl(f.pend!=null?f.pend:Math.max(0,f.prev-f.rec)),'a receber',(f.pend!=null?f.pend:f.prev-f.rec)>0.005?RED:'')}</div>
     <p class="pc-k" style="margin-top:6px">PAGARAM · ${ok.length}</p><div>${ok.map(r=>li(r,r.stt==='adv'?'adiantado':r.stt==='pac'?'pacote':brl(r.pago),G)).join('')||'<p class="pc-p">Ninguém ainda.</p>'}</div>
     <p class="pc-k" style="margin-top:6px">FALTA RECEBER · ${no.length}</p><div>${no.map(r=>li(r,brl(Math.max(0,r.valor-r.pago))+(r.stt==='part'?' (parcial)':''),RED)).join('')||'<p class="pc-p">Todos pagaram.</p>'}</div>
     ${pm.length?`<p class="pc-k" style="margin-top:6px">PERMUTAS · ${pm.length}</p><div>${pm.map(r=>li(r,'permuta')).join('')}</div>`:''}
@@ -4913,19 +4915,21 @@ function renderPag(){
     const pago=partes.filter(t=>pp[t.k]).reduce((s,t)=>s+t.v,0)+av.filter(t=>!AV_EXTRA.includes(t.m)).reduce((s,t)=>s+(+t.v||0),0);
     const n=partes.filter(t=>pp[t.k]).length;
     const adv=!r_perm(a)&&coberto(a,ym);
-    const stt=r_perm(a)?'perm':adv?'adv':!bruto?'na':(n===partes.length||pago>=valor-0.005)?'ok':pago>0?'part':'no';
+    const stt=r_perm(a)?'perm':adv?'adv':!(valor>0.005)?'na':(n===partes.length||pago>=valor-0.005)?'ok':pago>0?'part':'no';
     if(adv){advCob++;rows.push({a,bruto,desc,valor,partes,pp,pago:valor,stt});continue}
     if(stt==='perm'){rows.push({a,bruto,desc,valor,partes,pp,pago:0,stt});continue}
     prev+=valor+avX;rec+=pago+avX;rows.push({a,bruto,desc,valor,partes,pp,pago,stt,avX,aj,valor0});
   }
   // adiantamentos recebidos neste mês entram como dinheiro recebido agora
   for(const a of ativos()){const d=a.adiantado;if(d&&d.recebidoEm===ym&&+d.valor>0){prev+= +d.valor;rec+= +d.valor;advNovo+= +d.valor}}
-  st._fin={ym,prev,rec,rows,advNovo};
+  /* a receber = soma do que cada aluno ainda deve (quem pagou a mais não abate a dívida dos outros) */
+  const pend=rows.filter(r=>r.stt==='no'||r.stt==='part').reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0);
+  st._fin={ym,prev,rec,rows,advNovo,pend};
   const ord={no:0,part:1,ok:2,adv:3,pac:3,na:4,perm:5};rows.sort((p,q)=>ord[p.stt]-ord[q.stt]||p.a.nome.localeCompare(q.a.nome,'pt-BR'));
   h+=`<div class="row-actions" style="margin:0 0 6px"><button class="ghost" data-finpdf>📄 Relatório financeiro de ${mesCurto(ym)} (PDF)</button></div>
   <div class="kpis"><div class="kpi"><b>${brl(prev)}</b><span>previsto no mês</span></div>
     <button class="kpi kbtn ${st.kpi==='rec'?'on':''}" data-kpi="rec" aria-expanded="${st.kpi==='rec'}"><b class="pos">${brl(rec)}</b><span>recebido <i>${st.kpi==='rec'?'▴':'▾'} quem pagou</i></span></button>
-    <button class="kpi kbtn ${st.kpi==='pend'?'on':''}" data-kpi="pend" aria-expanded="${st.kpi==='pend'}"><b class="${prev-rec>0.005?'neg':''}">${brl(Math.max(0,prev-rec))}</b><span>a receber <i>${st.kpi==='pend'?'▴':'▾'} quem falta</i></span></button>
+    <button class="kpi kbtn ${st.kpi==='pend'?'on':''}" data-kpi="pend" aria-expanded="${st.kpi==='pend'}"><b class="${pend>0.005?'neg':''}">${brl(pend)}</b><span>a receber <i>${st.kpi==='pend'?'▴':'▾'} quem falta</i></span></button>
     <button class="kpi kbtn ${st.kpi==='quit'?'on':''}" data-kpi="quit" aria-expanded="${st.kpi==='quit'}"><b>${rows.filter(r=>r.stt==='ok'||r.stt==='adv'||r.stt==='pac').length}/${rows.filter(r=>r.stt!=='na'&&r.stt!=='perm').length}</b><span>alunos quitados <i>${st.kpi==='quit'?'▴':'▾'} ver lista</i></span></button></div>
   ${kpiPanel(rows,ym)}
   ${(()=>{ const L=ativos().filter(a=>!isFicha(a)&&!r_perm(a)&&mensal(a)>0); const tot=L.reduce((t,a)=>t+mensal(a),0), au=L.reduce((t,a)=>t+contratadas(a),0); const H=horasMes(ym);
