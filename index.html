@@ -1356,6 +1356,24 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
 #pres .partwrap{display:grid;gap:3px}
 #pres .pdate{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}#pres .pdate input{width:auto;padding:3px 6px;font-size:13px}
 .linkbtn[data-metas]{border:1.5px solid var(--accent)!important;background:var(--accent)!important;color:var(--accent-fg)!important;border-radius:999px!important;padding:5px 12px!important;font-weight:700!important;font-size:13px!important;text-decoration:none!important;white-space:nowrap}
+.tabs button{display:flex!important;flex-direction:column!important;align-items:center;justify-content:center;gap:2px;padding:4px 1px!important;white-space:normal!important}
+.tabs .tb-ic,.tabs .tb-tx{display:block!important;width:100%;text-align:center}
+body .weektabs{bottom:calc(61px + env(safe-area-inset-bottom,0px))!important}
+body .turnbar{bottom:calc(95px + env(safe-area-inset-bottom,0px))!important}
+body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-bottom:250px}
+.tabs .tb-ic{font-size:17px;line-height:1.15;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.tabs .tb-tx{font-size:10px;line-height:1.02;font-weight:600;letter-spacing:0}
+.cadtop{margin:0 0 10px}.fzb.fzbig{gap:6px}.fzb.fzbig button{font-size:16px;padding:8px 14px;border-radius:10px;min-width:48px}
+.agmk{display:grid;gap:10px;border:1.5px solid var(--accent);border-radius:12px;padding:12px;background:var(--surface)}
+.agmk b{font-size:15px}.agmk .r{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.agmk .lb{font-size:12px;font-weight:700;color:var(--muted);width:100%}
+.agmk input[type=time]{font-size:16px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg)}
+.agmk .st{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer;color:var(--fg)}
+.agmk .st[aria-pressed="true"].g{background:#2EBD4E;border-color:#2EBD4E;color:#fff}.agmk .st[aria-pressed="true"].r{background:#E53935;border-color:#E53935;color:#fff}
+.agmk .dy{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 11px;font-weight:700;cursor:pointer;color:var(--fg);font-size:13px}
+.agmk .dy[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.agmk .lk{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:13px;padding:4px}
+.agmk hr{border:0;border-top:1px dashed var(--line);margin:2px 0}
 </style>
 
 <div class="wrap" id="wrap">
@@ -1385,12 +1403,12 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
 </div>
 
 <nav class="tabs" role="tablist" aria-label="Seções">
-  <button role="tab" id="tab-cadastro" data-tab="cadastro" aria-selected="false">Cadastro</button>
-  <button role="tab" id="tab-semana" data-tab="semana" aria-selected="false">Programação</button>
-  <button role="tab" id="tab-sessao" data-tab="sessao" aria-selected="false">Sessão</button>
-  <button role="tab" id="tab-corpo" data-tab="corpo" aria-selected="false" aria-label="Avaliação física"><span class="tb-2l">Avaliação<br>Física</span></button>
-  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Agenda e Presença"><span class="tb-2l">Agenda<br>Presença</span></button>
-  <button role="tab" id="tab-financeiro" data-tab="financeiro" aria-selected="false">Financeiro</button>
+  <button role="tab" id="tab-cadastro" data-tab="cadastro" aria-selected="false" aria-label="Cadastro"><span class="tb-ic" aria-hidden="true">📝</span><span class="tb-tx">Cadastro</span></button>
+  <button role="tab" id="tab-semana" data-tab="semana" aria-selected="false" aria-label="Programação"><span class="tb-ic" aria-hidden="true">📊</span><span class="tb-tx">Programação</span></button>
+  <button role="tab" id="tab-sessao" data-tab="sessao" aria-selected="false" aria-label="Sessão"><span class="tb-ic" aria-hidden="true">🏋️</span><span class="tb-tx">Sessão</span></button>
+  <button role="tab" id="tab-corpo" data-tab="corpo" aria-selected="false" aria-label="Avaliação Física"><span class="tb-ic" aria-hidden="true">🧍</span><span class="tb-tx">Avaliação<br>Física</span></button>
+  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Agenda Presença"><span class="tb-ic" aria-hidden="true">✅</span><span class="tb-tx">Agenda<br>Presença</span></button>
+  <button role="tab" id="tab-financeiro" data-tab="financeiro" aria-selected="false" aria-label="Financeiro"><span class="tb-ic" aria-hidden="true">💰</span><span class="tb-tx">Financeiro</span></button>
 </nav>
 
 <div class="scrim" id="modal" hidden>
@@ -1512,6 +1530,10 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
       <input id="rpPNome" autocomplete="name">
       <label for="rpPTel">Telefone / WhatsApp</label>
       <input id="rpPTel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000">
+      <label for="rpPIg">Instagram <span style="color:#8d8778">(opcional)</span></label>
+      <input id="rpPIg" placeholder="@seuperfil" autocapitalize="off">
+      <label for="rpPSite">Outra rede ou site <span style="color:#8d8778">(opcional)</span></label>
+      <input id="rpPSite" placeholder="TikTok, Facebook ou site" autocapitalize="off">
       <label class="rp-chk"><input type="checkbox" id="rpPAceite"><span>Li e aceito os <a href="termos.html" target="_blank" rel="noopener">Termos de uso e a Política de privacidade</a>.</span></label>
       <button class="rp-btn rp-pri" id="rpPGo">Continuar</button>
       <button class="rp-link" id="rpPOut" style="display:block;margin:12px auto 0">Sair</button>
@@ -1636,11 +1658,11 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
       b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild); };
     put(); new MutationObserver(put).observe(v,{childList:true}); }
   function pedirPerfil(u){ $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
-    $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); }
+    $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); var rr=(PERFIL&&PERFIL.redes)||{}; $("rpPIg").value=rr.instagram||""; $("rpPSite").value=rr.site||""; }
   $("rpPGo").onclick=function(){ var n=$("rpPNome").value.trim(), t=$("rpPTel").value.trim();
     if(n.length<2){ msg("Digite seu nome."); return; } if(!telOk(t)){ msg("Digite o telefone com DDD."); return; } if(!$("rpPAceite").checked){ msg("Para continuar, aceite os Termos de uso."); return; }
     var btn=this; btn.disabled=true; msg("Salvando…",true);
-    salvarPerfil({nome:n,telefone:t,aceiteTermos:TERMOS_V,aceiteEm:new Date().toISOString()}).then(function(){ btn.disabled=false; msg(""); startApp(ME); }); };
+    salvarPerfil({nome:n,telefone:t,aceiteTermos:TERMOS_V,aceiteEm:new Date().toISOString(),redes:Object.assign({},(PERFIL&&PERFIL.redes)||{},{instagram:$("rpPIg").value.trim(),site:$("rpPSite").value.trim()})}).then(function(){ btn.disabled=false; msg(""); startApp(ME); }); };
   $("rpPOut").onclick=function(){ auth.signOut().then(function(){ location.reload(); }); };
 
   auth.onAuthStateChanged(function(u){
@@ -1960,12 +1982,12 @@ const rng=a=> a[0]===a[1]? String(a[0]) : a[0]+"–"+a[1];
 function activate(id){ S.active=id; save(); renderAll(); toast(first(A().name)+" · Fase "+A().phase); }
 
 /* ---------- Agenda da semana (duas tabelas, como a planilha) ---------- */
-let AG_OPEN=false, agEdit=false;
+let AG_OPEN=false, agEdit=false, agMkOn=false; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
 /* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos (linhas automáticas) */
 function agSync(){ if(!presOn()) return false; const A2=agData(); const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={};
   PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; if(!k||!sl.h) return; (g[k]=g[k]||{}); (g[k][sl.h]=g[k][sl.h]||[]); const n=first(a.nome); if(!g[k][sl.h].includes(n)) g[k][sl.h].push(n); }));
   let ch=false; const [M,P]=A2.tabs; const srt=L=>L.sort((a,b)=>(a.h||"99").localeCompare(b.h||"99"));
-  Object.keys(g).forEach(k=>{ if(!A2.days.includes(k)&&k==="Sáb"){ A2.days.push("Sáb"); agData(); ch=true; } });
+  Object.keys(g).forEach(k=>{ if(!A2.days.includes(k)&&(k==="Sáb"||k==="Dom")){ agAddDay(k); ch=true; } });
   A2.days.forEach(k=>{ const G=g[k]||{}; M.d[k]=M.d[k]||[]; P.d[k]=P.d[k]||[];
     M.d[k].forEach(r=>{ if(!r.auto) return; const txt=(G[r.h]||[]).join(" e "); if(r.t!==txt){ r.t=txt; ch=true; } if(!txt){ delete r.auto; ch=true; } });
     Object.entries(G).forEach(([h,ns])=>{ const txt=ns.join(" e "); let r=M.d[k].find(x=>x.h===h); if(!r){ M.d[k].push({h,t:txt,c:"",auto:1}); ch=true; } else if(!String(r.t||"").trim()){ r.t=txt; r.auto=1; ch=true; } });
@@ -1990,6 +2012,26 @@ function agData(){ if(!S.agenda){ const hrs=["05:30","06:30","07:30","08:30","09
     const mk=()=>{ const d={}; AG_DIAS.slice(0,5).forEach(k=>d[k]=hrs.map(h=>({h,t:"",c:""}))); return d; };
     S.agenda={days:AG_DIAS.slice(0,5),tabs:[{title:"Minha agenda",d:mk()},{title:"Para os alunos",d:mk(),bg:"#FFEB3B"}]}; }
   const A2=S.agenda; A2.tabs.forEach(t=>A2.days.forEach(k=>{ t.d[k]=t.d[k]||[]; })); return A2; }
+function agAddDay(k){ const A2=S.agenda; if(!A2.days.includes(k)){ A2.days.push(k); A2.days.sort((a,b)=>AG_DIAS.indexOf(a)-AG_DIAS.indexOf(b)); } A2.tabs.forEach(t=>{ t.d[k]=t.d[k]||[]; }); }
+function agMkHTML(){ const A2=agData(); const dy=(k,sel,attr)=>`<button class="dy" ${attr}="${k}" aria-pressed="${sel.includes(k)}">${k}</button>`;
+  return `<div class="agmk"><b>⚡ Marcar horário livre ou ocupado</b>
+    <div class="r"><span class="lb">Em qual tabela</span><select class="inp" id="agMkTi" style="max-width:220px">${A2.tabs.map((t,i)=>`<option value="${i}" ${agMk.ti===i?"selected":""}>${esc(t.title)}</option>`).join("")}</select></div>
+    <div class="r"><span class="lb">Horário</span><input type="time" id="agMkH" value="${esc(agMk.h)}"><button class="st g" data-agmkst="g" aria-pressed="${agMk.st==="g"}">Livre</button><button class="st r" data-agmkst="r" aria-pressed="${agMk.st==="r"}">Ocupado</button></div>
+    ${agMk.st==="r"?`<div class="r"><span class="lb">Texto (opcional, ex.: nome do aluno, almoço)</span><input class="inp" id="agMkTxt" value="${esc(agMk.txt)}" placeholder="OCUPADO"></div>`:""}
+    <div class="r"><span class="lb">Em quais dias (toque para marcar)</span>${AG_DIAS.map(k=>dy(k,agMk.days,"data-agmkd")).join("")}</div>
+    <div class="r"><button class="lk" data-agmkall="seg-sex">Seg a Sex</button><button class="lk" data-agmkall="todos">Todos os dias</button><button class="lk" data-agmkall="nenhum">Limpar</button></div>
+    <button class="btn primary" data-agmkgo>Aplicar</button>
+    <hr><b>📋 Copiar um dia inteiro</b>
+    <div class="r"><span class="lb">Copiar de</span><select class="inp" id="agMkFrom" style="max-width:160px">${A2.days.map(k=>`<option ${agMk.from===k?"selected":""}>${k}</option>`).join("")}</select></div>
+    <div class="r"><span class="lb">Para</span>${AG_DIAS.filter(k=>k!==agMk.from).map(k=>dy(k,agMk.to,"data-agmkto")).join("")}</div>
+    <button class="btn" data-agmkcopy>Copiar horários</button>
+    <small class="muted">A cópia vale para a tabela escolhida acima e substitui os horários dos dias de destino.</small></div>`; }
+function agMkApply(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const h=agMk.h; if(!/^\d{2}:\d{2}$/.test(h)){ toast("Escolha o horário"); return; } if(!agMk.days.length){ toast("Escolha pelo menos um dia"); return; }
+  agMk.days.forEach(k=>{ agAddDay(k); const L=T.d[k]; let r=L.find(x=>x.h===h); if(!r){ r={h,t:"",c:""}; L.push(r); }
+    if(agMk.st==="g"){ r.t=""; r.c="g"; } else { r.t=agMk.txt.trim()||"OCUPADO"; r.c="r"; } delete r.auto; L.sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); });
+  save(); agRender(); toast(`${h} ${agMk.st==="g"?"livre":"ocupado"} em ${agMk.days.join(", ")}`); }
+function agMkCopy(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const src=T.d[agMk.from]||[]; if(!agMk.to.length){ toast("Escolha para quais dias copiar"); return; }
+  agMk.to.forEach(k=>{ agAddDay(k); T.d[k]=src.map(r=>({h:r.h,t:r.t,c:r.c})); }); save(); agRender(); toast(`${agMk.from} copiado para ${agMk.to.join(", ")}`); }
 const agCol=r=> AG_COL[r.c]|| (String(r.t||"").trim()? AG_COL.r : AG_COL.g);
 function agHTML(){ const A2=agData();
   const tab=(T,ti)=>`<div class="agtab"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
@@ -1998,7 +2040,8 @@ function agHTML(){ const A2=agData();
       <button class="agadd" data-agadd="${ti}|${k}">+ linha</button></div>`).join("")}</div></div></div>`;
   return `<div class="aghead"><button class="btn small" id="agBack">← Voltar para a Presença</button><b>📅 Agenda da semana</b></div>
     <button class="agwab" data-agwa>📲 Enviar horários livres no WhatsApp</button>${agWa? agWaHTML() : ""}
-    <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar "Para os alunos"</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button></div>
+    <button class="btn ${agMkOn?"primary":""}" data-agmk style="width:100%">⚡ Marcar livre / ocupado e replicar para outros dias</button>${agMkOn? agMkHTML() : ""}
+    <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar "Para os alunos"</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
     <p class="muted agtip">Os horários fixos do cadastro entram sozinhos nas duas tabelas (na de alunos como OCUPADO). Escreveu, fica <b style="color:${AG_COL.r}">vermelho</b>; vazio fica <b style="color:${AG_COL.g}">verde</b>. Toque no quadradinho à esquerda para trocar a cor (vermelho, verde, azul, amarelo, branco, cinza, automático). Arraste a tabela para o lado para ver os outros dias.</p>
     ${A2.tabs.map(tab).join("")}`; }
 function agRender(){ const v=document.getElementById("agview"); if(!v||v.hidden) return; agSync(); v.innerHTML=agHTML(); }
@@ -2016,7 +2059,15 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
   if(b.dataset.agc){ const [ti,k,i]=b.dataset.agc.split("|"); const r=A2.tabs[+ti].d[k][+i]; r.c=AG_CYC[(AG_CYC.indexOf(r.c||"")+1)%AG_CYC.length]; save(); b.parentNode.style.setProperty("--ac",agCol(r)); return; }
   if(b.dataset.agadd){ const [ti,k]=b.dataset.agadd.split("|"); A2.tabs[+ti].d[k].push({h:"",t:"",c:""}); save(); agRender(); const L=document.querySelectorAll(`[data-agf^="${ti}|${k}|"][data-agf$="|h"]`); if(L.length) L[L.length-1].focus(); return; }
   if(b.dataset.agdel){ const [ti,k,i]=b.dataset.agdel.split("|"); A2.tabs[+ti].d[k].splice(+i,1); save(); agRender(); return; }
-  if(b.hasAttribute("data-agsab")){ if(A2.days.includes("Sáb")) A2.days=A2.days.filter(x=>x!=="Sáb"); else A2.days.push("Sáb"); agData(); save(); agRender(); return; }
+  if(b.hasAttribute("data-agmk")){ agMkOn=!agMkOn; agRender(); return; }
+  if(b.dataset.agmkst){ agMk.st=b.dataset.agmkst; agRender(); return; }
+  if(b.dataset.agmkd){ const k=b.dataset.agmkd; agMk.days=agMk.days.includes(k)? agMk.days.filter(x=>x!==k) : agMk.days.concat(k); agRender(); return; }
+  if(b.dataset.agmkto){ const k=b.dataset.agmkto; agMk.to=agMk.to.includes(k)? agMk.to.filter(x=>x!==k) : agMk.to.concat(k); agRender(); return; }
+  if(b.dataset.agmkall){ const v=b.dataset.agmkall; agMk.days= v==="todos"? AG_DIAS.slice() : v==="seg-sex"? AG_DIAS.slice(0,5) : []; agRender(); return; }
+  if(b.hasAttribute("data-agmkgo")){ agMkApply(); return; }
+  if(b.hasAttribute("data-agmkcopy")){ agMkCopy(); return; }
+  if(b.hasAttribute("data-agdom")){ if(A2.days.includes("Dom")) A2.days=A2.days.filter(x=>x!=="Dom"); else agAddDay("Dom"); save(); agRender(); return; }
+  if(b.hasAttribute("data-agsab")){ if(A2.days.includes("Sáb")) A2.days=A2.days.filter(x=>x!=="Sáb"); else agAddDay("Sáb"); save(); agRender(); return; }
   if(b.hasAttribute("data-agfill")){ if(!presOn()){ toast("Cadastre os alunos primeiro"); return; } const ch0=agSync(); if(ch0||true){ agRender(); toast(ch0? "Agenda atualizada com os horários do cadastro" : "Tudo certo: a agenda já está igual ao cadastro"); return; } const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={};
     PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; if(!k) return; (g[k]=g[k]||{}); (g[k][sl.h]=g[k][sl.h]||[]).push(first(a.nome)); }));
     const T=A2.tabs[0]; let n=0; Object.entries(g).forEach(([k,hs])=>{ if(!A2.days.includes(k)) return; T.d[k]=T.d[k]||[]; Object.entries(hs).forEach(([h,ns])=>{ const txt=ns.join(" e "); let r=T.d[k].find(x=>x.h===h); if(!r){ r={h,t:"",c:""}; T.d[k].push(r); } if(!String(r.t).trim()){ r.t=txt; n++; } }); T.d[k].sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); });
@@ -2024,6 +2075,8 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
   if(b.hasAttribute("data-aggen")){ const [M,P]=A2.tabs; A2.days.forEach(k=>{ P.d[k]=(M.d[k]||[]).map(r=>({h:r.h,t:String(r.t||"").trim()?"OCUPADO":"",c:""})); }); save(); agRender(); toast(`"Para os alunos" gerada: o que tem nome virou OCUPADO`); return; }
 });
 document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.closest("#agview")) return; const A2=agData();
+  if(t.id==="agMkTi"){ agMk.ti=+t.value; return; } if(t.id==="agMkH"){ agMk.h=t.value; return; } if(t.id==="agMkTxt"){ agMk.txt=t.value; return; }
+  if(t.id==="agMkFrom"){ agMk.from=t.value; agMk.to=agMk.to.filter(x=>x!==t.value); agRender(); return; }
   if(t.dataset.agtitle!=null){ A2.tabs[+t.dataset.agtitle].title=t.value; save(); return; }
   if(t.dataset.agf){ const [ti,k,i,f]=t.dataset.agf.split("|"); const r=A2.tabs[+ti].d[k][+i]; if(!r) return; r[f]=t.value; delete r.auto; save(); t.parentNode.style.setProperty("--ac",agCol(r)); } });
 const FZ=[0.55,0.62,0.7,0.8,0.87,0.94,1,1.08,1.16,1.25]; let fzI=6; try{ const fv=localStorage.getItem("fzV"); if(fv!==null){ const i=FZ.indexOf(+fv); if(i>=0) fzI=i; } else { const o=localStorage.getItem("fzI"); if(o!==null){ const i=FZ.indexOf([0.8,0.87,0.94,1,1.08,1.16,1.25][+o]); if(i>=0) fzI=i; } } }catch(e){}
@@ -5305,6 +5358,7 @@ function tecSugHTML(m){ const p=progOf(m); const ln=lineOf(p); const k=+m.phase;
 const SUP_WA="5531988260268"; /* WhatsApp do Tio Má para dúvidas, só números com DDI e DDD. Ex.: 5511999999999 */
 const TAB_N={cadastro:"o Cadastro",semana:"a Programação",treino:"o Treino",sessao:"a Sessão",corpo:"a Avaliação física",presenca:"a Presença",financeiro:"o Financeiro"};
 const helpBtn=k=> `<button class="helpbtn" data-help="${k}">ⓘ Entenda ${TAB_N[k]}</button>`;
+const cadTopHTML=()=> `<div class="phtop cadtop">${helpBtn("cadastro")}<div class="fzb fzbig" role="group" aria-label="Tamanho da letra"><button class="fzMinus" aria-label="Diminuir letra">A−</button><button class="fzPlus" aria-label="Aumentar letra">A+</button></div></div>`;
 function tioHelpHTML(){ return `<p class="tio-dir">É a programação usada pelo <b>Professor Maílson</b>. Ajuda quem precisa de uma direção para programar os treinos: as séries e as repetições já vêm definidas, com sugestões de técnicas avançadas (ou sem elas). Depois de concluir as fases, ou mesmo no meio delas, <b>crie a sua linha</b> e siga conforme a sua vivência e o seu conhecimento prático e científico.</p><p class="tio-dir">Uma direção, não uma regra. <b>Você não precisa seguir.</b> Ela está aqui para quem ainda não tem a própria linha ou quer um ponto de partida. Mude qualquer número no cartão do aluno.</p>
   <div class="tio-ph" style="--pc:var(--p0)"><b>Semana 0 · Teste</b><p>Testar os exercícios com menos séries: execução, mobilidade, consciência corporal e a carga para 15 repetições sobrando 3 a 4.</p></div>
   <div class="tio-ph" style="--pc:var(--p1)"><b>Fase 1 · Adaptação · qualidade de movimento</b><p>Serve para o aluno criar consciência corporal e, em alguns casos, reaprender a treinar, ativando bem a musculatura que o exercício exige.</p><ol><li>Semana 1: 3×12</li><li>Semana 2: 3×12, mais pesado</li><li>Semana 3: 3×15, com o mesmo peso</li><li>Semana 4: 3×15, mais pesado</li><li>Semana 5 a 6 (se quiser): mais peso, sem passar de 15 repetições</li></ol><p>A lógica: ou repete as repetições com mais peso, ou sobe as repetições com o mesmo peso. Evite os dois na mesma semana.</p></div>
@@ -5475,9 +5529,9 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
     const want=d.pacVal||""; setTimeout(()=>{ const a=PRES.aluno(pid); if(a&&a.pacote&&(a.pacote.validade||"")!==want) toast("⚠ O prazo do pacote não ficou salvo. Abra o aluno e toque em Salvar de novo."); },2500); }
   else toast(`${first(nome)} salvo`); }
 function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(!v) return;
-  if(cadDraft){ v.innerHTML=helpBtn("cadastro")+cadFormHTML(); return; }
+  if(cadDraft){ v.innerHTML=cadTopHTML()+cadFormHTML(); return; }
   const L=cadList();
-  v.innerHTML=`${helpBtn("cadastro")}
+  v.innerHTML=`${cadTopHTML()}
     <div class="card"><span class="label">Cadastro</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
@@ -5569,7 +5623,7 @@ function show(tab){
   CUR_TAB=tab; const view= (tab==="presenca"||tab==="financeiro")? "pres" : tab;
   document.getElementById("wrap").classList.toggle("wide", tab==="sessao"); document.body.classList.toggle("tab-sessao", tab==="sessao");
   document.getElementById("phaseStrip").hidden = true;
-  document.getElementById("top").hidden = view==="pres";
+  document.getElementById("top").hidden = view==="pres" || tab==="cadastro";
   document.querySelectorAll("section.view").forEach(s=>s.hidden = s.dataset.view!==view);
   agSet(tab==="presenca"&&AG_OPEN); document.getElementById("agOpen").hidden= tab!=="presenca";
   if(view==="pres"){ PRES.setMode(tab==="financeiro"?"fin":"pres"); const hb=document.getElementById("presHelp"); hb.dataset.help=tab; hb.textContent="ⓘ Entenda "+TAB_N[tab]; }
