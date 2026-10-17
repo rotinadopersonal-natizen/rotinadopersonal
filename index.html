@@ -1660,7 +1660,9 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
     return perfilRef().set(p,{merge:true}).then(function(){ return true; }).catch(function(){ return false; }); };
 
   function startApp(u){
-    if(started) return; started=true;
+    if(started) return;
+    if(document.readyState==="loading"||!document.getElementById("appjs")){ document.addEventListener("DOMContentLoaded",function(){ startApp(u); },{once:true}); return; }
+    started=true;
     /* Aparelho compartilhado: se outra pessoa entrou antes, limpa o que ficou guardado dela. */
     try{ var prev=localStorage.getItem("rp_uid"); if(prev!==u.uid){ var keep=localStorage.getItem("fzV"); var pc=PERFIL; localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); localStorage.setItem("rp_uid",u.uid); if(pc) cacheSet(pc); } }catch(e){}
     window.RP_OWNER=(u.uid==="0HtqKqXRaLN9hQ34QlPmG4nB2fi1");
@@ -5124,6 +5126,7 @@ return {pacSched, addAula, rmAula, updAula, getAula, saldo:pid=>saldoRepos().get
     alunos.forEach((v,k)=>{ const x=cl(v); delete x.id; o.alunos[k]=x; }); dias.forEach((v,k)=>o.dias[k]=cl(v)); pags.forEach((v,k)=>o.pagamentos[k]=cl(v)); hist.forEach((v,k)=>o.historico[k]=cl(v)); return o; },
   load:o=>{ if(!o||!db) return; const W=[];
     if(o.v===2){ if(o.inicio){ INICIO=o.inicio; W.push(db.doc(PB+'cfg/geral').set({inicio:o.inicio})); }
+      [["alunos",alunos],["dias",dias],["pagamentos",pags],["historico",hist]].forEach(([c,M])=>[...M.keys()].forEach(k=>{ if(!(o[c]&&k in o[c])) W.push(db.doc(PB+c+'/'+k).delete()); }));
       ["alunos","dias","pagamentos","historico"].forEach(c=>Object.entries(o[c]||{}).forEach(([k,v])=>W.push(db.doc(PB+c+'/'+k).set(v)))); }
     else Object.entries(o).forEach(([k,v])=>{ if(!/^(alunos|dias|pagamentos|historico|cfg)\//.test(k)) return; if(k==='cfg/geral'&&v&&v.inicio) INICIO=v.inicio; W.push(db.doc(PB+k).set(v)); });
     Promise.all(W).then(()=>toast('Presença e financeiro restaurados')).catch(e=>toast('Parte da presença não restaurou ('+(e&&e.code||'erro')+'). Tente de novo.')); }, isLocal:()=>localMode, setMode, markPresent, isReady:()=>loadedA&&loadedD, agenda:k=>agendaDoDia(k), alunos:()=>[...alunos.values()], isOff, offReason, render};
