@@ -1374,6 +1374,8 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .agmk .dy[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .agmk .lk{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:13px;padding:4px}
 .agmk hr{border:0;border-top:1px dashed var(--line);margin:2px 0}
+.agdh{display:flex;align-items:center;justify-content:space-between;gap:4px}.agclrd{border:0;background:none;color:#E53935;font-size:11px;font-weight:700;cursor:pointer;padding:2px 4px}
+.agempty{font-size:12px;color:var(--muted);padding:6px 2px}.btn.danger{background:#E53935;color:#fff;border-color:#E53935}
 </style>
 
 <div class="wrap" id="wrap">
@@ -1643,6 +1645,9 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
     $("rpLogin").hidden=true;
     var code=document.getElementById("appjs").textContent; var s=document.createElement("script"); s.textContent=code; document.body.appendChild(s);
     botaoTopo();
+    /* Uso: último acesso e quantos alunos (só o número), para o painel do dono do sistema */
+    setTimeout(function(){ try{ var n=(window.S&&S.students)? S.students.filter(function(x){ return x.name&&x.name!=="Primeiro aluno"; }).length : null;
+      perfilRef().set({ultimoAcesso:new Date().toISOString(),nAlunos:n,email:ME.email||""},{merge:true}).catch(function(){}); }catch(e){} },8000);
     if(PERFIL&&ME.email&&PERFIL.email!==ME.email) salvarPerfil({});
   }
   var temSenha=function(){ return (ME.providerData||[]).some(function(p){ return p.providerId==="password"; }); };
@@ -1982,7 +1987,7 @@ const rng=a=> a[0]===a[1]? String(a[0]) : a[0]+"–"+a[1];
 function activate(id){ S.active=id; save(); renderAll(); toast(first(A().name)+" · Fase "+A().phase); }
 
 /* ---------- Agenda da semana (duas tabelas, como a planilha) ---------- */
-let AG_OPEN=false, agEdit=false, agMkOn=false; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
+let AG_OPEN=false, agEdit=false, agMkOn=false, agClr=""; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
 /* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos (linhas automáticas) */
 function agSync(){ if(!presOn()) return false; const A2=agData(); const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={};
   PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; if(!k||!sl.h) return; (g[k]=g[k]||{}); (g[k][sl.h]=g[k][sl.h]||[]); const n=first(a.nome); if(!g[k][sl.h].includes(n)) g[k][sl.h].push(n); }));
@@ -2008,8 +2013,8 @@ function agWaHTML(){ const L=presOn()? PRES.alunos().filter(a=>a.ativo!==false).
 
 const AG_COL={r:"#E53935",g:"#2EBD4E",b:"#26D0E6",y:"#FFEB3B",w:"#FFFFFF",k:"#9E9E9E"}; const AG_CYC=["","r","g","b","y","w","k"];
 const AG_DIAS=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"], AG_DN={Seg:"Segunda",Ter:"Terça",Qua:"Quarta",Qui:"Quinta",Sex:"Sexta","Sáb":"Sábado",Dom:"Domingo"};
-function agData(){ if(!S.agenda){ const hrs=["05:30","06:30","07:30","08:30","09:30","10:30","11:30","12:30","13:30","14:30","15:30","16:30","17:30","18:30","19:30","20:30"];
-    const mk=()=>{ const d={}; AG_DIAS.slice(0,5).forEach(k=>d[k]=hrs.map(h=>({h,t:"",c:""}))); return d; };
+function agData(){ if(!S.agenda){
+    const mk=()=>{ const d={}; AG_DIAS.slice(0,5).forEach(k=>d[k]=[]); return d; };
     S.agenda={days:AG_DIAS.slice(0,5),tabs:[{title:"Minha agenda",d:mk()},{title:"Para os alunos",d:mk(),bg:"#FFEB3B"}]}; }
   const A2=S.agenda; A2.tabs.forEach(t=>A2.days.forEach(k=>{ t.d[k]=t.d[k]||[]; })); return A2; }
 function agAddDay(k){ const A2=S.agenda; if(!A2.days.includes(k)){ A2.days.push(k); A2.days.sort((a,b)=>AG_DIAS.indexOf(a)-AG_DIAS.indexOf(b)); } A2.tabs.forEach(t=>{ t.d[k]=t.d[k]||[]; }); }
@@ -2035,13 +2040,13 @@ function agMkCopy(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const src=T.d[
 const agCol=r=> AG_COL[r.c]|| (String(r.t||"").trim()? AG_COL.r : AG_COL.g);
 function agHTML(){ const A2=agData();
   const tab=(T,ti)=>`<div class="agtab"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
-    <div class="agscroll"><div class="aggrid">${A2.days.map(k=>`<div class="agday"><div class="agdh">${AG_DN[k]}</div>
+    <div class="agscroll"><div class="aggrid">${A2.days.map(k=>`<div class="agday"><div class="agdh">${AG_DN[k]}${T.d[k].length?`<button class="agclrd" data-agclrd="${ti}|${k}">${agClr===ti+"|"+k?"Confirmar?":"limpar"}</button>`:""}</div>${T.d[k].length?"":`<div class="agempty">Sem horários</div>`}
       ${T.d[k].map((r,i)=>`<div class="agrow" style="--ac:${agCol(r)}"><button class="agsw" data-agc="${ti}|${k}|${i}" aria-label="Trocar cor" title="Trocar cor"></button><input class="agh" data-agf="${ti}|${k}|${i}|h" value="${esc(r.h)}" inputmode="numeric" aria-label="Horário"><input class="agt" data-agf="${ti}|${k}|${i}|t" value="${esc(r.t)}" aria-label="${AG_DN[k]} ${esc(r.h)}">${agEdit?`<button class="agdel" data-agdel="${ti}|${k}|${i}" aria-label="Apagar linha">✕</button>`:""}</div>`).join("")}
       <button class="agadd" data-agadd="${ti}|${k}">+ linha</button></div>`).join("")}</div></div></div>`;
   return `<div class="aghead"><button class="btn small" id="agBack">← Voltar para a Presença</button><b>📅 Agenda da semana</b></div>
     <button class="agwab" data-agwa>📲 Enviar horários livres no WhatsApp</button>${agWa? agWaHTML() : ""}
     <button class="btn ${agMkOn?"primary":""}" data-agmk style="width:100%">⚡ Marcar livre / ocupado e replicar para outros dias</button>${agMkOn? agMkHTML() : ""}
-    <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar "Para os alunos"</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
+    <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar "Para os alunos"</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ${agClr==="all"?"danger":"ghost"}" data-agclrall>${agClr==="all"?"Toque de novo para limpar tudo":"🧹 Limpar tudo"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
     <p class="muted agtip">Os horários fixos do cadastro entram sozinhos nas duas tabelas (na de alunos como OCUPADO). Escreveu, fica <b style="color:${AG_COL.r}">vermelho</b>; vazio fica <b style="color:${AG_COL.g}">verde</b>. Toque no quadradinho à esquerda para trocar a cor (vermelho, verde, azul, amarelo, branco, cinza, automático). Arraste a tabela para o lado para ver os outros dias.</p>
     ${A2.tabs.map(tab).join("")}`; }
 function agRender(){ const v=document.getElementById("agview"); if(!v||v.hidden) return; agSync(); v.innerHTML=agHTML(); }
@@ -2059,6 +2064,9 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
   if(b.dataset.agc){ const [ti,k,i]=b.dataset.agc.split("|"); const r=A2.tabs[+ti].d[k][+i]; r.c=AG_CYC[(AG_CYC.indexOf(r.c||"")+1)%AG_CYC.length]; save(); b.parentNode.style.setProperty("--ac",agCol(r)); return; }
   if(b.dataset.agadd){ const [ti,k]=b.dataset.agadd.split("|"); A2.tabs[+ti].d[k].push({h:"",t:"",c:""}); save(); agRender(); const L=document.querySelectorAll(`[data-agf^="${ti}|${k}|"][data-agf$="|h"]`); if(L.length) L[L.length-1].focus(); return; }
   if(b.dataset.agdel){ const [ti,k,i]=b.dataset.agdel.split("|"); A2.tabs[+ti].d[k].splice(+i,1); save(); agRender(); return; }
+  if(b.hasAttribute("data-agclrall")){ if(agClr!=="all"){ agClr="all"; agRender(); return; } agClr=""; A2.tabs.forEach(T=>A2.days.forEach(k=>{ T.d[k]=[]; })); save(); agRender(); toast("Agenda limpa. Os horários fixos dos alunos voltam sozinhos."); return; }
+  if(b.dataset.agclrd){ const key=b.dataset.agclrd; if(agClr!==key){ agClr=key; agRender(); return; } agClr=""; const [ti,k]=key.split("|"); A2.tabs[+ti].d[k]=[]; save(); agRender(); toast(`${AG_DN[k]} limpa`); return; }
+  if(agClr){ agClr=""; }
   if(b.hasAttribute("data-agmk")){ agMkOn=!agMkOn; agRender(); return; }
   if(b.dataset.agmkst){ agMk.st=b.dataset.agmkst; agRender(); return; }
   if(b.dataset.agmkd){ const k=b.dataset.agmkd; agMk.days=agMk.days.includes(k)? agMk.days.filter(x=>x!==k) : agMk.days.concat(k); agRender(); return; }

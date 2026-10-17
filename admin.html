@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Painel ADM · Rotina do Personal</title>
+<link rel="icon" href="icon-192.png">
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<style>
+:root{--bg:#0f1115;--card:#171a20;--txt:#ece7dc;--mut:#a9a395;--gold:#d4a24c;--line:#2a2e36;--ok:#2EBD4E;--warn:#f0b429;--bad:#E53935}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:15px}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+.logo{font-size:20px;font-weight:800;margin:0}.logo b{color:var(--gold)}
+h1{font-size:22px;margin:6px 0 14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0 0 14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.kpi b{display:block;font-size:26px}.kpi span{color:var(--mut);font-size:12.5px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.bar input,.bar select{flex:1;min-width:150px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#1a1d23;color:#fff;font-size:15px}
+.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--gold);color:#111;font-size:14px}
+.btn.g{background:#2a2e36;color:var(--txt)}
+.list{display:grid;gap:10px}
+.it{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:4px}
+.it .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.it .nm{font-weight:800;font-size:16px}
+.tag{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.tag.ok{background:rgba(46,189,78,.15);color:var(--ok)}.tag.warn{background:rgba(240,180,41,.15);color:var(--warn)}.tag.bad{background:rgba(229,57,53,.15);color:#ff8a80}
+.mut{color:var(--mut);font-size:13.5px}
+.it a{color:var(--gold);text-decoration:none}
+.links{display:flex;gap:12px;flex-wrap:wrap;font-size:14px}
+.msg{color:var(--mut);padding:30px 0;text-align:center}
+.login{max-width:340px;margin:80px auto;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="logo">Rotina do <b>Personal</b></p>
+  <h1>Painel ADM</h1>
+  <div id="app"><p class="msg">Carregando…</p></div>
+</div>
+<script>
+(function(){
+  var ADMIN="0HtqKqXRaLN9hQ34QlPmG4nB2fi1";
+  var app=document.getElementById("app");
+  var esc=function(t){ return String(t==null?"":t).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); };
+  if(!window.RP_FIREBASE||!window.firebase){ app.innerHTML='<p class="msg">Sistema em manutenção.</p>'; return; }
+  firebase.initializeApp(window.RP_FIREBASE); var auth=firebase.auth(), fs=firebase.firestore();
+  var dias=function(iso){ if(!iso) return null; return Math.floor((Date.now()-new Date(iso).getTime())/864e5); };
+  var dt=function(iso){ if(!iso) return "—"; var d=new Date(iso); return d.toLocaleDateString("pt-BR"); };
+  var quando=function(iso){ var n=dias(iso); if(n==null) return "nunca registrado"; if(n<=0) return "hoje"; if(n===1) return "ontem"; return "há "+n+" dias"; };
+  var status=function(c){ var n=dias(c.ultimoAcesso); if(n==null) return ["bad","Sem acesso registrado"]; if(n<=7) return ["ok","Ativo"]; if(n<=21) return ["warn","Esfriando"]; return ["bad","Parado"]; };
+  var wa=function(t){ var d=String(t||"").replace(/\D/g,""); if(!d) return ""; if(d.length<=11) d="55"+d; return "https://wa.me/"+d; };
+  var ig=function(h){ h=String(h||"").trim(); if(!h) return ""; if(/^https?:/.test(h)) return h; return "https://instagram.com/"+h.replace(/^@/,""); };
+  var L=[], filtro="", ordem="acesso";
+  function render(){
+    var q=filtro.toLowerCase();
+    var R=L.filter(function(c){ return !q||[c.nome,c.email,c.telefone,(c.redes||{}).instagram].join(" ").toLowerCase().indexOf(q)>=0; });
+    R.sort(function(a,b){ if(ordem==="nome") return String(a.nome||"").localeCompare(String(b.nome||""),"pt-BR"); if(ordem==="cadastro") return String(b.criadoEm||"").localeCompare(String(a.criadoEm||"")); return String(b.ultimoAcesso||"").localeCompare(String(a.ultimoAcesso||"")); });
+    var at=L.filter(function(c){ return status(c)[0]==="ok"; }).length;
+    var nov=L.filter(function(c){ var n=dias(c.criadoEm); return n!=null&&n<=30; }).length;
+    var al=L.reduce(function(s,c){ return s+(+c.nAlunos||0); },0);
+    app.innerHTML='<div class="kpis"><div class="kpi"><b>'+L.length+'</b><span>Personais cadastrados</span></div><div class="kpi"><b>'+at+'</b><span>Ativos (últimos 7 dias)</span></div><div class="kpi"><b>'+nov+'</b><span>Novos (30 dias)</span></div><div class="kpi"><b>'+al+'</b><span>Alunos cadastrados no total</span></div></div>'+
+      '<div class="bar"><input id="q" placeholder="Buscar nome, e-mail, telefone…" value="'+esc(filtro)+'"><select id="o"><option value="acesso">Último acesso</option><option value="cadastro">Mais recentes</option><option value="nome">Nome A–Z</option></select><button class="btn g" id="cp">Copiar lista</button><button class="btn g" id="out">Sair</button></div>'+
+      '<div class="list">'+(R.length? R.map(function(c){ var st=status(c), r=c.redes||{}, w=wa(c.telefone), i=ig(r.instagram);
+        return '<div class="it"><div class="top"><span class="nm">'+esc(c.nome||"(sem nome)")+'</span><span class="tag '+st[0]+'">'+st[1]+'</span></div>'+
+          '<div class="mut">'+esc(c.email||"")+(c.emailContato?' · contato: '+esc(c.emailContato):'')+'</div>'+
+          '<div class="mut">Cadastro: '+dt(c.criadoEm)+' · Último acesso: '+quando(c.ultimoAcesso)+(c.nAlunos!=null?' · '+c.nAlunos+' aluno(s)':'')+'</div>'+
+          '<div class="links">'+(w?'<a href="'+w+'" target="_blank" rel="noopener">💬 '+esc(c.telefone)+'</a>':'')+(i?'<a href="'+esc(i)+'" target="_blank" rel="noopener">📷 '+esc(r.instagram)+'</a>':'')+(r.tiktok?'<span class="mut">TikTok: '+esc(r.tiktok)+'</span>':'')+(r.facebook?'<span class="mut">Facebook: '+esc(r.facebook)+'</span>':'')+(r.site?'<span class="mut">'+esc(r.site)+'</span>':'')+'</div></div>'; }).join("") : '<p class="msg">Nenhum cadastro encontrado.</p>')+'</div>';
+    document.getElementById("o").value=ordem;
+    document.getElementById("q").oninput=function(){ filtro=this.value; var p=this.selectionStart; render(); var e=document.getElementById("q"); e.focus(); e.setSelectionRange(p,p); };
+    document.getElementById("o").onchange=function(){ ordem=this.value; render(); };
+    document.getElementById("out").onclick=function(){ auth.signOut().then(function(){ location.href="./"; }); };
+    document.getElementById("cp").onclick=function(){ var t=R.map(function(c){ return [c.nome,c.telefone,c.email,(c.redes||{}).instagram||"",dt(c.criadoEm),quando(c.ultimoAcesso)].join(" | "); }).join("\n"); var b=this;
+      (navigator.clipboard? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ b.textContent="Copiado ✓"; setTimeout(function(){ b.textContent="Copiar lista"; },1500); }).catch(function(){ prompt("Copie a lista:",t); }); };
+  }
+  auth.onAuthStateChanged(function(u){
+    if(!u){ app.innerHTML='<div class="login"><p class="mut">Entre primeiro no sistema com a conta de administrador.</p><a class="btn" href="./" style="display:inline-block;text-decoration:none">Ir para o login</a></div>'; return; }
+    if(u.uid!==ADMIN){ app.innerHTML='<p class="msg">Esta página é só para o administrador.</p>'; return; }
+    fs.collection("cadastros").onSnapshot(function(qs){ L=qs.docs.map(function(d){ return Object.assign({uid:d.id},d.data()); }); render(); },
+      function(e){ app.innerHTML='<p class="msg">Sem permissão para ler os cadastros. Confira se as regras novas do Firestore foram publicadas.</p>'; });
+  });
+})();
+</script>
+</body>
+</html>
