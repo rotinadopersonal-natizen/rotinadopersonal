@@ -1482,6 +1482,13 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
 #rpAcct .rp-amsg.bad{color:#c62828}
 #rpAcct .rp-links{display:flex;justify-content:space-between;margin-top:12px;font-size:13.5px}
 #rpAcct .rp-links a,#rpAcct .rp-links button{color:#8a6420;background:none;border:0;padding:4px 0;font-size:13.5px;cursor:pointer;text-decoration:underline}
+.rp-acct-top{display:flex;align-items:center;gap:12px;width:100%;margin:0 0 12px;padding:14px 16px;border:0;border-radius:14px;background:#1e8e3e;color:#fff;font:inherit;text-align:left;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.rp-acct-top .ic{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 38px}
+.rp-acct-top b{display:block;font-size:17px}
+.rp-acct-top small{display:block;font-size:12.5px;opacity:.9}
+.rp-acct-top .ar{margin-left:auto;font-size:22px;opacity:.9}
+#rpAcct h4{margin:16px 0 2px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#1e8e3e}
+#rpAcct .rp-hint{font-size:12.5px;color:#777;margin:4px 0 0}
 #rpAcct .rp-sheet{max-height:92vh;overflow:auto;background:#fff;color:#222;width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:18px 16px 24px;font-family:system-ui,sans-serif}
 </style>
 <div id="rpLogin">
@@ -1514,21 +1521,49 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
   </div>
 </div>
 <div id="rpAcct" hidden><div class="rp-sheet" role="dialog" aria-modal="true" aria-label="Sua conta">
-  <p style="margin:0 0 2px;font-weight:700;font-size:17px">Minha conta</p>
-  <p id="rpWho" style="margin:0 0 4px;color:#555;font-size:14px"></p>
+  <p style="margin:0 0 2px;font-weight:700;font-size:18px">Minha conta</p>
+  <p id="rpWho" style="margin:0;color:#555;font-size:14px"></p>
+
+  <h4>Seus dados</h4>
   <label for="rpANome">Nome</label>
   <input id="rpANome" autocomplete="name">
-  <label for="rpATel">Telefone / WhatsApp</label>
-  <input id="rpATel" type="tel" inputmode="tel" autocomplete="tel">
-  <div class="rp-sm"><button class="rp-btn rp-pri" id="rpASave">Salvar dados</button><button class="rp-btn" style="background:#eee" id="rpAPass">Trocar senha</button></div>
+  <label for="rpATel">WhatsApp</label>
+  <input id="rpATel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000">
+  <label for="rpAContato">E-mail de contato <span style="color:#999">(se for diferente do login)</span></label>
+  <input id="rpAContato" type="email" inputmode="email" placeholder="opcional">
+
+  <h4>Redes sociais</h4>
+  <label for="rpAIg">Instagram</label>
+  <input id="rpAIg" placeholder="@seuperfil" autocapitalize="off">
+  <label for="rpATk">TikTok</label>
+  <input id="rpATk" placeholder="@seuperfil" autocapitalize="off">
+  <label for="rpAFb">Facebook</label>
+  <input id="rpAFb" placeholder="nome da página ou link" autocapitalize="off">
+  <label for="rpASite">Site ou outro link</label>
+  <input id="rpASite" placeholder="ex.: www.seusite.com.br" autocapitalize="off" inputmode="url">
+  <button class="rp-btn rp-pri" id="rpASave">Salvar dados</button>
   <p class="rp-amsg" id="rpAMsg" role="status"></p>
+
+  <h4>E-mail de login</h4>
+  <div id="rpAEmailBox">
+    <label for="rpANovoEmail">Novo e-mail</label>
+    <input id="rpANovoEmail" type="email" inputmode="email" autocapitalize="off">
+    <div id="rpAReauth" hidden><label for="rpASenha">Sua senha atual</label><input id="rpASenha" type="password" autocomplete="current-password"></div>
+    <div class="rp-sm"><button class="rp-btn" style="background:#eee" id="rpAEmail">Alterar e-mail</button><button class="rp-btn" style="background:#eee" id="rpAPass">Trocar senha</button></div>
+    <p class="rp-hint">Enviamos um link de confirmação para o novo e-mail. A troca só vale depois que você tocar nele.</p>
+  </div>
+  <p class="rp-hint" id="rpAGoogle" hidden>Sua conta entra com o Google. O e-mail de login é o da sua conta Google.</p>
+  <p class="rp-amsg" id="rpAEMsg" role="status"></p>
+
+  <h4>Suporte</h4>
+  <div class="rp-sm"><a class="rp-btn" style="background:#eee;color:#222;text-align:center;text-decoration:none" id="rpASupMail" href="#">E-mail</a><a class="rp-btn" style="background:#25d366;color:#fff;text-align:center;text-decoration:none" id="rpASupWa" href="#" target="_blank" rel="noopener">WhatsApp</a></div>
   <div class="rp-links"><a href="termos.html" target="_blank" rel="noopener">Termos e privacidade</a><button id="rpAHelp">Excluir minha conta</button></div>
   <button class="rp-btn" style="background:#1a1a1a;color:#fff" id="rpOut">Sair da conta</button>
   <button class="rp-btn" style="background:#eee" id="rpClose">Fechar</button>
 </div></div>
 <script>
 (function(){
-  var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com";
+  var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com"; var RP_SUP_WA=window.RP_SUP_WA||"";
   var msg=function(t,ok){ var m=document.getElementById("rpMsg"); m.textContent=t||""; m.className="rp-msg"+(ok?" ok":""); };
   if(!cfg||!cfg.apiKey||!window.firebase){ msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
   firebase.initializeApp(cfg);
@@ -1585,13 +1620,21 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
     window.claude={ use:function(n){ if(n==="db") return Promise.resolve(DB); if(n==="user") return Promise.resolve({id:function(){ return Promise.resolve(u.uid); },email:u.email}); if(n==="downloads") return Promise.resolve(DL); return Promise.resolve(null); } };
     $("rpLogin").hidden=true;
     var code=document.getElementById("appjs").textContent; var s=document.createElement("script"); s.textContent=code; document.body.appendChild(s);
-    var pill=document.getElementById("cloudPill");
-    if(pill&&!document.getElementById("rpAcctBtn")){ var b=document.createElement("button"); b.id="rpAcctBtn"; b.className="pill"; b.style.cssText="margin:4px 0 0 4px;cursor:pointer;border:0"; b.textContent="Minha conta"; pill.insertAdjacentElement("afterend",b);
-      b.onclick=abrirConta; }
+    botaoTopo();
+    if(PERFIL&&ME.email&&PERFIL.email!==ME.email) salvarPerfil({});
   }
-  function abrirConta(){ $("rpWho").textContent=ME.email||"Conta Google"; $("rpANome").value=(PERFIL&&PERFIL.nome)||ME.displayName||""; $("rpATel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpAMsg").textContent="";
-    var temSenha=(ME.providerData||[]).some(function(p){ return p.providerId==="password"; }); $("rpAPass").style.display=temSenha?"":"none";
+  var temSenha=function(){ return (ME.providerData||[]).some(function(p){ return p.providerId==="password"; }); };
+  function abrirConta(){ var P=PERFIL||{}, r=P.redes||{}; $("rpWho").textContent=ME.email||"Conta Google"; $("rpANome").value=P.nome||ME.displayName||""; $("rpATel").value=fmtTel(P.telefone||"");
+    $("rpAContato").value=P.emailContato||""; $("rpAIg").value=r.instagram||""; $("rpATk").value=r.tiktok||""; $("rpAFb").value=r.facebook||""; $("rpASite").value=r.site||"";
+    $("rpAMsg").textContent=""; $("rpAEMsg").textContent=""; $("rpANovoEmail").value=""; $("rpASenha").value=""; $("rpAReauth").hidden=true;
+    var pw=temSenha(); $("rpAEmailBox").hidden=!pw; $("rpAGoogle").hidden=pw;
+    $("rpASupMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Suporte Rotina do Personal");
+    if(RP_SUP_WA){ $("rpASupWa").href="https://wa.me/"+RP_SUP_WA+"?text="+encodeURIComponent("Olá! Preciso de ajuda com o Rotina do Personal."); $("rpASupWa").style.display=""; } else $("rpASupWa").style.display="none";
     $("rpAcct").hidden=false; }
+  function botaoTopo(){ var v=document.getElementById("view-cadastro"); if(!v) return;
+    var put=function(){ if(v.querySelector("#rpAcctTop")) return; var b=document.createElement("button"); b.id="rpAcctTop"; b.className="rp-acct-top"; b.type="button";
+      b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild); };
+    put(); new MutationObserver(put).observe(v,{childList:true}); }
   function pedirPerfil(u){ $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
     $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); }
   $("rpPGo").onclick=function(){ var n=$("rpPNome").value.trim(), t=$("rpPTel").value.trim();
@@ -1610,9 +1653,19 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
     setTimeout(fim,6000);
     perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } fim(); }).catch(fim);
   });
-  $("rpASave").onclick=function(){ var n=$("rpANome").value.trim(), t=$("rpATel").value.trim(), m=$("rpAMsg");
-    if(n.length<2){ m.className="rp-amsg bad"; m.textContent="Digite seu nome."; return; } if(!telOk(t)){ m.className="rp-amsg bad"; m.textContent="Digite o telefone com DDD."; return; }
-    m.className="rp-amsg"; m.textContent="Salvando…"; salvarPerfil({nome:n,telefone:t}).then(function(ok){ m.className="rp-amsg"+(ok?"":" bad"); m.textContent=ok?"Dados salvos ✓":"Salvo neste aparelho. Vai para a nuvem quando a conexão voltar."; }); };
+  $("rpASave").onclick=function(){ var n=$("rpANome").value.trim(), t=$("rpATel").value.trim(), m=$("rpAMsg"), c=$("rpAContato").value.trim();
+    if(n.length<2){ m.className="rp-amsg bad"; m.textContent="Digite seu nome."; return; } if(!telOk(t)){ m.className="rp-amsg bad"; m.textContent="Digite o WhatsApp com DDD."; return; }
+    if(c&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)){ m.className="rp-amsg bad"; m.textContent="E-mail de contato inválido."; return; }
+    var red={instagram:$("rpAIg").value.trim(),tiktok:$("rpATk").value.trim(),facebook:$("rpAFb").value.trim(),site:$("rpASite").value.trim()};
+    m.className="rp-amsg"; m.textContent="Salvando…"; salvarPerfil({nome:n,telefone:t,emailContato:c,redes:red}).then(function(ok){ m.className="rp-amsg"+(ok?"":" bad"); m.textContent=ok?"Dados salvos ✓":"Salvo neste aparelho. Vai para a nuvem quando a conexão voltar."; }); };
+  $("rpAEmail").onclick=function(){ var m=$("rpAEMsg"), e=$("rpANovoEmail").value.trim(), btn=this;
+    var bad=function(t){ m.className="rp-amsg bad"; m.textContent=t; };
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){ bad("Digite o novo e-mail."); return; } if(e.toLowerCase()===(ME.email||"").toLowerCase()){ bad("Esse já é o seu e-mail de login."); return; }
+    var enviar=function(){ return ME.verifyBeforeUpdateEmail(e).then(function(){ m.className="rp-amsg"; m.textContent="Pronto! Abra o e-mail enviado para "+e+" e toque no link para confirmar (veja o spam)."; $("rpAReauth").hidden=true; }); };
+    btn.disabled=true; m.className="rp-amsg"; m.textContent="Enviando…";
+    var p=$("rpAReauth").hidden? enviar() : ME.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(ME.email,$("rpASenha").value)).then(enviar);
+    p.catch(function(x){ if(x&&x.code==="auth/requires-recent-login"){ $("rpAReauth").hidden=false; bad("Por segurança, digite sua senha atual e toque em Alterar e-mail de novo."); }
+      else if(x&&x.code==="auth/email-already-in-use") bad("Esse e-mail já é usado por outra conta."); else bad(em(x)); }).then(function(){ btn.disabled=false; }); };
   $("rpAPass").onclick=function(){ var m=$("rpAMsg"); auth.sendPasswordResetEmail(ME.email).then(function(){ m.className="rp-amsg"; m.textContent="Enviamos um link para "+ME.email+" (veja o spam)."; }).catch(function(x){ m.className="rp-amsg bad"; m.textContent=em(x); }); };
   $("rpAHelp").onclick=function(){ var m=$("rpAMsg"); m.className="rp-amsg"; m.innerHTML='Para excluir sua conta e todos os dados, envie um e-mail para <a href="mailto:'+RP_CONTATO+'?subject=Excluir%20minha%20conta">'+RP_CONTATO+'</a>. Antes, baixe um backup em Cadastro.'; };
   $("rpClose").onclick=function(){ $("rpAcct").hidden=true; };
