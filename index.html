@@ -1297,6 +1297,7 @@ details.pgcard[open]>summary{margin-bottom:8px}
 .xtec.on{border-style:solid;border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
 .tecpick{left:6px;top:auto;bottom:auto;margin-top:2px;position:absolute;top:100%}
 .tecpick .tec-rm{color:var(--bad)}
+.tmnew{--tc:transparent;border:2px dashed var(--accent)!important;color:var(--accent)!important;background:transparent!important}.tmmine{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.tmmine .tmnm{grid-column:1/-1}.tmmine .inp{width:100%;min-width:0}
 .tecph{display:block;font-size:11px;color:var(--muted);padding:2px 6px 4px}.tecpick .tec-new{color:var(--accent);font-weight:800}
 .tecmy{display:flex;align-items:stretch}.tecmy>button:first-child{flex:1}.tecpick .tecdel{flex:none;width:30px;color:var(--bad);text-align:center}
 .tecnew{display:grid;gap:6px;padding:6px;border-top:1px solid var(--line);min-width:220px}.tecnew label{display:grid;gap:2px;font-size:11px;font-weight:700;color:var(--muted)}.tecnew input{font-size:14px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0;width:100%}
@@ -3691,7 +3692,9 @@ function mvHTML(m,w,others){ const wk=S.weeks.find(x=>x.id===(mvWk||w.id))||w; c
 /* ---------- Cronômetro de cardio (AMRAP, Por tempo, EMOM, Tabata, Mix) ---------- */
 const TM_MODES={amrap:{n:"AMRAP",c:"#E0913F"},fortime:{n:"POR TEMPO",c:"#5B6EF5"},emom:{n:"EMOM",c:"#8E1CDB"},tabata:{n:"TABATA",c:"#3FAE7E"},mix:{n:"MIX",c:"#444"}};
 const TM_DEF={amrap:{min:10,sec:0},fortime:{cap:15},emom:{every:60,rounds:10},tabata:{work:20,rest:10,rounds:8},mix:{blocks:[{t:"emom",every:60,rounds:5},{t:"rest",sec:60},{t:"tabata",work:20,rest:10,rounds:8}]},prep:10};
-function tmCfg(mode){ S.tmr=S.tmr||{}; if(!S.tmr[mode]) S.tmr[mode]=JSON.parse(JSON.stringify(TM_DEF[mode])); if(S.tmr.prep==null) S.tmr.prep=10; return S.tmr[mode]; }
+function tmMineL(){ return Array.isArray(S.tmMine)? S.tmMine : []; }
+function tmModes(){ const o=Object.assign({},TM_MODES); tmMineL().forEach(c=>{ o["c_"+c.id]={n:String(c.n||"Meu cronômetro").toUpperCase(),c:"#1F7A8C",mine:1}; }); return o; }
+function tmCfg(mode){ S.tmr=S.tmr||{}; if(S.tmr.prep==null) S.tmr.prep=10; if(String(mode).startsWith("c_")){ return tmMineL().find(c=>"c_"+c.id===mode)||{n:"",rounds:1,work:0,rest:0}; } if(!S.tmr[mode]) S.tmr[mode]=JSON.parse(JSON.stringify(TM_DEF[mode])); if(S.tmr.prep==null) S.tmr.prep=10; return S.tmr[mode]; }
 let tmrEd=null, TMR=null, TMR_I=null;
 const tmN=v=>Math.max(0,Math.round(+String(v).replace(",","."))||0);
 function tmBlockSeq(b){ const out=[];
@@ -3700,21 +3703,24 @@ function tmBlockSeq(b){ const out=[];
   else if(b.t==="emom"){ const n=Math.max(1,tmN(b.rounds)); for(let i=0;i<n;i++) out.push({lab:"EMOM",k:"work",d:Math.max(5,tmN(b.every)),r:i+1,of:n}); }
   else if(b.t==="tabata"){ const n=Math.max(1,tmN(b.rounds)); for(let i=0;i<n;i++){ out.push({lab:"Trabalho",k:"work",d:Math.max(1,tmN(b.work)),r:i+1,of:n}); if(i<n-1&&tmN(b.rest)) out.push({lab:"Descanso",k:"rest",d:tmN(b.rest),r:i+1,of:n}); } }
   else if(b.t==="rest") out.push({lab:"Rest",k:"rest",d:Math.max(1,tmN(b.sec))});
+  else if(String(b.t).startsWith("c_")){ const n=Math.max(1,tmN(b.rounds)), wk=tmN(b.work), rs=tmN(b.rest); for(let i=0;i<n;i++){ out.push(wk? {lab:"Série",k:"work",d:wk,r:i+1,of:n} : {lab:"Série",k:"man",d:5940,r:i+1,of:n}); if(i<n-1&&rs) out.push({lab:"Descanso",k:"rest",d:rs,r:i+1,of:n}); } }
   return out.filter(x=>x.d>0); }
 function tmSeq(mode){ const c=tmCfg(mode); let bl= mode==="mix"? (c.blocks||[]) : [Object.assign({t:mode},c)];
   if(mode!=="mix"){ const n=Math.max(1,tmN(c.reps||1)), r=tmN(c.rrest); const L=[]; for(let i=0;i<n;i++){ L.push(Object.assign({t:mode},c,{_set:i+1,_sets:n})); if(i<n-1&&r) L.push({t:"rest",sec:r}); }
     (c.more||[]).forEach(b=>{ if(tmN(b.rb)) L.push({t:"rest",sec:tmN(b.rb)}); const k=Math.max(1,tmN(b.reps||1)); for(let i=0;i<k;i++){ L.push(Object.assign({t:mode},b,{_set:i+1,_sets:k})); if(i<k-1&&tmN(b.rrest)) L.push({t:"rest",sec:tmN(b.rrest)}); } }); bl=L; }
-  const seq=[];   bl.forEach((b,bi)=>tmBlockSeq(b).forEach(x=>{ x.c=TM_MODES[b.t]?TM_MODES[b.t].c:"#2F8F5B"; x.blk=bi; if(b._sets>1) x.set=`Série ${b._set}/${b._sets}`; seq.push(x); }));
+  const seq=[];   bl.forEach((b,bi)=>tmBlockSeq(b).forEach(x=>{ const MM=tmModes(); x.c=MM[b.t]?MM[b.t].c:"#2F8F5B"; x.blk=bi; if(b._sets>1) x.set=`Série ${b._set}/${b._sets}`; seq.push(x); }));
   const p=tmN(S.tmr.prep); if(p) seq.unshift({lab:"Prepare",k:"prep",d:p,c:"#666"}); return seq; }
 const tmFmt=s=>{ s=Math.max(0,Math.ceil(s)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); };
-function tmTotal(mode){ return tmSeq(mode).reduce((a,x)=>a+(x.k==="prep"?0:x.d),0); }
-function tmBlockTxt(b){ return b.t==="amrap"?`AMRAP ${tmN(b.min)}'${tmN(b.sec)?tmN(b.sec)+'"':""}`:b.t==="fortime"?`Por tempo (limite ${tmN(b.cap)}')`:b.t==="emom"?`EMOM ${tmN(b.rounds)}x a cada ${tmN(b.every)}"`:b.t==="tabata"?`Tabata ${tmN(b.rounds)}x ${tmN(b.work)}"/${tmN(b.rest)}"`:`Rest ${tmN(b.sec)}"`; }
-function tmSummary(mode){ const c=tmCfg(mode); const n=Math.max(1,tmN(c.reps||1)); return mode==="mix"? "Mix: "+(c.blocks||[]).map(tmBlockTxt).join(" + ") : (n>1?`${n}x `:"")+tmBlockTxt(Object.assign({t:mode},c))+(n>1&&tmN(c.rrest)?` · rest ${tmN(c.rrest)}" entre`:"")+(c.more||[]).map(b=>{ const k=Math.max(1,tmN(b.reps||1)); return (tmN(b.rb)?` + rest ${tmN(b.rb)}"`:"")+" + "+(k>1?`${k}x `:"")+tmBlockTxt(Object.assign({t:mode},b)); }).join(""); }
+function tmTotal(mode){ return tmSeq(mode).reduce((a,x)=>a+(x.k==="prep"||x.k==="man"?0:x.d),0); }
+function tmBlockTxt(b){ if(String(b.t).startsWith("c_")) return `${b.n||"Cronômetro"}: ${Math.max(1,tmN(b.rounds))} séries/rodadas${tmN(b.work)?` de ${tmN(b.work)}"`:""}${tmN(b.rest)?` · rest ${tmN(b.rest)}"`:""}`; return b.t==="amrap"?`AMRAP ${tmN(b.min)}'${tmN(b.sec)?tmN(b.sec)+'"':""}`:b.t==="fortime"?`Por tempo (limite ${tmN(b.cap)}')`:b.t==="emom"?`EMOM ${tmN(b.rounds)}x a cada ${tmN(b.every)}"`:b.t==="tabata"?`Tabata ${tmN(b.rounds)}x ${tmN(b.work)}"/${tmN(b.rest)}"`:`Rest ${tmN(b.sec)}"`; }
+function tmSummary(mode){ const c=tmCfg(mode); if(String(mode).startsWith("c_")) return tmBlockTxt(Object.assign({t:mode},c)); const n=Math.max(1,tmN(c.reps||1)); return mode==="mix"? "Mix: "+(c.blocks||[]).map(tmBlockTxt).join(" + ") : (n>1?`${n}x `:"")+tmBlockTxt(Object.assign({t:mode},c))+(n>1&&tmN(c.rrest)?` · rest ${tmN(c.rrest)}" entre`:"")+(c.more||[]).map(b=>{ const k=Math.max(1,tmN(b.reps||1)); return (tmN(b.rb)?` + rest ${tmN(b.rb)}"`:"")+" + "+(k>1?`${k}x `:"")+tmBlockTxt(Object.assign({t:mode},b)); }).join(""); }
 function tmFields(b,pre){ const f=(k,l,u)=>`<label>${l}<input class="inp tmn" type="number" inputmode="numeric" min="0" ${pre}="${k}" value="${esc(String(b[k]??""))}"${u?` placeholder="${u}"`:""}></label>`;
   return b.t==="amrap"? f("min","Minutos")+f("sec","Segundos") : b.t==="fortime"? f("cap","Limite (min)") : b.t==="emom"? f("every","A cada (seg)")+f("rounds","Rodadas") : b.t==="tabata"? f("work","Trabalho (seg)")+f("rest","Descanso (seg)")+f("rounds","Rodadas") : f("sec","Rest (seg)"); }
-function tmrHTML(m){ const btns=Object.entries(TM_MODES).map(([k,v])=>`<button class="tmb ${tmrEd&&tmrEd.sid===m.id&&tmrEd.mode===k?"on":""}" style="--tc:${v.c}" data-tmopen="${k}">${v.n}</button>`).join("");
+function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v])=>`<button class="tmb ${tmrEd&&tmrEd.sid===m.id&&tmrEd.mode===k?"on":""}" style="--tc:${v.c}" data-tmopen="${k}">${v.mine?"★ ":""}${esc(v.n)}</button>`).join("")+`<button class="tmb tmnew" data-tmnew>＋ CRIAR</button>`;
   let ed=""; if(tmrEd&&tmrEd.sid===m.id){ const mode=tmrEd.mode, c=tmCfg(mode);
-    const body= mode==="mix"? (()=>{ const B=c.blocks||[]; const OPT=[["amrap","AMRAP"],["fortime","Por tempo"],["emom","EMOM"],["tabata","Tabata"]];
+    const body= String(mode).startsWith("c_")? `<div class="tmf tmv tmmine"><label class="tmnm">Nome<input class="inp" data-tmname value="${esc(c.n||"")}" placeholder="ex.: Séries do supino"></label><label>Séries/rodadas<input class="inp tmn" type="number" inputmode="numeric" min="1" data-tmk="rounds" value="${esc(String(c.rounds??""))}"></label><label>Trabalho (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmk="work" value="${tmN(c.work)?esc(String(c.work)):""}" placeholder="livre"></label><label>Rest/descanso (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmk="rest" value="${esc(String(c.rest??""))}"></label></div>
+      <p class="muted" style="font-size:12px;margin:0">Trabalho vazio = tempo livre: o aluno faz a série no ritmo dele e você toca <b>✔</b> quando terminar; aí o descanso conta sozinho.</p><button class="btn small ${armAct&&armAct.sid===m.id&&armAct.k==="tmdel"+String(mode).slice(2)?"danger":"ghost"}" data-tmdelmine style="justify-self:start">${armAct&&armAct.sid===m.id&&armAct.k==="tmdel"+String(mode).slice(2)?"Toque de novo para apagar":"Apagar este cronômetro"}</button>`
+      : mode==="mix"? (()=>{ const B=c.blocks||[]; const OPT=[["amrap","AMRAP"],["fortime","Por tempo"],["emom","EMOM"],["tabata","Tabata"]];
       const plus=i=>`<button class="tmstrip tmplus" data-tmadd="rest|${i}" title="Pôr rest aqui"><b>+</b><span>REST</span></button>`;
       return `<div class="tmrow">${B.map((b,i)=> b.t==="rest"
         ? `<div class="tmstrip"><span>REST</span><input class="inp tmn tms" type="number" inputmode="numeric" min="0" data-tmb="${i}" data-k="sec" value="${esc(String(b.sec??""))}" aria-label="Rest (seg)"><small>seg</small><button class="tmsx" data-tmdel="${i}" aria-label="Tirar rest">✕</button></div>`
@@ -3729,13 +3735,13 @@ function tmrHTML(m){ const btns=Object.entries(TM_MODES).map(([k,v])=>`<button c
         return `<div class="tmrow">${col(c,"data-tmk",more.length?"Tempo 1":"",null)}${more.map((b,i)=>`<div class="tmstrip" title="Rest entre os tempos"><span>REST</span><input class="inp tmn tms" type="number" inputmode="numeric" min="0" data-tmm="${i}" data-k="rb" value="${tmN(b.rb)?esc(String(b.rb)):""}" placeholder="0" aria-label="Rest antes do tempo ${i+2} (seg)"><small>seg</small></div>${col(b,`data-tmm="${i}" data-k`,"Tempo "+(i+2),i)}`).join("")}<button class="tmaddt" data-tmmore>+ Adicionar tempo</button></div>`; })();
     const right="";
     const live=`<div class="tmlive" id="tmlive-${m.id}">${tmLiveHTML()}</div>`;
-    ed=`<div class="tmed" style="--tc:${TM_MODES[mode].c}"><b>${TM_MODES[mode].n}</b>${body}
+    ed=`<div class="tmed" style="--tc:${(MM[mode]||{c:"#444"}).c}"><b>${esc((MM[mode]||{n:""}).n)}</b>${body}
       <div class="tmf ${mode==="mix"?"":"tmv"}"><label>Preparação (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmprep value="${esc(String(S.tmr.prep))}"></label></div>
-      <p class="muted tmsum">${esc(tmSummary(mode))} · total ${tmFmt(tmTotal(mode))}</p>${live}
+      <p class="muted tmsum">${esc(tmSummary(mode))}${tmSeq(mode).some(z=>z.k==="man")?"":` · total ${tmFmt(tmTotal(mode))}`}</p>${live}
       <div class="row"><button class="btn primary" data-tmgo>▶ Iniciar</button><button class="btn small ghost" data-tmopen="${mode}">Fechar</button></div></div>`; }
   return `<div class="tmbox"><span class="xc2-h">Cronômetro</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
 function tmLiveHTML(){ if(!TMR) return `<span class="tml-idle">⏱ o tempo aparece aqui</span>`;
-  const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)]; const l=tmLeft(); const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : x.k==="up"? tmFmt(x.d-l) : tmFmt(l);
+  const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)]; const l=tmLeft(); const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : (x.k==="up"||x.k==="man")? tmFmt(x.d-l) : tmFmt(l);
   return `<div class="tml" style="--lc:${TMR.done||x.k==="rest"?"#2F8F5B":x.c}"><small>${TMR.done?"Fim!":esc(x.lab)}${!TMR.done&&x.r?` ${x.r}/${x.of}`:""}${!TMR.done&&x.set?` · ${x.set}`:""}</small><b>${shown}</b>${TMR.seq.some(z=>z.cnt)?`<small>rodadas: ${TMR.rounds}</small>`:""}</div>`; }
 function tone(f,d,v){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); const o=AC.createOscillator(),g=AC.createGain(); o.type="square"; o.frequency.value=f; const t=AC.currentTime; g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v||0.3,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+d); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+d+0.02); }catch(e){} }
 function tmStart(mode,sid){ const seq=tmSeq(mode); if(!seq.length){ toast("Configure o tempo primeiro"); return; }
@@ -3745,29 +3751,29 @@ function tmNext(){ if(!TMR) return; const cur=TMR.seq[TMR.i]; TMR.i++; if(TMR.i>
   const x=TMR.seq[TMR.i]; TMR.end=Date.now()+x.d*1000; TMR.st=Date.now(); TMR.beeped={}; tone(x.k==="rest"?660:1320,0.45); tmRender(); }
 function tmLeft(){ if(!TMR) return 0; return TMR.paused? TMR.left : (TMR.end-Date.now())/1000; }
 function tmTick(){ if(!TMR||TMR.paused||TMR.done) return; const l=tmLeft(); const sec=Math.ceil(l);
-  if(sec<=3&&sec>=1&&!TMR.beeped[sec]){ TMR.beeped[sec]=1; tone(880,0.15); }
+  if(TMR.seq[TMR.i]&&TMR.seq[TMR.i].k==="man"){ tmRender(true); return; } if(sec<=3&&sec>=1&&!TMR.beeped[sec]){ TMR.beeped[sec]=1; tone(880,0.15); }
   if(l<=0){ tmNext(); return; } tmRender(true); }
 function tmRender(fast){ document.querySelectorAll(".tmlive").forEach(z=>z.innerHTML=tmLiveHTML()); let el=document.getElementById("tmrbar"); if(!TMR){ if(el) el.remove(); return; }
   if(!el){ el=document.createElement("div"); el.id="tmrbar"; el.className="tmrbar"; document.body.appendChild(el);
     el.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||!TMR) return; const a=b.dataset.tma;
       if(a==="pause"){ if(TMR.paused){ TMR.end=Date.now()+TMR.left*1000; if(TMR.seq[TMR.i]&&TMR.seq[TMR.i].k==="up") TMR.st=Date.now()-(TMR.seq[TMR.i].d-TMR.left)*1000; TMR.paused=false; } else { TMR.left=tmLeft(); TMR.paused=true; } }
       else if(a==="skip"){ tmNext(); return; }
-      else if(a==="done"){ const x=TMR.seq[TMR.i]; if(x&&x.k==="up"){ TMR.fin=(Date.now()-TMR.st)/1000; TMR.done=true; beep(); clearInterval(TMR_I); } }
+      else if(a==="done"){ const x=TMR.seq[TMR.i]; if(x&&x.k==="man"){ tmNext(); return; } if(x&&x.k==="up"){ TMR.fin=(Date.now()-TMR.st)/1000; TMR.done=true; beep(); clearInterval(TMR_I); } }
       else if(a==="rnd"){ TMR.rounds++; }
       else if(a==="rndm"){ TMR.rounds=Math.max(0,TMR.rounds-1); }
       else if(a==="min"){ TMR.min=!TMR.min; }
       else if(a==="stop"){ clearInterval(TMR_I); TMR=null; tmRender(); return; }
       tmRender(); }); }
   const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)], nx=TMR.seq[TMR.i+1];
-  const l=tmLeft(); const up=x.k==="up"; const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : up? tmFmt(x.d-l) : tmFmt(l);
+  const l=tmLeft(); const up=x.k==="up"||x.k==="man"; const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : up? tmFmt(x.d-l) : tmFmt(l);
   const col= TMR.done? "#2F8F5B" : x.k==="rest"? "#2F8F5B" : x.c;
   el.style.setProperty("--tc",col);
   const t=el.querySelector(".tm-t"); if(fast&&t&&!TMR.min===!el.classList.contains("min")){ t.textContent=shown; return; }
   el.classList.toggle("min",!!TMR.min);
   const cnt= TMR.seq.some(z=>z.cnt);
   el.innerHTML= TMR.min? `<button class="tm-pill" data-tma="min"><span class="tm-t">${shown}</span> ${esc(TMR.done?"Fim":x.lab)}</button>`
-   : `<div class="tm-l"><b>${TMR.done?"Fim! 🎉":esc(x.lab)}${!TMR.done&&x.r?` <small>${x.r}/${x.of}</small>`:""}${!TMR.done&&x.set?` <small>· ${x.set}</small>`:""}</b><span class="tm-t">${shown}</span><small>${TMR.done? (TMR.fin?"tempo final":"") : nx? `Próximo: ${esc(nx.lab)} ${tmFmt(nx.d)}` : "Último"}${cnt?` · rodadas: <b>${TMR.rounds}</b>`:""}</small></div>
-    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="Terminou">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
+   : `<div class="tm-l"><b>${TMR.done?"Fim! 🎉":esc(x.lab)}${!TMR.done&&x.r?` <small>${x.r}/${x.of}</small>`:""}${!TMR.done&&x.set?` <small>· ${x.set}</small>`:""}</b><span class="tm-t">${shown}</span><small>${TMR.done? (TMR.fin?"tempo final":"") : nx? `Próximo: ${esc(nx.lab)} ${nx.k==="man"?"(livre)":tmFmt(nx.d)}` : "Último"}${cnt?` · rodadas: <b>${TMR.rounds}</b>`:""}</small></div>
+    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="${x.k==="man"?"Terminei a série":"Terminou"}">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
 function colHTML(m,w,ms){
   const d=dayOf(w.id,m.id,S.day,true); const dRaw=d; const T=totDay(d); const st=A();
   const planSe=(planOf(m)||{sessions:[]}).sessions.filter(se=>se.day===S.day);
@@ -3963,6 +3969,8 @@ function sesClick(e){
     const last=S.weeks[S.weeks.length-1]; const nw={id:nid(),n:last.n+1,start:addDays(last.start,7)};
     if(v==="copy"){ const src=S.days[last.id]||{}; const dst=S.days[nw.id]={}; Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); }); }
     S.weeks.push(nw); S.week=nw.id; armNewWeek=false; rer(); toast(`Semana ${nw.n} criada`); return; }
+  if(b.hasAttribute("data-tmnew")){ S.tmMine=tmMineL().concat([{id:nid(),n:"Meu cronômetro",rounds:3,work:0,rest:60}]); const c=S.tmMine[S.tmMine.length-1]; tmrEd={sid,mode:"c_"+c.id}; save(); renderSessao(); setTimeout(()=>{ const x=document.querySelector("[data-tmname]"); if(x){ x.focus(); x.select(); } },60); return; }
+  if(b.hasAttribute("data-tmdelmine")){ if(!tmrEd) return; const id=String(tmrEd.mode).slice(2); if(!(armAct&&armAct.k==="tmdel"+id&&armAct.sid===sid)){ armAct={k:"tmdel"+id,sid}; renderSessao(); return; } armAct=null; S.tmMine=tmMineL().filter(c=>c.id!==id); tmrEd=null; save(); renderSessao(); toast("Cronômetro apagado"); return; }
   if(b.dataset.tmopen){ tmrEd= tmrEd&&tmrEd.sid===sid&&tmrEd.mode===b.dataset.tmopen? null : {sid,mode:b.dataset.tmopen}; if(tmrEd) tmCfg(tmrEd.mode); renderSessao(); return; }
   if(b.dataset.tmadd){ const [t,pos]=b.dataset.tmadd.split("|"); const c=tmCfg("mix"); const nb=t==="rest"?{t,sec:60}:Object.assign({t},JSON.parse(JSON.stringify(TM_DEF[t]))); if(pos==="end") c.blocks.push(nb); else c.blocks.splice(+pos,0,nb); save(); renderSessao(); return; }
   if(b.hasAttribute("data-tmmore")){ const c=tmCfg(tmrEd.mode); c.more=c.more||[]; const base=JSON.parse(JSON.stringify(TM_DEF[tmrEd.mode])); base.rb=0; base.reps=1; base.rrest=60; c.more.push(base); save(); renderSessao(); return; }
@@ -3970,7 +3978,7 @@ function sesClick(e){
   if(b.dataset.tmdel!=null){ const c=tmCfg("mix"); c.blocks.splice(+b.dataset.tmdel,1); save(); renderSessao(); return; }
   if(b.dataset.tmmv){ const [i,dv]=b.dataset.tmmv.split("|").map(Number); const c=tmCfg("mix"); const j=i+dv; if(c.blocks[j]){ [c.blocks[i],c.blocks[j]]=[c.blocks[j],c.blocks[i]]; save(); renderSessao(); } return; }
   if(b.hasAttribute("data-tmgo")){ const mode=tmrEd.mode; const d=dayOf(w.id,sid,S.day,true); const W=wodOf(d);
-    const TP={amrap:"AMRAP",fortime:"For Time",emom:"EMOM",tabata:"Tabata",mix:"Circuito"}; if(!W.tipo) W.tipo=TP[mode]; if(!String(W.desc||"").trim()||W._auto){ W.desc=tmSummary(mode); W._auto=1; }
+    const TP={amrap:"AMRAP",fortime:"For Time",emom:"EMOM",tabata:"Tabata",mix:"Circuito"}; if(!W.tipo) W.tipo=TP[mode]||"Outro"; if(!String(W.desc||"").trim()||W._auto){ W.desc=tmSummary(mode); W._auto=1; }
     if(!num(d.cardio.t)) d.cardio.t=String(Math.max(1,Math.round(tmTotal(mode)/60))); save(); renderSessao(); tmStart(mode,sid); markStart(sid); autoPres(sid); return; }
   if(b.hasAttribute("data-ltrundo")){ const k=w.id+"|"+sid+"|"+S.day, o=LTR_UNDO[k]; if(o){ S.days[w.id][sid][S.day]=o; delete LTR_UNDO[k]; save(); renderSessao(); toast("Exercícios anteriores de volta"); } return; }
   if(b.hasAttribute("data-ltrundox")){ delete LTR_UNDO[w.id+"|"+sid+"|"+S.day]; renderSessao(); return; }
@@ -4146,6 +4154,7 @@ document.getElementById("view-sessao").addEventListener("change",e=>{ const t=e.
   if(t.hasAttribute("data-semf")||t.hasAttribute("data-semt")||t.hasAttribute("data-cmpa")||t.hasAttribute("data-cmpb")){ if(t.hasAttribute("data-semf")) semV.from=t.value; if(t.hasAttribute("data-semt")) semV.to=t.value; if(t.hasAttribute("data-cmpa")) semV.a=t.value; if(t.hasAttribute("data-cmpb")) semV.b=t.value; renderSessao(); return; }
   if(tmrEd&&t.hasAttribute("data-tmprot")){ tmCfg(tmrEd.mode).prot=t.value; save(); return; }
   if(tmrEd&&t.dataset.tmm!=null){ const c=tmCfg(tmrEd.mode); const bb=(c.more||[])[+t.dataset.tmm]; if(bb){ bb[t.dataset.k]=tmN(t.value); save(); renderSessao(); } return; }
+  if(tmrEd&&t.hasAttribute("data-tmname")){ if(e.type!=="change") return; const c=tmCfg(tmrEd.mode); c.n=String(t.value).trim()||"Meu cronômetro"; save(); renderSessao(); return; }
   if(tmrEd&&(t.dataset.tmk||t.dataset.tmb!=null||t.dataset.tmbt!=null||t.hasAttribute("data-tmprep"))){ const c=tmCfg(tmrEd.mode);
     if(t.hasAttribute("data-tmprep")) S.tmr.prep=tmN(t.value);
     else if(t.dataset.tmk) c[t.dataset.tmk]=tmN(t.value);
