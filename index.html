@@ -1751,7 +1751,9 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
     salvarPerfil({nome:n,telefone:t,aceiteTermos:TERMOS_V,aceiteEm:new Date().toISOString(),redes:Object.assign({},(PERFIL&&PERFIL.redes)||{},{instagram:$("rpPIg").value.trim(),site:$("rpPSite").value.trim()})}).then(function(){ btn.disabled=false; msg(""); startApp(ME); }); };
   $("rpPOut").onclick=function(){ auth.signOut().then(function(){ location.reload(); }); };
 
+  var supCarregado=function(){ fs.doc("config/suporte").get().then(function(d){ if(!d.exists) return; var c=d.data()||{}; if(c.whatsapp) RP_SUP_WA=String(c.whatsapp).replace(/\D/g,""); if(c.email) RP_CONTATO=c.email; }).catch(function(){}); };
   auth.onAuthStateChanged(function(u){
+    if(u) supCarregado();
     if(!u){ $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; return; }
     if(started) return; ME=u;
     PERFIL=cacheGet();

@@ -65,7 +65,7 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
   var status=function(c){ var n=dias(c.ultimoAcesso); if(n==null) return ["bad","Sem acesso registrado"]; if(n<=7) return ["ok","Ativo"]; if(n<=21) return ["warn","Esfriando"]; return ["bad","Parado"]; };
   var wa=function(t){ var d=String(t||"").replace(/\D/g,""); if(!d) return ""; if(d.length<=11) d="55"+d; return "https://wa.me/"+d; };
   var ig=function(h){ h=String(h||"").trim(); if(!h) return ""; if(/^https?:/.test(h)) return h; return "https://instagram.com/"+h.replace(/^@/,""); };
-  var L=[], AC={}, CV=[], filtro="", ordem="acesso", novoLink=null;
+  var L=[], AC={}, CV=[], SUP={}, filtro="", ordem="acesso", novoLink=null, meOpen=false, ME=null, meMsgT="";
   var tsMs=function(v){ if(v==null) return null; if(v.toMillis) return v.toMillis(); if(v.seconds!=null) return v.seconds*1000; var t=Date.parse(v); return isNaN(t)?null:t; };
   var dBR=function(ms){ return new Date(ms).toLocaleDateString("pt-BR"); };
   var acInfo=function(uid){ if(uid===ADMIN) return ["ok","Administrador"]; var a=AC[uid]; if(!a) return ["warn","Aguardando liberação"]; if(a.status==="bloqueado") return ["bad","Bloqueado"];
@@ -77,7 +77,7 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
   function codigo(){ var a="abcdefghjkmnpqrstuvwxyz23456789", r=""; var b=new Uint8Array(8); crypto.getRandomValues(b); for(var i=0;i<8;i++) r+=a[b[i]%a.length]; return r; }
   var linkDe=function(cod){ return location.origin+location.pathname.replace(/admin\.html$/,"")+"?convite="+cod; };
   var waTxt=function(cod,dias){ return "Olá! Liberei seu acesso ao *Rotina do Personal*, o sistema de treinos, presença e financeiro que eu uso com meus alunos."+(+dias?" Você tem "+dias+" dias para usar.":"")+"\n\nCrie sua conta por este link:\n"+linkDe(cod); };
-  function render(){
+  function render(){ var ae=document.activeElement; if(meOpen&&ae&&ae.tagName==="INPUT"&&/^me/.test(ae.id||"")){ render._late=true; ae.onblur=function(){ if(render._late){ render._late=false; setTimeout(render,50); } }; return; }
     var q=filtro.toLowerCase();
     var R=L.filter(function(c){ return !q||[c.nome,c.email,c.telefone,(c.redes||{}).instagram].join(" ").toLowerCase().indexOf(q)>=0; });
     R.sort(function(a,b){ if(ordem==="pend") return (pend(b)?1:0)-(pend(a)?1:0)||String(b.criadoEm||"").localeCompare(String(a.criadoEm||"")); if(ordem==="nome") return String(a.nome||"").localeCompare(String(b.nome||""),"pt-BR"); if(ordem==="cadastro") return String(b.criadoEm||"").localeCompare(String(a.criadoEm||"")); return String(b.ultimoAcesso||"").localeCompare(String(a.ultimoAcesso||"")); });
@@ -85,13 +85,28 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
     var nov=L.filter(function(c){ var n=dias(c.criadoEm); return n!=null&&n<=30; }).length;
     var al=L.reduce(function(s,c){ return s+(+c.nAlunos||0); },0);
     var np=L.filter(pend).length, cvl=CV.filter(function(c){ return !c.usado; });
-    app.innerHTML='<div class="kpis"><div class="kpi"><b>'+L.length+'</b><span>Personais cadastrados</span></div><div class="kpi"><b>'+at+'</b><span>Ativos (últimos 7 dias)</span></div><div class="kpi"><b>'+nov+'</b><span>Novos (30 dias)</span></div><div class="kpi"><b>'+al+'</b><span>Alunos cadastrados no total</span></div><div class="kpi"><b>'+np+'</b><span>Aguardando liberação</span></div></div>'+
-      '<div class="box"><h2>✉️ Criar convite</h2><div class="row"><select id="cvD"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30" selected>30 dias</option><option value="60">60 dias</option><option value="90">90 dias</option><option value="180">6 meses</option><option value="365">1 ano</option><option value="0">Sem prazo</option></select><input id="cvN" placeholder="Para quem (opcional)" style="flex:1;min-width:140px"><button class="btn" id="cvGo">Criar convite</button></div>'+
+    var me=L.find(function(x){ return x.uid===ADMIN; })||{}, mr=me.redes||{}, isPw=ME&&(ME.providerData||[]).some(function(x){ return x.providerId==="password"; });
+    var meH='<div class="box"><div class="row" style="justify-content:space-between"><h2>👤 Meus dados e contato de suporte</h2><button class="btn g sm" id="meT">'+(meOpen?'Fechar':'Editar')+'</button></div>'+
+      (meOpen? '<div style="display:grid;gap:8px">'+
+        '<label class="mut">Nome<input id="meN" value="'+esc(me.nome||"")+'" style="width:100%"></label>'+
+        '<label class="mut">WhatsApp de suporte (aparece para os colegas)<input id="meW" inputmode="tel" value="'+esc(SUP.whatsapp||me.telefone||"")+'" placeholder="(31) 98826-0268" style="width:100%"></label>'+
+        '<label class="mut">E-mail de suporte (aparece para os colegas)<input id="meE" inputmode="email" value="'+esc(SUP.email||me.emailContato||"")+'" placeholder="seu@email.com" style="width:100%"></label>'+
+        '<label class="mut">Instagram<input id="meI" value="'+esc(mr.instagram||"")+'" placeholder="@seuperfil" style="width:100%"></label>'+
+        '<label class="mut">TikTok<input id="meT2" value="'+esc(mr.tiktok||"")+'" style="width:100%"></label>'+
+        '<label class="mut">Facebook<input id="meF" value="'+esc(mr.facebook||"")+'" style="width:100%"></label>'+
+        '<label class="mut">Site<input id="meS" value="'+esc(mr.site||"")+'" style="width:100%"></label>'+
+        '<button class="btn" id="meSave">Salvar meus dados</button><p class="mut" id="meMsg" style="margin:0">'+esc(meMsgT)+'</p>'+
+        '<h2 style="margin-top:6px">E-mail de login</h2><p class="mut" style="margin:0">Atual: <b>'+esc(ME&&ME.email||"")+'</b></p>'+
+        (isPw? '<input id="meL" inputmode="email" placeholder="Novo e-mail de login" style="width:100%"><input id="meP" type="password" placeholder="Sua senha atual" style="width:100%"><button class="btn g" id="meLGo">Alterar e-mail de login</button><p class="mut" id="meLMsg" style="margin:0">Chega um link no novo e-mail; a troca vale depois que você tocar nele.</p>'
+          : '<p class="mut" style="margin:0">Você entra com o Google: o e-mail de login é o da sua conta Google.</p>')+'</div>'
+      : '<p class="mut" style="margin:0">'+esc(me.nome||"")+(SUP.whatsapp?' · 💬 '+esc(SUP.whatsapp):'')+(SUP.email?' · ✉️ '+esc(SUP.email):'')+(mr.instagram?' · 📷 '+esc(mr.instagram):'')+'</p>')+'</div>';
+    app.innerHTML=meH+'<div class="kpis"><div class="kpi"><b>'+L.length+'</b><span>Personais cadastrados</span></div><div class="kpi"><b>'+at+'</b><span>Ativos (últimos 7 dias)</span></div><div class="kpi"><b>'+nov+'</b><span>Novos (30 dias)</span></div><div class="kpi"><b>'+al+'</b><span>Alunos cadastrados no total</span></div><div class="kpi"><b>'+np+'</b><span>Aguardando liberação</span></div></div>'+
+      '<div class="box"><h2>✉️ Criar convite</h2><div class="row"><select id="cvD"><option value="7">7 dias</option><option value="15">15 dias</option><option value="30" selected>30 dias</option><option value="60">60 dias</option><option value="90">90 dias</option><option value="180">6 meses</option><option value="365">1 ano</option><option value="0">Sem prazo</option></select><input id="cvN" placeholder="Para quem (nome do colega)" style="flex:1;min-width:140px"><button class="btn" id="cvGo">Criar convite</button></div>'+
         (novoLink?'<div class="lnk">'+esc(linkDe(novoLink.c))+'</div><div class="row"><button class="btn g" id="cvCp">Copiar link</button><a class="btn wa" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(waTxt(novoLink.c,novoLink.d))+'" style="text-decoration:none">Enviar no WhatsApp</a></div>':'')+
         '<p class="mut" style="margin:0">Cada link vale para <b>uma</b> pessoa. Quem entrar por ele já fica liberado pelo prazo escolhido.</p>'+
-        (CV.length?'<details><summary>Convites ('+cvl.length+' disponíveis, '+(CV.length-cvl.length)+' usados)</summary>'+CV.slice().sort(function(a,b){ return (tsMs(b.criadoEm)||0)-(tsMs(a.criadoEm)||0); }).map(function(c){ var u=c.usado? (L.find(function(x){ return x.uid===c.usadoPor; })||{}).nome||"alguém" : "";
-          return '<div class="cv"><span>'+(c.nome?'<b>'+esc(c.nome)+'</b> · ':'')+(+c.dias?c.dias+' dias':'sem prazo')+' · '+(c.usado?'<span class="ac ok">usado por '+esc(u)+'</span>':'<span class="ac warn">disponível</span>')+'</span>'+(c.usado?'':'<span><button class="btn g sm" data-cvcp="'+esc(c.id)+'">Copiar</button> <button class="btn red sm" data-cvdel="'+esc(c.id)+'">Apagar</button></span>')+'</div>'; }).join("")+'</details>':'')+
       '</div>'+
+      '<div class="box"><h2>📨 Convites enviados ('+CV.length+')</h2>'+(CV.length? CV.slice().sort(function(a,b){ return (a.usado?1:0)-(b.usado?1:0)||(tsMs(b.criadoEm)||0)-(tsMs(a.criadoEm)||0); }).map(function(c){ var u=c.usado? (L.find(function(x){ return x.uid===c.usadoPor; })||{}).nome||"(sem nome)" : "";
+          return '<div class="cv"><span><b>'+esc(c.nome||"Sem nome")+'</b><br><span class="mut">'+(tsMs(c.criadoEm)?'criado em '+dBR(tsMs(c.criadoEm))+' · ':'')+(+c.dias?c.dias+' dias':'sem prazo')+(c.enviadoEm&&!c.usado?' · enviado '+dBR(tsMs(c.enviadoEm)):'')+'</span><br>'+(c.usado?'<span class="ac ok">✓ Entrou como '+esc(u)+(tsMs(c.usadoEm)?' em '+dBR(tsMs(c.usadoEm)):'')+'</span>':'<span class="ac warn">⏳ Aguardando a pessoa criar a conta</span>')+'</span>'+(c.usado?'':'<span style="display:grid;gap:4px"><a class="btn wa sm" target="_blank" rel="noopener" data-cvwa="'+esc(c.id)+'" href="https://wa.me/?text='+encodeURIComponent(waTxt(c.id,c.dias))+'" style="text-decoration:none;text-align:center">WhatsApp</a><button class="btn g sm" data-cvcp="'+esc(c.id)+'">Copiar</button><button class="btn red sm" data-cvdel="'+esc(c.id)+'">Apagar</button></span>')+'</div>'; }).join("") : '<p class="mut" style="margin:0">Nenhum convite ainda.</p>')+'</div>'+
       '<div class="bar"><input id="q" placeholder="Buscar nome, e-mail, telefone…" value="'+esc(filtro)+'"><select id="o"><option value="acesso">Último acesso</option><option value="cadastro">Mais recentes</option><option value="nome">Nome A–Z</option><option value="pend">Aguardando liberação</option></select><button class="btn g" id="cp">Copiar lista</button><button class="btn g" id="out">Sair</button></div>'+
       '<div class="list">'+(R.length? R.map(function(c){ var st=status(c), r=c.redes||{}, w=wa(c.telefone), i=ig(r.instagram);
         return '<div class="it"><div class="top"><span class="nm">'+esc(c.nome||"(sem nome)")+'</span><span class="tag '+st[0]+'">'+st[1]+'</span></div>'+
@@ -100,11 +115,27 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
           '<div class="ac '+acInfo(c.uid)[0]+'">🔑 '+esc(acInfo(c.uid)[1])+'</div>'+(c.uid===ADMIN?'':'<div class="acs"><button class="btn sm" data-lib="'+c.uid+'|30">+30 dias</button><button class="btn sm" data-lib="'+c.uid+'|90">+90 dias</button><button class="btn sm" data-lib="'+c.uid+'|365">+1 ano</button><button class="btn g sm" data-lib="'+c.uid+'|0">Sem prazo</button>'+((AC[c.uid]||{}).status==="bloqueado"?'':'<button class="btn red sm" data-blq="'+c.uid+'">Bloquear</button>')+'</div>')+
           '<div class="links">'+(w?'<a href="'+w+'" target="_blank" rel="noopener">💬 '+esc(c.telefone)+'</a>':'')+(i?'<a href="'+esc(i)+'" target="_blank" rel="noopener">📷 '+esc(r.instagram)+'</a>':'')+(r.tiktok?'<span class="mut">TikTok: '+esc(r.tiktok)+'</span>':'')+(r.facebook?'<span class="mut">Facebook: '+esc(r.facebook)+'</span>':'')+(r.site?'<span class="mut">'+esc(r.site)+'</span>':'')+'</div></div>'; }).join("") : '<p class="msg">Nenhum cadastro encontrado.</p>')+'</div>';
     document.getElementById("o").value=ordem;
-    document.getElementById("cvGo").onclick=function(){ var d=+document.getElementById("cvD").value, n=document.getElementById("cvN").value.trim(), c=codigo(), b=this; b.disabled=true;
+    document.getElementById("meT").onclick=function(){ meOpen=!meOpen; render(); };
+    var ms=document.getElementById("meSave"); if(ms) ms.onclick=function(){ var g=function(id){ return document.getElementById(id).value.trim(); }, m=document.getElementById("meMsg");
+      var wd=g("meW").replace(/\D/g,""); if(wd&&wd.length<10){ m.textContent="WhatsApp com DDD, por favor."; return; } if(wd&&wd.length<=11) wd="55"+wd;
+      m.textContent="Salvando…";
+      Promise.all([ fs.doc("cadastros/"+ADMIN).set({nome:g("meN"),telefone:g("meW"),emailContato:g("meE"),redes:{instagram:g("meI"),tiktok:g("meT2"),facebook:g("meF"),site:g("meS")},atualizadoEm:new Date().toISOString()},{merge:true}),
+        fs.doc("config/suporte").set({whatsapp:wd,whatsappTxt:g("meW"),email:g("meE")},{merge:true}) ])
+        .then(function(){ meMsgT="Salvo ✓"; m.textContent=meMsgT; setTimeout(function(){ meMsgT=""; },4000); }).catch(function(e){ m.textContent="Não salvou ("+((e&&e.code)||"erro")+"). Confira se as regras novas foram publicadas."; }); };
+    var ml=document.getElementById("meLGo"); if(ml) ml.onclick=function(){ var e=document.getElementById("meL").value.trim(), pw=document.getElementById("meP").value, m=document.getElementById("meLMsg");
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){ m.textContent="Digite o novo e-mail."; return; } m.textContent="Enviando…";
+      ME.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(ME.email,pw)).then(function(){ return ME.verifyBeforeUpdateEmail(e); })
+        .then(function(){ m.textContent="Pronto! Abra o e-mail enviado para "+e+" e toque no link (veja o spam)."; })
+        .catch(function(x){ m.textContent= x&&(x.code==="auth/wrong-password"||x.code==="auth/invalid-credential")? "Senha incorreta." : x&&x.code==="auth/email-already-in-use"? "Esse e-mail já é usado por outra conta." : "Não deu certo ("+((x&&x.code)||"erro")+")."; }); };
+    document.getElementById("cvGo").onclick=function(){ var d=+document.getElementById("cvD").value, n=document.getElementById("cvN").value.trim(), c=codigo(), b=this;
+      if(!n){ document.getElementById("cvN").focus(); document.getElementById("cvN").placeholder="Digite o nome para saber para quem enviou"; return; } b.disabled=true;
       fs.doc("convites/"+c).set({dias:d,nome:n,usado:false,criadoEm:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){ novoLink={c:c,d:d}; render(); }).catch(function(e){ alert("Não criou o convite ("+((e&&e.code)||"erro")+"). Confira se as regras novas foram publicadas."); b.disabled=false; }); };
     var cp=function(t,b){ (navigator.clipboard? navigator.clipboard.writeText(t) : Promise.reject()).then(function(){ b.textContent="Copiado ✓"; }).catch(function(){ prompt("Copie:",t); }); };
-    var cc=document.getElementById("cvCp"); if(cc) cc.onclick=function(){ cp(linkDe(novoLink.c),this); };
-    app.querySelectorAll("[data-cvcp]").forEach(function(b){ b.onclick=function(){ var c=CV.find(function(x){ return x.id===b.dataset.cvcp; }); cp(waTxt(c.id,c.dias),b); }; });
+    var marca=function(id){ fs.doc("convites/"+id).set({enviadoEm:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}).catch(function(){}); };
+    var cc=document.getElementById("cvCp"); if(cc) cc.onclick=function(){ cp(linkDe(novoLink.c),this); marca(novoLink.c); };
+    var nw=app.querySelector(".box a.btn.wa:not([data-cvwa])"); if(nw&&novoLink) nw.addEventListener("click",function(){ marca(novoLink.c); });
+    app.querySelectorAll("[data-cvwa]").forEach(function(a){ a.addEventListener("click",function(){ marca(a.dataset.cvwa); }); });
+    app.querySelectorAll("[data-cvcp]").forEach(function(b){ b.onclick=function(){ var c=CV.find(function(x){ return x.id===b.dataset.cvcp; }); cp(waTxt(c.id,c.dias),b); marca(c.id); }; });
     app.querySelectorAll("[data-cvdel]").forEach(function(b){ b.onclick=function(){ if(b.dataset.ok){ fs.doc("convites/"+b.dataset.cvdel).delete(); } else { b.dataset.ok=1; b.textContent="Confirmar?"; } }; });
     app.querySelectorAll("[data-lib]").forEach(function(b){ b.onclick=function(){ var p=b.dataset.lib.split("|"); b.disabled=true; liberar(p[0],+p[1]).catch(function(e){ alert("Não liberou ("+((e&&e.code)||"erro")+")."); b.disabled=false; }); }; });
     app.querySelectorAll("[data-blq]").forEach(function(b){ b.onclick=function(){ if(!b.dataset.ok){ b.dataset.ok=1; b.textContent="Confirmar bloqueio?"; return; } fs.doc("acessos/"+b.dataset.blq).set({status:"bloqueado",atualizadoEm:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); }; });
@@ -117,6 +148,7 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
   auth.onAuthStateChanged(function(u){
     if(!u){ app.innerHTML='<div class="login"><p class="mut">Entre primeiro no sistema com a conta de administrador.</p><a class="btn" href="./" style="display:inline-block;text-decoration:none">Ir para o login</a></div>'; return; }
     if(u.uid!==ADMIN){ app.innerHTML='<p class="msg">Esta página é só para o administrador.</p>'; return; }
+    ME=u; fs.doc("config/suporte").onSnapshot(function(d){ SUP=d.exists? d.data() : {}; if(L.length) render(); },function(){});
     fs.collection("acessos").onSnapshot(function(qs){ AC={}; qs.docs.forEach(function(d){ AC[d.id]=d.data(); }); if(L.length) render(); },function(){});
     fs.collection("convites").onSnapshot(function(qs){ CV=qs.docs.map(function(d){ return Object.assign({id:d.id},d.data()); }); if(L.length) render(); },function(){});
     fs.collection("cadastros").onSnapshot(function(qs){ L=qs.docs.map(function(d){ return Object.assign({uid:d.id},d.data()); }); render(); },
