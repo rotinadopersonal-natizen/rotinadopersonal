@@ -2799,7 +2799,7 @@ const sub=(s="",r="",c="")=>({s,r,c});
 const newRow=()=>({id:nid(),conj:false,n1:"",n2:"",reg:null,a:sub(),b:sub()});
 function emptyDay(){ return {rows:Array.from({length:START_ROWS},newRow),cardio:{t:"",z:"",tipo:"",pse:"",v:""},wod:{tipo:"",t:"",desc:""}}; }
 const WOD_TIPOS=["Contínuo","Intervalado","Tiro","Tabata","EMOM","AMRAP","On/Off","For Time","Circuito","Volta à calma (recuperação ativa)","Outro"];
-const CARDIO_T=["Corrida","Remo","Elíptico","Bike","Natação","Outros"];
+const CARDIO_T=["Esteira","Corrida na rua","Remo","Elíptico","Bike","Natação","Outros"];
 function wodOf(d){ if(d&&!d.wod) d.wod={tipo:"",t:"",desc:""}; return d? d.wod : {tipo:"",t:"",desc:""}; }
 function normDay(d){
   if(d&&d.rows&&d.rows.some(r=>r.conj)){ const out=[]; d.rows.forEach(r=>{ if(!r.conj){ out.push(r); return; } const p=String(r.n1||"").split("+").map(x=>x.trim());
@@ -3889,7 +3889,7 @@ function renderSessao0(){
   PICK_OPTS=Object.entries(grp).map(([g,l])=>`<optgroup label="${esc(g)}">${l.map(n=>`<option>${esc(n)}</option>`).join("")}</optgroup>`).join("");
   document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
-  <datalist id="cardiolist">${["Esteira","Bike","Spinning","Elíptico","Escada","Remo","Corrida","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
+  <datalist id="cardiolist">${["Esteira","Bike","Spinning","Elíptico","Escada","Remo","Corrida na rua","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
   <div class="card">
     <div class="weeknav">
       <button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button>
