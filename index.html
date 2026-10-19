@@ -1300,6 +1300,16 @@ details.pgcard[open]>summary{margin-bottom:8px}
 .tecpick .tec-rm{color:var(--bad)}
 .tmnew{--tc:transparent;border:2px dashed var(--accent)!important;color:var(--accent)!important;background:transparent!important}.tmmine{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.tmmine .tmnm{grid-column:1/-1}.tmmine .inp{width:100%;min-width:0}
 .xisou{font-size:.78em;letter-spacing:-.3px;white-space:nowrap}
+#weektabs.weektabs{gap:6px!important;padding:3px 8px!important;align-items:center}
+#weektabs.weektabs button{border:1.5px solid var(--line)!important;border-radius:8px!important;background:var(--surface)!important;color:var(--fg)!important;padding:3px 10px!important;font-size:13px!important;font-weight:800!important;margin:2px 0}
+#weektabs.weektabs button small{font-weight:600;font-size:11px;opacity:.75}
+#weektabs.weektabs button[aria-selected="true"]{background:#1e8e3e!important;border-color:#1e8e3e!important;color:#fff!important}
+#weektabs.weektabs button.due{background:#FFE3B3!important;border-color:#E08A00!important;color:#7A4A00!important}
+#weektabs.weektabs button.due[aria-selected="true"]{background:#E08A00!important;color:#fff!important}
+#weektabs.weektabs button.old{opacity:.55}
+#weektabs.weektabs button.wnew,#weektabs.weektabs button.wcfg{border-style:dashed!important;color:var(--accent)!important}
+.wkdet{margin:0 0 10px}.wkdet>summary{cursor:pointer;list-style:none;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:14px}.wkdet[open]>summary{margin-bottom:8px}
+.wkcfg{display:grid;gap:10px}.wkdue{border:1.5px solid #E08A00;background:#FFF3DF;color:#5A3A00;border-radius:12px;padding:10px 12px;display:grid;gap:8px;font-size:14px}
 .tecph{display:block;font-size:11px;color:var(--muted);padding:2px 6px 4px}.tecpick .tec-new{color:var(--accent);font-weight:800}
 .tecmy{display:flex;align-items:stretch}.tecmy>button:first-child{flex:1}.tecpick .tecdel{flex:none;width:30px;color:var(--bad);text-align:center}
 .tecnew{display:grid;gap:6px;padding:6px;border-top:1px solid var(--line);min-width:220px}.tecnew label{display:grid;gap:2px;font-size:11px;font-weight:700;color:var(--muted)}.tecnew input{font-size:14px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0;width:100%}
@@ -1551,6 +1561,14 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .rp-msg{min-height:20px;font-size:14px;margin-top:12px;color:#ff8a80}
 .rp-msg.ok{color:#9be29b}
 .rp-row{display:flex;justify-content:space-between}
+#rpSug{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center}
+#rpSug[hidden]{display:none}
+#rpSug .rp-sheet{max-height:92vh;overflow:auto;background:#fff;color:#222;width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:18px 16px 24px;font-family:system-ui,sans-serif}
+.rp-sug-mic{margin-top:8px;width:100%;padding:12px;border-radius:10px;border:2px solid #1e8e3e;background:#fff;color:#1e8e3e;font-weight:700;font-size:16px;cursor:pointer}
+.rp-sug-mic.on{background:#1e8e3e;color:#fff}
+.rp-sug-go{flex:1;padding:12px;border:0;border-radius:10px;background:#1e8e3e;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
+.rp-sug-x{padding:12px 16px;border:1px solid #ccc;border-radius:10px;background:#fff;color:#222;font-size:16px;cursor:pointer}
+.rp-sug-top{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:10px 14px;border:1.5px dashed #d4a24c;border-radius:12px;background:#fffaf0;color:#6b4a10;font:inherit;font-weight:700;font-size:15px;text-align:left;cursor:pointer}
 #rpAcct{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center}
 #rpAcct[hidden]{display:none}
 .rp-foot{text-align:center;margin-top:22px;font-size:12.5px;color:#8d8778}
@@ -1616,6 +1634,14 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
     <p class="rp-foot"><a href="termos.html" target="_blank" rel="noopener">Termos de uso e privacidade</a></p>
   </div>
 </div>
+<div id="rpSug" hidden><div class="rp-sheet" role="dialog" aria-modal="true" aria-label="Enviar sugestão">
+  <p style="margin:0 0 2px;font-weight:700;font-size:18px">💡 Sugestão ou ideia</p>
+  <p style="margin:0 0 10px;color:#555;font-size:14px">O que podemos melhorar no Rotina do Personal? Escreva ou toque no microfone e fale.</p>
+  <textarea id="rpSugTxt" rows="6" placeholder="Ex.: queria que a agenda mostrasse..." style="width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1px solid #ccc;font-size:16px;font-family:inherit"></textarea>
+  <button type="button" id="rpSugMic" class="rp-sug-mic">🎤 Falar a sugestão</button>
+  <p id="rpSugMsg" style="margin:8px 0 0;font-size:14px;min-height:18px"></p>
+  <div style="display:flex;gap:8px;margin-top:8px"><button type="button" id="rpSugGo" class="rp-sug-go">Enviar</button><button type="button" id="rpSugX" class="rp-sug-x">Fechar</button></div>
+</div></div>
 <div id="rpAcct" hidden><div class="rp-sheet" role="dialog" aria-modal="true" aria-label="Sua conta">
   <p style="margin:0 0 2px;font-weight:700;font-size:18px">Minha conta</p>
   <p id="rpWho" style="margin:0;color:#555;font-size:14px"></p>
@@ -1772,9 +1798,28 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
     $("rpASupMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Suporte Rotina do Personal");
     if(RP_SUP_WA){ $("rpASupWa").href="https://wa.me/"+RP_SUP_WA+"?text="+encodeURIComponent("Olá! Preciso de ajuda com o Rotina do Personal."); $("rpASupWa").style.display=""; } else $("rpASupWa").style.display="none";
     $("rpAcct").hidden=false; }
+  var sugRec=null;
+  function abrirSug(){ $("rpSugMsg").textContent=""; $("rpSug").hidden=false; setTimeout(function(){ $("rpSugTxt").focus(); },50); }
+  $("rpSugX").onclick=function(){ if(sugRec) try{ sugRec.stop(); }catch(e){} $("rpSug").hidden=true; };
+  $("rpSug").addEventListener("click",function(e){ if(e.target===this) $("rpSugX").onclick(); });
+  $("rpSugMic").onclick=function(){ var SR=window.SpeechRecognition||window.webkitSpeechRecognition, btn=this;
+    if(!SR){ $("rpSugMsg").textContent="Este navegador não ouve áudio. Use o microfone do teclado do celular."; return; }
+    if(sugRec){ try{ sugRec.stop(); }catch(e){} return; }
+    var r=new SR(); r.lang="pt-BR"; r.continuous=true; r.interimResults=false; var base=$("rpSugTxt").value.trim();
+    r.onresult=function(ev){ var t=""; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal) t+=ev.results[i][0].transcript; } if(t){ base=(base?base+" ":"")+t.trim(); $("rpSugTxt").value=base; } };
+    r.onend=function(){ sugRec=null; btn.classList.remove("on"); btn.textContent="🎤 Falar a sugestão"; };
+    r.onerror=function(){ $("rpSugMsg").textContent="Não consegui ouvir. Confira a permissão do microfone."; };
+    sugRec=r; btn.classList.add("on"); btn.textContent="⏹ Parar de ouvir"; try{ r.start(); }catch(e){ r.onend(); } };
+  $("rpSugGo").onclick=function(){ var t=$("rpSugTxt").value.trim(), btn=this; if(t.length<3){ $("rpSugMsg").textContent="Escreva ou fale a sugestão primeiro."; return; }
+    if(sugRec) try{ sugRec.stop(); }catch(e){}
+    btn.disabled=true; $("rpSugMsg").textContent="Enviando…";
+    fs.collection("sugestoes").doc(ME.uid+"_"+Date.now()).set({uid:ME.uid,nome:(PERFIL&&PERFIL.nome)||"",email:ME.email||"",telefone:(PERFIL&&PERFIL.telefone)||"",texto:t.slice(0,4000),em:new Date().toISOString()})
+      .then(function(){ btn.disabled=false; $("rpSugTxt").value=""; $("rpSugMsg").textContent="✅ Sugestão enviada. Obrigado!"; })
+      .catch(function(e){ btn.disabled=false; $("rpSugMsg").textContent="Não consegui enviar ("+((e&&e.code)||"erro")+"). Tente de novo mais tarde."; }); };
   function botaoTopo(){ var v=document.getElementById("view-cadastro"); if(!v) return;
     var put=function(){ if(v.querySelector("#rpAcctTop")) return; var b=document.createElement("button"); b.id="rpAcctTop"; b.className="rp-acct-top"; b.type="button";
-      b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild); };
+      b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild);
+      if(!v.querySelector("#rpSugTop")){ var g=document.createElement("button"); g.id="rpSugTop"; g.className="rp-sug-top"; g.type="button"; g.innerHTML='💡 Sugestão ou ideia para o sistema <span style="margin-left:auto">›</span>'; g.onclick=abrirSug; b.after(g); } };
     put(); new MutationObserver(put).observe(v,{childList:true}); }
   function pedirPerfil(u){ $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
     $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); var rr=(PERFIL&&PERFIL.redes)||{}; $("rpPIg").value=rr.instagram||""; $("rpPSite").value=rr.site||""; }
@@ -2988,7 +3033,7 @@ function renderTurnbar(){
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
   wt.hidden=!onW; document.getElementById("wrap").classList.toggle("withweeks",!!onW);
-  if(onW){ wt.innerHTML=S.weeks.map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}">S${w.n} ${ddmm(w.start)}</button>`).join("")+`<button data-wtab="new" aria-label="Nova semana">+</button>`;
+  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
     const on=wt.querySelector('[aria-selected="true"]'); if(on) on.scrollIntoView({inline:"nearest",block:"nearest"}); }
 }
 
@@ -3027,6 +3072,29 @@ function autoWeek(){ const mon=mondayOf(new Date()); let w=S.weeks.find(x=>x.sta
 function fillWeekByLtr(wid){ const W=S.days[wid]||{}; const done=new Set();
   Object.keys(W).forEach(sid=>Object.keys(W[sid]).forEach(dy=>{ done.add(sid+"|"+dy); try{ fillByLtr(sid,wid,dy); }catch(e){} }));
   (S.students||[]).forEach(st=>DAYS.forEach(dy=>{ if(done.has(st.id+"|"+dy)) return; try{ if(progLtr(st.id,dy)) fillByLtr(st.id,wid,dy); }catch(e){} })); }
+/* ---------- Contagem de semanas (S1, S2…) e lembrete ---------- */
+let WKCFG_OPEN=false;
+function wkCfg(){ S.wkCfg=S.wkCfg||{}; return S.wkCfg; }
+function wkSorted(){ return (S.weeks||[]).slice().sort((a,b)=>a.start<b.start?-1:1); }
+function wkNum(w){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.id===c.base); if(!b) return w.n; const i=L.indexOf(w)-L.indexOf(b); return i>=0? i+1 : null; }
+function wkLbl(w){ const k=wkNum(w); return k==null? "" : "S"+k; }
+function wkDue(w){ const c=wkCfg(), n=+c.alerta||0; if(!n||c.manter) return false; const k=wkNum(w); return k!=null&&k>=n; }
+function wkCfgHTML(where){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.id===c.base)||L[0], cur=L.find(x=>x.id===S.week), lastDue=L.filter(wkDue).pop();
+  const due= lastDue? `<div class="wkdue"><b>🔔 Chegou na ${wkLbl(lastDue)}${+c.alerta?` (lembrete de ${c.alerta} semanas)`:""}.</b> Hora de mudar o treino?<div class="row"><button class="btn small primary" data-wkreset>Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button><button class="btn small" data-wkkeep="1">Manter até eu decidir</button></div></div>` : "";
+  if(where==="banner") return due;
+  return `<div class="card wkcfg"><div class="phase-head"><h3 style="margin:0">📅 Contagem das semanas</h3>${where==="ses"?`<button class="btn small ghost" data-wkcfgx>Fechar</button>`:""}</div>
+    <p class="muted" style="margin:0;font-size:13px">As semanas começam sempre na segunda-feira. A contagem começou em <b>S1 · ${b?ddmm(b.start):"–"}</b>.</p>
+    <label class="label" style="display:grid;gap:4px">Me lembrar quando chegar em<select class="inp" data-wkalert>${[0,2,3,4,5,6,8,10,12,16].map(n=>`<option value="${n}" ${(+c.alerta||0)===n?"selected":""}>${n?n+" semanas":"sem lembrete"}</option>`).join("")}</select></label>
+    ${c.manter?`<p class="note" style="margin:0">Lembrete pausado: a contagem segue até você decidir. <button class="btn small" data-wkkeep="0">Voltar a lembrar</button></p>`:""}
+    ${due}
+    ${due?"":`<button class="btn small" data-wkreset style="justify-self:start">Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button>`}
+    <p class="muted" style="margin:0;font-size:12px">Ao chegar no número de semanas, a semana fica <b style="color:#B26A00">laranja com 🔔</b> na barra de baixo da Sessão. Recomeçar só muda a numeração: treinos e histórico continuam.</p></div>`; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-wkreset],[data-wkkeep],[data-wkcfgx]"); if(!b) return;
+  const c=wkCfg();
+  if(b.hasAttribute("data-wkcfgx")){ WKCFG_OPEN=false; renderSessao(); return; }
+  if(b.hasAttribute("data-wkreset")){ c.base=S.week||(wkSorted().pop()||{}).id; c.manter=false; save(); renderAll(); toast("Contagem recomeçada: esta semana é a S1"); return; }
+  if(b.hasAttribute("data-wkkeep")){ c.manter=b.dataset.wkkeep==="1"; save(); renderAll(); toast(c.manter?"Lembrete pausado: a contagem segue":"Lembrete ligado de novo"); return; } });
+document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches("[data-wkalert]"))) return; const c=wkCfg(); c.alerta=+e.target.value||0; c.manter=false; save(); renderAll(); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); });
 function newWeekNow(){ const last=S.weeks.slice().sort((a,b)=>a.start<b.start?-1:1).pop(); const nw={id:nid(),n:last.n+1,start:addDays(last.start,7)};
   const src=S.days[last.id]||{}; const dst=S.days[nw.id]={}; Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); });
   S.weeks.push(nw); fillWeekByLtr(nw.id);
@@ -3890,10 +3958,11 @@ function renderSessao0(){
   document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
   <datalist id="cardiolist">${["Esteira","Bike","Spinning","Elíptico","Escada","Remo","Corrida na rua","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
+  ${WKCFG_OPEN?wkCfgHTML("ses"):wkCfgHTML("banner")}
   <div class="card">
     <div class="weeknav">
       <button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button>
-      <div class="wk-title"><span class="label">Semana ${w.n}</span><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong></div>
+      <div class="wk-title"><span class="label">Semana ${wkNum(w)==null?w.n:wkNum(w)}</span><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong></div>
       <button class="icon-btn" data-wk="1" ${wi===S.weeks.length-1?"disabled":""} aria-label="Próxima semana">›</button>
     </div>
     ${armNewWeek? `<div class="note" style="display:grid;gap:8px"><span>Criar a semana ${last.n+1} (${ddmm(addDays(last.start,7))})</span>
@@ -4183,7 +4252,7 @@ document.getElementById("view-sessao").addEventListener("change",e=>{ const t=e.
   const k=o&&o.dataset.tp, v=tp.value;
   hp.textContent= v==="rep"? "Repõe uma falta: abate 1 do saldo de reposição. Não cobra a mais." : v==="adi"? "Adianta uma aula: fica 1 aula de crédito. Depois, na falta do dia fixo, escolha “Repor” e o saldo zera." : v==="pac"&&k!=="pacote"? "Este aluno não é de pacote: vai contar como aula extra." : k==="pacote"? "Conta como 1 aula do pacote." : k==="avulsa"? "Aula avulsa: entra na cobrança do mês." : "Aula a mais: conta como presença, não mexe no saldo de reposição.";
 });
-document.getElementById("weektabs").addEventListener("click",e=>{ const b=e.target.closest("[data-wtab]"); if(!b) return; if(b.dataset.wtab==="new"){ newWeekNow(); renderAll(); window.scrollTo(0,0); return; } S.week=b.dataset.wtab; armAct=null; save(); renderSessao(); });
+document.getElementById("weektabs").addEventListener("click",e=>{ const b=e.target.closest("[data-wtab]"); if(!b) return; if(b.dataset.wtab==="cfg"){ WKCFG_OPEN=!WKCFG_OPEN; renderSessao(); window.scrollTo(0,0); return; } if(b.dataset.wtab==="new"){ newWeekNow(); renderAll(); window.scrollTo(0,0); return; } S.week=b.dataset.wtab; armAct=null; save(); renderSessao(); });
 document.getElementById("turnbar").addEventListener("click",e=>{
   const r=e.target.closest("[data-rest]"); if(r){ const id=r.dataset.rest; const m=S.students.find(x=>x.id===id);
     try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); }catch(err){}
@@ -5563,6 +5632,7 @@ function renderSemana(){
   const op=k=> semOpen[k]? "open" : "";
   el.innerHTML=`${helpBtn("semana")}
     <div class="semfrase"><span class="rep-m">${LETRA()}</span><p>${SEM_FRASE}</p></div>
+    ${(()=>{ const cur=wkSorted().find(x=>x.id===S.week)||wkSorted().pop(); const c=wkCfg(); const due=wkSorted().some(wkDue); return `<details class="wkdet" ${due?"open":""}><summary>📅 Semanas: hoje na <b>${cur?wkLbl(cur):"S1"}</b>${+c.alerta&&!c.manter?` · lembrete em ${c.alerta}`:""}${due?" · 🔔":""}</summary>${wkCfgHTML("pg")}</details>`; })()}
     <div class="seg" role="group" aria-label="Filtro"><button data-pgf="todos" aria-pressed="${semFilter==="todos"}">Todos (${all.length})</button><button data-pgf="pend" aria-pressed="${semFilter==="pend"}">Para conferir (${pend.length})</button></div>
     ${list.length? list.map(semCardHTML).join("") : `<div class="card"><p class="muted">Tudo programado. Nenhum aluno para conferir.</p></div>`}`;
 }
