@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792427380";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792428574";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1336,9 +1336,10 @@ body.kb #sidectl,body.kb #sideopen{display:none}
 .botf{display:flex;gap:8px;padding-top:8px}.botf input{flex:1;min-width:0;font-size:16px;padding:10px;border:1px solid var(--line,#ccc);border-radius:10px;background:var(--surface,#fff);color:var(--fg,#111)}
 #wkpop{position:fixed;left:8px;right:8px;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:60;max-height:62vh;overflow:auto;border-radius:16px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
 #wkpop[hidden]{display:none}#wkpop .card{margin:0;border:2px solid #1e8e3e}
-body.kb #wkpop{display:none}
 .xc[data-ur]{font-size:12px!important;letter-spacing:-.6px;padding:0 1px!important}
 .btn.wkred{background:#FDE2E2!important;color:#B42318!important;border:1.5px solid #F3A9A9!important;font-weight:800}
+.wkchips{display:flex;flex-wrap:wrap;gap:6px}.wkchips button{border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 11px;font-weight:700;font-size:13.5px;cursor:pointer}.wkchips button.on{background:#1e8e3e;border-color:#1e8e3e;color:#fff}
+.wknames>summary{cursor:pointer;font-weight:700;color:var(--accent);font-size:14px}.wkn{display:grid;grid-template-columns:44px 46px 1fr;align-items:center;gap:6px;margin:4px 0;font-size:13px}.wkn small{color:var(--muted)}.wkn .inp{padding:6px;font-size:14px;min-width:0}
 .wkdet{margin:0 0 10px}.wkdet>summary{cursor:pointer;list-style:none;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:14px}.wkdet[open]>summary{margin-bottom:8px}
 .wkcfg{display:grid;gap:10px}.wkdue{border:1.5px solid #E08A00;background:#FFF3DF;color:#5A3A00;border-radius:12px;padding:10px 12px;display:grid;gap:8px;font-size:14px}
 .tecph{display:block;font-size:11px;color:var(--muted);padding:2px 6px 4px}.tecpick .tec-new{color:var(--accent);font-weight:800}
@@ -3073,7 +3074,7 @@ function renderTurnbar(){
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
   wt.hidden=!onW; document.getElementById("wrap").classList.toggle("withweeks",!!onW);
-  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
+  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
     const on=wt.querySelector('[aria-selected="true"]'); if(on) on.scrollIntoView({inline:"nearest",block:"nearest"}); }
   let pop=document.getElementById("wkpop"); if(!pop){ pop=document.createElement("div"); pop.id="wkpop"; document.body.appendChild(pop); }
   if(onW&&WKCFG_OPEN){ pop.innerHTML=wkCfgHTML("ses"); pop.hidden=false; } else { pop.hidden=true; pop.innerHTML=""; }
@@ -3233,16 +3234,22 @@ function wkCfgHTML(where){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.
   if(where==="banner") return due;
   return `<div class="card wkcfg"><div class="phase-head"><h3 style="margin:0">📅 Contagem das semanas</h3>${where==="ses"?`<button class="btn small ghost" data-wkcfgx>Fechar</button>`:""}</div>
     <p class="muted" style="margin:0;font-size:13px">As semanas começam sempre na segunda-feira. A contagem começou em <b>S1 · ${b?ddmm(b.start):"–"}</b>.</p>
-    <label class="label" style="display:grid;gap:4px">Me lembrar quando chegar em quantas semanas?<span style="display:flex;gap:8px;align-items:center"><input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="ex.: 6" style="max-width:110px"><small class="muted">vazio = sem lembrete</small></span></label>
+    <span class="label">Me lembrar quando chegar em</span>
+    <div class="wkchips">${[0,2,3,4,5,6,8,10,12,16].map(n=>`<button type="button" class="${(+c.alerta||0)===n?"on":""}" data-wkset="${n}">${n?n+" sem.":"Sem lembrete"}</button>`).join("")}</div>
+    <label class="label" style="display:grid;gap:4px">Outro número (quantas semanas quiser)<span style="display:flex;gap:8px;align-items:center"><input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${[0,2,3,4,5,6,8,10,12,16].includes(+c.alerta||0)?"":+c.alerta}" placeholder="ex.: 7" style="max-width:110px"><button type="button" class="btn small" data-wkok>OK</button></span></label>
+    <details class="wknames"><summary>✎ Dar nome às semanas (opcional)</summary><p class="muted" style="font-size:12px;margin:4px 0">Ex.: Adaptação, Choque, Deload. O nome aparece na barra de baixo.</p>${wkSorted().slice(-12).map(w=>`<label class="wkn"><b>${wkLbl(w)||ddmm(w.start)}</b><small>${ddmm(w.start)}</small><input class="inp" data-wkname="${w.id}" value="${esc(w.nome||"")}" maxlength="18" placeholder="sem nome"></label>`).join("")}</details>
     ${c.manter?`<p class="note" style="margin:0">Lembrete pausado: a contagem segue até você decidir. <button class="btn small" data-wkkeep="0">Voltar a lembrar</button></p>`:""}
     ${due}
     ${due?"":`<button class="btn small wkred" data-wkreset style="justify-self:start">Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button>`}
     <p class="muted" style="margin:0;font-size:12px">Ao chegar no número de semanas, a semana fica <b style="color:#B26A00">laranja com 🔔</b> na barra de baixo da Sessão. Recomeçar só muda a numeração: treinos e histórico continuam.</p></div>`; }
-document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-wkreset],[data-wkkeep],[data-wkcfgx]"); if(!b) return;
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-wkreset],[data-wkkeep],[data-wkcfgx],[data-wkset],[data-wkok]"); if(!b) return;
   const c=wkCfg();
+  if(b.dataset.wkset!=null){ c.alerta=+b.dataset.wkset||0; c.manter=false; save(); renderAll(); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); return; }
+  if(b.hasAttribute("data-wkok")){ const i=document.querySelector("#wkpop [data-wkalert]"); const v=Math.max(0,Math.min(99,parseInt(i&&i.value,10)||0)); c.alerta=v; c.manter=false; save(); renderAll(); toast(v?`Vou lembrar ao chegar em ${v} semanas`:"Sem lembrete de semanas"); return; }
   if(b.hasAttribute("data-wkcfgx")){ WKCFG_OPEN=false; renderTurnbar(); return; }
   if(b.hasAttribute("data-wkreset")){ c.base=S.week||(wkSorted().pop()||{}).id; c.manter=false; save(); renderAll(); toast("Contagem recomeçada: esta semana é a S1"); return; }
   if(b.hasAttribute("data-wkkeep")){ c.manter=b.dataset.wkkeep==="1"; save(); renderAll(); toast(c.manter?"Lembrete pausado: a contagem segue":"Lembrete ligado de novo"); return; } });
+document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches("[data-wkname]"))) return; const w=S.weeks.find(x=>x.id===e.target.dataset.wkname); if(!w) return; const v=e.target.value.trim(); if(v) w.nome=v; else delete w.nome; save(); setTimeout(()=>{ renderTurnbar(); renderSessao(); },0); });
 document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches("[data-wkalert]"))) return; const c=wkCfg(); c.alerta=Math.max(0,Math.min(99,parseInt(e.target.value,10)||0)); c.manter=false; save(); setTimeout(renderAll,0); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); });
 function newWeekNow(){ const last=S.weeks.slice().sort((a,b)=>a.start<b.start?-1:1).pop(); const nw={id:nid(),n:last.n+1,start:addDays(last.start,7)};
   const src=S.days[last.id]||{}; const dst=S.days[nw.id]={}; Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); });
@@ -4111,7 +4118,7 @@ function renderSessao0(){
   <div class="card">
     <div class="weeknav">
       <button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button>
-      <div class="wk-title"><span class="label">Semana ${wkNum(w)==null?w.n:wkNum(w)}</span><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong></div>
+      <div class="wk-title"><span class="label">Semana ${wkNum(w)==null?w.n:wkNum(w)}${w.nome?` · ${esc(w.nome)}`:""}</span><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong></div>
       <button class="icon-btn" data-wk="1" ${wi===S.weeks.length-1?"disabled":""} aria-label="Próxima semana">›</button>
     </div>
     ${armNewWeek? `<div class="note" style="display:grid;gap:8px"><span>Criar a semana ${last.n+1} (${ddmm(addDays(last.start,7))})</span>
@@ -5788,7 +5795,7 @@ function renderSemana(){
   const op=k=> semOpen[k]? "open" : "";
   el.innerHTML=`${helpBtn("semana")}
     <div class="semfrase"><span class="rep-m">${LETRA()}</span><p>${SEM_FRASE}</p></div>
-    ${(()=>{ const cur=wkSorted().find(x=>x.id===S.week)||wkSorted().pop(); const c=wkCfg(); const due=wkSorted().some(wkDue); return `<details class="wkdet" ${due?"open":""}><summary>📅 Semanas: hoje na <b>${cur?wkLbl(cur):"S1"}</b>${+c.alerta&&!c.manter?` · lembrete em ${c.alerta}`:""}${due?" · 🔔":""}</summary>${wkCfgHTML("pg")}</details>`; })()}
+
     <div class="seg" role="group" aria-label="Filtro"><button data-pgf="todos" aria-pressed="${semFilter==="todos"}">Todos (${all.length})</button><button data-pgf="pend" aria-pressed="${semFilter==="pend"}">Para conferir (${pend.length})</button></div>
     ${list.length? list.map(semCardHTML).join("") : `<div class="card"><p class="muted">Tudo programado. Nenhum aluno para conferir.</p></div>`}`;
 }
