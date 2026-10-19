@@ -396,8 +396,8 @@ body.tab-sessao .top{position:static!important}
 .metas .mrow-z{grid-template-columns:52px 64px 1fr 1fr 2fr}
 .ctlmeta{flex:1 1 100%;justify-content:center;font-weight:700!important;border-color:var(--accent)!important;color:var(--accent)!important}
 .ctlbtns>span{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.ctlbtns .btn{font-size:12.5px;padding:6px 10px}
-.ctlov{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.45);display:grid;align-items:end;justify-items:center}
-.ctlov-box{background:var(--bg);width:min(100%,560px);max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:12px 14px 18px;display:grid;gap:10px;box-shadow:0 -8px 30px rgba(0,0,0,.25)}
+.ctlov{position:fixed;inset:0;z-index:250;background:rgba(0,0,0,.45);display:grid;align-items:center;justify-items:center;padding:10px}
+.ctlov-box{background:var(--bg);width:min(100%,560px);max-height:86vh;overflow:auto;border-radius:16px;padding:12px 14px 18px;display:grid;gap:10px;box-shadow:0 -8px 30px rgba(0,0,0,.25)}
 @media (min-width:600px){.ctlov{align-items:center}.ctlov-box{border-radius:16px}}
 .ctlov-h{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-12px;background:var(--bg);padding:4px 0;z-index:2}.ctlov-h b{font-size:15px}
 .seg.seg3{grid-template-columns:repeat(4,1fr)!important}.seg.seg3 button{font-size:11.5px;padding:6px 2px}
@@ -1309,15 +1309,20 @@ details.pgcard[open]>summary{margin-bottom:8px}
 #weektabs.weektabs button.old{opacity:.55}
 #weektabs.weektabs button.wnew,#weektabs.weektabs button.wcfg{border-style:dashed!important;color:var(--accent)!important}
 .qtip{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:0;background:#2A5BD7;color:#fff;font-weight:900;font-size:12px;line-height:1;padding:0;margin:0 0 0 4px;cursor:pointer;vertical-align:middle;flex:none}
-#qbub{position:fixed;left:12px;right:12px;bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:9000;max-width:460px;margin:0 auto;background:#14161B;color:#F5F1E8;border-radius:14px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-size:15px;line-height:1.45}
+#qbub{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 32px);max-height:80vh;overflow:auto;box-sizing:border-box;z-index:9000;max-width:460px;background:#14161B;color:#F5F1E8;border-radius:14px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-size:15px;line-height:1.45}
 #qbub[hidden]{display:none}#qbub b{color:#D4A24C;font-size:16px}#qbub p{margin:6px 0 10px}#qbub .qbx{border:0;border-radius:10px;background:#D4A24C;color:#14161B;font-weight:800;padding:8px 16px;cursor:pointer}
-#sidectl{position:fixed;right:0;top:34%;z-index:55;display:flex;flex-direction:column;align-items:center;gap:6px;background:#14161B;padding:8px 5px;border-radius:14px 0 0 14px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
-#sidectl button{width:44px;height:40px;border:0;border-radius:10px;background:#D4A24C;color:#14161B;font-weight:900;font-size:18px;cursor:pointer;padding:0}
-#sidectl .fzMinus{font-size:15px;background:#F5F1E8}#sidectl>span{color:#F5F1E8;font-size:10px;font-weight:700;margin-top:-3px}
-#sidectl .sidehelp{background:#2A5BD7;color:#fff;font-size:17px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}#sidectl .sidehelp span{font-size:9.5px;font-weight:800;margin-top:2px}
-body.kb #sidectl{display:none}
-#botov{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
-.botbox{background:var(--surface,#fff);color:var(--fg,#111);width:100%;max-width:480px;max-height:82vh;border-radius:16px 16px 0 0;display:flex;flex-direction:column;padding:12px}
+#sidectl{position:fixed;right:0;top:6px;z-index:300;display:flex;flex-direction:column;align-items:center;gap:4px;background:#14161B;padding:4px 4px 6px;border-radius:12px 0 0 12px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+#sidectl[hidden],#sideopen[hidden]{display:none}
+#sidectl button{width:36px;height:30px;border:0;border-radius:8px;background:#D4A24C;color:#14161B;font-weight:900;font-size:15px;cursor:pointer;padding:0}
+#sidectl .fzMinus{font-size:13px;background:#F5F1E8}#sidectl .sdl{color:#D4A24C;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+#sidectl .sdh{display:flex;gap:2px}#sidectl .sdh button{width:17px;height:17px;font-size:11px;background:#2A2E36;color:#F5F1E8;border-radius:5px}
+#sidectl .sidehelp{background:#2A5BD7;color:#fff;font-size:14px;height:36px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}#sidectl .sidehelp span{font-size:8.5px;font-weight:800;margin-top:1px}
+#sideopen{position:fixed;right:0;top:6px;z-index:300;border:0;border-radius:10px 0 0 10px;background:#14161B;color:#D4A24C;padding:5px 6px;font-size:15px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1;box-shadow:0 2px 10px rgba(0,0,0,.3)}#sideopen span{font-size:8.5px;font-weight:800;text-transform:uppercase;margin-top:2px}
+body.kb #sidectl,body.kb #sideopen{display:none}
+.tmbw{position:relative;display:block}.tmbw .tmb{width:100%}.tmbw>.qtip{position:absolute;top:-7px;right:-4px;width:18px;height:18px;font-size:11px;box-shadow:0 1px 3px rgba(0,0,0,.3);z-index:2}
+.xg-cj{background:color-mix(in srgb,var(--accent) 10%,transparent)}.xcj.xcjadd{color:var(--accent);border-color:var(--accent)!important;font-weight:900}.xcj.xcjrm{color:#C62828;font-weight:900}
+#botov{position:fixed;left:0;right:0;top:0;height:100vh;z-index:9500;background:rgba(0,0,0,.45);display:flex;align-items:flex-start;justify-content:center;padding:8px 8px 0;box-sizing:border-box}
+.botbox{background:var(--surface,#fff);color:var(--fg,#111);width:100%;max-width:480px;max-height:calc(100% - 16px);border-radius:16px;display:flex;flex-direction:column;padding:12px;box-sizing:border-box}
 .both{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 8px}.both b{font-size:17px}
 .botlog{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px;min-height:200px}
 .botm{align-self:flex-start;max-width:88%;background:var(--sunk,#eee);border-radius:12px 12px 12px 4px;padding:9px 12px;font-size:15px;line-height:1.4}
@@ -1453,12 +1458,12 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 #vozPill{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:9999;background:#1e8e3e;color:#fff;border-radius:14px;padding:10px 14px;max-width:92vw;box-shadow:0 4px 14px rgba(0,0,0,.25);display:grid;gap:2px;font-size:14px}
 #vozPill[hidden]{display:none}#vozPill span{font-size:13px;opacity:.95}
 #payAlert{position:sticky;top:0;z-index:60;margin:0 0 8px}
-.payal{position:relative;background:#E53935;color:#fff;border-radius:12px;padding:9px 34px 9px 12px;box-shadow:0 3px 10px rgba(229,57,53,.35)}
+.payal{position:relative;background:#E53935;color:#fff;border-radius:12px;padding:9px 84px 9px 12px;box-shadow:0 3px 10px rgba(229,57,53,.35)}
 .payal>b{font-size:14px;display:block;margin-bottom:4px}
 .payal-l{display:flex;flex-wrap:wrap;gap:6px}
 .payal-l button{border:0;background:rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:5px 10px;font-weight:800;font-size:13px;cursor:pointer}
 .payal-l small{font-weight:600;opacity:.92}
-.payal-x{position:absolute;top:4px;right:6px;border:0;background:none;color:#fff;font-size:20px;cursor:pointer;padding:2px 6px}
+.payal-x{position:absolute;top:4px;right:46px;border:0;background:none;color:#fff;font-size:20px;cursor:pointer;padding:2px 6px}
 .prazo{border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0;font-size:13px;display:grid;gap:6px}
 .prazo.atras{border-color:#E53935;background:rgba(229,57,53,.07)}.prazo.atras>b{color:#E53935}
 .prz-p{display:grid;gap:4px}.prz-p label{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;padding:4px 8px;border-radius:8px;background:var(--surface)}
@@ -2306,7 +2311,7 @@ document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.clos
   if(t.dataset.agtitle!=null){ A2.tabs[+t.dataset.agtitle].title=t.value; save(); return; }
   if(t.dataset.agf){ const [ti,k,i,f]=t.dataset.agf.split("|"); const r=A2.tabs[+ti].d[k][+i]; if(!r) return; r[f]=f==="t"? t.value.replace(/\s*\n\s*/g," ") : t.value; if(t.tagName==="TEXTAREA") agFit(t); delete r.auto; save(); t.parentNode.style.setProperty("--ac",agCol(r)); } });
 const FZ=[0.55,0.62,0.7,0.8,0.87,0.94,1,1.08,1.16,1.25]; let fzI=6; try{ const fv=localStorage.getItem("fzV"); if(fv!==null){ const i=FZ.indexOf(+fv); if(i>=0) fzI=i; } else { const o=localStorage.getItem("fzI"); if(o!==null){ const i=FZ.indexOf([0.8,0.87,0.94,1,1.08,1.16,1.25][+o]); if(i>=0) fzI=i; } } }catch(e){}
-function applyFz(){ document.body.style.zoom=FZ[fzI]; { const sc=document.getElementById("sidectl"); if(sc) sc.style.zoom=1/FZ[fzI]; } try{ localStorage.setItem("fzV",FZ[fzI]); }catch(e){} }
+function applyFz(){ document.body.style.zoom=FZ[fzI]; try{ sideApply(); }catch(e){} try{ localStorage.setItem("fzV",FZ[fzI]); }catch(e){} }
 document.addEventListener("click",e=>{ const b=e.target.closest("#fzMinus,#fzPlus,.fzMinus,.fzPlus"); if(!b) return; fzI=Math.max(0,Math.min(FZ.length-1,fzI+(b.id==="fzPlus"||b.classList.contains("fzPlus")?1:-1))); applyFz(); toast(`Tamanho: ${Math.round(FZ[fzI]*100)}%`); });
 setTimeout(applyFz,0);
 function renderTop(){
@@ -3110,8 +3115,14 @@ const TIPS={
  c_z:["Zona (1 a 5)","Z1 muito leve · Z2 leve, conversa fácil · Z3 moderado, frases curtas · Z4 forte, poucas palavras · Z5 máximo."],
  c_v:["Velocidade","Em km/h (esteira, rua ou bike). Ajuda a estimar o gasto."],
  c_pse:["PSE","Percepção Subjetiva de Esforço: o aluno diz de 0 (parado) a 10 (máximo) o quanto foi pesado."],
+ t_amrap:["AMRAP","O máximo de rodadas possível dentro do tempo. Ex.: 10 minutos fazendo o circuito quantas vezes der."],
+ t_fortime:["Por tempo","Faz a tarefa toda o mais rápido possível. O tempo limite é o máximo que pode levar."],
+ t_emom:["EMOM","A cada minuto começa uma série. Terminou antes? O que sobra do minuto é descanso."],
+ t_tabata:["Tabata","20\" no máximo e 10\" de descanso, 8 vezes (4 minutos). Dá para mudar os tempos."],
+ t_mix:["Mix","Junta vários cronômetros em sequência, com descanso entre eles."],
+ t_criar:["Criar","Monte o seu: séries/rodadas, tempo de trabalho (ou livre) e descanso."],
  crono:["Cronômetros","AMRAP: o máximo de rodadas no tempo.\nPOR TEMPO: faz a tarefa o mais rápido possível, com limite.\nEMOM: a cada minuto começa uma série; o que sobra é descanso.\nTABATA: 20\" forte e 10\" de descanso, 8 vezes.\nMIX: junta vários.\n＋ CRIAR: o seu, com séries/rodadas e descanso."],
- ex:["Botões do exercício","Conj: junta 2 exercícios (bi-set).\nIso: isometria.\nUni: unilateral, cada lado.\n+ linha: outra série com reps ou carga diferente.\nMet. Avan.: dropset, pirâmide… ou crie o seu.\n⏱ (Desc): descanso só deste exercício.\n🎤: fale o exercício e o site preenche.\nSem. Pass.: o que fez na semana passada."],
+ ex:["Botões do exercício","Conj: abre outro exercício na mesma caixa (bi-set). +ex.: mais um (tri-set). ×: tira do conjugado.\nIso: isometria.\nUni: unilateral, cada lado.\n+ linha: outra série com reps ou carga diferente.\nMet. Avan.: dropset, pirâmide… ou crie o seu.\n⏱ (Desc): descanso só deste exercício.\n🎤: fale o exercício e o site preenche.\nSem. Pass.: o que fez na semana passada."],
  ctl:["Controle","Metas: séries e reps alvo por grupo muscular.\nSessão: gráfico do treino de hoje.\nSemanal: a semana toda e comparar semanas."],
  rel:["Relatórios","Rel. do dia e Rel. semanal: para mandar ao aluno pelo WhatsApp, em imagem ou texto."],
  pg_by:["Repetir o treino por","Letra: o dia puxa o último treino da mesma letra (bom para reposição).\nDia: toda segunda igual, toda terça igual…"],
@@ -3127,9 +3138,18 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
   bub.innerHTML=`<b>${esc(t[0])}</b><p>${esc(t[1]).replace(/\n/g,"<br>")}</p><button type="button" class="qbx" aria-label="Fechar">Entendi</button>`; bub.hidden=false;
   bub.querySelector(".qbx").onclick=()=>{ bub.hidden=true; }; },true);
 /* ---------- Lateral: A−/A+ e ajuda ---------- */
+const SIDE_SZ=[1,1.3,1.6];
+function sideGet(k,def){ try{ const v=localStorage.getItem(k); return v===null?def:v; }catch(e){ return def; } }
+function sideSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+function sideApply(){ const d=document.getElementById("sidectl"), r=document.getElementById("sideopen"); if(!d||!r) return; const hid=sideGet("sideHide","0")==="1"; d.hidden=hid; r.hidden=!hid;
+  const sz=SIDE_SZ[+sideGet("sideSz","0")]||1, z=FZ[fzI]||1; d.style.zoom=sz/z; r.style.zoom=1/z; }
 function sideCtl(){ if(document.getElementById("sidectl")) return; const d=document.createElement("div"); d.id="sidectl";
-  d.innerHTML=`<button class="fzPlus" aria-label="Aumentar letra">A+</button><button class="fzMinus" aria-label="Diminuir letra">A−</button><span>letra</span><button class="sidehelp" data-botopen aria-label="Ajuda sobre o site">💬<span>ajuda</span></button>`;
-  document.body.appendChild(d); try{ d.style.zoom=1/FZ[fzI]; }catch(e){} }
+  d.innerHTML=`<div class="sdh"><button class="sdsz" data-sidesz aria-label="Mudar o tamanho destes botões" title="Tamanho dos botões">⤢</button><button class="sdx" data-sidex aria-label="Fechar zoom">×</button></div><span class="sdl">zoom</span><button class="fzPlus" aria-label="Aumentar letra">A+</button><button class="fzMinus" aria-label="Diminuir letra">A−</button><button class="sidehelp" data-botopen aria-label="Ajuda sobre o site">💬<span>ajuda</span></button>`;
+  document.body.appendChild(d); const r=document.createElement("button"); r.id="sideopen"; r.type="button"; r.setAttribute("aria-label","Abrir zoom e ajuda"); r.innerHTML="🔍<span>zoom</span>"; document.body.appendChild(r); sideApply(); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-sidesz],[data-sidex],#sideopen"); if(!b) return;
+  if(b.id==="sideopen"){ sideSet("sideHide","0"); sideApply(); return; }
+  if(b.hasAttribute("data-sidex")){ sideSet("sideHide","1"); sideApply(); toast("Zoom fechado. Toque na 🔍 no canto para abrir de novo."); return; }
+  sideSet("sideSz",String((+sideGet("sideSz","0")+1)%SIDE_SZ.length)); sideApply(); });
 /* ---------- Robô de ajuda (só sobre o uso do site) ---------- */
 const BOT=[
  {k:"cadastr cadastro novo adicionar incluir",a:"Na aba 📝 Cadastro, toque em “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro."},
@@ -3155,6 +3175,7 @@ const BOT=[
  {k:"descanso timer intervalo",a:"Na Sessão, a barra de baixo tem o descanso de cada aluno: toque para contar. O ⏱ na coluna Desc muda o descanso só daquele exercício."},
  {k:"cronometro amrap emom tabata mix por tempo",a:"Na Sessão, em Cronômetro, toque no tipo e depois em ▶ Iniciar. Toque no ? ao lado de Cronômetro para ver o que é cada um. Em ＋ CRIAR você monta o seu."},
  {k:"cardio esteira zona pse velocidade",a:"Na Sessão, em Cardio: tipo, método, tempo, zona, velocidade e PSE. Toque no ? de cada campo para a explicação."},
+ {k:"conjugado conjugar conj biset bi-set triset tri-set junto juntos mais dois exercicio exercicios",a:"Para conjugar (bi-set): na Sessão toque em “Conj” no exercício. Abre outra linha na mesma caixa: escreva o 2º exercício com séries, reps e carga. Quer mais um (tri-set)? Toque em “+ex.” ao lado."},
  {k:"dupla trio copiar",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “📋 copiar” no exercício ou “Copiar treino todo” para o outro aluno."},
  {k:"metodo avancado dropset piramide rest pause tecnica criar",a:"Na Sessão, toque em “Met. Avan.” no exercício e escolha. Em “＋ Criar método” você cria o seu com séries/rodadas e descanso."},
  {k:"isometria iso unilateral uni",a:"Na Sessão: “Iso” marca isometria (escolha os segundos). “Uni” marca unilateral; na isometria aparece 30\"/30\"."},
@@ -3167,7 +3188,7 @@ const BOT=[
  {k:"letra tamanho grande pequena zoom enxergar ler",a:"Use A+ e A− na lateral direita da tela: aumenta ou diminui a letra do site todo."},
  {k:"sugestao ideia melhorar",a:"Toque em “💡 Sugestão”: escreva ou fale a sua ideia. Chega direto para o desenvolvedor."}
 ];
-const BOT_FORA="hipertrofia fisiologia biomecanica musculo dieta nutricao suplemento whey creatina lesao dor emagrecer emagrecimento caloria proteina carboidrato hormonio frequencia cardiaca vo2 alongamento postura joelho ombro coluna lombar quantas series devo melhor exercicio melhor treino periodizar periodizacao volume ideal";
+const BOT_FORA="hipertrofia fisiologia biomecanica musculo musculos dieta nutricao suplemento whey creatina lesao lesoes emagrecer emagrecimento caloria calorias proteina carboidrato hormonio vo2 alongamento postura joelho ombro coluna lombar periodizar periodizacao";
 const BOT_PROG="programacao fases medo peso progressao periodizacao montar treino divisao";
 let BOT_LOG=[], BOT_OPEN=false;
 function botNorm(t){ return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," "); }
@@ -3176,6 +3197,7 @@ function botAnswer(q){ const n=botNorm(q), W=n.split(/\s+/).filter(w=>w.length>2
   let best=null, bs=0; BOT.forEach(e=>{ const K=e.k.split(" ").filter(k=>k.length>=3); let sc=0; K.forEach(k=>{ if(W.some(w=>w===k||(k.length>=4&&w.startsWith(k))||(w.length>=4&&k.startsWith(w)))) sc++; }); if(sc>bs){ bs=sc; best=e; } });
   const fora=BOT_FORA.split(" ").some(k=>n.includes(k)), prog=BOT_PROG.split(" ").some(k=>n.includes(k));
   const comoUsar=/\b(onde|como|botao|aba|tela|site|marcar|lancar|cadastrar|mudar|trocar|ver|abrir)\b/.test(n);
+  if(best&&bs>=2) return {t:best.a};
   if(fora&&!comoUsar) return {t:"Eu só respondo sobre o uso do site. Para dúvidas de treino, fisiologia ou biomecânica, chame o professor.",wa:"prof"};
   if(best&&bs>=1) return {t:best.a};
   if(prog) return {t:"Não encontrei essa resposta. Para ajuda com a sua programação, chame o professor.",wa:"prof"};
@@ -3184,8 +3206,10 @@ function botHTML(){ const wa=k=>`<a class="botwa" target="_blank" rel="noopener"
   return `<div class="botbox" role="dialog" aria-label="Ajuda sobre o site"><div class="both"><b>💬 Ajuda sobre o site</b><button class="icon-btn" data-botx aria-label="Fechar">✕</button></div>
     <div class="botlog" id="botlog">${BOT_LOG.length?BOT_LOG.map(m=>`<div class="botm ${m.u?"u":""}">${esc(m.t)}${m.wa?"<br>"+wa(m.wa):""}</div>`).join(""):`<div class="botm">Olá! Pergunte como usar o site. Ex.: “como marco pagamento?”. Só respondo sobre o site.</div><div class="botq">${["Como cadastro um aluno?","Como marco um pagamento?","Como uso o áudio?","O que é Sem. Pass.?","Como aumento a letra?"].map(x=>`<button data-botq="${esc(x)}">${esc(x)}</button>`).join("")}</div>`}</div>
     <form class="botf" data-botf><input id="botin" placeholder="Escreva sua dúvida…" autocomplete="off"><button class="btn primary">Enviar</button></form></div>`; }
+function botFit(){ const o=document.getElementById("botov"); if(!o) return; const z=FZ[fzI]||1, vv=window.visualViewport; const h=vv?vv.height:window.innerHeight, t=vv?vv.offsetTop:0; o.style.height=(h/z)+"px"; o.style.top=(t/z)+"px"; const l=document.getElementById("botlog"); if(l) l.scrollTop=l.scrollHeight; }
+if(window.visualViewport){ visualViewport.addEventListener("resize",botFit); visualViewport.addEventListener("scroll",botFit); }
 function botRender(){ let o=document.getElementById("botov"); if(!BOT_OPEN){ if(o) o.remove(); return; }
-  if(!o){ o=document.createElement("div"); o.id="botov"; document.body.appendChild(o); } o.innerHTML=botHTML(); const l=document.getElementById("botlog"); if(l) l.scrollTop=l.scrollHeight; }
+  if(!o){ o=document.createElement("div"); o.id="botov"; document.body.appendChild(o); } o.innerHTML=botHTML(); botFit(); }
 function botAsk(q){ q=String(q||"").trim(); if(!q) return; BOT_LOG.push({u:1,t:q}); const r=botAnswer(q); BOT_LOG.push({t:r.t,wa:r.wa}); botRender(); setTimeout(()=>{ const i=document.getElementById("botin"); if(i) i.focus(); },30); }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-botopen],[data-botx],[data-botq]"); if(!b){ if(e.target.id==="botov"){ BOT_OPEN=false; botRender(); } return; }
   if(b.hasAttribute("data-botopen")){ BOT_OPEN=true; botRender(); return; } if(b.hasAttribute("data-botx")){ BOT_OPEN=false; botRender(); return; } botAsk(b.dataset.botq); });
@@ -3814,7 +3838,7 @@ function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const same= sg&&String(row.a.s)===String(sg.s)&&String(row.a.r)===String(sg.r)&&String(row.a.c).replace(".",",")===String(sg.c);
   const sgH= sg? `<span class="xs xsn"><button class="xsug ${same?"ok":""}" data-sugok='${esc(JSON.stringify({s:sg.s,r:sg.r,c:sg.c}))}' title="Toque para usar a sugestão">${same?"✓ ":"Sug. "}${esc(sg.lab)}</button></span><span class="xs num">${sg.s}</span><span class="xs num">${sg.r}</span><span class="xs num">${sg.c||""}</span><span class="xs"></span>` : "";
   return `<div class="xrow xr1 ${sg?"xr-sug":""} ${row.iso?"xr-iso":""} ${row.cj?"cja":""} ${linkPrev?"cjb":""} ${SB.length?"xr-subs":""}" data-row="${row.id}" ${SB.length?`style="grid-template-rows:repeat(${K},auto)!important"`:""}>
-    <div class="xg" ${SB.length?`style="grid-row:span ${K}"`:""}><button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício" title="Falar: ex. supino 4 séries 10 repetições 40 quilos">🎤</button><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar com a linha de baixo">Conj</button><button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
+    <div class="xg ${linkPrev?"xg-cj":""}" ${SB.length?`style="grid-row:span ${K}"`:""}>${linkPrev?`<button class="xcj xcjrm" data-cjrm title="Tirar este exercício do conjugado" aria-label="Tirar do conjugado">×</button><button class="xcj xcjadd" data-cjadd title="Conjugar mais um exercício">+ex.</button>`:`<button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício" title="Falar: ex. supino 4 séries 10 repetições 40 quilos">🎤</button><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar: abre outro exercício nesta caixa">Conj</button>`}<button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
       <button class="rb on r-${k} ${named?"":"dim"}" data-reg aria-expanded="${regPick===row.id}" aria-label="${REG_LABEL[k]}${rowSz(row,k)?` · músculo ${rowSz(row,k)==="G"?"grande":"pequeno"}`:""}: toque para trocar" title="${REG_LABEL[k]} · toque para trocar">${ICO[k]}${rowSz(row,k)?`<i class="rsz">${rowSz(row,k)}</i>`:""}</button>
       ${regPick===row.id?`<div class="regpick" role="menu">${[["MMSS","G","💪 Superior · grande"],["MMSS","P","💪 Superior · pequeno"],["MMII","G","🦵 Inferior · grande"],["MMII","P","🦵 Inferior · pequeno"],["Core","","🎯 Core"]].map(([R,z,t])=>`<button role="menuitem" data-regset="${R}|${z}" class="${k===R&&(R==="Core"||rowSz(row,k)===z)?"on":""}">${t}</button>`).join("")}</div>`:""}</div>
     <span class="xp xpn">${pv?`<small class="xsp"><b>Sem. Pass.</b> ${esc(pn||"—")}</small>`:""}${true?`<span class="xacts">${cpTo?`<button class="xcp" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Método avançado">${row.tec?esc(TEC_SH[row.tec]||row.tec):"Met. Avan."}</button>${row.tec&&(row.tecR||row.tecD)?`<small class="xtecinfo">${row.tecR?esc(row.tecR)+" séries/rod.":""}${row.tecR&&row.tecD?" · ":""}${row.tecD?"rest "+esc(row.tecD)+'"':""}</small>`:""}`:""}</span>`:""}
@@ -3916,7 +3940,7 @@ function tmBlockTxt(b){ if(String(b.t).startsWith("c_")) return `${b.n||"Cronôm
 function tmSummary(mode){ const c=tmCfg(mode); if(String(mode).startsWith("c_")) return tmBlockTxt(Object.assign({t:mode},c)); const n=Math.max(1,tmN(c.reps||1)); return mode==="mix"? "Mix: "+(c.blocks||[]).map(tmBlockTxt).join(" + ") : (n>1?`${n}x `:"")+tmBlockTxt(Object.assign({t:mode},c))+(n>1&&tmN(c.rrest)?` · rest ${tmN(c.rrest)}" entre`:"")+(c.more||[]).map(b=>{ const k=Math.max(1,tmN(b.reps||1)); return (tmN(b.rb)?` + rest ${tmN(b.rb)}"`:"")+" + "+(k>1?`${k}x `:"")+tmBlockTxt(Object.assign({t:mode},b)); }).join(""); }
 function tmFields(b,pre){ const f=(k,l,u)=>`<label>${l}<input class="inp tmn" type="number" inputmode="numeric" min="0" ${pre}="${k}" value="${esc(String(b[k]??""))}"${u?` placeholder="${u}"`:""}></label>`;
   return b.t==="amrap"? f("min","Minutos")+f("sec","Segundos") : b.t==="fortime"? f("cap","Limite (min)") : b.t==="emom"? f("every","A cada (seg)")+f("rounds","Rodadas") : b.t==="tabata"? f("work","Trabalho (seg)")+f("rest","Descanso (seg)")+f("rounds","Rodadas") : f("sec","Rest (seg)"); }
-function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v])=>`<button class="tmb ${tmrEd&&tmrEd.sid===m.id&&tmrEd.mode===k?"on":""}" style="--tc:${v.c}" data-tmopen="${k}">${v.mine?"★ ":""}${esc(v.n)}</button>`).join("")+`<button class="tmb tmnew" data-tmnew>＋ CRIAR</button>`;
+function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v])=>`<button class="tmb ${tmrEd&&tmrEd.sid===m.id&&tmrEd.mode===k?"on":""}" style="--tc:${v.c}" data-tmopen="${k}">${v.mine?"★ ":""}${esc(v.n)}</button>`).join("").replace(/(<button class="tmb [^"]*" style="[^"]*" data-tmopen="(amrap|fortime|emom|tabata|mix)">[^<]*<\/button>)/g,(m0,b0,k0)=>`<span class="tmbw">${b0}${qtip("t_"+k0)}</span>`)+`<span class="tmbw"><button class="tmb tmnew" data-tmnew>＋ CRIAR</button>${qtip("t_criar")}</span>`;
   let ed=""; if(tmrEd&&tmrEd.sid===m.id){ const mode=tmrEd.mode, c=tmCfg(mode);
     const body= String(mode).startsWith("c_")? `<div class="tmf tmv tmmine"><label class="tmnm">Nome<input class="inp" data-tmname value="${esc(c.n||"")}" placeholder="ex.: Séries do supino"></label><label>Séries/rodadas<input class="inp tmn" type="number" inputmode="numeric" min="1" data-tmk="rounds" value="${esc(String(c.rounds??""))}"></label><label>Trabalho (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmk="work" value="${tmN(c.work)?esc(String(c.work)):""}" placeholder="livre"></label><label>Rest/descanso (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmk="rest" value="${esc(String(c.rest??""))}"></label></div>
       <p class="muted" style="font-size:12px;margin:0">Trabalho vazio = tempo livre: o aluno faz a série no ritmo dele e você toca <b>✔</b> quando terminar; aí o descanso conta sozinho.</p><button class="btn small ${armAct&&armAct.sid===m.id&&armAct.k==="tmdel"+String(mode).slice(2)?"danger":"ghost"}" data-tmdelmine style="justify-self:start">${armAct&&armAct.sid===m.id&&armAct.k==="tmdel"+String(mode).slice(2)?"Toque de novo para apagar":"Apagar este cronômetro"}</button>`
@@ -3939,7 +3963,7 @@ function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v
       <div class="tmf ${mode==="mix"?"":"tmv"}"><label>Preparação (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmprep value="${esc(String(S.tmr.prep))}"></label></div>
       <p class="muted tmsum">${esc(tmSummary(mode))}${tmSeq(mode).some(z=>z.k==="man")?"":` · total ${tmFmt(tmTotal(mode))}`}</p>${live}
       <div class="row"><button class="btn primary" data-tmgo>▶ Iniciar</button><button class="btn small ghost" data-tmopen="${mode}">Fechar</button></div></div>`; }
-  return `<div class="tmbox"><span class="xc2-h">Cronômetro ${qtip("crono")}</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
+  return `<div class="tmbox"><span class="xc2-h">Cronômetro</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
 function tmLiveHTML(){ if(!TMR) return `<span class="tml-idle">⏱ o tempo aparece aqui</span>`;
   const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)]; const l=tmLeft(); const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : (x.k==="up"||x.k==="man")? tmFmt(x.d-l) : tmFmt(l);
   return `<div class="tml" style="--lc:${TMR.done||x.k==="rest"?"#2F8F5B":x.c}"><small>${TMR.done?"Fim!":esc(x.lab)}${!TMR.done&&x.r?` ${x.r}/${x.of}`:""}${!TMR.done&&x.set?` · ${x.set}`:""}</small><b>${shown}</b>${TMR.seq.some(z=>z.cnt)?`<small>rodadas: ${TMR.rounds}</small>`:""}</div>`; }
@@ -4000,7 +4024,7 @@ function colHTML(m,w,ms){
       <div class="xband"><span></span><span class="xb-ex">Exercícios ${qtip("ex")}<button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 sugerir</button></span><span></span><span></span><span></span><span></span><span></span></div>
       ${(()=>{ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : []; const used=new Set();
         const pick=(r,i)=>{ let x=null; if(r.n1.trim()) x=pr.find(y=>!used.has(y)&&noAcc(y.n1).trim()===noAcc(r.n1).trim()); if(!x&&!r.n1.trim()&&pr[i]&&!used.has(pr[i])&&(pr[i].n1.trim()||subUsed(pr[i].a))) x=pr[i]; if(x) used.add(x); return x; };
-        return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
+        return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1&&!r.cj?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
       <button class="xadd" data-addrow>+ Linha</button>
       ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn" data-mvopen>↔ Mover este treino para outro dia</button>`}
       <div id="tot-${m.id}">${totRowsHTML(m,T)}</div>
@@ -4265,7 +4289,10 @@ function sesClick(e){
   if(b.dataset.sugok){ const v=JSON.parse(b.dataset.sugok); row.a.s=String(v.s); row.a.r=String(v.r); if(v.c!=="") row.a.c=String(v.c); rer(); markStart(sid); autoPres(sid); return; }
   if(b.hasAttribute("data-isot")){ if(row.iso){ delete row.iso; delete row.a.sec; delete row.a.isoM; } else { row.iso=true; row.a.isoM= row.n1.trim()&&num(row.a.r)? "fim":"so"; row.a.isoS=""; if(row.a.isoM==="so") row.a.r=""; } save(); rer(); return; }
   if(b.hasAttribute("data-mic")){ vozStart(row); return; }
-  if(b.hasAttribute("data-cjt")){ row.cj=!row.cj; rer(); return; }
+  if(b.hasAttribute("data-cjt")||b.hasAttribute("data-cjadd")){ const i=d.rows.indexOf(row);
+    if(row.cj&&b.hasAttribute("data-cjt")){ row.cj=false; const nx=d.rows[i+1]; if(nx&&!nx.n1.trim()&&!subUsed(nx.a)){ const keep=nx.cj; d.rows.splice(i+1,1); if(keep) row.cj=false; } rer(); toast("Conjugado desfeito"); return; }
+    const nr=newRow(); if(row.cj){ nr.cj=true; } row.cj=true; d.rows.splice(i+1,0,nr); rer(); setTimeout(()=>{ const t=document.getElementById("n1-"+nr.id); if(t) t.focus(); },60); toast("Escreva o exercício conjugado na linha de baixo"); return; }
+  if(b.hasAttribute("data-cjrm")){ const i=d.rows.indexOf(row); const pr=d.rows[i-1]; if(pr) pr.cj=!!row.cj; d.rows.splice(i,1); rer(); toast("Exercício conjugado removido"); return; }
   if(b.hasAttribute("data-tecb")){ tecPick= tecPick===row.id? null : row.id; regPick=null; renderSessao(); return; }
   if(b.dataset.tecset!==undefined){ const msg=tecApply(row,b.dataset.tecset); tecPick=null; tecNew=null; save(); rer(); toast(msg); return; }
   if(b.hasAttribute("data-tecnew")){ tecNew= tecNew===row.id? null : row.id; renderSessao(); setTimeout(()=>{ const x=document.getElementById("tn-n"); if(x) x.focus(); },50); return; }
@@ -5529,16 +5556,17 @@ function syncStudents(){
   return ch;
 }
 let PRES_FIRST=true, PRES_SIG="";
-let PAY_SIG=""; const hojeK=()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
+let PAY_SIG="", PAY_HIDE=null;
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&PAY_HIDE!==null){ PAY_HIDE=null; PAY_SIG=""; try{ renderPayAlert(); }catch(e){} } }); const hojeK=()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
 function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el) return; if(!presOn()){ el.hidden=true; return; }
   let L=[]; try{ L=PRES.vencidos(); }catch(e){ L=[]; }
-  const sig=JSON.stringify(L.map(v=>[v.a.id,v.prazo,Math.round(v.falta)])); let hid=""; try{ hid=localStorage.getItem("payAlertHide")||""; }catch(e){}
-  if(!L.length||hid===hojeK()+"|"+sig){ el.hidden=true; el.innerHTML=""; PAY_SIG=sig; return; }
+  const sig=JSON.stringify(L.map(v=>[v.a.id,v.prazo,Math.round(v.falta)])); const hid=PAY_HIDE||"";
+  if(!L.length||hid===sig){ el.hidden=true; el.innerHTML=""; PAY_SIG=sig; return; }
   if(sig===PAY_SIG&&!el.hidden) return; PAY_SIG=sig;
   el.innerHTML=`<div class="payal"><b>⚠ Pagamento vencido</b><div class="payal-l">${L.map(v=>`<button data-payal="${v.a.id}|${v.ym}">${esc(first(v.a.nome))} <small>${v.prometido?"prometeu":"venceu"} ${v.prazo.slice(8,10)}/${v.prazo.slice(5,7)} · ${v.falta.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</small></button>`).join("")}</div><button class="payal-x" data-payalx aria-label="Ocultar hoje">×</button></div>`;
   el.hidden=false; }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-payal],[data-payalx]"); if(!b) return;
-  if(b.hasAttribute("data-payalx")){ try{ localStorage.setItem("payAlertHide",hojeK()+"|"+PAY_SIG); }catch(x){} document.getElementById("payAlert").hidden=true; toast("Aviso oculto até amanhã (ou até mudar algo)"); return; }
+  if(b.hasAttribute("data-payalx")){ PAY_HIDE=PAY_SIG; document.getElementById("payAlert").hidden=true; toast("Aviso fechado. Volta a aparecer quando você sair e entrar de novo."); return; }
   const [id,ym]=b.dataset.payal.split("|"); show("financeiro"); PRES.goPag(id,ym); window.scrollTo(0,0); });
 window.__presHook=function(){
   try{ renderPayAlert(); }catch(e){}
