@@ -2306,7 +2306,7 @@ document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.clos
   if(t.dataset.agtitle!=null){ A2.tabs[+t.dataset.agtitle].title=t.value; save(); return; }
   if(t.dataset.agf){ const [ti,k,i,f]=t.dataset.agf.split("|"); const r=A2.tabs[+ti].d[k][+i]; if(!r) return; r[f]=f==="t"? t.value.replace(/\s*\n\s*/g," ") : t.value; if(t.tagName==="TEXTAREA") agFit(t); delete r.auto; save(); t.parentNode.style.setProperty("--ac",agCol(r)); } });
 const FZ=[0.55,0.62,0.7,0.8,0.87,0.94,1,1.08,1.16,1.25]; let fzI=6; try{ const fv=localStorage.getItem("fzV"); if(fv!==null){ const i=FZ.indexOf(+fv); if(i>=0) fzI=i; } else { const o=localStorage.getItem("fzI"); if(o!==null){ const i=FZ.indexOf([0.8,0.87,0.94,1,1.08,1.16,1.25][+o]); if(i>=0) fzI=i; } } }catch(e){}
-function applyFz(){ document.body.style.zoom=FZ[fzI]; try{ localStorage.setItem("fzV",FZ[fzI]); }catch(e){} }
+function applyFz(){ document.body.style.zoom=FZ[fzI]; { const sc=document.getElementById("sidectl"); if(sc) sc.style.zoom=1/FZ[fzI]; } try{ localStorage.setItem("fzV",FZ[fzI]); }catch(e){} }
 document.addEventListener("click",e=>{ const b=e.target.closest("#fzMinus,#fzPlus,.fzMinus,.fzPlus"); if(!b) return; fzI=Math.max(0,Math.min(FZ.length-1,fzI+(b.id==="fzPlus"||b.classList.contains("fzPlus")?1:-1))); applyFz(); toast(`Tamanho: ${Math.round(FZ[fzI]*100)}%`); });
 setTimeout(applyFz,0);
 function renderTop(){
@@ -3129,7 +3129,7 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
 /* ---------- Lateral: A−/A+ e ajuda ---------- */
 function sideCtl(){ if(document.getElementById("sidectl")) return; const d=document.createElement("div"); d.id="sidectl";
   d.innerHTML=`<button class="fzPlus" aria-label="Aumentar letra">A+</button><button class="fzMinus" aria-label="Diminuir letra">A−</button><span>letra</span><button class="sidehelp" data-botopen aria-label="Ajuda sobre o site">💬<span>ajuda</span></button>`;
-  document.body.appendChild(d); }
+  document.body.appendChild(d); try{ d.style.zoom=1/FZ[fzI]; }catch(e){} }
 /* ---------- Robô de ajuda (só sobre o uso do site) ---------- */
 const BOT=[
  {k:"cadastr cadastro novo adicionar incluir",a:"Na aba 📝 Cadastro, toque em “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro."},
