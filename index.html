@@ -1065,6 +1065,7 @@ input.xn1::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent);fon
 .xc-na{display:grid;place-items:center;color:var(--muted);font-size:12px}
 .xg .xcj{padding:2px 1px;font-size:8.5px}
 .xsec{-webkit-appearance:none;appearance:none;padding:0 2px!important;text-align:center;text-align-last:center;background-image:none!important}
+.xsec::-webkit-calendar-picker-indicator,.xsec::-webkit-list-button{display:none!important;opacity:0;width:0}
 .pslots{display:grid!important;gap:6px}.pdrow{display:flex;flex-wrap:wrap;gap:6px}
 .pst{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--muted)}.pst .inp{width:auto;padding:4px 6px;min-height:0;height:32px;font-size:13px}
 .xb-ex{display:flex!important;align-items:center;justify-content:center;gap:8px}
@@ -1298,6 +1299,7 @@ details.pgcard[open]>summary{margin-bottom:8px}
 .tecpick{left:6px;top:auto;bottom:auto;margin-top:2px;position:absolute;top:100%}
 .tecpick .tec-rm{color:var(--bad)}
 .tmnew{--tc:transparent;border:2px dashed var(--accent)!important;color:var(--accent)!important;background:transparent!important}.tmmine{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}.tmmine .tmnm{grid-column:1/-1}.tmmine .inp{width:100%;min-width:0}
+.xisou{font-size:.78em;letter-spacing:-.3px;white-space:nowrap}
 .tecph{display:block;font-size:11px;color:var(--muted);padding:2px 6px 4px}.tecpick .tec-new{color:var(--accent);font-weight:800}
 .tecmy{display:flex;align-items:stretch}.tecmy>button:first-child{flex:1}.tecpick .tecdel{flex:none;width:30px;color:var(--bad);text-align:center}
 .tecnew{display:grid;gap:6px;padding:6px;border-top:1px solid var(--line);min-width:220px}.tecnew label{display:grid;gap:2px;font-size:11px;font-weight:700;color:var(--muted)}.tecnew input{font-size:14px;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);min-width:0;width:100%}
@@ -3533,7 +3535,7 @@ function secsDL(){ if(!document.getElementById("secsdl")) document.body.insertAd
 const ISO_M={ini:"Início",meio:"Meio",fim:"Final",cada:"Toda rep",so:"Só isometria"};
 const ISO_W={ini:"no início",meio:"no meio",fim:"no final",cada:"em toda rep"};
 function setTxt(x,sp,u){ const so=num(x.sec)&&(x.isoM||"so")==="so"; const k=num(x.c)?` · ${String(x.c).replace(".",",")} kg`:"";
-  if(so) return `${x.s||0}${sp?" × ":"×"}${x.sec}" iso${u>1?" cada lado":""}${k}`;
+  if(so) return `${x.s||0}${sp?" × ":"×"}${u>1?`${x.sec}"/${x.sec}"`:`${x.sec}"`} iso${u>1?" (cada lado)":""}${k}`;
   return `${x.s||0}${sp?" × ":"×"}${x.r||0}${k}${num(x.sec)?` · iso ${x.sec}" ${ISO_W[x.isoM]||""}${num(x.isoS)&&num(x.isoS)!==num(x.s)?` (${x.isoS} ${num(x.isoS)>1?"séries":"série"})`:""}`:""}`; }
 function vol(x){ return num(x.s)*num(x.r)*num(x.c); }
 /* Unilateral: séries e repetições são por lado (3×8 = 3 séries de 8 em cada lado). As séries contam uma vez só; repetições e tonelagem contam os dois lados. */
@@ -3616,7 +3618,7 @@ function vozStart(row){ const SR=window.SpeechRecognition||window.webkitSpeechRe
 function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const k=rowReg(row,"a"); const named=!!row.n1.trim()||!!row.reg;
   const isoSo=row.iso&&(row.a.isoM||"so")==="so";
-  const cell=f=> f==="r"&&isoSo? `<span class="xcw"><button class="xunib ${isUni(row)?"on":""}" data-unil aria-pressed="${isUni(row)}" title="Unilateral: a isometria vale para cada lado">Uni</button><span class="xc xc-na" title="Só isometria: conta só as séries">${num(row.a.sec)?row.a.sec+'"':"—"}</span></span>`
+  const cell=f=> f==="r"&&isoSo? `<span class="xcw"><button class="xunib ${isUni(row)?"on":""}" data-unil aria-pressed="${isUni(row)}" title="Unilateral: a isometria vale para cada lado">Uni</button><span class="xc xc-na" title="Só isometria: conta só as séries">${num(row.a.sec)?(isUni(row)?`<span class="xisou">${row.a.sec}"/${row.a.sec}"</span>`:row.a.sec+'"'):"—"}</span></span>`
     : f==="r"? `<span class="xcw">${true?`<button class="xunib ${isUni(row)?"on":""}" data-unil aria-pressed="${isUni(row)}" title="Unilateral: divide as repetições por lado">Uni</button>`:""}<input class="xc" type="text" inputmode="numeric" data-x="a.r" ${isUni(row)?"data-ur":""} id="x-${row.id}-ar" value="${esc(isUni(row)&&String(row.a.r).trim()?row.a.r+"/"+row.a.r:row.a.r)}"></span>`
     : f==="s"? `<span class="xcw xcw-b"><input class="xc" type="text" inputmode="numeric" data-x="a.s" id="x-${row.id}-as" value="${esc(row.a.s)}"><button class="xunib xaddl" data-addl title="Adicionar linha a este exercício">+ linha</button></span>`
     : `<input class="xc" type="text" inputmode="${f==="c"?"decimal":"numeric"}" data-x="a.${f}" id="x-${row.id}-a${f}" value="${esc(row.a[f])}">`;
