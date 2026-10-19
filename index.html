@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792431938";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792443445";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1661,6 +1661,11 @@ body.kb #rpSugFab{display:none}
     <div id="rpBloq" hidden>
       <p class="rp-sub" style="margin:-6px 0 8px;color:#f3efe6;font-size:17px;font-weight:700" id="rpBTit">Aguardando liberação</p>
       <p class="rp-ro" id="rpBTxt" style="line-height:1.5"></p>
+      <div id="rpBCv" hidden style="margin-top:14px;padding:12px;border:1.5px solid #d4a24c;border-radius:12px">
+        <label for="rpBCvIn" style="display:block;font-size:14px;color:#f3efe6;margin:0 0 6px">Recebeu um convite? Cole aqui o link ou o código:</label>
+        <input id="rpBCvIn" autocomplete="off" placeholder="rotinadopersonal.com.br/?convite=..." style="width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1px solid #444;background:#1b1e24;color:#fff;font-size:16px">
+        <button class="rp-btn rp-pri" id="rpBCvGo" style="margin-top:8px">Liberar com o convite</button>
+      </div>
       <a class="rp-btn rp-pri" id="rpBWa" style="display:block;text-align:center;text-decoration:none;margin-top:16px" target="_blank" rel="noopener">Falar no WhatsApp</a>
       <a class="rp-btn rp-sec" id="rpBMail" style="display:block;text-align:center;text-decoration:none">Enviar e-mail</a>
       <button class="rp-btn" style="background:#2a2e36;color:#fff" id="rpBAgain">Já fui liberado · tentar de novo</button>
@@ -1768,12 +1773,16 @@ body.kb #rpSugFab{display:none}
   var dBR=function(ms){ return new Date(ms).toLocaleDateString("pt-BR"); };
   var acessoValido=function(a){ return !!(a&&a.status==="liberado"&&(tsMs(a.validoAte)==null||tsMs(a.validoAte)>Date.now())); };
   var acKey=function(){ return "rp_acesso_"+ME.uid; };
-  function bloquear(tit,txt){ $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg("");
+  function bloquear(tit,txt,cv){ $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg(""); $("rpBCv").hidden=!cv;
     $("rpBTit").textContent=tit; $("rpBTxt").textContent=txt;
     var t=encodeURIComponent("Olá! Criei minha conta no Rotina do Personal ("+(ME.email||"")+") e quero liberar o acesso.");
     if(RP_SUP_WA){ $("rpBWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t; $("rpBWa").style.display=""; } else $("rpBWa").style.display="none";
     $("rpBMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Liberar acesso - Rotina do Personal")+"&body="+t; }
   $("rpBAgain").onclick=function(){ location.reload(); };
+  $("rpBCvGo").onclick=function(){ var v=$("rpBCvIn").value.trim(), m=v.match(/convite=([A-Za-z0-9_-]+)/), cod=m? m[1] : v.replace(/[^A-Za-z0-9_-]/g,""); var btn=this;
+    if(!cod){ msg("Cole o link ou o código do convite."); return; } btn.disabled=true; msg("Liberando…",true);
+    usarConvite(cod).then(function(a2){ try{ localStorage.setItem(acKey(),JSON.stringify({status:a2.status,validoAte:a2.validoAte})); }catch(e){} msg(""); $("rpBloq").hidden=true; abrirApp(ME); })
+      .catch(function(e){ btn.disabled=false; msg(e&&e.msg? e.msg : "Não consegui usar o convite ("+((e&&e.code)||"erro")+")."); }); };
   $("rpBOut").onclick=function(){ auth.signOut().then(function(){ location.reload(); }); };
   function usarConvite(cod){ var cref=fs.doc("convites/"+cod);
     return cref.get().then(function(s){ if(!s.exists) throw {msg:"Esse convite não existe. Confira o link."}; var c=s.data(); if(c.usado&&c.usadoPor!==ME.uid) throw {msg:"Esse convite já foi usado por outra conta."};
@@ -1792,7 +1801,7 @@ body.kb #rpSugFab{display:none}
       if(cod&&!(a&&a.status==="bloqueado")) return usarConvite(cod).then(function(a2){ guarda(a2); msg(""); ok(); });
       if(a&&a.status==="bloqueado") bloquear("Acesso suspenso","Seu acesso está suspenso. Seus dados continuam guardados. Fale com o suporte para reativar.");
       else if(a&&tsMs(a.validoAte)) bloquear("Seu acesso venceu","O acesso venceu em "+dBR(tsMs(a.validoAte))+". Seus dados continuam guardados: é só renovar para continuar de onde parou.");
-      else bloquear("Aguardando liberação","Sua conta foi criada! Agora falta a liberação do acesso. Fale com a gente pelo botão abaixo.");
+      else bloquear("Aguardando liberação","Sua conta foi criada! Se você recebeu um link de convite, cole ele abaixo. Se não, fale com a gente pelo botão.",true);
     }).catch(function(e){
       if(e&&e.msg){ bloquear("Convite inválido",e.msg+" Se precisar, peça um novo convite."); try{ localStorage.removeItem("rp_convite"); }catch(x){} return; }
       if(acessoValido(cache)){ msg(""); ok(); return; }

@@ -76,7 +76,7 @@ details summary{cursor:pointer;color:var(--gold);font-weight:700;font-size:14px}
     return fs.doc("acessos/"+uid).set({status:"liberado",validoAte:val,atualizadoEm:firebase.firestore.FieldValue.serverTimestamp()},{merge:true}); }
   function codigo(){ var a="abcdefghjkmnpqrstuvwxyz23456789", r=""; var b=new Uint8Array(8); crypto.getRandomValues(b); for(var i=0;i<8;i++) r+=a[b[i]%a.length]; return r; }
   var linkDe=function(cod){ return location.origin+location.pathname.replace(/admin\.html$/,"")+"?convite="+cod; };
-  var waTxt=function(cod,dias){ return "Olá! Liberei seu acesso ao *Rotina do Personal*, o sistema de treinos, presença e financeiro que eu uso com meus alunos."+(+dias?" Você tem "+dias+" dias para usar.":"")+"\n\nCrie sua conta por este link:\n"+linkDe(cod); };
+  var waTxt=function(cod,dias){ return "Olá! Liberei seu acesso ao *Rotina do Personal*, o sistema de treinos, presença e financeiro que eu uso com meus alunos."+(+dias?" Você tem "+dias+" dias para usar.":"")+"\n\nCrie sua conta por este link:\n"+linkDe(cod)+"\n\nSe aparecer *Aguardando liberação*, cole este código: *"+cod+"*"; };
   function render(){ var ae=document.activeElement; if(meOpen&&ae&&ae.tagName==="INPUT"&&/^me/.test(ae.id||"")){ render._late=true; ae.onblur=function(){ if(render._late){ render._late=false; setTimeout(render,50); } }; return; }
     var q=filtro.toLowerCase();
     var R=L.filter(function(c){ return !q||[c.nome,c.email,c.telefone,(c.redes||{}).instagram].join(" ").toLowerCase().indexOf(q)>=0; });
