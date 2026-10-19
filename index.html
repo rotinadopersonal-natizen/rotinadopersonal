@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792425910";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792427163";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1337,6 +1337,7 @@ body.kb #sidectl,body.kb #sideopen{display:none}
 #wkpop{position:fixed;left:8px;right:8px;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:60;max-height:62vh;overflow:auto;border-radius:16px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
 #wkpop[hidden]{display:none}#wkpop .card{margin:0;border:2px solid #1e8e3e}
 body.kb #wkpop{display:none}
+.btn.wkred{background:#FDE2E2!important;color:#B42318!important;border:1.5px solid #F3A9A9!important;font-weight:800}
 .wkdet{margin:0 0 10px}.wkdet>summary{cursor:pointer;list-style:none;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:14px}.wkdet[open]>summary{margin-bottom:8px}
 .wkcfg{display:grid;gap:10px}.wkdue{border:1.5px solid #E08A00;background:#FFF3DF;color:#5A3A00;border-radius:12px;padding:10px 12px;display:grid;gap:8px;font-size:14px}
 .tecph{display:block;font-size:11px;color:var(--muted);padding:2px 6px 4px}.tecpick .tec-new{color:var(--accent);font-weight:800}
@@ -2561,6 +2562,7 @@ function renderAjuda(){
   <div class="card" id="msgCard">
     <span class="label">Mensagens do planejamento e do relatório do mês</span>
     <p class="muted" style="font-size:13px;margin:0">Escreva do seu jeito ou deixe em branco: campo vazio não aparece para o aluno. Use <b>{nome}</b> para o primeiro nome do aluno, <b>{n}</b> para o número de treinos do mês e <b>{aulas}</b> para as aulas a mais (ex.: 2 aulas).</p>
+    <label class="label msgl">Frases no planejamento e no relatório<select class="inp" data-br="frases"><option value="sim" ${BR().frases!=="nao"?"selected":""}>Com as minhas frases</option><option value="nao" ${BR().frases==="nao"?"selected":""}>Sem frases: só as informações</option></select></label>
     <label class="label msgl">Aulas da 5ª semana<select class="inp" data-br="q5"><option value="gratis" ${BR().q5!=="cobra"?"selected":""}>Dou normalmente, sem cobrar a mais</option><option value="cobra" ${BR().q5==="cobra"?"selected":""}>Cobro as aulas a mais</option></select></label>
     <label class="label msgl">Aulas a mais da 5ª semana (quando não cobra)<textarea class="inp" rows="3" data-br="q5Txt" placeholder="ex.: Este mês você tem {aulas} a mais, sem custo. Elas compensam os dias de feriado e viagem.">${esc(BR().q5Txt)}</textarea></label>
     <label class="label msgl">Planejamento · mensagem principal<textarea class="inp" rows="4" data-br="pMsg" placeholder="ex.: São {n} treinos comigo este mês…">${esc(BR().pMsg)}</textarea></label>
@@ -3083,7 +3085,7 @@ function fmtRest(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return Math.floor(
 function restLabel(m){ const e=REST[m.id]; if(!e) return "▶ "+fmtRest(restSec(m)*1000); const left=e-Date.now(); return left>0? fmtRest(left) : "Bora!"; }
 let AC=null;
 function beep(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume();
-  [0,0.32,0.64].forEach(t=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type="square"; o.frequency.value=t>0.6?1320:880; g.gain.setValueAtTime(0.0001,AC.currentTime+t); g.gain.exponentialRampToValueAtTime(0.35,AC.currentTime+t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+t+0.25); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime+t); o.stop(AC.currentTime+t+0.27); }); }catch(e){} }
+  [0,0.3,0.6,0.9,1.2,1.5,1.8].forEach(t=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type="square"; o.frequency.value=t>1.7?1320:880; g.gain.setValueAtTime(0.0001,AC.currentTime+t); g.gain.exponentialRampToValueAtTime(0.35,AC.currentTime+t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+t+0.25); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime+t); o.stop(AC.currentTime+t+0.27); }); }catch(e){} }
 const FIRED={};
 function restTick(){
   Object.keys(REST).forEach(id=>{ const m=S.students.find(x=>x.id===id); const el=document.getElementById("rt-"+id); const cell=document.getElementById("tc-"+id);
@@ -3142,18 +3144,18 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
   bub.innerHTML=`<b>${esc(t[0])}</b><p>${esc(t[1]).replace(/\n/g,"<br>")}</p><button type="button" class="qbx" aria-label="Fechar">Entendi</button>`; bub.hidden=false;
   bub.querySelector(".qbx").onclick=()=>{ bub.hidden=true; }; },true);
 /* ---------- Lateral: A−/A+ e ajuda ---------- */
-const SIDE_SZ=[1,1.3,1.6];
+const SIDE_SZ=[0.6,0.75,1,1.3,1.6];
 function sideGet(k,def){ try{ const v=localStorage.getItem(k); return v===null?def:v; }catch(e){ return def; } }
 function sideSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 function sideApply(){ const d=document.getElementById("sidectl"), r=document.getElementById("sideopen"); if(!d||!r) return; const hid=sideGet("sideHide","0")==="1"; d.hidden=hid; r.hidden=!hid;
-  const sz=SIDE_SZ[+sideGet("sideSz","0")]||1, z=FZ[fzI]||1; d.style.zoom=sz/z; r.style.zoom=1/z; }
+  const sz=SIDE_SZ[+sideGet("sideSz2","2")]||1, z=FZ[fzI]||1; d.style.zoom=sz/z; r.style.zoom=1/z; }
 function sideCtl(){ if(document.getElementById("sidectl")) return; const d=document.createElement("div"); d.id="sidectl";
   d.innerHTML=`<div class="sdh"><button class="sdsz" data-sidesz aria-label="Mudar o tamanho destes botões" title="Tamanho dos botões">⤢</button><button class="sdx" data-sidex aria-label="Fechar zoom">×</button></div><span class="sdl">zoom</span><button class="fzPlus" aria-label="Aumentar letra">A+</button><button class="fzMinus" aria-label="Diminuir letra">A−</button><button class="sidehelp" data-botopen aria-label="Ajuda sobre o site">💬<span>ajuda</span></button>`;
   document.body.appendChild(d); const r=document.createElement("button"); r.id="sideopen"; r.type="button"; r.setAttribute("aria-label","Abrir zoom e ajuda"); r.innerHTML="🔍<span>zoom</span>"; document.body.appendChild(r); sideApply(); }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-sidesz],[data-sidex],#sideopen"); if(!b) return;
   if(b.id==="sideopen"){ sideSet("sideHide","0"); sideApply(); return; }
   if(b.hasAttribute("data-sidex")){ sideSet("sideHide","1"); sideApply(); toast("Zoom fechado. Toque na 🔍 no canto para abrir de novo."); return; }
-  sideSet("sideSz",String((+sideGet("sideSz","0")+1)%SIDE_SZ.length)); sideApply(); });
+  const ni=(+sideGet("sideSz2","2")+1)%SIDE_SZ.length; sideSet("sideSz2",String(ni)); sideApply(); toast("Tamanho do zoom: "+Math.round(SIDE_SZ[ni]*100)+"%"); });
 /* ---------- Robô de ajuda (só sobre o uso do site) ---------- */
 const BOT=[
  {k:"cadastr cadastro novo adicionar incluir",a:"Na aba 📝 Cadastro, toque em “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro."},
@@ -3226,21 +3228,21 @@ function wkNum(w){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.id===c.b
 function wkLbl(w){ const k=wkNum(w); return k==null? "" : "S"+k; }
 function wkDue(w){ const c=wkCfg(), n=+c.alerta||0; if(!n||c.manter) return false; const k=wkNum(w); return k!=null&&k>=n; }
 function wkCfgHTML(where){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.id===c.base)||L[0], cur=L.find(x=>x.id===S.week), lastDue=L.filter(wkDue).pop();
-  const due= lastDue? `<div class="wkdue"><b>🔔 Chegou na ${wkLbl(lastDue)}${+c.alerta?` (lembrete de ${c.alerta} semanas)`:""}.</b> Hora de mudar o treino?<div class="row"><button class="btn small primary" data-wkreset>Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button><button class="btn small" data-wkkeep="1">Manter até eu decidir</button></div></div>` : "";
+  const due= lastDue? `<div class="wkdue"><b>🔔 Chegou na ${wkLbl(lastDue)}${+c.alerta?` (lembrete de ${c.alerta} semanas)`:""}.</b> Hora de mudar o treino?<div class="row"><button class="btn small wkred" data-wkreset>Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button><button class="btn small" data-wkkeep="1">Manter até eu decidir</button></div></div>` : "";
   if(where==="banner") return due;
   return `<div class="card wkcfg"><div class="phase-head"><h3 style="margin:0">📅 Contagem das semanas</h3>${where==="ses"?`<button class="btn small ghost" data-wkcfgx>Fechar</button>`:""}</div>
     <p class="muted" style="margin:0;font-size:13px">As semanas começam sempre na segunda-feira. A contagem começou em <b>S1 · ${b?ddmm(b.start):"–"}</b>.</p>
-    <label class="label" style="display:grid;gap:4px">Me lembrar quando chegar em<select class="inp" data-wkalert>${[0,2,3,4,5,6,8,10,12,16].map(n=>`<option value="${n}" ${(+c.alerta||0)===n?"selected":""}>${n?n+" semanas":"sem lembrete"}</option>`).join("")}</select></label>
+    <label class="label" style="display:grid;gap:4px">Me lembrar quando chegar em quantas semanas?<span style="display:flex;gap:8px;align-items:center"><input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="ex.: 6" style="max-width:110px"><small class="muted">vazio = sem lembrete</small></span></label>
     ${c.manter?`<p class="note" style="margin:0">Lembrete pausado: a contagem segue até você decidir. <button class="btn small" data-wkkeep="0">Voltar a lembrar</button></p>`:""}
     ${due}
-    ${due?"":`<button class="btn small" data-wkreset style="justify-self:start">Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button>`}
+    ${due?"":`<button class="btn small wkred" data-wkreset style="justify-self:start">Recomeçar contagem: ${cur?ddmm(cur.start):""} vira S1</button>`}
     <p class="muted" style="margin:0;font-size:12px">Ao chegar no número de semanas, a semana fica <b style="color:#B26A00">laranja com 🔔</b> na barra de baixo da Sessão. Recomeçar só muda a numeração: treinos e histórico continuam.</p></div>`; }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-wkreset],[data-wkkeep],[data-wkcfgx]"); if(!b) return;
   const c=wkCfg();
   if(b.hasAttribute("data-wkcfgx")){ WKCFG_OPEN=false; renderTurnbar(); return; }
   if(b.hasAttribute("data-wkreset")){ c.base=S.week||(wkSorted().pop()||{}).id; c.manter=false; save(); renderAll(); toast("Contagem recomeçada: esta semana é a S1"); return; }
   if(b.hasAttribute("data-wkkeep")){ c.manter=b.dataset.wkkeep==="1"; save(); renderAll(); toast(c.manter?"Lembrete pausado: a contagem segue":"Lembrete ligado de novo"); return; } });
-document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches("[data-wkalert]"))) return; const c=wkCfg(); c.alerta=+e.target.value||0; c.manter=false; save(); renderAll(); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); });
+document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches("[data-wkalert]"))) return; const c=wkCfg(); c.alerta=Math.max(0,Math.min(99,parseInt(e.target.value,10)||0)); c.manter=false; save(); renderAll(); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); });
 function newWeekNow(){ const last=S.weeks.slice().sort((a,b)=>a.start<b.start?-1:1).pop(); const nw={id:nid(),n:last.n+1,start:addDays(last.start,7)};
   const src=S.days[last.id]||{}; const dst=S.days[nw.id]={}; Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); });
   S.weeks.push(nw); fillWeekByLtr(nw.id);
@@ -3665,7 +3667,7 @@ function renderReport(){
   </div>`;
 }
 function repImageBlob(id){ const card=document.getElementById(id||"repcard");
-  return html2canvas(card,{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(c=>new Promise(res=>c.toBlob(res,"image/png"))); }
+  return h2cZ(card,{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(c=>new Promise(res=>c.toBlob(res,"image/png"))); }
 async function saveImgBlob(blob,name){ const dl=(window.claude&&claude.use)? await claude.use("downloads") : null; if(!dl) return false; await dl.save({filename:name,data:blob}); return true; }
 async function sendFlow(panelId,cardId,fname,goAttr){
   const m=A(); const p=document.getElementById(panelId); const nm=esc(first(m.name));
@@ -3683,7 +3685,7 @@ async function reportPdf(){
   const card=document.getElementById("repcard"); const st=A();
   if(!window.html2canvas||!window.jspdf){ toast("O gerador de PDF não carregou. Recarregue a página."); return; }
   toast("Gerando o PDF…");
-  try{ const c=await html2canvas(card,{scale:2,backgroundColor:"#ffffff",useCORS:true});
+  try{ const c=await h2cZ(card,{scale:2,backgroundColor:"#ffffff",useCORS:true});
     const W=150,H=W*c.height/c.width; const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"mm",format:[W,H]}); const im=c.toDataURL("image/jpeg",0.92); doc.addImage(im,"JPEG",0,0,W,H);
     const nm=`${repKind==="week"?"semana":"treino"}-${noAcc(first(st.name)).replace(/[^a-z0-9]/g,"")}-${repKind==="week"?"s"+(S.weeks.find(x=>x.id===S.week)||{}).n:S.day}.pdf`;
     await offerFile(doc.output("blob"),nm,{imgs:[{src:im,name:nm.replace(/\.pdf$/,".jpg")}],text:`${repKind==="week"?"Semana":"Treino"} de ${first(st.name)} 💪 — ${BR().ass}`});
@@ -3693,7 +3695,7 @@ async function reportImage(){
   const card=document.getElementById("repcard"); const st=A();
   if(!window.html2canvas){ toast("Não consegui gerar a imagem aqui. Tire um print da tela."); return; }
   try{
-    const canvas=await html2canvas(card,{scale:2,backgroundColor:"#ffffff",useCORS:true});
+    const canvas=await h2cZ(card,{scale:2,backgroundColor:"#ffffff",useCORS:true});
     const blob=await new Promise(r=>canvas.toBlob(r,"image/png"));
     const fname=`${repKind==="week"?"semana":"treino"}-${noAcc(first(st.name)).replace(/[^a-z0-9]/g,"")}.png`;
     if(true){ await offerFile(blob,fname,{text:`${repKind==="week"?"Semana":"Treino"} de ${first(st.name)} 💪 — ${BR().ass}`}); return; }
@@ -4879,13 +4881,16 @@ function pdfFechamento(a,ym){ return cardPdf(fechCardHTML(a,ym)); }
 const DIAS_L=['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
 const fillT=(t,nome,n)=> String(t||"").replace(/\{nome\}/g,nome).replace(/\{n\}/g,n);
 const paras=(t,nome,n)=> String(t||"").split(/\n\s*\n|\n/).map(x=>x.trim()).filter(Boolean).map((x,i)=>`<p class="pc-p ${i?'pc-w':''}">${esc(fillT(x,nome,n))}</p>`).join('');
+/* html2canvas desmonta o texto quando a página está com zoom (A+): gera sempre sem zoom */
+function h2cZ(el,o){ const z=document.body.style.zoom; document.body.style.zoom=""; const r=html2canvas(el,o); const back=()=>{ document.body.style.zoom=z; }; return r.then(v=>{ back(); return v; },e=>{ back(); throw e; }); }
+function BRc(){ const b=BR(); return b.frases==="nao"? Object.assign({},b,{pMsg:"",pGold:"",pFim:"",lema:"",fOk:"",fNo:""}) : b; }
 function cardPdf(html,bg){ return (async()=>{ const box=document.createElement('div'); box.style.cssText='position:fixed;left:-10000px;top:0;width:600px;z-index:-1'; box.innerHTML=html; document.body.appendChild(box);
-  try{ const c=await html2canvas(box.firstElementChild,{scale:2,backgroundColor:bg||TH().bg,useCORS:true});
+  try{ const c=await h2cZ(box.firstElementChild,{scale:2,backgroundColor:bg||TH().bg,useCORS:true});
     const W=150,H=W*c.height/c.width; const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'mm',format:[W,H]});
     const im=c.toDataURL('image/jpeg',0.92); doc.addImage(im,'JPEG',0,0,W,H); doc._img=im; return doc; } finally{ box.remove(); } })(); }
 function q5Msg(n){ const br=BR(), au=n+' aula'+(n>1?'s':''); return br.q5Txt? esc(br.q5Txt.replace(/\{aulas\}/g,au).replace(/\{n\}/g,n)) : `Este mês você tem ${au} a mais, sem custo. ${n>1?'Elas ajudam':'Ela ajuda'} a compensar os dias de descanso em feriados e viagens.`; }
 function fechCardHTML(a,ym){
-  const R0=dadosRel(a,ym), br=BR(), G=TH().g, RED='#E5534B'; const [y,m]=ym.split('-').map(Number);
+  const R0=dadosRel(a,ym), br=BRc(), G=TH().g, RED='#E5534B'; const [y,m]=ym.split('-').map(Number);
   const nome=a.nome.replace(/\s*\(.*\)\s*$/,'').split(' ')[0];
   let feitas,contr,faltas,repos,pres=new Set(),falt=[],off=new Set(),fut=new Set();
   if(R0.hv){ feitas=R0.hv.feitas; contr=R0.hv.contr; faltas=Math.max(0,contr-feitas); repos=0; (R0.hv.dias||[]).forEach(k=>pres.add(k)); }
@@ -4920,7 +4925,7 @@ function planCardHTML(a,ym){
   const R0=dadosRel(a,ym); const x=R0.x||{contr:contratadas(a),quinta:0};
   const fix=R0.lista.filter(l=>l.st!=='off'&&!/^Reposição|^Aula extra|^Adiantamento/.test(l.lbl));
   const offDays=R0.lista.filter(l=>l.st==='off').map(l=>l.k);
-  const n=fix.length, nOff=R0.offs.length, br=BR(), G=TH().g;
+  const n=fix.length, nOff=R0.offs.length, br=BRc(), G=TH().g;
   const nome=a.nome.replace(/\s*\(.*\)\s*$/,'').split(' ')[0];
   const byH={}; (a.slots||[]).slice().sort((p,q)=>(p.d||7)-(q.d||7)).forEach(sl=>{(byH[sl.h]=byH[sl.h]||[]).push(DIAS_L[sl.d])});
   const lst=arr=>arr.length>1? arr.slice(0,-1).join(', ')+' e '+arr[arr.length-1] : arr[0]||'';
