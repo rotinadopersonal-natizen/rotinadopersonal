@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792427249";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792427380";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1337,6 +1337,7 @@ body.kb #sidectl,body.kb #sideopen{display:none}
 #wkpop{position:fixed;left:8px;right:8px;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:60;max-height:62vh;overflow:auto;border-radius:16px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
 #wkpop[hidden]{display:none}#wkpop .card{margin:0;border:2px solid #1e8e3e}
 body.kb #wkpop{display:none}
+.xc[data-ur]{font-size:12px!important;letter-spacing:-.6px;padding:0 1px!important}
 .btn.wkred{background:#FDE2E2!important;color:#B42318!important;border:1.5px solid #F3A9A9!important;font-weight:800}
 .wkdet{margin:0 0 10px}.wkdet>summary{cursor:pointer;list-style:none;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);font-size:14px}.wkdet[open]>summary{margin-bottom:8px}
 .wkcfg{display:grid;gap:10px}.wkdue{border:1.5px solid #E08A00;background:#FFF3DF;color:#5A3A00;border-radius:12px;padding:10px 12px;display:grid;gap:8px;font-size:14px}
