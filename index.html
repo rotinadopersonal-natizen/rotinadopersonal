@@ -3276,7 +3276,7 @@ function musBoxHTML(m,wid){ const {v}=weekMuscles(m,wid); const groups=[["MMSS",
 function weekExHTML(m,wid){ const w=S.weeks.find(x=>x.id===wid); const days=DAYS.filter(dy=>dayHasData(dayOf(wid,m.id,dy)));
   if(!days.length) return "";
   return `<div class="rep-box"><h3>Todos os exercícios da semana</h3>${days.map(dy=>{ const d=dayOf(wid,m.id,dy); const L=ltrOf(m.id,wid,dy,d); const rows=d.rows.filter(r=>r.n1.trim()&&subUsed(r.a));
-    return `<div class="wx-d"><b>${DAY_N[dy]} ${ddmm(addDays(w.start,DAYS.indexOf(dy)))}${L?` · ${esc(tname(L))}`:""}</b>${rows.map(r=>`<div class="wx-r"><span>${r.cj?"⛓ ":""}${esc(r.n1)}</span><span class="num">${esc(setTxt(r.a))}</span></div>`).join("")}${num(d.cardio.t)?`<div class="wx-r"><span>❤️ ${esc(d.cardio.tipo||"Cardio")}${wodOf(d).tipo?` · ${esc(wodOf(d).tipo)}`:""}</span><span class="num">${d.cardio.t} min</span></div>`:""}</div>`; }).join("")}</div>`; }
+    return `<div class="wx-d"><b>${DAY_N[dy]} ${ddmm(addDays(w.start,DAYS.indexOf(dy)))}${L?` · ${esc(tname(L))}`:""}</b>${rows.map(r=>`<div class="wx-r"><span>${r.cj?"⛓ ":""}${esc(r.n1)}</span><span class="num">${esc(setTxt(r.a,0,uf(r)))}</span></div>`).join("")}${num(d.cardio.t)?`<div class="wx-r"><span>❤️ ${esc(d.cardio.tipo||"Cardio")}${wodOf(d).tipo?` · ${esc(wodOf(d).tipo)}`:""}</span><span class="num">${d.cardio.t} min</span></div>`:""}</div>`; }).join("")}</div>`; }
 function weekReportHTML(m){
   const w=S.weeks.find(x=>x.id===S.week); const pw=prevWeekId(w.id); const W=totWeek(w.id,m.id); const PW=pw?totWeek(pw,m.id):null; const g=tg(m);
   const planned=trainDays(m); const done=DAYS.filter(dy=>dayHasData(dayOf(w.id,m.id,dy)));
@@ -3330,7 +3330,7 @@ function weekReportText(m){
   { const k=kcalWeek(m,w.id); if(k) t+=`🔥 Gasto estimado: ${kcalTxt(k)}\n_${KCAL_NOTE}_\n`; }
   const L=exLoads(w.id,m.id), PL=pw?exLoads(pw,m.id):{}; const ups=Object.entries(L).filter(([k,e])=>PL[k]&&PL[k].c&&e.c>PL[k].c);
   if(ups.length) t+=`\n📈 Carga subiu em: ${ups.map(([k,e])=>`${e.n} (+${String(e.c-PL[k].c).replace(".",",")} kg)`).join(", ")}\n`;
-  { const days=DAYS.filter(dy=>dayHasData(dayOf(w.id,m.id,dy))); if(days.length){ t+=`\n📋 *Exercícios da semana*\n`; days.forEach(dy=>{ const d=dayOf(w.id,m.id,dy); const L=ltrOf(m.id,w.id,dy,d); t+=`_${DAY_N[dy]}${L?` · ${tname(L)}`:""}_\n`; d.rows.filter(r=>r.n1.trim()&&subUsed(r.a)).forEach(r=>{ t+=`• ${r.n1.trim()}: ${setTxt(r.a)}\n`; }); if(num(d.cardio.t)) t+=`• Cardio${d.cardio.tipo?` ${d.cardio.tipo}`:""}: ${d.cardio.t} min\n`; }); } }
+  { const days=DAYS.filter(dy=>dayHasData(dayOf(w.id,m.id,dy))); if(days.length){ t+=`\n📋 *Exercícios da semana*\n`; days.forEach(dy=>{ const d=dayOf(w.id,m.id,dy); const L=ltrOf(m.id,w.id,dy,d); t+=`_${DAY_N[dy]}${L?` · ${tname(L)}`:""}_\n`; d.rows.filter(r=>r.n1.trim()&&subUsed(r.a)).forEach(r=>{ t+=`• ${r.n1.trim()}: ${setTxt(r.a,0,uf(r))}\n`; }); if(num(d.cardio.t)) t+=`• Cardio${d.cardio.tipo?` ${d.cardio.tipo}`:""}: ${d.cardio.t} min\n`; }); } }
   if(S.repMus!==false){ const {v}=weekMuscles(m,w.id); const ks=Object.keys(MUSCLES).filter(k=>v[k]>0); if(ks.length) t+=`\n💪 *Séries por músculo*\n`+ks.map(k=>`• ${MUSCLES[k].n}: ${fmt(v[k])}`).join("\n")+"\n"; }
   t+=bodyText(m);
   if(W.t||W.eq) t+=`\n💬 ${pickPhrase(W.t&&PW&&PW.t&&W.t>PW.t?"up":"week",m.id+w.id)}\n— ${BR().ass}${MOTTO_T()}`;
@@ -3372,7 +3372,7 @@ function reportHTML(m){
       ${rows.map(r=>{ const L=rowLines(r); const v=rowVol(r); const pv=prevRowVol(m.id,r.n1); const k=rowReg(r,"a"); const k2= r.conj&&L.length>1? rowReg(r,"b") : null;
         const badge=x=>`<span class="rep-reg r-${x}" title="${REG_LABEL[x]}">${regIcon(x)}</span>`;
         return `<div class="rep-ex">${k2? `<span class="rep-regs">${badge(k)}${badge(k2)}</span>` : badge(k)}<div class="rep-exm"><b>${esc(r.n1||"Exercício")}</b>
-          ${r.tec?`<span class="rep-tec">${esc(r.tec)}</span>`:""}${L.map(l=>`<span>${r.conj&&L.length>1&&!l.sub?esc(l.n)+": ":""}${esc(setTxt(l.x,1))}</span>`).join("")}</div>
+          ${r.tec?`<span class="rep-tec">${esc(r.tec)}</span>`:""}${L.map(l=>`<span>${r.conj&&L.length>1&&!l.sub?esc(l.n)+": ":""}${esc(setTxt(l.x,1,l.u))}</span>`).join("")}</div>
           <div class="rep-exv"><b class="num">${nf(v)} kg</b>${pv?`<small class="${v>=pv?"up":"down"}">${deltaTxt(v,pv)}</small>`:""}</div></div>`; }).join("")}
       ${T.cmin? `<div class="rep-ex"><span class="rep-reg r-C">♥</span><div class="rep-exm"><b>Cardio${d.cardio.tipo?` · ${esc(d.cardio.tipo)}`:""}</b><span>${T.cmin} min${T.cv?` · ${String(T.cv).replace(".",",")} km/h`:""}${d.cardio.z?` · zona ${esc(d.cardio.z)}`:""}${d.cardio.pse!==""?` · PSE ${esc(d.cardio.pse)}`:""}</span></div>${P&&P.cv&&T.cv?`<div class="rep-exv"><small class="${T.cv>=P.cv?"up":"down"}">${T.cv>P.cv?"▲":T.cv<P.cv?"▼":"="} ${String(Math.round(Math.abs(T.cv-P.cv)*10)/10).replace(".",",")} km/h</small></div>`:""}</div>`:""}
       ${T.wmin||String(wodOf(d).desc||"").trim()? `<div class="rep-ex"><span class="rep-reg r-C">🔥</span><div class="rep-exm"><b>${wodOf(d).tipo?`Método · ${esc(wodOf(d).tipo)}`:"Método"}${T.wmin?` · ${T.wmin} min`:""}</b>${wodOf(d).desc?`<span class="wdesc">${esc(wodOf(d).desc)}</span>`:""}</div></div>`:""}
@@ -3419,7 +3419,7 @@ function reportText(m){
   const w=S.weeks.find(x=>x.id===S.week); const d=dayOf(w.id,m.id,S.day); const T=totDay(d); const P=prevDayTot(m.id);
   const date=addDays(w.start,DAYS.indexOf(S.day));
   let t=`*${ltrOf(m.id,w.id,S.day,d)?tname(ltrOf(m.id,w.id,S.day,d)):"Treino"} de ${first(m.name)} — ${DAY_N[S.day]}, ${ddmm(date)}*\n${usesPh(m)?`${phT(m)} · `:""}Semana ${w.n}${sesTimes(d)?`\n⏱ ${sesTimes(d)}`:""}\n\n`;
-  (d?d.rows:[]).filter(r=>r.n1.trim()).forEach(r=>{ rowLines(r).forEach((l,i)=>{ t+= l.sub? `   ↳ ${setTxt(l.x)}\n` : `• ${i&&r.conj?"  ↳ ":""}${l.n}${r.tec&&!i?` (${r.tec})`:""}: ${setTxt(l.x)}\n`; }); });
+  (d?d.rows:[]).filter(r=>r.n1.trim()).forEach(r=>{ rowLines(r).forEach((l,i)=>{ t+= l.sub? `   ↳ ${setTxt(l.x,0,l.u)}\n` : `• ${i&&r.conj?"  ↳ ":""}${l.n}${r.tec&&!i?` (${r.tec})`:""}: ${setTxt(l.x,0,l.u)}\n`; }); });
   if(T.cmin) t+=`• Cardio: ${T.cmin} min${d.cardio.tipo?` ${d.cardio.tipo}`:""}${T.cv?` · ${String(T.cv).replace(".",",")} km/h`:""}\n`;
   if(T.wmin||String(wodOf(d).desc||"").trim()) t+=`• 🔥 Método${wodOf(d).tipo?` ${wodOf(d).tipo}`:""}${T.wmin?` ${T.wmin} min`:""}${wodOf(d).desc?`: ${wodOf(d).desc}`:""}\n`;
   t+="\n"+REG.filter(k=>T.reg[k].s).map(k=>`${k==="MMII"?"🦵":k==="MMSS"?"💪":"🎯"} ${REG_LABEL[k]}: ${T.reg[k].s} séries · ${nf(T.reg[k].r)} reps · ${nf(T.reg[k].t)} kg`).join("\n")+"\n";
@@ -3532,8 +3532,8 @@ const SECS=Array.from({length:24},(_,i)=>(i+1)*5);
 function secsDL(){ if(!document.getElementById("secsdl")) document.body.insertAdjacentHTML("beforeend",`<datalist id="secsdl">${SECS.map(v=>`<option value="${v}">`).join("")}</datalist>`); return ""; }
 const ISO_M={ini:"Início",meio:"Meio",fim:"Final",cada:"Toda rep",so:"Só isometria"};
 const ISO_W={ini:"no início",meio:"no meio",fim:"no final",cada:"em toda rep"};
-function setTxt(x,sp){ const so=num(x.sec)&&(x.isoM||"so")==="so"; const k=num(x.c)?` · ${String(x.c).replace(".",",")} kg`:"";
-  if(so) return `${x.s||0}${sp?" × ":"×"}${x.sec}" iso${k}`;
+function setTxt(x,sp,u){ const so=num(x.sec)&&(x.isoM||"so")==="so"; const k=num(x.c)?` · ${String(x.c).replace(".",",")} kg`:"";
+  if(so) return `${x.s||0}${sp?" × ":"×"}${x.sec}" iso${u>1?" cada lado":""}${k}`;
   return `${x.s||0}${sp?" × ":"×"}${x.r||0}${k}${num(x.sec)?` · iso ${x.sec}" ${ISO_W[x.isoM]||""}${num(x.isoS)&&num(x.isoS)!==num(x.s)?` (${x.isoS} ${num(x.isoS)>1?"séries":"série"})`:""}`:""}`; }
 function vol(x){ return num(x.s)*num(x.r)*num(x.c); }
 /* Unilateral: séries e repetições são por lado (3×8 = 3 séries de 8 em cada lado). As séries contam uma vez só; repetições e tonelagem contam os dois lados. */
@@ -3616,7 +3616,7 @@ function vozStart(row){ const SR=window.SpeechRecognition||window.webkitSpeechRe
 function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const k=rowReg(row,"a"); const named=!!row.n1.trim()||!!row.reg;
   const isoSo=row.iso&&(row.a.isoM||"so")==="so";
-  const cell=f=> f==="r"&&isoSo? `<span class="xc xc-na" title="Só isometria: conta só as séries">${num(row.a.sec)?row.a.sec+'"':"—"}</span>`
+  const cell=f=> f==="r"&&isoSo? `<span class="xcw"><button class="xunib ${isUni(row)?"on":""}" data-unil aria-pressed="${isUni(row)}" title="Unilateral: a isometria vale para cada lado">Uni</button><span class="xc xc-na" title="Só isometria: conta só as séries">${num(row.a.sec)?row.a.sec+'"':"—"}</span></span>`
     : f==="r"? `<span class="xcw">${true?`<button class="xunib ${isUni(row)?"on":""}" data-unil aria-pressed="${isUni(row)}" title="Unilateral: divide as repetições por lado">Uni</button>`:""}<input class="xc" type="text" inputmode="numeric" data-x="a.r" ${isUni(row)?"data-ur":""} id="x-${row.id}-ar" value="${esc(isUni(row)&&String(row.a.r).trim()?row.a.r+"/"+row.a.r:row.a.r)}"></span>`
     : f==="s"? `<span class="xcw xcw-b"><input class="xc" type="text" inputmode="numeric" data-x="a.s" id="x-${row.id}-as" value="${esc(row.a.s)}"><button class="xunib xaddl" data-addl title="Adicionar linha a este exercício">+ linha</button></span>`
     : `<input class="xc" type="text" inputmode="${f==="c"?"decimal":"numeric"}" data-x="a.${f}" id="x-${row.id}-a${f}" value="${esc(row.a[f])}">`;
@@ -4088,6 +4088,7 @@ function sesClick(e){
   if(b.dataset.tecdel){ const n=b.dataset.tecdel; S.tecMine=tecMine().filter(x=>x.n!==n); save(); renderSessao(); toast(n+" apagado da lista (os treinos já lançados ficam como estão)"); return; }
   if(b.hasAttribute("data-addl")){ row.sub=subsOf(row).slice(); const last=row.sub[row.sub.length-1]||row.a; row.sub.push({s:"1",r:last.r||"",c:last.c||""}); if(row.sub.length===1&&num(row.a.s)>1&&!row.tec) row.a.s=String(num(row.a.s)-1); save(); rer(); toast("Linha adicionada: ajuste séries, repetições e carga dela."); return; }
   if(b.dataset.dell!==undefined){ const j=+b.dataset.dell; row.sub=subsOf(row).filter((_,k)=>k!==j); if(!row.sub.length) delete row.sub; save(); rer(); toast("Linha apagada"); return; }
+  if(b.hasAttribute("data-unil")&&row.iso&&(row.a.isoM||"so")==="so"){ row.uni=!isUni(row); save(); rer(); toast(row.uni?`Unilateral: ${num(row.a.sec)?row.a.sec+'"':"isometria"} de cada lado.`:"Isometria bilateral."); return; }
   if(b.hasAttribute("data-unil")){ const on=!isUni(row); const r0=num(row.a.r);
     if(r0){ if(on&&r0%2===0&&r0>=2) row.a.r=String(r0/2); else if(!on) row.a.r=String(r0*2); }
     row.uni=on; save(); rer(); toast(on?`Unilateral: ${row.a.r||"?"}/${row.a.r||"?"} (cada lado). As séries contam uma vez.`:`Bilateral: ${row.a.r||""} repetições no total.`); return; }
