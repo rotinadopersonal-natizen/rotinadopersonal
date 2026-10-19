@@ -1815,6 +1815,18 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 })();
 </script>
 
+<script>
+/* olho para ver a senha que está digitando */
+(function(){ function wrap(i){ if(i.dataset.pw) return; i.dataset.pw="1"; const w=document.createElement("span"); w.className="pwwrap"; i.parentNode.insertBefore(w,i); w.appendChild(i);
+    const b=document.createElement("button"); b.type="button"; b.className="pweye"; b.setAttribute("aria-label","Mostrar senha"); b.title="Mostrar senha"; b.textContent="👁";
+    b.addEventListener("click",e=>{ e.preventDefault(); const s=i.type==="password"; i.type=s?"text":"password"; b.textContent=s?"🙈":"👁"; b.setAttribute("aria-label",s?"Esconder senha":"Mostrar senha"); b.title=b.getAttribute("aria-label"); try{ i.focus(); const n=i.value.length; i.setSelectionRange(n,n); }catch(x){} });
+    w.appendChild(b); }
+  function scan(){ document.querySelectorAll('input[type="password"]').forEach(wrap); }
+  function go(){ const st=document.createElement("style"); st.textContent=".pwwrap{position:relative;display:block;width:100%}.pwwrap>input{width:100%!important;padding-right:46px!important;box-sizing:border-box}.pweye{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:transparent;font-size:20px;padding:6px 8px;cursor:pointer;line-height:1;color:inherit;opacity:.8}"; document.head.appendChild(st);
+    scan(); new MutationObserver(scan).observe(document.body,{childList:true,subtree:true}); }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",go); else go(); })();
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
