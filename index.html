@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792428574";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792431938";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -2998,7 +2998,8 @@ const byPid=pid=> S.students.find(x=>x.pid===pid);
 function presGrade(dy){ if(!presOn()) return []; const wd=(DAYS.indexOf(dy)+1)%7; const g={};
   PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(s=>{ if(s.d!==wd) return; const st=byPid(a.id); if(!st) return; (g[s.h]=g[s.h]||[]).push(st.id); }));
   return Object.entries(g).map(([t,ids])=>({id:"p"+dy+t,t,ids:ids.slice(0,3),auto:1})); }
-function slotsOf(dy){ const L=((S.grade||{})[dy]||[]); return (L.length? L : presGrade(dy)).slice().sort((a,b)=>a.t<b.t?-1:1); }
+function stInativo(sid){ if(!presOn()) return false; const st=S.students.find(x=>x.id===sid); if(!st||!st.pid) return false; const a=PRES.aluno(st.pid); return !!(a&&a.ativo===false); }
+function slotsOf(dy){ const L=((S.grade||{})[dy]||[]); return (L.length? L.map(x=>Object.assign({},x,{ids:x.ids.filter(id=>!stInativo(id))})).filter(x=>x.ids.length) : presGrade(dy)).slice().sort((a,b)=>a.t<b.t?-1:1); }
 function presSlots(st){ if(!presOn()||!st.pid) return null; const a=PRES.alunos().find(x=>x.id===st.pid); return a&&a.ativo!==false? (a.slots||[]) : []; }
 function gradeDays(st){ return DAYS.filter(dy=>slotsOf(dy).some(x=>x.ids.includes(st.id))); }
 function trainDays(st){ const g=gradeDays(st); if(g.length) return g; if(Array.isArray(st.days)) return st.days; const pl=planOf(st); return pl? [...new Set(pl.sessions.filter(se=>se.items.length).map(se=>se.day))] : []; }
@@ -3006,7 +3007,7 @@ function xSlots(dy){ const g={}; sesExtras(dy).forEach(({i,m})=>{ (g[i.hora]=g[i
   return Object.entries(g).filter(([,ids])=>ids.length>1).map(([t,ids])=>({id:"xs"+t,t,ids:ids.slice(0,3),x:1})); }
 function curSlot(){ const L=slotsOf(S.day).concat(presOn()?xSlots(S.day):[]); return L.find(x=>x.id===S.slot&&x.ids.includes(S.active)) || L.find(x=>x.ids.includes(S.active)) || null; }
 function sesMembers(){ const sl=curSlot(); if(sl){ const l=sl.ids.map(id=>S.students.find(x=>x.id===id)).filter(Boolean); if(l.length) return l; } return membersOf(A()); }
-function unitsOfDay(dy){ const seen=new Set(), out=[]; S.students.forEach(x=>{ if(seen.has(x.planId)) return; const ms=membersOf(x); if(ms.some(m=>trainDays(m).includes(dy))){ seen.add(x.planId); out.push(ms.filter(m=>trainDays(m).includes(dy))); } }); return out; }
+function unitsOfDay(dy){ const seen=new Set(), out=[]; S.students.forEach(x=>{ if(seen.has(x.planId)||stInativo(x.id)) return; const ms=membersOf(x); if(ms.some(m=>trainDays(m).includes(dy))){ seen.add(x.planId); out.push(ms.filter(m=>trainDays(m).includes(dy))); } }); return out; }
 let gradeEdit=false;
 const stById=id=>S.students.find(x=>x.id===id);
 let sesAddOpen=false, sesEdit=null, sesDel=null, sesDup=null;
