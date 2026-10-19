@@ -1308,6 +1308,23 @@ details.pgcard[open]>summary{margin-bottom:8px}
 #weektabs.weektabs button.due[aria-selected="true"]{background:#E08A00!important;color:#fff!important}
 #weektabs.weektabs button.old{opacity:.55}
 #weektabs.weektabs button.wnew,#weektabs.weektabs button.wcfg{border-style:dashed!important;color:var(--accent)!important}
+.qtip{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:0;background:#2A5BD7;color:#fff;font-weight:900;font-size:12px;line-height:1;padding:0;margin:0 0 0 4px;cursor:pointer;vertical-align:middle;flex:none}
+#qbub{position:fixed;left:12px;right:12px;bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:9000;max-width:460px;margin:0 auto;background:#14161B;color:#F5F1E8;border-radius:14px;padding:14px 16px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-size:15px;line-height:1.45}
+#qbub[hidden]{display:none}#qbub b{color:#D4A24C;font-size:16px}#qbub p{margin:6px 0 10px}#qbub .qbx{border:0;border-radius:10px;background:#D4A24C;color:#14161B;font-weight:800;padding:8px 16px;cursor:pointer}
+#sidectl{position:fixed;right:0;top:34%;z-index:55;display:flex;flex-direction:column;align-items:center;gap:6px;background:#14161B;padding:8px 5px;border-radius:14px 0 0 14px;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+#sidectl button{width:44px;height:40px;border:0;border-radius:10px;background:#D4A24C;color:#14161B;font-weight:900;font-size:18px;cursor:pointer;padding:0}
+#sidectl .fzMinus{font-size:15px;background:#F5F1E8}#sidectl>span{color:#F5F1E8;font-size:10px;font-weight:700;margin-top:-3px}
+#sidectl .sidehelp{background:#2A5BD7;color:#fff;font-size:17px;height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}#sidectl .sidehelp span{font-size:9.5px;font-weight:800;margin-top:2px}
+body.kb #sidectl{display:none}
+#botov{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+.botbox{background:var(--surface,#fff);color:var(--fg,#111);width:100%;max-width:480px;max-height:82vh;border-radius:16px 16px 0 0;display:flex;flex-direction:column;padding:12px}
+.both{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 8px}.both b{font-size:17px}
+.botlog{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding:4px;min-height:200px}
+.botm{align-self:flex-start;max-width:88%;background:var(--sunk,#eee);border-radius:12px 12px 12px 4px;padding:9px 12px;font-size:15px;line-height:1.4}
+.botm.u{align-self:flex-end;background:#2A5BD7;color:#fff;border-radius:12px 12px 4px 12px}
+.botwa{display:inline-block;margin-top:8px;background:#25D366;color:#fff;font-weight:800;border-radius:10px;padding:7px 12px;text-decoration:none}
+.botq{display:flex;flex-wrap:wrap;gap:6px}.botq button{border:1.5px solid #2A5BD7;background:transparent;color:#2A5BD7;border-radius:999px;padding:6px 10px;font-size:13.5px;font-weight:700;cursor:pointer}
+.botf{display:flex;gap:8px;padding-top:8px}.botf input{flex:1;min-width:0;font-size:16px;padding:10px;border:1px solid var(--line,#ccc);border-radius:10px;background:var(--surface,#fff);color:var(--fg,#111)}
 #wkpop{position:fixed;left:8px;right:8px;bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:60;max-height:62vh;overflow:auto;border-radius:16px;box-shadow:0 -6px 24px rgba(0,0,0,.25);max-width:520px;margin:0 auto}
 #wkpop[hidden]{display:none}#wkpop .card{margin:0;border:2px solid #1e8e3e}
 body.kb #wkpop{display:none}
@@ -1571,6 +1588,8 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .rp-sug-mic.on{background:#1e8e3e;color:#fff}
 .rp-sug-go{flex:1;padding:12px;border:0;border-radius:10px;background:#1e8e3e;color:#fff;font-weight:700;font-size:16px;cursor:pointer}
 .rp-sug-x{padding:12px 16px;border:1px solid #ccc;border-radius:10px;background:#fff;color:#222;font-size:16px;cursor:pointer}
+.rp-sug-any{margin:8px 0 10px!important;box-shadow:0 2px 8px rgba(0,0,0,.15)}.rp-sug-any b{display:block;font-size:15px}.rp-sug-any small{display:block;font-size:12px;font-weight:600;opacity:.85}
+#rpSugZ{margin-top:18px!important}
 #rpSugFab{position:fixed;right:0;top:42%;z-index:50;writing-mode:vertical-rl;transform:rotate(180deg);background:#d4a24c;color:#14161b;border:0;border-radius:0 12px 12px 0;padding:12px 5px;font:inherit;font-weight:800;font-size:13px;letter-spacing:.5px;opacity:.95;box-shadow:0 2px 10px rgba(0,0,0,.25);cursor:pointer}
 body.kb #rpSugFab{display:none}
 .rp-sug-top{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 12px;padding:12px 14px;border:0;border-radius:12px;background:#d4a24c;color:#14161b;font:inherit;font-weight:700;font-size:15px;text-align:left;cursor:pointer}
@@ -1822,7 +1841,10 @@ body.kb #rpSugFab{display:none}
       .then(function(){ btn.disabled=false; $("rpSugTxt").value=""; $("rpSugMsg").textContent="✅ Sugestão enviada. Obrigado!"; })
       .catch(function(e){ btn.disabled=false; $("rpSugMsg").textContent="Não consegui enviar ("+((e&&e.code)||"erro")+"). Tente de novo mais tarde."; }); };
   function botaoTopo(){ var v=document.getElementById("view-cadastro"); if(!v) return;
-    if(!document.getElementById("rpSugFab")){ var f=document.createElement("button"); f.id="rpSugFab"; f.type="button"; f.setAttribute("aria-label","Enviar sugestão"); f.textContent="💡 Sugestão"; f.onclick=abrirSug; document.body.appendChild(f); }
+    var sugB=function(id){ var g=document.createElement("button"); g.id=id; g.className="rp-sug-top rp-sug-any"; g.type="button"; g.innerHTML='💡 <span><b>Sugestão ou ideia</b><small>Ajude a melhorar o sistema: escreva ou fale</small></span><span style="margin-left:auto">›</span>'; g.onclick=abrirSug; return g; };
+    var w=document.getElementById("wrap"), pa=document.getElementById("payAlert");
+    var putSug=function(){ if(pa&&!document.getElementById("rpSugA")) pa.after(sugB("rpSugA")); if(w&&(!document.getElementById("rpSugZ")||w.lastElementChild.id!=="rpSugZ")){ var z=document.getElementById("rpSugZ")||sugB("rpSugZ"); w.appendChild(z); } };
+    putSug(); if(w) new MutationObserver(function(){ if(w.lastElementChild&&w.lastElementChild.id!=="rpSugZ") putSug(); }).observe(w,{childList:true});
     var put=function(){ if(v.querySelector("#rpAcctTop")) return; var b=document.createElement("button"); b.id="rpAcctTop"; b.className="rp-acct-top"; b.type="button";
       b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild);
       if(!v.querySelector("#rpSugTop")){ var g=document.createElement("button"); g.id="rpSugTop"; g.className="rp-sug-top"; g.type="button"; g.innerHTML='💡 Sugestão ou ideia para o sistema <span style="margin-left:auto">›</span>'; g.onclick=abrirSug; b.after(g); } };
@@ -3080,6 +3102,94 @@ function autoWeek(){ const mon=mondayOf(new Date()); let w=S.weeks.find(x=>x.sta
 function fillWeekByLtr(wid){ const W=S.days[wid]||{}; const done=new Set();
   Object.keys(W).forEach(sid=>Object.keys(W[sid]).forEach(dy=>{ done.add(sid+"|"+dy); try{ fillByLtr(sid,wid,dy); }catch(e){} }));
   (S.students||[]).forEach(st=>DAYS.forEach(dy=>{ if(done.has(st.id+"|"+dy)) return; try{ if(progLtr(st.id,dy)) fillByLtr(st.id,wid,dy); }catch(e){} })); }
+/* ---------- Interrogação: balão curto de explicação ---------- */
+const TIPS={
+ c_tipo:["Tipo de cardio","Onde foi feito: esteira, corrida na rua, bike, elíptico…"],
+ c_met:["Método","Como foi feito. Contínuo: ritmo igual. Intervalado: alterna forte e leve. Tiro: curto e máximo. Tabata, EMOM, AMRAP: veja o ? do Cronômetro."],
+ c_t:["Tempo","Minutos de cardio. Vai para o relatório e para o controle da semana."],
+ c_z:["Zona (1 a 5)","Z1 muito leve · Z2 leve, conversa fácil · Z3 moderado, frases curtas · Z4 forte, poucas palavras · Z5 máximo."],
+ c_v:["Velocidade","Em km/h (esteira, rua ou bike). Ajuda a estimar o gasto."],
+ c_pse:["PSE","Percepção Subjetiva de Esforço: o aluno diz de 0 (parado) a 10 (máximo) o quanto foi pesado."],
+ crono:["Cronômetros","AMRAP: o máximo de rodadas no tempo.\nPOR TEMPO: faz a tarefa o mais rápido possível, com limite.\nEMOM: a cada minuto começa uma série; o que sobra é descanso.\nTABATA: 20\" forte e 10\" de descanso, 8 vezes.\nMIX: junta vários.\n＋ CRIAR: o seu, com séries/rodadas e descanso."],
+ ex:["Botões do exercício","Conj: junta 2 exercícios (bi-set).\nIso: isometria.\nUni: unilateral, cada lado.\n+ linha: outra série com reps ou carga diferente.\nMet. Avan.: dropset, pirâmide… ou crie o seu.\n⏱ (Desc): descanso só deste exercício.\n🎤: fale o exercício e o site preenche.\nSem. Pass.: o que fez na semana passada."],
+ ctl:["Controle","Metas: séries e reps alvo por grupo muscular.\nSessão: gráfico do treino de hoje.\nSemanal: a semana toda e comparar semanas."],
+ rel:["Relatórios","Rel. do dia e Rel. semanal: para mandar ao aluno pelo WhatsApp, em imagem ou texto."],
+ pg_by:["Repetir o treino por","Letra: o dia puxa o último treino da mesma letra (bom para reposição).\nDia: toda segunda igual, toda terça igual…"],
+ pg_line:["Programação das semanas","Por fases e Medo de peso: prontas.\nMinha programação: a sua progressão, automática.\nNenhuma: só registra; a próxima semana vem com Sem. Pass."],
+ fin:["Financeiro","Previsto: total do mês. Recebido: o que entrou. A receber: o que falta (toque para ver os nomes).\nAjustar valor: muda só este mês. + outro valor: pagamento extra ou parcial. Pagou adiantado: vários meses."],
+ fz:["Tamanho da letra","A+ aumenta e A− diminui a letra de todo o site. Fica salvo no aparelho."]
+};
+function qtip(k){ return TIPS[k]? `<button type="button" class="qtip" data-tip="${k}" aria-label="O que é ${esc(TIPS[k][0])}?">?</button>` : ""; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest(".qtip"); let bub=document.getElementById("qbub");
+  if(!b){ if(bub&&!e.target.closest("#qbub")) bub.hidden=true; return; }
+  e.preventDefault(); e.stopPropagation(); const t=TIPS[b.dataset.tip]; if(!t) return;
+  if(!bub){ bub=document.createElement("div"); bub.id="qbub"; bub.setAttribute("role","dialog"); document.body.appendChild(bub); }
+  bub.innerHTML=`<b>${esc(t[0])}</b><p>${esc(t[1]).replace(/\n/g,"<br>")}</p><button type="button" class="qbx" aria-label="Fechar">Entendi</button>`; bub.hidden=false;
+  bub.querySelector(".qbx").onclick=()=>{ bub.hidden=true; }; },true);
+/* ---------- Lateral: A−/A+ e ajuda ---------- */
+function sideCtl(){ if(document.getElementById("sidectl")) return; const d=document.createElement("div"); d.id="sidectl";
+  d.innerHTML=`<button class="fzPlus" aria-label="Aumentar letra">A+</button><button class="fzMinus" aria-label="Diminuir letra">A−</button><span>letra</span><button class="sidehelp" data-botopen aria-label="Ajuda sobre o site">💬<span>ajuda</span></button>`;
+  document.body.appendChild(d); }
+/* ---------- Robô de ajuda (só sobre o uso do site) ---------- */
+const BOT=[
+ {k:"cadastr cadastro novo adicionar incluir",a:"Na aba 📝 Cadastro, toque em “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro."},
+ {k:"inativ inativar excluir apagar parou saiu",a:"Cadastro → toque no aluno → “Inativar aluno” (guarda o histórico) ou “Excluir aluno” (apaga tudo de vez)."},
+ {k:"horario horarios grade",a:"Cadastro → toque no aluno → ajuste os dias e horários → Salvar. Vale daqui pra frente. Para mudar só um dia, ajuste na Chamada da Presença."},
+ {k:"vencimento parcela parcelado duas vezes metade data pagar",a:"Cadastro → aluno → em Vencimento escolha “Paga em 2, 3… vezes” e coloque o dia (e o valor, se quiser) de cada parcela."},
+ {k:"pagou pagamento marcar recebi receber baixa",a:"Aba 💰 Financeiro → no cartão do aluno toque na parcela paga. Pagou valor diferente? Use “+ outro valor”."},
+ {k:"vencido alerta vermelho atrasado devendo",a:"O alerta vermelho no topo mostra quem passou do vencimento. Toque no nome para ir ao pagamento. Prometeu pagar depois? Use “Pendente até” no cartão do aluno."},
+ {k:"previsto recebido soma total bate",a:"Previsto = recebido + a receber. Se alguém pagou a mais, aparece um aviso amarelo no Financeiro para você conferir."},
+ {k:"adiantado trimestral varios meses",a:"Financeiro → cartão do aluno → “Pagou adiantado”. Escolha o mês em que recebeu e os meses que cobre."},
+ {k:"relatorio financeiro pdf",a:"Financeiro → “📄 Relatório financeiro (PDF)”, no topo da aba."},
+ {k:"presenca chamada falta faltou presente",a:"Aba ✅ Agenda Presença → Chamada: os alunos do dia aparecem sozinhos. Toque em Presente ou Faltou. Ao iniciar o treino na Sessão, a presença é marcada sozinha."},
+ {k:"reposicao extra aula avulsa",a:"Presença → “+ Reposição ou aula extra”."},
+ {k:"agenda horarios livres whatsapp ocupado",a:"Presença → “📅 Agenda da semana”. Marque livre/ocupado, replique para outros dias e envie os horários livres pelo WhatsApp."},
+ {k:"cor cores agenda",a:"Agenda da semana → “🎨 Cores da agenda”."},
+ {k:"programacao fases medo peso minha nenhuma programar",a:"Aba 📊 Programação → no cartão do aluno escolha: Por fases, Medo de peso, Minha programação ou Nenhuma. Toque no ? ao lado de “Programação das semanas” para um resumo."},
+ {k:"letra letras repetir",a:"Programação → cartão do aluno → coloque a letra em cada dia e escolha repetir por Letra ou por Dia da semana."},
+ {k:"semana s1 s2 contagem lembrete recomecar",a:"Na Sessão, a barra de baixo mostra S1, S2… Toque no ⚙ para escolher o lembrete de semanas e recomeçar a contagem."},
+ {k:"nova semana criar semana",a:"Na Sessão, toque no “+” da barra de semanas. A semana nova já vem com o último treino de cada letra."},
+ {k:"sessao lancar treino exercicio serie repeticao carga peso",a:"Aba 🏋️ Sessão → escreva o exercício, séries, repetições e carga. Ou toque no 🎤 e fale, ex.: “supino 3 de 10 com 20 kg”."},
+ {k:"audio voz falar microfone",a:"Na Sessão, toque no 🎤 verde ao lado do exercício e fale: “agachamento 3 de 12 com 30 kg”. Se não funcionar, confira se o navegador tem permissão de microfone."},
+ {k:"semana passada sem pass anterior",a:"A linha “Sem. Pass.” em cima do exercício mostra o que o aluno fez na semana anterior, por letra ou por dia."},
+ {k:"descanso timer intervalo",a:"Na Sessão, a barra de baixo tem o descanso de cada aluno: toque para contar. O ⏱ na coluna Desc muda o descanso só daquele exercício."},
+ {k:"cronometro amrap emom tabata mix por tempo",a:"Na Sessão, em Cronômetro, toque no tipo e depois em ▶ Iniciar. Toque no ? ao lado de Cronômetro para ver o que é cada um. Em ＋ CRIAR você monta o seu."},
+ {k:"cardio esteira zona pse velocidade",a:"Na Sessão, em Cardio: tipo, método, tempo, zona, velocidade e PSE. Toque no ? de cada campo para a explicação."},
+ {k:"dupla trio copiar",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “📋 copiar” no exercício ou “Copiar treino todo” para o outro aluno."},
+ {k:"metodo avancado dropset piramide rest pause tecnica criar",a:"Na Sessão, toque em “Met. Avan.” no exercício e escolha. Em “＋ Criar método” você cria o seu com séries/rodadas e descanso."},
+ {k:"isometria iso unilateral uni",a:"Na Sessão: “Iso” marca isometria (escolha os segundos). “Uni” marca unilateral; na isometria aparece 30\"/30\"."},
+ {k:"grafico pizza barra controle",a:"Na Sessão: “Controle: 📊 Sessão” mostra o treino do dia em barras, gráfico ou pizza. “📅 Semanal” mostra a semana e compara semanas."},
+ {k:"relatorio aluno whatsapp imagem enviar mandar",a:"Na Sessão: “Rel. do dia” ou “Rel. semanal” → escolha Imagem, Texto ou os dois para mandar pelo WhatsApp."},
+ {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia",a:"Aba 🧍 Avaliação Física: escolha Bioimpedância, Medidas (fita métrica) ou Dobras (adipômetro) e toque em Salvar avaliação."},
+ {k:"logo marca nome relatorios cores frases",a:"Cadastro → “✎ Seu nome, logo, cores e frases dos relatórios”."},
+ {k:"senha esqueci trocar email conta sair",a:"Cadastro → botão verde “Minha conta”: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
+ {k:"backup copia seguranca dados salvar",a:"Os dados ficam salvos na nuvem sozinhos. Para guardar uma cópia, use o Backup no fim da aba Cadastro."},
+ {k:"letra tamanho grande pequena zoom enxergar ler",a:"Use A+ e A− na lateral direita da tela: aumenta ou diminui a letra do site todo."},
+ {k:"sugestao ideia melhorar",a:"Toque em “💡 Sugestão”: escreva ou fale a sua ideia. Chega direto para o desenvolvedor."}
+];
+const BOT_FORA="hipertrofia fisiologia biomecanica musculo dieta nutricao suplemento whey creatina lesao dor emagrecer emagrecimento caloria proteina carboidrato hormonio frequencia cardiaca vo2 alongamento postura joelho ombro coluna lombar quantas series devo melhor exercicio melhor treino periodizar periodizacao volume ideal";
+const BOT_PROG="programacao fases medo peso progressao periodizacao montar treino divisao";
+let BOT_LOG=[], BOT_OPEN=false;
+function botNorm(t){ return String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," "); }
+function botSupWa(){ return (window.RP_SUP_WA||"5531988260268"); }
+function botAnswer(q){ const n=botNorm(q), W=n.split(/\s+/).filter(w=>w.length>2);
+  let best=null, bs=0; BOT.forEach(e=>{ const K=e.k.split(" ").filter(k=>k.length>=3); let sc=0; K.forEach(k=>{ if(W.some(w=>w===k||(k.length>=4&&w.startsWith(k))||(w.length>=4&&k.startsWith(w)))) sc++; }); if(sc>bs){ bs=sc; best=e; } });
+  const fora=BOT_FORA.split(" ").some(k=>n.includes(k)), prog=BOT_PROG.split(" ").some(k=>n.includes(k));
+  const comoUsar=/\b(onde|como|botao|aba|tela|site|marcar|lancar|cadastrar|mudar|trocar|ver|abrir)\b/.test(n);
+  if(fora&&!comoUsar) return {t:"Eu só respondo sobre o uso do site. Para dúvidas de treino, fisiologia ou biomecânica, chame o professor.",wa:"prof"};
+  if(best&&bs>=1) return {t:best.a};
+  if(prog) return {t:"Não encontrei essa resposta. Para ajuda com a sua programação, chame o professor.",wa:"prof"};
+  return {t:"Não sei responder isso. Chame o desenvolvedor que ele te ajuda.",wa:"dev"}; }
+function botHTML(){ const wa=k=>`<a class="botwa" target="_blank" rel="noopener" href="https://wa.me/${botSupWa()}?text=${encodeURIComponent(k==="prof"?"Olá, professor! Preciso de ajuda com a minha programação no Rotina do Personal.":"Olá! Tenho uma dúvida sobre o Rotina do Personal.")}">💬 ${k==="prof"?"Chamar o professor":"Chamar o desenvolvedor"}</a>`;
+  return `<div class="botbox" role="dialog" aria-label="Ajuda sobre o site"><div class="both"><b>💬 Ajuda sobre o site</b><button class="icon-btn" data-botx aria-label="Fechar">✕</button></div>
+    <div class="botlog" id="botlog">${BOT_LOG.length?BOT_LOG.map(m=>`<div class="botm ${m.u?"u":""}">${esc(m.t)}${m.wa?"<br>"+wa(m.wa):""}</div>`).join(""):`<div class="botm">Olá! Pergunte como usar o site. Ex.: “como marco pagamento?”. Só respondo sobre o site.</div><div class="botq">${["Como cadastro um aluno?","Como marco um pagamento?","Como uso o áudio?","O que é Sem. Pass.?","Como aumento a letra?"].map(x=>`<button data-botq="${esc(x)}">${esc(x)}</button>`).join("")}</div>`}</div>
+    <form class="botf" data-botf><input id="botin" placeholder="Escreva sua dúvida…" autocomplete="off"><button class="btn primary">Enviar</button></form></div>`; }
+function botRender(){ let o=document.getElementById("botov"); if(!BOT_OPEN){ if(o) o.remove(); return; }
+  if(!o){ o=document.createElement("div"); o.id="botov"; document.body.appendChild(o); } o.innerHTML=botHTML(); const l=document.getElementById("botlog"); if(l) l.scrollTop=l.scrollHeight; }
+function botAsk(q){ q=String(q||"").trim(); if(!q) return; BOT_LOG.push({u:1,t:q}); const r=botAnswer(q); BOT_LOG.push({t:r.t,wa:r.wa}); botRender(); setTimeout(()=>{ const i=document.getElementById("botin"); if(i) i.focus(); },30); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-botopen],[data-botx],[data-botq]"); if(!b){ if(e.target.id==="botov"){ BOT_OPEN=false; botRender(); } return; }
+  if(b.hasAttribute("data-botopen")){ BOT_OPEN=true; botRender(); return; } if(b.hasAttribute("data-botx")){ BOT_OPEN=false; botRender(); return; } botAsk(b.dataset.botq); });
+document.addEventListener("submit",e=>{ if(!e.target.matches("[data-botf]")) return; e.preventDefault(); botAsk(document.getElementById("botin").value); });
 /* ---------- Contagem de semanas (S1, S2…) e lembrete ---------- */
 let WKCFG_OPEN=false;
 function wkCfg(){ S.wkCfg=S.wkCfg||{}; return S.wkCfg; }
@@ -3829,7 +3939,7 @@ function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v
       <div class="tmf ${mode==="mix"?"":"tmv"}"><label>Preparação (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmprep value="${esc(String(S.tmr.prep))}"></label></div>
       <p class="muted tmsum">${esc(tmSummary(mode))}${tmSeq(mode).some(z=>z.k==="man")?"":` · total ${tmFmt(tmTotal(mode))}`}</p>${live}
       <div class="row"><button class="btn primary" data-tmgo>▶ Iniciar</button><button class="btn small ghost" data-tmopen="${mode}">Fechar</button></div></div>`; }
-  return `<div class="tmbox"><span class="xc2-h">Cronômetro</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
+  return `<div class="tmbox"><span class="xc2-h">Cronômetro ${qtip("crono")}</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
 function tmLiveHTML(){ if(!TMR) return `<span class="tml-idle">⏱ o tempo aparece aqui</span>`;
   const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)]; const l=tmLeft(); const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : (x.k==="up"||x.k==="man")? tmFmt(x.d-l) : tmFmt(l);
   return `<div class="tml" style="--lc:${TMR.done||x.k==="rest"?"#2F8F5B":x.c}"><small>${TMR.done?"Fim!":esc(x.lab)}${!TMR.done&&x.r?` ${x.r}/${x.of}`:""}${!TMR.done&&x.set?` · ${x.set}`:""}</small><b>${shown}</b>${TMR.seq.some(z=>z.cnt)?`<small>rodadas: ${TMR.rounds}</small>`:""}</div>`; }
@@ -3883,11 +3993,11 @@ function colHTML(m,w,ms){
     ${(!ltrOf(m.id,w.id,S.day,d)||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     ${sugOpen===m.id? sugHTML(m,d) : ""}
-    <div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button></div>
+    <div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button>${qtip("ctl")}</div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span>${DAY_N[S.day]} ${ddmm(addDays(w.start,DAYS.indexOf(S.day)))}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
-      <div class="xband"><span></span><span class="xb-ex">Exercícios<button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 sugerir</button></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="xband"><span></span><span class="xb-ex">Exercícios ${qtip("ex")}<button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 sugerir</button></span><span></span><span></span><span></span><span></span><span></span></div>
       ${(()=>{ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : []; const used=new Set();
         const pick=(r,i)=>{ let x=null; if(r.n1.trim()) x=pr.find(y=>!used.has(y)&&noAcc(y.n1).trim()===noAcc(r.n1).trim()); if(!x&&!r.n1.trim()&&pr[i]&&!used.has(pr[i])&&(pr[i].n1.trim()||subUsed(pr[i].a))) x=pr[i]; if(x) used.add(x); return x; };
         return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
@@ -3897,12 +4007,12 @@ function colHTML(m,w,ms){
       ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return `<div class="xcard2">
         ${tmrHTML(m)}
         <span class="xc2-h">Cardio${oth.length?` <button class="xcp" data-copycardio>📋 copiar cardio p/ ${esc(oth.map(o=>first(o.name)).join(" e "))}</button>`:""}</span>
-        <div class="xc2-g2"><label>Tipo<select class="inp" data-cf="tipo" id="cy-${m.id}"><option value="">–</option>${CARDIO_T.map(x=>`<option ${tp===x?"selected":""}>${x}</option>`).join("")}${tp&&!CARDIO_T.includes(tp)?`<option selected>${esc(tp)}</option>`:""}</select></label>
-          <label>Método<select class="inp" data-wf="tipo" id="wt-${m.id}"><option value="">–</option>${WOD_TIPOS.map(x=>`<option ${W.tipo===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
-        <div class="xc2-g4"><label>Tempo<input class="inp" type="number" inputmode="numeric" data-cf="t" id="ct-${m.id}" value="${esc(d.cardio.t)}" placeholder="min"></label>
-          <label>Zona<select class="inp" data-cf="z" id="cz-${m.id}"><option value="">–</option>${[1,2,3,4,5].map(z=>`<option ${num(d.cardio.z)===z?"selected":""}>${z}</option>`).join("")}</select></label>
-          <label>Vel.<input class="inp" type="text" inputmode="decimal" data-cf="v" id="cv-${m.id}" value="${esc(d.cardio.v||"")}" placeholder="km/h"></label>
-          <label>PSE<select class="inp" data-cf="pse" id="cp-${m.id}"><option value="">–</option>${[0,1,2,3,4,5,6,7,8,9,10].map(z=>`<option ${d.cardio.pse!==""&&num(d.cardio.pse)===z?"selected":""}>${z}</option>`).join("")}</select></label></div>
+        <div class="xc2-g2"><label>Tipo ${qtip("c_tipo")}<select class="inp" data-cf="tipo" id="cy-${m.id}"><option value="">–</option>${CARDIO_T.map(x=>`<option ${tp===x?"selected":""}>${x}</option>`).join("")}${tp&&!CARDIO_T.includes(tp)?`<option selected>${esc(tp)}</option>`:""}</select></label>
+          <label>Método ${qtip("c_met")}<select class="inp" data-wf="tipo" id="wt-${m.id}"><option value="">–</option>${WOD_TIPOS.map(x=>`<option ${W.tipo===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
+        <div class="xc2-g4"><label>Tempo ${qtip("c_t")}<input class="inp" type="number" inputmode="numeric" data-cf="t" id="ct-${m.id}" value="${esc(d.cardio.t)}" placeholder="min"></label>
+          <label>Zona ${qtip("c_z")}<select class="inp" data-cf="z" id="cz-${m.id}"><option value="">–</option>${[1,2,3,4,5].map(z=>`<option ${num(d.cardio.z)===z?"selected":""}>${z}</option>`).join("")}</select></label>
+          <label>Vel. ${qtip("c_v")}<input class="inp" type="text" inputmode="decimal" data-cf="v" id="cv-${m.id}" value="${esc(d.cardio.v||"")}" placeholder="km/h"></label>
+          <label>PSE ${qtip("c_pse")}<select class="inp" data-cf="pse" id="cp-${m.id}"><option value="">–</option>${[0,1,2,3,4,5,6,7,8,9,10].map(z=>`<option ${d.cardio.pse!==""&&num(d.cardio.pse)===z?"selected":""}>${z}</option>`).join("")}</select></label></div>
         ${(()=>{ const C=d.cardio, N=cardioN(C); let h="";
           for(let k=2;k<=N;k++){ const g=f=>C[f+k]; h+=`<div class="xc2-sec"><div class="xc2-hh"><span class="xc2-h">Cardio ${k}</span><button class="icon-btn xc2-rm" data-czrm="${k}" aria-label="Apagar cardio ${k}">✕</button></div>
             <div class="xc2-g2"><label>Tipo<select class="inp" data-cf="tipo${k}" id="cy${k}-${m.id}"><option value="">–</option>${CARDIO_T.map(x=>`<option ${g("tipo")===x?"selected":""}>${x}</option>`).join("")}${g("tipo")&&!CARDIO_T.includes(g("tipo"))?`<option selected>${esc(g("tipo"))}</option>`:""}</select></label>
@@ -3977,7 +4087,7 @@ function renderSessao0(){
       <div class="row"><button class="btn primary small" data-nw="copy">Copiar exercícios e cargas da semana ${last.n}</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>`
       : `<button class="btn small" data-nw="ask" style="justify-self:start">+ Nova semana</button>`}
     <div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>`<button data-dy="${dy}" aria-pressed="${dy===S.day}">${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?'<span class="dot"></span>':""}</button>`).join("")}</div>
-    <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button></div>
+    <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button></div>${qtip("rel")}
   </div>
   ${todayHTML(st)}
   ${sesProgHTML(st)}
@@ -5095,7 +5205,7 @@ function finCalc(ym){
 function renderPag(){
   const ym=st.month,[y,m]=ym.split('-').map(Number);
   let h=`<div class="daybar"><button class="iconbtn" data-act="mprev" aria-label="Mês anterior">‹</button>
-    <div class="t"><h2>Pagamentos · ${MESES[m-1]} ${y}</h2><small>Toque na parcela paga ou lance o valor que o aluno pagou</small></div>
+    <div class="t"><h2>Pagamentos · ${MESES[m-1]} ${y} ${qtip("fin")}</h2><small>Toque na parcela paga ou lance o valor que o aluno pagou</small></div>
     <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>`;
   if(!loadedA){main.innerHTML=h+`<div class="empty">Carregando…</div>`;return}
   const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend,mais,excesso}=F;
@@ -5615,13 +5725,13 @@ function semCardHTML(st){
     <summary class="pg-h"><b>${esc(st.name)}</b>${pill}<small class="pg-ln">${LN[ln]||"Sem programação"} · ${seq}</small></summary>
     <div class="pg-days">${PDAYS.map(d=>`<label class="${p.map[d]?"on":""}"><span>${d}</span><select data-pgday="${d}" id="pg-${st.id}-${d}" aria-label="${DAY_N[d]} de ${esc(st.name)}"><option value="">–</option>${LTR_ALL.map(x=>`<option ${p.map[d]===x?"selected":""} ${x==="FB"?'title="Full body"':""}>${x}</option>`).join("")}</select></label>`).join("")}</div>
     <p class="pg-fb">FB = Full body (corpo todo no mesmo treino).</p>
-    <div class="pg-by"><span>Repetir o treino por</span><div class="seg"><button data-pgby="letra" aria-pressed="${(p.by||"letra")==="letra"}">Letra (A, B, C…)</button><button data-pgby="dia" aria-pressed="${p.by==="dia"}">Dia da semana</button></div>
+    <div class="pg-by"><span>Repetir o treino por ${qtip("pg_by")}</span><div class="seg"><button data-pgby="letra" aria-pressed="${(p.by||"letra")==="letra"}">Letra (A, B, C…)</button><button data-pgby="dia" aria-pressed="${p.by==="dia"}">Dia da semana</button></div>
       <small>${p.by==="dia"? "Cada dia repete o mesmo dia da semana passada. Trocar a letra só muda o nome." : "Cada dia traz o último treino da mesma letra, em qualquer dia em que tenha sido feito. Bom para quem falta e repõe em outro dia."}</small></div>
     <div class="pg-row"><label>Repetir por <input class="inp" type="number" inputmode="numeric" min="1" max="52" data-pgweeks id="pgw-${st.id}" value="${p.weeks||4}"> semanas</label>
       <label>a partir de <select class="inp" data-pgstart id="pgs-${st.id}">${semStartOpts(p.start||wkStart(S.week))}</select></label></div>
     <p class="pg-sum">${p.auto?`Hoje está: ${seq}. Ajuste os dias ou toque em Confirmar.`:`${seq}${bi&&bi.end&&!bi.over?` · até ${ddmm(bi.end)}`:""}`}</p>
     ${bi&&bi.over?`<p class="blk-over">⚠ As ${bi.N} semanas deste treino terminaram. Monte o treino novo e escolha em <b>a partir de</b> a semana em que ele começa.</p>`:""}
-    <div class="pg-line"><span class="label">Programação das semanas</span>
+    <div class="pg-line"><span class="label">Programação das semanas ${qtip("pg_line")}</span>
       <div class="seg seg4" role="group" aria-label="Programação de ${esc(st.name)}"><button data-pgline="tio" aria-pressed="${ln==="tio"}">Programação por fases</button><button data-pgline="minha" aria-pressed="${ln==="minha"}">Minha programação</button><button data-pgline="conf" aria-pressed="${ln==="conf"}">Medo de peso</button><button data-pgline="" aria-pressed="${!ln}">Nenhuma programação</button></div></div>
     ${ln? lineHTML(st) : pgInfoHTML(st)}
     <div class="row">
@@ -6024,7 +6134,7 @@ let toastT; function toast(msg){ const t=document.getElementById("toast"); t.tex
 
 let AUTO_KEY=null;
 let FROZEN=false;
-function renderAll(){ if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
+function renderAll(){ try{ sideCtl(); }catch(e){} if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
   const imp=importGrade(); const key=cloud.ready?"c":"l"; if(AUTO_KEY!==key){ AUTO_KEY=key; autoToday(); }
   if(imp) save(); renderTop(); renderGuia(); if(cadDraft&&document.querySelector("#view-cadastro .cadf")) cadPull(); renderCadastro(); renderSemana(); renderTreino(); renderSessao(); renderCorpo(); }
 renderAll();
