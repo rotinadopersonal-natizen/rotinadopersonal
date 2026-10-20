@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792494553";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792495855";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1464,9 +1464,14 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 #agview .agsel{outline:3px solid #1F4E9A;outline-offset:-3px}
 #agview .agdelon .agcellb{opacity:.85}#agview .agx{position:absolute;right:1px;top:1px;font-style:normal;background:#111;color:#fff;border-radius:50%;width:15px;height:15px;font-size:9px;line-height:15px}
 .agdelmsg{background:#FDE8E8;color:#9B1C1C;border:1.5px solid #E53935;border-radius:10px;padding:8px 10px;font-weight:700;font-size:14px;margin:0;position:sticky;top:0;z-index:5}
+#agview .agnh{font-size:20px!important;max-width:none;text-align:center}#agview .agpr button.g{background:#2EBD4E;color:#fff;border-color:#2EBD4E}#agview .agpr button.r{background:#E53935;color:#fff;border-color:#E53935}
 #agview .agpok{display:grid;grid-template-columns:1fr auto;gap:6px}#agview .agpop .agpok button.ok{background:#1F4E9A;color:#fff;border-color:#1F4E9A;padding:0 16px;font-size:17px}
 #agview .agpl{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}#agview .agpl .inp{font-size:16px}
 #agview .agpr{display:grid;grid-template-columns:1fr 1fr;gap:6px}#agview .agpr button{font-size:13px!important}
+.wbell{flex:none;border:1.5px dashed var(--line);background:var(--surface);border-radius:10px;font-size:16px;padding:4px 10px;cursor:pointer}.wbell.on{border-style:solid;border-color:#2EBD4E}
+#ntfpop{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}#ntfpop[hidden]{display:none}
+.ntfbox{background:var(--surface,#fff);border-radius:16px;padding:16px;display:grid;gap:10px;max-width:440px;width:100%;max-height:86vh;overflow:auto}.ntfbox>b{font-size:18px}
+.ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
 .agmkb{display:flex;align-items:center;justify-content:center;gap:6px}.agdot{display:inline-block;width:14px;height:14px;border-radius:50%}.agdot.g{background:#2EBD4E}.agdot.r{background:#E53935;margin-right:4px}
 @media (min-width:560px){#agview .agcellb{grid-template-columns:3.1em minmax(0,1fr);align-items:center;text-align:left}#agview .agcellb b{text-align:center;border-right:1px solid rgba(0,0,0,.22);font-size:9.5px}#agview .agcellb span{padding-left:3px}}
 #agview .agpop{display:grid;gap:8px;background:var(--surface);border:2px solid var(--accent,#1F4E9A);border-radius:14px;padding:14px;position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);width:min(280px,86vw);z-index:400;box-shadow:0 6px 18px rgba(0,0,0,.25)}
@@ -2248,7 +2253,7 @@ const rng=a=> a[0]===a[1]? String(a[0]) : a[0]+"–"+a[1];
 function activate(id){ S.active=id; save(); renderAll(); toast(first(A().name)+" · Fase "+A().phase); }
 
 /* ---------- Agenda da semana (duas tabelas, como a planilha) ---------- */
-let AG_PICK=null, AG_EDH=null, AG_WH=false; let AG_OPEN=false, agEdit=false, agMkOn=false, agClr=""; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
+let AG_NEW=null, AG_PICK=null, AG_EDH=null, AG_WH=false; let AG_OPEN=false, agEdit=false, agMkOn=false, agClr=""; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
 /* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos (linhas automáticas) */
 function agTok(t){ return String(t||"").split(/\s+e\s+|,|\s*\+\s*|\s*\/\s*/).map(x=>x.trim()).filter(Boolean); }
 function agNorm(v){ const d=String(v||"").replace(/\D/g,"").slice(0,4); if(!d) return String(v||"").trim(); let h,m; if(d.length<=2){ h=+d; m=0; } else if(d.length===3){ h=+d[0]; m=+d.slice(1); } else { h=+d.slice(0,2); m=+d.slice(2); } if(h>23||m>59) return String(v||"").trim(); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
@@ -2264,6 +2269,7 @@ function agMirror(){ const A2=agData(); const [M,P]=A2.tabs; let ch=false;
   return ch; }
 /* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos e mudam junto quando o cadastro muda */
 function agSync(){ const A2=agData(); let ch=false;
+  A2.tabs.forEach(T=>A2.days.forEach(k=>{ const L=T.d[k]||[]; for(let j=L.length-1;j>=0;j--){ if(!String(L[j].h||"").trim()&&!String(L[j].t||"").trim()){ L.splice(j,1); ch=true; } } }));
   if(presOn()){ const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={}, dayOf2={}; const all=new Set();
   PRES.alunos().forEach(a=>{ const n=first(a.nome); if(n) all.add(n); });
   PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; const h=agNorm(sl.h); if(!k||!h) return; const n=first(a.nome); (g[k]=g[k]||{}); (g[k][h]=g[k][h]||[]); if(!g[k][h].includes(n)) g[k][h].push(n); (dayOf2[k]=dayOf2[k]||new Set()).add(n); }));
@@ -2338,7 +2344,10 @@ function agTabHTML(T,ti){ const A2=agData(), C=agCores(); return `<div class="ag
         <label class="agpl" for="agPopTxt">Nome do aluno (opcional)</label><div class="agpok"><input class="inp" id="agPopTxt" value="${esc(String(r.t||"")==="OCUPADO"?"":r.t||"")}" placeholder="ex.: Carol" enterkeyhint="done"><button class="ok" data-agset="r" data-agok>OK</button></div>
         <button class="r" data-agset="r">⛔ Ocupado</button>
         <div class="agpr"><button data-agedh>✏️ Mudar horário</button><button data-agdelrow>🗑 Apagar</button></div><button class="x" data-agpickx>Fechar</button></div>`:""}`; }).join("")}
-      <button class="agadd" data-agadd="${ti}|${k}">+</button></div>`).join("")}</div></div>`; }
+      <button class="agadd" data-agadd="${ti}|${k}" aria-label="Novo horário em ${AG_DN[k]}">+</button>${AG_NEW===ti+"|"+k?`<div class="agpop" role="dialog" aria-label="Novo horário"><b>Novo horário · ${AG_DN[k]}</b>
+        <label class="agpl" for="agNewH">Horário (só os números, ex.: 0800)</label><input class="inp agwhi agnh" id="agNewH" inputmode="numeric" placeholder="08:00">
+        <label class="agpl" for="agNewT">Nome do aluno (opcional)</label><div class="agpok"><input class="inp" id="agNewT" placeholder="ex.: Carol" enterkeyhint="done"><button class="ok" data-agnew="r" data-agnewok>OK</button></div>
+        <div class="agpr"><button class="g" data-agnew="g">✅ Livre</button><button class="r" data-agnew="r">⛔ Ocupado</button></div><button class="x" data-agnewx>Cancelar</button></div>`:""}</div>`).join("")}</div></div>`; }
 let AG_WHD=null;
 function agWH(){ if(!AG_WHD){ const w=(S.agenda&&S.agenda.wh)||{}; AG_WHD={de:w.de||"05:00",ate:w.ate||"20:00",st:w.st||60,days:w.days||["Seg","Ter","Qua","Qui","Sex"]}; } return AG_WHD; }
 function agWHHTML(){ const W=agWH(); return `<div class="agmk agwh"><b>🕐 Meu horário de trabalho</b>
@@ -2361,7 +2370,7 @@ function agTop(A2){ const tab=agTabHTML;
     ${A2.tabs.map(tab).join("")}`; }
 function agFit(t){ if(CSS.supports&&CSS.supports("field-sizing","content")) return; t.style.height="auto"; t.style.height=t.scrollHeight+"px"; }
 function agRender(){ const v=document.getElementById("agview"); if(!v||v.hidden) return; agSync(); v.innerHTML=agHTML(); v.querySelectorAll("textarea.agt").forEach(agFit); }
-document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches&&e.target.matches("textarea.agt")){ e.preventDefault(); e.target.blur(); } if(e.key==="Enter"&&e.target.id==="agPopTxt"){ e.preventDefault(); const bt=document.querySelector('#agview [data-agok]'); if(bt) bt.click(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches&&e.target.matches("textarea.agt")){ e.preventDefault(); e.target.blur(); } if(e.key==="Enter"&&(e.target.id==="agNewT"||e.target.id==="agNewH")){ e.preventDefault(); if(e.target.id==="agNewH"){ const t2=document.getElementById("agNewT"); if(t2) t2.focus(); } else { const bt=document.querySelector("#agview [data-agnewok]"); if(bt) bt.click(); } } if(e.key==="Enter"&&e.target.id==="agPopTxt"){ e.preventDefault(); const bt=document.querySelector('#agview [data-agok]'); if(bt) bt.click(); } });
 function agSet(on){ AG_OPEN=on; const v=document.getElementById("agview"), pm=document.getElementById("pmain"), pn=document.getElementById("pnav"), ab=document.getElementById("agOpen");
   if(!v) return; v.hidden=!on; if(pm) pm.hidden=on; if(pn) pn.style.display=on?"none":""; if(ab) ab.hidden=true; if(on) agRender(); }
 document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
@@ -2391,7 +2400,14 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
     let tel=String((a&&a.tel)||"").replace(/\D/g,""); if(tel&&tel.length<=11) tel="55"+tel.replace(/^0+/,""); const url="https://wa.me/"+tel+"?text="+encodeURIComponent(txt);
     let w=null; try{ w=window.open(url,"_blank"); }catch(err){} if(!w){ const l=document.createElement("a"); l.href=url; l.target="_blank"; l.rel="noopener"; document.body.appendChild(l); l.click(); l.remove(); } return; }
   if(b.dataset.agc){ const [ti,k,i]=b.dataset.agc.split("|"); const r=A2.tabs[+ti].d[k][+i]; r.c=AG_CYC[(AG_CYC.indexOf(r.c||"")+1)%AG_CYC.length]; save(); b.parentNode.style.setProperty("--ac",agCol(r)); return; }
-  if(b.dataset.agadd){ const [ti,k]=b.dataset.agadd.split("|"); A2.tabs[+ti].d[k].push({h:"",t:"",c:""}); save(); agRender(); const L=document.querySelectorAll(`[data-agf^="${ti}|${k}|"][data-agf$="|h"]`); if(L.length) L[L.length-1].focus(); return; }
+  if(b.dataset.agadd){ AG_NEW=b.dataset.agadd; AG_PICK=null; agRender(); setTimeout(()=>{ const el=document.getElementById("agNewH"); if(el) el.focus(); },60); return; }
+  if(b.hasAttribute("data-agnewx")){ AG_NEW=null; agRender(); return; }
+  if(b.dataset.agnew){ const [ti,k]=(AG_NEW||"").split("|"); const T=A2.tabs[+ti]; if(!T) return; const h=agNorm(document.getElementById("agNewH").value); const nm=document.getElementById("agNewT").value.trim();
+    if(!/^\d{2}:\d{2}$/.test(h)){ toast("Coloque o horário, ex.: 0800"); document.getElementById("agNewH").focus(); return; }
+    agAddDay(k); const L=T.d[k]; let r=L.find(x=>agNorm(x.h)===h); const ex=!!r; if(!r){ r={h,t:"",c:""}; L.push(r); }
+    if(b.dataset.agnew==="g"){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro).`); return; } r.c="g"; r.t=""; } else { r.c="r"; if(nm) r.t=nm; else if(!String(r.t||"").trim()) r.t= +ti===1? "OCUPADO" : ""; }
+    delete r.auto; L.sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); AG_NEW=null; agMirror(); save(); agRender();
+    toast(`✓ ${ex?"Atualizado":"Salvo"}: ${k} ${h} ${b.dataset.agnew==="g"?"livre":"ocupado"}${nm?" · "+nm:""}`); return; }
   if(b.dataset.agdel){ const [ti,k,i]=b.dataset.agdel.split("|"); A2.tabs[+ti].d[k].splice(+i,1); save(); agRender(); return; }
   if(b.hasAttribute("data-agclrall")){ if(agClr!=="all"){ agClr="all"; agRender(); return; } agClr=""; A2.tabs.forEach(T=>A2.days.forEach(k=>{ T.d[k]=[]; })); save(); agRender(); toast("Agenda limpa. Os horários fixos dos alunos voltam sozinhos."); return; }
   if(b.dataset.agclrd){ const key=b.dataset.agclrd; if(agClr!==key){ agClr=key; agRender(); return; } agClr=""; const [ti,k]=key.split("|"); A2.tabs[+ti].d[k]=[]; save(); agRender(); toast(`${AG_DN[k]} limpa`); return; }
@@ -3181,7 +3197,7 @@ function renderTurnbar(){
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
   wt.hidden=!onW; document.getElementById("wrap").classList.toggle("withweeks",!!onW);
-  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
+  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button class="wbell ${ntfOk()?"on":""}" data-ntf aria-label="Alarme no celular">${ntfOk()?"🔔":"🔕"}</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
     const on=wt.querySelector('[aria-selected="true"]'); if(on) on.scrollIntoView({inline:"nearest",block:"nearest"}); }
   let pop=document.getElementById("wkpop"); if(!pop){ pop=document.createElement("div"); pop.id="wkpop"; document.body.appendChild(pop); }
   if(onW&&WKCFG_OPEN){ pop.innerHTML=wkCfgHTML("ses"); pop.hidden=false; } else { pop.hidden=true; pop.innerHTML=""; }
@@ -3206,11 +3222,36 @@ function restTick(){
 }
 setInterval(restTick,250);
 let ALARM=[], alarmT=null;
-function showAlarm(n){ if(n&&!ALARM.includes(n)) ALARM.push(n); const a=document.getElementById("alarm"); document.getElementById("alarmName").textContent=ALARM.join(" · "); a.hidden=false; clearTimeout(alarmT); alarmT=setTimeout(hideAlarm,10000); }
+function ntfOk(){ return "Notification" in window && Notification.permission==="granted"; }
+function ntfShow(title,body){ if(!ntfOk()) return; const o={body,tag:"rp-alarm",renotify:true,requireInteraction:true,vibrate:[300,120,300,120,500],icon:"icon-192.png",badge:"icon-192.png"};
+  try{ if(navigator.serviceWorker&&navigator.serviceWorker.controller!==undefined&&navigator.serviceWorker.getRegistration){ navigator.serviceWorker.getRegistration().then(r=>{ if(r) r.showNotification(title,o); else { try{ new Notification(title,o); }catch(e){} } }); } else new Notification(title,o); }catch(e){} }
+function showAlarm(n){ if(document.visibilityState!=="visible") ntfShow("⏰ Acabou o descanso"+(n?" · "+n:""),"Bora para a próxima série!"); if(n&&!ALARM.includes(n)) ALARM.push(n); const a=document.getElementById("alarm"); document.getElementById("alarmName").textContent=ALARM.join(" · "); a.hidden=false; clearTimeout(alarmT); alarmT=setTimeout(hideAlarm,10000); }
 function hideAlarm(){ ALARM=[]; document.getElementById("alarm").hidden=true; }
 document.getElementById("alarm").addEventListener("click",hideAlarm);
 let WAKE=null; async function keepAwake(){ try{ if(!WAKE&&navigator.wakeLock){ WAKE=await navigator.wakeLock.request("screen"); WAKE.addEventListener("release",()=>WAKE=null); } }catch(e){} }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&Object.keys(REST).length) keepAwake(); });
+try{ if("serviceWorker" in navigator&&location.protocol==="https:") navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
+let NTF_OPEN=false;
+function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.permission : "nao", ios=/iPhone|iPad/.test(navigator.userAgent), app=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+  return `<div class="ntfbox" role="dialog" aria-label="Alarme no celular"><b>🔔 Alarme do descanso no celular</b>
+  <p class="ntfst ${st==="granted"?"ok":""}">${st==="granted"?"✅ Ativado neste aparelho.":st==="denied"?"⛔ Bloqueado. Libere nas configurações (passo 2).":!sup? (ios&&!app?"No iPhone, primeiro coloque o site na tela de início e abra pelo ícone.":"Este navegador não aceita alarme fora do site."):"Ainda não ativado."}</p>
+  ${sup&&st!=="granted"&&st!=="denied"?`<button class="btn primary" data-ntfgo>Ativar alarme no celular</button>`:""}${st==="granted"?`<button class="btn" data-ntftest>Testar agora (bloqueie a tela em 5 s)</button>`:""}
+  <ol class="ntfl"><li>Toque em <b>Ativar</b> e escolha <b>Permitir</b>.</li>
+  <li>Bloqueado sem querer? Toque no cadeado ao lado do endereço do site → <b>Permissões</b> → <b>Notificações: Permitir</b>.</li>
+  <li><b>Volume de mídia alto.</b> O apito usa o volume de música/vídeo, não o da campainha.</li>
+  <li>Android: Configurações → Notificações → Chrome → deixe <b>Pop-up na tela</b> (ou “Alertar”) ligado. É isso que faz o aviso aparecer por cima do que você estiver usando.</li>
+  <li>Android: Configurações → Apps → Chrome → Bateria → <b>Sem restrições</b>. Sem isso, o aviso atrasa com a tela bloqueada.</li>
+  <li>Modo <b>Não perturbe</b> desligado durante o treino.</li>
+  <li>iPhone: só funciona com o site na tela de início (iOS 16.4 ou mais novo), aberto pelo ícone.</li></ol>
+  <p class="muted" style="font-size:13px;margin:0">O melhor é deixar o site aberto: com o descanso correndo, a tela não apaga sozinha. Fora do site, o aviso chega como notificação com vibração.</p>
+  <button class="btn ghost" data-ntfx>Fechar</button></div>`; }
+function ntfRender(){ let el=document.getElementById("ntfpop"); if(!el){ el=document.createElement("div"); el.id="ntfpop"; document.body.appendChild(el); } el.hidden=!NTF_OPEN; el.innerHTML=NTF_OPEN? ntfHTML() : ""; }
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-ntf],[data-ntfgo],[data-ntftest],[data-ntfx]"); if(!b) return;
+  if(b.hasAttribute("data-ntf")){ NTF_OPEN=!NTF_OPEN; ntfRender(); return; }
+  if(b.hasAttribute("data-ntfx")){ NTF_OPEN=false; ntfRender(); return; }
+  if(b.hasAttribute("data-ntfgo")){ try{ beep(); }catch(_){} Promise.resolve(Notification.requestPermission()).then(p=>{ ntfRender(); renderTurnbar(); if(p==="granted"){ toast("Alarme ativado!"); ntfShow("🔔 Alarme ativado","Assim vai aparecer o fim do descanso."); } else toast("Não foi permitido. Veja o passo 2."); }); return; }
+  if(b.hasAttribute("data-ntftest")){ toast("Bloqueie a tela agora: o aviso chega em 5 segundos"); setTimeout(()=>{ beep(); try{ navigator.vibrate&&navigator.vibrate([300,120,300]); }catch(_){} ntfShow("⏰ Teste do alarme","Se você viu isto com a tela bloqueada, está tudo certo."); },5000); return; }
+});
 /* Semana nova automática: quando começa uma semana (segunda), ela é criada sozinha copiando exercícios e cargas da última semana. */
 function autoWeek(){ const mon=mondayOf(new Date()); let w=S.weeks.find(x=>x.start===mon); if(w) return {w,made:false};
   const last=S.weeks.slice().sort((a,b)=>a.start<b.start?-1:1).pop(); if(!last||last.start>mon) return {w:null,made:false};
@@ -4095,7 +4136,7 @@ function tone(f,d,v){ try{ AC=AC||new (window.AudioContext||window.webkitAudioCo
 function tmStart(mode,sid){ const seq=tmSeq(mode); if(!seq.length){ toast("Configure o tempo primeiro"); return; }
   tone(880,0.12,0.05); TMR={mode,sid,seq,i:0,end:Date.now()+seq[0].d*1000,st:Date.now(),paused:false,left:0,rounds:0,beeped:{},done:false,min:false};
   keepAwake(); clearInterval(TMR_I); TMR_I=setInterval(tmTick,200); tmRender(); }
-function tmNext(){ if(!TMR) return; const cur=TMR.seq[TMR.i]; TMR.i++; if(TMR.i>=TMR.seq.length){ TMR.done=true; TMR.fin=cur&&cur.k==="up"? (Date.now()-TMR.st)/1000 : 0; beep(); clearInterval(TMR_I); tmRender(); return; }
+function tmNext(){ if(!TMR) return; const cur=TMR.seq[TMR.i]; TMR.i++; if(TMR.i>=TMR.seq.length){ TMR.done=true; TMR.fin=cur&&cur.k==="up"? (Date.now()-TMR.st)/1000 : 0; beep(); if(document.visibilityState!=="visible") ntfShow("⏰ Cronômetro terminou","Toque para voltar ao treino."); clearInterval(TMR_I); tmRender(); return; }
   const x=TMR.seq[TMR.i]; TMR.end=Date.now()+x.d*1000; TMR.st=Date.now(); TMR.beeped={}; tone(x.k==="rest"?660:1320,0.45); tmRender(); }
 function tmLeft(){ if(!TMR) return 0; return TMR.paused? TMR.left : (TMR.end-Date.now())/1000; }
 function tmTick(){ if(!TMR||TMR.paused||TMR.done) return; const l=tmLeft(); const sec=Math.ceil(l);
