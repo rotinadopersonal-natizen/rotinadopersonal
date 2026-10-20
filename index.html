@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792490110";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792490486";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -835,6 +835,19 @@ select.gadd{width:auto;min-width:110px;font-size:13px;padding:4px 6px}
 #pres th:first-child,#pres td:first-child{text-align:left;position:sticky;left:0;background:var(--surface)}
 #pres th:first-child{background:var(--bg)}
 #pres tr:last-child td{border-bottom:0}
+#pres .mc-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted);margin:10px 2px 4px}#pres .mc-leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+#pres i.g{background:#2E9E5B}#pres i.r{background:#D64545}#pres i.y{background:#E5A100}#pres i.c{background:#D5D9DF}
+#pres .mc-sum{margin:6px 2px 10px;font-size:15px;color:#9A5B00}#pres .mc-sum.ok{color:#1E7E44}
+#pres .mc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+#pres .mc{background:var(--surface,#fff);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:6px}
+#pres .mc-h{display:flex;align-items:center;justify-content:space-between;gap:8px}#pres .mc-n{font-size:17px;font-weight:800;text-align:left;padding:0}
+#pres .mc-hr{font-size:12.5px;color:var(--muted);margin-top:-4px}
+#pres .mc-chip{flex:none;font-size:13px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
+#pres .mc-chip.dev{background:#FFF1D6;color:#8A4B00;border:1.5px solid #E5A100}#pres .mc-chip.ok{background:#E3F5EA;color:#1E7E44;border:1.5px solid #2E9E5B}#pres .mc-chip.adi{background:#E3EEFB;color:#1F4E9A;border:1.5px solid #4A7FD0}
+#pres .mc-bar{display:flex;gap:2px;height:12px;border-radius:6px;overflow:hidden;background:#EEF0F3}#pres .mc-bar i{display:block;height:100%}
+#pres .mc-n2{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;margin:0;font-size:15px}#pres .mc-n2 b.g{color:#1E7E44}#pres .mc-n2 b.r{color:#B42318}#pres .mc-n2 b.y{color:#8A5A00}#pres .mc-n2 span{font-size:13px;color:var(--muted)}
+#pres .mc-x{margin:0;font-size:12.5px;color:var(--muted)}
+#pres .mc-tab{margin-top:12px}#pres .mc-tab summary{cursor:pointer;font-weight:700;color:var(--accent,#1F4E9A);padding:8px 2px}
 #pres td .sub{display:block;font-size:12px;color:var(--muted);white-space:normal}
 #pres .pos{color:var(--ok);font-weight:600}
 #pres .neg{color:var(--bad);font-weight:600}
@@ -5127,6 +5140,22 @@ function renderMes(){
     <div class="kpi"><b>${brl(tot.desc)}</b><span>a abater em valor</span></div></div>`;
   h+=`<p class="note">Dias sem aula no mês: ${offs.length?offs.map(k=>`${dOf(k).getDate()}/${m} (${esc(offReason(k))})`).join(', '):'nenhum'}. ${tot.pend?`<span class="wrn">${tot.pend} chamada${tot.pend>1?'s':''} de hoje sem marcar — vira falta amanhã.</span>`:''}</p>`;
   if(!S.length){main.innerHTML=h+`<div class="empty">Nenhum aluno cadastrado.</div>`;return}
+  { const dv=S.filter(x=>(saldo.get(x.a.id)||0)>0).length;
+  h+=`<div class="mc-leg"><span><i class="g"></i>veio</span><span><i class="r"></i>faltou</span><span><i class="y"></i>hoje, sem marcar</span><span><i class="c"></i>ainda vai acontecer</span></div>
+  ${dv?`<p class="mc-sum">🔁 <b>${dv} aluno${dv>1?"s":""}</b> com aula para repor</p>`:`<p class="mc-sum ok">✅ Ninguém deve reposição</p>`}
+  <div class="mc-list">`;
+  for(const x of S){
+    const sr=saldo.get(x.a.id)||0, vAg=Math.max(0,x.pres-x.reposFeitas-x.extras-(x.adi||0)), T=Math.max(1,x.agenda);
+    const seg=(n,c)=>n?`<i class="${c}" style="flex:${n}"></i>`:"";
+    const chip= sr>0?`<span class="mc-chip dev">Repor ${sr} aula${sr>1?"s":""}</span>`: sr<0?`<span class="mc-chip adi">${-sr} adiantada${sr<-1?"s":""}</span>`:`<span class="mc-chip ok">Em dia</span>`;
+    const extra=[x.reposFeitas?`🔁 ${x.reposFeitas} reposição feita${x.reposFeitas>1?"s":""}`:"", x.auto?`⚠ ${x.auto} falta${x.auto>1?"s":""} porque a chamada não foi marcada`:"", x.abt?`💲 ${x.abt} a abater${x.valorAula?" ("+brl(x.desconto)+")":""}`:"", x.nao?`${x.nao} falta${x.nao>1?"s":""} sem repor`:"", x.quinta?`+${x.quinta} da 5ª semana`:"", x.feriado?`${x.feriado} sem aula (feriado/viagem)`:"", x.extras?`+${x.extras} aula extra`:""].filter(Boolean);
+    h+=`<div class="mc"><div class="mc-h"><button class="linkbtn mc-n" data-ver="${x.a.id}">${esc(x.a.nome)}</button>${chip}</div>
+      <span class="mc-hr">${(x.a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')}</span>
+      ${x.agenda?`<div class="mc-bar">${seg(vAg,"g")}${seg(x.falta,"r")}${seg(x.pend,"y")}${seg(x.fut,"c")}</div>`:""}
+      <p class="mc-n2"><b class="g">✅ Veio ${vAg}</b><b class="r">❌ Faltou ${x.falta}</b>${x.pend?`<b class="y">⏳ ${x.pend} hoje</b>`:""}<span>de ${x.agenda} aula${x.agenda!==1?"s":""} no mês${x.fut?` · faltam ${x.fut}`:""}</span></p>
+      ${extra.length?`<p class="mc-x">${extra.join(" · ")}</p>`:""}</div>`;
+  }
+  h+=`</div><details class="mc-tab"><summary>Ver tabela completa</summary>`; }
   h+=`<div class="tablewrap"><table><thead><tr><th>Aluno</th><th>Contrat.</th><th>Agenda</th><th>A mais</th><th>Sem aula</th><th>Presente</th><th>Faltas</th><th>A repor</th><th>Abater</th><th>Saldo repos.</th></tr></thead><tbody>`;
   for(const x of S){
     const sr=saldo.get(x.a.id)||0;
@@ -5138,7 +5167,7 @@ function renderMes(){
     <td>${x.abt?`<span class="neg">${x.abt} aula${x.abt>1?'s':''}</span>${x.valorAula?`<span class="sub">${brl(x.desconto)}</span>`:'<span class="sub">sem valor cadastrado</span>'}`:'–'}</td>
     <td>${sr>0?`<span class="wrn">deve ${sr}</span>`:sr<0?`<span class="pos">+${-sr} adiantada</span>`:'em dia'}</td></tr>`;
   }
-  h+=`</tbody></table></div>
+  h+=`</tbody></table></div></details>
   <div class="card"><h3>Relatórios para os alunos</h3><p class="note" style="margin-top:0">Gera um PDF por aluno ativo, todos juntos num arquivo .zip. Para um aluno só, abra o painel dele.</p>
   <div class="row-actions" style="margin-bottom:0"><button class="primary" data-pdfall="fech">Relatórios de ${mesCurto(ym)}</button><button class="ghost" data-pdfall="plan">Planejamentos de ${mesCurto(ym)}</button></div></div>
   <p class="note">Contratadas = aulas por semana × 4. Agenda = ocorrências reais no mês menos os dias sem aula. A mais = aulas acima do contratado neste mês (5ª semana), ${BR().q5==="cobra"?"cobradas pelo valor da aula":"sem cobrar"}. Chamada não marcada conta como falta a repor a partir do dia seguinte; antes de 7/10 as aulas contam como dadas. Saldo de reposição soma todos os meses: faltas marcadas "Repor" menos reposições dadas.</p>`;
