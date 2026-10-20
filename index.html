@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792495855";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792497107";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1471,6 +1471,10 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .wbell{flex:none;border:1.5px dashed var(--line);background:var(--surface);border-radius:10px;font-size:16px;padding:4px 10px;cursor:pointer}.wbell.on{border-style:solid;border-color:#2EBD4E}
 #ntfpop{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}#ntfpop[hidden]{display:none}
 .ntfbox{background:var(--surface,#fff);border-radius:16px;padding:16px;display:grid;gap:10px;max-width:440px;width:100%;max-height:86vh;overflow:auto}.ntfbox>b{font-size:18px}
+.ntfban{display:grid;gap:2px;width:100%;text-align:left;border:2px solid #E5A100;background:#FFF4D6;color:#5C3B00;border-radius:12px;padding:10px 12px;margin:0 0 10px;cursor:pointer;font:inherit}.ntfban b{font-size:16px}.ntfban span{font-size:13px}
+.ntfban.on{border-color:#2EBD4E;background:#E8F7EE;color:#14532D;padding:6px 12px}.ntfban.on b{font-size:14px}
+.ntfml{display:grid;gap:4px;font-weight:700;font-size:14px}.ntfml .inp{font-size:16px}.ntfprev{display:grid;gap:2px;background:#F1F3F5;border-radius:10px;padding:8px 10px;color:#111}.ntfprev small{color:#666}.ntfprev b{font-size:14px!important}
+.trest .tr-s{display:block!important;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;line-height:1.1}
 .ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
 .agmkb{display:flex;align-items:center;justify-content:center;gap:6px}.agdot{display:inline-block;width:14px;height:14px;border-radius:50%}.agdot.g{background:#2EBD4E}.agdot.r{background:#E53935;margin-right:4px}
 @media (min-width:560px){#agview .agcellb{grid-template-columns:3.1em minmax(0,1fr);align-items:center;text-align:left}#agview .agcellb b{text-align:center;border-right:1px solid rgba(0,0,0,.22);font-size:9.5px}#agview .agcellb span{padding-left:3px}}
@@ -3192,7 +3196,7 @@ function renderTurnbar(){
   bar.hidden=!onT; document.getElementById("wrap").classList.toggle("withturn",onT);
   if(onT) bar.innerHTML=ms.map(m=>`<div class="tcell ${REST[m.id]&&REST[m.id]<=Date.now()?"go":""}" id="tc-${m.id}">
     ${ms.length>1?`<button class="tname" data-turn="${m.id}" style="--pc:var(--p${m.phase})" aria-pressed="${m===st}"><span class="ud">${phK(m)}</span>${esc(first(m.name))}</button>`:`<span class="tname solo"><span class="ud" style="--pc:var(--p${m.phase})">${phK(m)}</span>${esc(first(m.name))}</span>`}
-    <button class="trest" data-rest="${m.id}" aria-label="Descanso de ${esc(first(m.name))}"><span class="tr-t num" id="rt-${m.id}">${restLabel(m)}</span><span class="tr-s">${REST[m.id]?"toque p/ parar":"descanso"}</span></button>
+    <button class="trest" data-rest="${m.id}" aria-label="Descanso de ${esc(first(m.name))}"><span class="tr-s">${REST[m.id]?"toque p/ parar":"Descanso"}</span><span class="tr-t num" id="rt-${m.id}">${restLabel(m)}</span></button>
     <button class="tdur" data-rdur="${m.id}" aria-label="Tempo de descanso" aria-expanded="${durOpen===m.id}">${restSec(m)}"</button></div>`).join("")
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
@@ -3204,7 +3208,7 @@ function renderTurnbar(){
 }
 
 /* ---------- Descanso por aluno (vibra e apita) ---------- */
-const REST={}; const REST_OPTS=[20,30,40,50,60,70,80,90,100,110,120]; let durOpen=null, rrOpen=null;
+const REST={}; const REST_OPTS=[10,20,30,40,50,60,70,80,90,100,110,120]; let durOpen=null, rrOpen=null;
 const restSec=m=> m.rest||60;
 function fmtRest(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
 function restLabel(m){ const e=REST[m.id]; if(!e) return "▶ "+fmtRest(restSec(m)*1000); const left=e-Date.now(); return left>0? fmtRest(left) : "Bora!"; }
@@ -3216,16 +3220,20 @@ function restTick(){
   Object.keys(REST).forEach(id=>{ const m=S.students.find(x=>x.id===id); const el=document.getElementById("rt-"+id); const cell=document.getElementById("tc-"+id);
     const left=REST[id]-Date.now();
     if(left<=0 && !FIRED[id]){ FIRED[id]=1; beep(); try{ navigator.vibrate&&navigator.vibrate([300,120,300,120,500]); }catch(e){} showAlarm(m?first(m.name):""); }
-    if(left<-12000){ delete REST[id]; delete FIRED[id]; if(cell) cell.classList.remove("go"); if(el&&m) el.textContent=restLabel(m); const s2=cell&&cell.querySelector(".tr-s"); if(s2) s2.textContent="descanso"; return; }
+    if(left<-12000){ delete REST[id]; delete FIRED[id]; if(cell) cell.classList.remove("go"); if(el&&m) el.textContent=restLabel(m); const s2=cell&&cell.querySelector(".tr-s"); if(s2) s2.textContent="Descanso"; return; }
     if(el&&m) el.textContent=restLabel(m); if(cell) cell.classList.toggle("go",left<=0);
   });
 }
 setInterval(restTick,250);
 let ALARM=[], alarmT=null;
+const ALM_DEF="Bora para a próxima série!";
+const almMsg=()=>String((S.brand||{}).alarmMsg||"").trim()||ALM_DEF;
+function ntfBanHTML(){ return ntfOk()? `<button class="ntfban on" data-ntf><b>🔔 Alarme do descanso ligado no celular</b><span>Mensagem: “${esc(almMsg())}” · toque para mudar</span></button>`
+  : `<button class="ntfban" data-ntf><b>🔔 Use o timer como alarme no celular</b><span>Avisa e vibra quando o descanso acaba, mesmo com a tela bloqueada. Toque aqui para ativar.</span></button>`; }
 function ntfOk(){ return "Notification" in window && Notification.permission==="granted"; }
 function ntfShow(title,body){ if(!ntfOk()) return; const o={body,tag:"rp-alarm",renotify:true,requireInteraction:true,vibrate:[300,120,300,120,500],icon:"icon-192.png",badge:"icon-192.png"};
   try{ if(navigator.serviceWorker&&navigator.serviceWorker.controller!==undefined&&navigator.serviceWorker.getRegistration){ navigator.serviceWorker.getRegistration().then(r=>{ if(r) r.showNotification(title,o); else { try{ new Notification(title,o); }catch(e){} } }); } else new Notification(title,o); }catch(e){} }
-function showAlarm(n){ if(document.visibilityState!=="visible") ntfShow("⏰ Acabou o descanso"+(n?" · "+n:""),"Bora para a próxima série!"); if(n&&!ALARM.includes(n)) ALARM.push(n); const a=document.getElementById("alarm"); document.getElementById("alarmName").textContent=ALARM.join(" · "); a.hidden=false; clearTimeout(alarmT); alarmT=setTimeout(hideAlarm,10000); }
+function showAlarm(n){ if(document.visibilityState!=="visible") ntfShow("⏰ Acabou o descanso"+(n?" · "+n:""),almMsg()); if(n&&!ALARM.includes(n)) ALARM.push(n); const a=document.getElementById("alarm"); document.getElementById("alarmName").textContent=ALARM.join(" · "); a.hidden=false; clearTimeout(alarmT); alarmT=setTimeout(hideAlarm,10000); }
 function hideAlarm(){ ALARM=[]; document.getElementById("alarm").hidden=true; }
 document.getElementById("alarm").addEventListener("click",hideAlarm);
 let WAKE=null; async function keepAwake(){ try{ if(!WAKE&&navigator.wakeLock){ WAKE=await navigator.wakeLock.request("screen"); WAKE.addEventListener("release",()=>WAKE=null); } }catch(e){} }
@@ -3235,7 +3243,9 @@ let NTF_OPEN=false;
 function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.permission : "nao", ios=/iPhone|iPad/.test(navigator.userAgent), app=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
   return `<div class="ntfbox" role="dialog" aria-label="Alarme no celular"><b>🔔 Alarme do descanso no celular</b>
   <p class="ntfst ${st==="granted"?"ok":""}">${st==="granted"?"✅ Ativado neste aparelho.":st==="denied"?"⛔ Bloqueado. Libere nas configurações (passo 2).":!sup? (ios&&!app?"No iPhone, primeiro coloque o site na tela de início e abra pelo ícone.":"Este navegador não aceita alarme fora do site."):"Ainda não ativado."}</p>
-  ${sup&&st!=="granted"&&st!=="denied"?`<button class="btn primary" data-ntfgo>Ativar alarme no celular</button>`:""}${st==="granted"?`<button class="btn" data-ntftest>Testar agora (bloqueie a tela em 5 s)</button>`:""}
+  ${sup&&st!=="granted"&&st!=="denied"?`<button class="btn primary" data-ntfgo>Ativar alarme no celular</button>`:""}<label class="ntfml">✏️ Sua mensagem quando o descanso acaba<input class="inp" id="ntfMsg" maxlength="120" value="${esc((S.brand||{}).alarmMsg||"")}" placeholder="${esc(ALM_DEF)}"></label>
+  <div class="ntfprev"><small>Vai chegar assim:</small><b>⏰ Acabou o descanso · Ana</b><span id="ntfPrev">${esc(almMsg())}</span></div>
+  ${st==="granted"?`<button class="btn" data-ntftest>Testar agora (bloqueie a tela em 5 s)</button>`:""}
   <ol class="ntfl"><li>Toque em <b>Ativar</b> e escolha <b>Permitir</b>.</li>
   <li>Bloqueado sem querer? Toque no cadeado ao lado do endereço do site → <b>Permissões</b> → <b>Notificações: Permitir</b>.</li>
   <li><b>Volume de mídia alto.</b> O apito usa o volume de música/vídeo, não o da campainha.</li>
@@ -3245,12 +3255,13 @@ function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.per
   <li>iPhone: só funciona com o site na tela de início (iOS 16.4 ou mais novo), aberto pelo ícone.</li></ol>
   <p class="muted" style="font-size:13px;margin:0">O melhor é deixar o site aberto: com o descanso correndo, a tela não apaga sozinha. Fora do site, o aviso chega como notificação com vibração.</p>
   <button class="btn ghost" data-ntfx>Fechar</button></div>`; }
+document.addEventListener("input",e=>{ if(e.target.id!=="ntfMsg") return; S.brand=Object.assign({},S.brand||{},{alarmMsg:e.target.value}); save(); const pv=document.getElementById("ntfPrev"); if(pv) pv.textContent=almMsg(); });
 function ntfRender(){ let el=document.getElementById("ntfpop"); if(!el){ el=document.createElement("div"); el.id="ntfpop"; document.body.appendChild(el); } el.hidden=!NTF_OPEN; el.innerHTML=NTF_OPEN? ntfHTML() : ""; }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-ntf],[data-ntfgo],[data-ntftest],[data-ntfx]"); if(!b) return;
   if(b.hasAttribute("data-ntf")){ NTF_OPEN=!NTF_OPEN; ntfRender(); return; }
-  if(b.hasAttribute("data-ntfx")){ NTF_OPEN=false; ntfRender(); return; }
+  if(b.hasAttribute("data-ntfx")){ NTF_OPEN=false; ntfRender(); try{ renderSessao(); }catch(_){} return; }
   if(b.hasAttribute("data-ntfgo")){ try{ beep(); }catch(_){} Promise.resolve(Notification.requestPermission()).then(p=>{ ntfRender(); renderTurnbar(); if(p==="granted"){ toast("Alarme ativado!"); ntfShow("🔔 Alarme ativado","Assim vai aparecer o fim do descanso."); } else toast("Não foi permitido. Veja o passo 2."); }); return; }
-  if(b.hasAttribute("data-ntftest")){ toast("Bloqueie a tela agora: o aviso chega em 5 segundos"); setTimeout(()=>{ beep(); try{ navigator.vibrate&&navigator.vibrate([300,120,300]); }catch(_){} ntfShow("⏰ Teste do alarme","Se você viu isto com a tela bloqueada, está tudo certo."); },5000); return; }
+  if(b.hasAttribute("data-ntftest")){ toast("Bloqueie a tela agora: o aviso chega em 5 segundos"); setTimeout(()=>{ beep(); try{ navigator.vibrate&&navigator.vibrate([300,120,300]); }catch(_){} ntfShow("⏰ Acabou o descanso · Teste",almMsg()); },5000); return; }
 });
 /* Semana nova automática: quando começa uma semana (segunda), ela é criada sozinha copiando exercícios e cargas da última semana. */
 function autoWeek(){ const mon=mondayOf(new Date()); let w=S.weeks.find(x=>x.start===mon); if(w) return {w,made:false};
@@ -3340,6 +3351,7 @@ const BOT=[
  {k:"relatorio aluno whatsapp imagem enviar mandar",a:"Na Sessão: “Rel. do dia” ou “Rel. semanal” → escolha Imagem, Texto ou os dois para mandar pelo WhatsApp."},
  {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia",a:"Aba 🧍 Avaliação Física: escolha Bioimpedância, Medidas (fita métrica) ou Dobras (adipômetro) e toque em Salvar avaliação."},
  {k:"abas esconder aparecer sumir mostrar menu so presenca so financeiro so sessao escolher",a:"Cadastro → “🧩 Abas que aparecem”. Marque só as abas que você usa; as outras ficam escondidas, sem perder nada. “Mostrar todas” volta tudo."},
+ {k:"alarme notificacao celular apitar vibrar bloqueada descanso mensagem sino",a:"Na Sessão, toque no quadro “🔔 Use o timer como alarme no celular” e em Ativar → Permitir. Ali também você escreve a sua mensagem do fim do descanso. Deixe o volume de mídia alto."},
  {k:"consultoria online aluno online distancia tipo",a:"Cadastro → aluno → Tipo → “Consultoria online”. Tem valor mensal e não entra na chamada nem na agenda."},
  {k:"logo marca nome relatorios cores frases",a:"Cadastro → “✎ Seu nome, logo, cores e frases dos relatórios”."},
  {k:"senha esqueci trocar email conta sair",a:"Cadastro → botão verde “Minha conta”: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
@@ -4182,7 +4194,7 @@ function colHTML(m,w,ms){
     ${(!ltrOf(m.id,w.id,S.day,d)||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     ${sugOpen===m.id? sugHTML(m,d) : ""}
-    <div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button>${qtip("ctl")}</div>
+    ${m===sesMembers()[0]?ntfBanHTML():""}<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button>${qtip("ctl")}</div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span>${DAY_N[S.day]} ${ddmm(addDays(w.start,DAYS.indexOf(S.day)))}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
