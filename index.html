@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792445230";
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792460198";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -130,6 +130,13 @@ section.view{display:grid;gap:16px;padding-top:18px}
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));display:flex;gap:1px}
 .tabs button{flex:1 1 auto}
 .tabs button{border:0;background:transparent;border-radius:10px;padding:8px 2px;font-family:var(--f-display);font-weight:600;font-size:12.5px;letter-spacing:0;color:var(--muted);white-space:nowrap;min-width:0;cursor:pointer;position:relative}
+.tabs button[hidden]{display:none!important}
+.abasbox summary{cursor:pointer;font-size:16px;list-style:none}.abasbox summary::-webkit-details-marker{display:none}.abasbox summary::before{content:"▸ ";color:var(--accent)}.abasbox[open] summary::before{content:"▾ "}
+.abasg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:10px 0}
+.abch{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:2px solid var(--line);background:var(--surface);color:var(--muted);border-radius:12px;padding:10px 12px;font-weight:700;font-size:15px;cursor:pointer}
+.abch small{font-weight:400;font-size:12px;color:var(--muted)}
+.abch.on{border-color:var(--accent);background:var(--accent-soft);color:var(--ink,inherit)}.abch.on::after{content:"✓ aparece";font-size:11px;color:var(--accent);font-weight:700}
+.abch.fix{opacity:.75;cursor:default}.abch.fix::after{content:""}
 .tabs button[aria-selected="true"]{color:var(--accent);background:var(--accent-soft)}
 .tabs .badge{position:absolute;top:2px;right:14%;min-width:18px;height:18px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;font-family:var(--f-body);font-weight:700;display:grid;place-items:center;padding:0 4px}
 
@@ -3200,6 +3207,7 @@ const BOT=[
  {k:"grafico pizza barra controle",a:"Na Sessão: “Controle: 📊 Sessão” mostra o treino do dia em barras, gráfico ou pizza. “📅 Semanal” mostra a semana e compara semanas."},
  {k:"relatorio aluno whatsapp imagem enviar mandar",a:"Na Sessão: “Rel. do dia” ou “Rel. semanal” → escolha Imagem, Texto ou os dois para mandar pelo WhatsApp."},
  {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia",a:"Aba 🧍 Avaliação Física: escolha Bioimpedância, Medidas (fita métrica) ou Dobras (adipômetro) e toque em Salvar avaliação."},
+ {k:"abas esconder aparecer sumir mostrar menu so presenca so financeiro so sessao escolher",a:"Cadastro → “🧩 Abas que aparecem”. Marque só as abas que você usa; as outras ficam escondidas, sem perder nada. “Mostrar todas” volta tudo."},
  {k:"logo marca nome relatorios cores frases",a:"Cadastro → “✎ Seu nome, logo, cores e frases dos relatórios”."},
  {k:"senha esqueci trocar email conta sair",a:"Cadastro → botão verde “Minha conta”: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
  {k:"backup copia seguranca dados salvar",a:"Os dados ficam salvos na nuvem sozinhos. Para guardar uma cópia, use o Backup no fim da aba Cadastro."},
@@ -5585,7 +5593,7 @@ function syncStudents(){
 let PRES_FIRST=true, PRES_SIG="";
 let PAY_SIG="", PAY_HIDE=null;
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&PAY_HIDE!==null){ PAY_HIDE=null; PAY_SIG=""; try{ renderPayAlert(); }catch(e){} } }); const hojeK=()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
-function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el) return; if(!presOn()){ el.hidden=true; return; }
+function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el) return; if(!presOn()||!abaOk("financeiro")){ el.hidden=true; return; }
   let L=[]; try{ L=PRES.vencidos(); }catch(e){ L=[]; }
   const sig=JSON.stringify(L.map(v=>[v.a.id,v.prazo,Math.round(v.falta)])); const hid=PAY_HIDE||"";
   if(!L.length||hid===sig){ el.hidden=true; el.innerHTML=""; PAY_SIG=sig; return; }
@@ -5877,6 +5885,16 @@ function tecSugHTML(m){ const p=progOf(m); const ln=lineOf(p); const k=+m.phase;
 
 /* ---------- Explicações dentro de cada aba ---------- */
 const SUP_WA="5531988260268"; /* WhatsApp do Tio Má para dúvidas, só números com DDI e DDD. Ex.: 5511999999999 */
+const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["corpo","🧍","Avaliação Física","medidas e dobras"],["presenca","✅","Agenda Presença","chamada e agenda"],["financeiro","💰","Financeiro","pagamentos"]];
+function abasOn(){ const a=(S.brand||{}).abas; return Array.isArray(a)? a : ABAS.map(x=>x[0]); }
+function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana":t); }
+function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)) show("cadastro"); }
+function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
+  return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de 6</span></summary>
+    <p style="margin:6px 0 2px;font-size:15px">${first?"<b>O que você mais quer usar no sistema?</b> ":""}Marque as abas que quer ver embaixo. As outras ficam escondidas, sem perder nada. Dá para mudar quando quiser.</p>
+    <div class="abasg"><span class="abch on fix">📝 Cadastro<small>sempre aparece</small></span>${ABAS.map(([k,i,n,d])=>`<button class="abch ${on.includes(k)?"on":""}" data-aba="${k}" aria-pressed="${on.includes(k)}">${i} ${n}<small>${d}</small></button>`).join("")}</div>
+    <div class="row" style="gap:8px"><button class="btn primary small" data-abaok>Pronto</button><button class="btn small ghost" data-abaall>Mostrar todas</button></div></details>`; }
+let ABAS_OPEN=false;
 const TAB_N={cadastro:"o Cadastro",semana:"a Programação",treino:"o Treino",sessao:"a Sessão",corpo:"a Avaliação física",presenca:"a Presença",financeiro:"o Financeiro"};
 const helpBtn=k=> `<button class="helpbtn" data-help="${k}">ⓘ Entenda ${TAB_N[k]}</button>`;
 const cadTopHTML=()=> `<div class="phtop cadtop">${helpBtn("cadastro")}<div class="fzb fzbig" role="group" aria-label="Tamanho da letra"><button class="fzMinus" aria-label="Diminuir letra">A−</button><button class="fzPlus" aria-label="Aumentar letra">A+</button></div></div>`;
@@ -6078,7 +6096,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
 function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(!v) return;
   if(cadDraft){ v.innerHTML=cadTopHTML()+cadFormHTML(); return; }
   const L=cadList();
-  v.innerHTML=`${cadTopHTML()}
+  v.innerHTML=`${cadTopHTML()}${abasHTML()}
     <div class="card"><span class="label">Cadastro</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
@@ -6091,6 +6109,11 @@ function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(
     <div id="cad-extra" style="display:grid;gap:16px"></div>`;
   renderAjuda(); }
 document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.aba||b.hasAttribute("data-abaok")||b.hasAttribute("data-abaall")){ let on=abasOn().slice();
+    if(b.dataset.aba){ const k=b.dataset.aba; on=on.includes(k)? on.filter(x=>x!==k) : ABAS.map(x=>x[0]).filter(x=>x===k||on.includes(x)); ABAS_OPEN=true; }
+    if(b.hasAttribute("data-abaall")){ on=ABAS.map(x=>x[0]); ABAS_OPEN=true; }
+    if(b.hasAttribute("data-abaok")) ABAS_OPEN=false;
+    S.brand=Object.assign({},S.brand||{},{abas:on},b.hasAttribute("data-abaok")?{abasOk:true}:{}); save(); applyAbas(); renderCadastro(); if(b.hasAttribute("data-abaok")) toast("Pronto! Só as abas escolhidas aparecem."); return; }
   if(b.hasAttribute("data-cadnew")){ cadOpen(null,null); return; }
   if(b.dataset.cadopen){ const [t,id]=b.dataset.cadopen.split(":"); if(t==="p"){ const a=PRES.aluno(id); cadOpen(a,byPid(id)); } else cadOpen(null,stById(id)); return; }
   if(b.hasAttribute("data-cadx")){ cadDraft=null; renderCadastro(); return; }
@@ -6171,6 +6194,7 @@ function sugHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const sp=((progOf(m).
 function show(tab){
   if(tab==="fases"||tab==="guia"||tab==="ajuda") tab="semana";
   if(tab==="volume"||tab==="treino") tab="semana";
+  if(!abaOk(tab)) tab="cadastro";
   CUR_TAB=tab; const view= (tab==="presenca"||tab==="financeiro")? "pres" : tab;
   document.getElementById("wrap").classList.toggle("wide", tab==="sessao"); document.body.classList.toggle("tab-sessao", tab==="sessao");
   document.getElementById("phaseStrip").hidden = true;
@@ -6189,7 +6213,7 @@ let toastT; function toast(msg){ const t=document.getElementById("toast"); t.tex
 
 let AUTO_KEY=null;
 let FROZEN=false;
-function renderAll(){ try{ sideCtl(); }catch(e){} if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
+function renderAll(){ try{ sideCtl(); }catch(e){} try{ applyAbas(); }catch(e){} if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
   const imp=importGrade(); const key=cloud.ready?"c":"l"; if(AUTO_KEY!==key){ AUTO_KEY=key; autoToday(); }
   if(imp) save(); renderTop(); renderGuia(); if(cadDraft&&document.querySelector("#view-cadastro .cadf")) cadPull(); renderCadastro(); renderSemana(); renderTreino(); renderSessao(); renderCorpo(); }
 renderAll();
