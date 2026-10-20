@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792492449";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792494235";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1458,7 +1458,16 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 #agview .agh,#agview .agt{color:var(--ai)!important;font-size:10.5px!important;padding:2px 2px!important;width:100%;text-align:center;border:0!important;background:transparent}
 #agview .agh{font-weight:900;padding-bottom:0!important}#agview .agt{padding-top:0!important;font-size:10px!important}
 #agview .agdel{padding:0 3px;font-size:10px}
-#agview button.aghb{cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px}
+#agview .agrow{grid-template-columns:minmax(0,1fr)!important}
+#agview .agcellb{display:grid;gap:0;width:100%;min-height:34px;border:0;background:transparent;color:var(--ai);cursor:pointer;padding:3px 2px;text-align:center;position:relative;font:inherit}
+#agview .agcellb b{font-size:10.5px;font-weight:900}#agview .agcellb span{font-size:10px;line-height:1.2;overflow-wrap:anywhere}
+#agview .agsel{outline:3px solid #1F4E9A;outline-offset:-3px}
+#agview .agdelon .agcellb{opacity:.85}#agview .agx{position:absolute;right:1px;top:1px;font-style:normal;background:#111;color:#fff;border-radius:50%;width:15px;height:15px;font-size:9px;line-height:15px}
+.agdelmsg{background:#FDE8E8;color:#9B1C1C;border:1.5px solid #E53935;border-radius:10px;padding:8px 10px;font-weight:700;font-size:14px;margin:0;position:sticky;top:0;z-index:5}
+#agview .agpl{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}#agview .agpl .inp{font-size:16px}
+#agview .agpr{display:grid;grid-template-columns:1fr 1fr;gap:6px}#agview .agpr button{font-size:13px!important}
+.agmkb{display:flex;align-items:center;justify-content:center;gap:6px}.agdot{display:inline-block;width:14px;height:14px;border-radius:50%}.agdot.g{background:#2EBD4E}.agdot.r{background:#E53935;margin-right:4px}
+@media (min-width:560px){#agview .agcellb{grid-template-columns:3.1em minmax(0,1fr);align-items:center;text-align:left}#agview .agcellb b{text-align:center;border-right:1px solid rgba(0,0,0,.22);font-size:9.5px}#agview .agcellb span{padding-left:3px}}
 #agview .agpop{display:grid;gap:8px;background:var(--surface);border:2px solid var(--accent,#1F4E9A);border-radius:14px;padding:14px;position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);width:min(280px,86vw);z-index:400;box-shadow:0 6px 18px rgba(0,0,0,.25)}
 #agview .agpop b{font-size:17px;text-align:center}
 #agview .agpop button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;font-size:16px;font-weight:800;padding:11px 6px;cursor:pointer;color:var(--ink,#111)}
@@ -2296,7 +2305,7 @@ function agData(){ if(!S.agenda){
   const A2=S.agenda; A2.tabs.forEach(t=>A2.days.forEach(k=>{ t.d[k]=t.d[k]||[]; })); return A2; }
 function agAddDay(k){ const A2=S.agenda; if(!A2.days.includes(k)){ A2.days.push(k); A2.days.sort((a,b)=>AG_DIAS.indexOf(a)-AG_DIAS.indexOf(b)); } A2.tabs.forEach(t=>{ t.d[k]=t.d[k]||[]; }); }
 function agMkHTML(){ const A2=agData(); const dy=(k,sel,attr)=>`<button class="dy" ${attr}="${k}" aria-pressed="${sel.includes(k)}">${k}</button>`;
-  return `<div class="agmk"><b>⚡ Marcar horário livre ou ocupado</b>
+  return `<div class="agmk"><b>Marcar o mesmo horário em vários dias</b>
     <div class="r"><span class="lb">Em qual tabela</span><select class="inp" id="agMkTi" style="max-width:220px">${A2.tabs.map((t,i)=>`<option value="${i}" ${agMk.ti===i?"selected":""}>${esc(t.title)}</option>`).join("")}</select></div>
     <div class="r"><span class="lb">Horário</span><input type="time" id="agMkH" value="${esc(agMk.h)}"><button class="st g" data-agmkst="g" aria-pressed="${agMk.st==="g"}">Livre</button><button class="st r" data-agmkst="r" aria-pressed="${agMk.st==="r"}">Ocupado</button></div>
     ${agMk.st==="r"?`<div class="r"><span class="lb">Aluno do cadastro (opcional)</span><select class="inp" id="agMkAl" style="max-width:260px"><option value="">— escolher aluno —</option>${(presOn()? PRES.alunos().filter(a=>a.ativo!==false).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")) : []).map(a=>`<option value="${esc(first(a.nome))}" ${agMk.txt===first(a.nome)?"selected":""}>${esc(a.nome)}</option>`).join("")}</select></div>
@@ -2323,7 +2332,11 @@ function agHTML(){ const A2=agData();
 }
 function agTabHTML(T,ti){ const A2=agData(), C=agCores(); return `<div class="agtab" data-agtab="${ti}"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
     <div class="aggrid" style="--n:${A2.days.length};--cab:${C.cab};--cabi:${agInk(C.cab)}">${A2.days.map(k=>`<div class="agday"><div class="agdh"><span>${k}</span>${T.d[k].length?`<button class="agclrd" data-agclrd="${ti}|${k}">${agClr===ti+"|"+k?"ok?":"limpar"}</button>`:""}</div>${T.d[k].length?"":`<div class="agempty">vazio</div>`}
-      ${T.d[k].map((r,i)=>`<div class="agrow" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}"><button class="agsw" data-agc="${ti}|${k}|${i}" aria-label="Trocar cor" title="Trocar cor"></button><div class="agcell">${/^\d{2}:\d{2}$/.test(r.h||"")&&AG_EDH!==ti+"|"+k+"|"+i?`<button class="agh aghb" data-agpick="${ti}|${k}|${i}" aria-label="${esc(r.h)}: livre ou ocupado">${esc(r.h)}</button>`:`<input class="agh" data-agf="${ti}|${k}|${i}|h" value="${esc(r.h)}" inputmode="numeric" placeholder="0800" aria-label="Horário">`}<textarea class="agt" rows="1" data-agf="${ti}|${k}|${i}|t" aria-label="${AG_DN[k]} ${esc(r.h)}">${esc(r.t)}</textarea></div>${agEdit?`<button class="agdel" data-agdel="${ti}|${k}|${i}" aria-label="Apagar linha">✕</button>`:""}</div>${AG_PICK===ti+"|"+k+"|"+i?`<div class="agpop"><b>${k} ${esc(r.h)}</b><button class="g" data-agset="g">✅ Livre</button><button class="r" data-agset="r">⛔ Ocupado</button><button data-agedh>✏️ Mudar horário</button><button data-agdelrow>🗑 Apagar</button><button class="x" data-agpickx>Fechar</button></div>`:""}`).join("")}
+      ${T.d[k].map((r,i)=>{ const key=ti+"|"+k+"|"+i, okH=/^\d{2}:\d{2}$/.test(r.h||"")&&AG_EDH!==key; return `<div class="agrow ${agEdit?"agdelon":""} ${AG_PICK===key?"agsel":""}" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}">${okH?`<button class="agcellb" data-agpick="${key}" aria-label="${AG_DN[k]} ${esc(r.h)}${r.t?" "+esc(r.t):""}: ${agEdit?"apagar":"livre ou ocupado"}"><b>${esc(r.h)}</b>${String(r.t||"").trim()?`<span>${esc(r.t)}</span>`:""}${agEdit?`<i class="agx">✕</i>`:""}</button>`:`<div class="agcell"><input class="agh" data-agf="${key}|h" value="${esc(r.h)}" inputmode="numeric" placeholder="0800" aria-label="Horário"></div>`}</div>${AG_PICK===key?`<div class="agpop" role="dialog" aria-label="${AG_DN[k]} ${esc(r.h)}"><b>${AG_DN[k]} · ${esc(r.h)}</b>
+        <button class="g" data-agset="g">✅ Livre</button>
+        <label class="agpl">Nome do aluno (opcional)<input class="inp" id="agPopTxt" value="${esc(String(r.t||"")==="OCUPADO"?"":r.t||"")}" placeholder="ex.: Carol" enterkeyhint="done"></label>
+        <button class="r" data-agset="r">⛔ Ocupado</button>
+        <div class="agpr"><button data-agedh>✏️ Mudar horário</button><button data-agdelrow>🗑 Apagar</button></div><button class="x" data-agpickx>Fechar</button></div>`:""}`; }).join("")}
       <button class="agadd" data-agadd="${ti}|${k}">+</button></div>`).join("")}</div></div>`; }
 let AG_WHD=null;
 function agWH(){ if(!AG_WHD){ const w=(S.agenda&&S.agenda.wh)||{}; AG_WHD={de:w.de||"05:00",ate:w.ate||"20:00",st:w.st||60,days:w.days||["Seg","Ter","Qua","Qui","Sex"]}; } return AG_WHD; }
@@ -2333,31 +2346,35 @@ function agWHHTML(){ const W=agWH(); return `<div class="agmk agwh"><b>🕐 Meu 
     <div class="r"><span class="lb">Dias</span>${AG_DIAS.map(k=>`<button class="dy" data-agwhd="${k}" aria-pressed="${W.days.includes(k)}">${k}</button>`).join("")}</div>
     <button class="btn primary" data-agwhgo>Criar os horários</button>
     <small class="muted">Aparecem todos os horários nas duas tabelas. Depois é só tocar no horário e escolher livre ou ocupado, ou escrever o nome do aluno. Os horários que já existem ficam como estão.</small></div>`; }
+function agDelRow(A2,ti,k,i){ const L=A2.tabs[ti].d[k], r=L[i]; if(!r) return; if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro). Para tirar, mude o horário no Cadastro.`); return; }
+  L.splice(i,1); if(ti===0){ const P=A2.tabs[1].d[k]||[]; const j=P.findIndex(x=>agNorm(x.h)===agNorm(r.h)&&(x.auto||!String(x.t||"").trim()||x.t==="OCUPADO")); if(j>=0) P.splice(j,1); }
+  agMirror(); save(); agRender(); toast(`${k} ${r.h} apagado`); }
 function agTop(A2){ const tab=agTabHTML;
   return `<div class="aghead"><b>📅 Agenda da semana</b></div>
     <button class="btn ${AG_WH?"primary":""}" data-agwh style="width:100%">🕐 Meu horário de trabalho (ex.: das 05:00 às 20:00)</button>${AG_WH? agWHHTML() : ""}
     <button class="agwab" data-agwa>📲 Enviar horários livres no WhatsApp</button>${agWa? agWaHTML() : ""}
-    <button class="btn ${agMkOn?"primary":""}" data-agmk style="width:100%">⚡ Marcar livre / ocupado e replicar para outros dias</button>${agMkOn? agMkHTML() : ""}
-    <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar tabela de novos alunos</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ${agClr==="all"?"danger":"ghost"}" data-agclrall>${agClr==="all"?"Toque de novo para limpar tudo":"🧹 Limpar tudo"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
+    <button class="btn agmkb ${agMkOn?"primary":""}" data-agmk style="width:100%"><span class="agdot g"></span><span class="agdot r"></span> Marcar vários horários de uma vez (livre ou ocupado)</button>${agMkOn? agMkHTML() : ""}
+    <div class="agtools"><button class="btn small ${agEdit?"danger":""}" data-agedit>${agEdit?"✓ Pronto, parar de apagar":"🗑 Apagar horários que não uso"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ${agClr==="all"?"danger":"ghost"}" data-agclrall>${agClr==="all"?"Toque de novo para limpar tudo":"🧹 Limpar tudo"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
     <button class="btn small ${agCorOn?"primary":""}" data-agcoron style="justify-self:start">🎨 Cores da agenda</button>${agCorOn? agCorHTML() : ""}
-    <p class="muted agtip"><b>Toque no horário</b> para marcar livre ou ocupado. Toque no espaço ao lado para escrever. Os alunos do cadastro entram sozinhos e mudam junto quando você muda o horário no cadastro. A tabela de baixo copia a de cima sozinha: com nome vira OCUPADO, vazio fica livre. Horário: digite só os números (0800 vira 08:00). Com texto, a célula fica na cor de <b>ocupado</b>; vazia, na cor de <b>livre</b>. Toque na faixa à esquerda da célula para trocar a cor só dela.</p>
+    <p class="muted agtip"><b>Toque no horário</b> para marcar ✅ livre ou ⛔ ocupado e escrever o nome. A tabela de novos alunos copia sozinha. Alunos do Cadastro entram sozinhos.</p>${agEdit?`<p class="agdelmsg">🗑 Toque nos horários que você quer tirar. Depois toque em “Pronto”.</p>`:""}
     ${A2.tabs.map(tab).join("")}`; }
 function agFit(t){ if(CSS.supports&&CSS.supports("field-sizing","content")) return; t.style.height="auto"; t.style.height=t.scrollHeight+"px"; }
 function agRender(){ const v=document.getElementById("agview"); if(!v||v.hidden) return; agSync(); v.innerHTML=agHTML(); v.querySelectorAll("textarea.agt").forEach(agFit); }
-document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches&&e.target.matches("textarea.agt")){ e.preventDefault(); e.target.blur(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches&&e.target.matches("textarea.agt")){ e.preventDefault(); e.target.blur(); } if(e.key==="Enter"&&e.target.id==="agPopTxt"){ e.preventDefault(); const bt=document.querySelector('#agview [data-agset="r"]'); if(bt) bt.click(); } });
 function agSet(on){ AG_OPEN=on; const v=document.getElementById("agview"), pm=document.getElementById("pmain"), pn=document.getElementById("pnav"), ab=document.getElementById("agOpen");
   if(!v) return; v.hidden=!on; if(pm) pm.hidden=on; if(pn) pn.style.display=on?"none":""; if(ab) ab.hidden=true; if(on) agRender(); }
 document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
   if(b.id==="agOpen"){ agSet(true); window.scrollTo(0,0); return; }
   if(b.id==="agBack"){ agSet(false); return; }
   if(!b.closest("#agview")) return; const A2=agData();
+  if(b.dataset.agpick&&agEdit){ const [ti,k,i]=b.dataset.agpick.split("|"); agDelRow(A2,+ti,k,+i); return; }
   if(b.dataset.agpick){ AG_PICK= AG_PICK===b.dataset.agpick? null : b.dataset.agpick; AG_EDH=null; agRender(); return; }
   if(b.hasAttribute("data-agpickx")){ AG_PICK=null; agRender(); return; }
   if(b.dataset.agset||b.hasAttribute("data-agedh")||b.hasAttribute("data-agdelrow")){ const [ti,k,i]=(AG_PICK||"").split("|"); const r=A2.tabs[+ti]&&A2.tabs[+ti].d[k]&&A2.tabs[+ti].d[k][+i]; if(!r){ AG_PICK=null; agRender(); return; }
     if(b.hasAttribute("data-agedh")){ AG_EDH=AG_PICK; AG_PICK=null; agRender(); const el=document.querySelector(`[data-agf="${AG_EDH}|h"]`); if(el){ el.focus(); el.select&&el.select(); } return; }
-    if(b.hasAttribute("data-agdelrow")){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} está neste horário no Cadastro. Mude lá.`); return; } A2.tabs[+ti].d[k].splice(+i,1); AG_PICK=null; agMirror(); save(); agRender(); return; }
+    if(b.hasAttribute("data-agdelrow")){ AG_PICK=null; agDelRow(A2,+ti,k,+i); return; }
     if(b.dataset.agset==="g"){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro). Para liberar, mude o horário no Cadastro.`); return; } r.c="g"; r.t=""; delete r.auto; }
-    else { r.c="r"; if(+ti===1&&!String(r.t||"").trim()) r.t="OCUPADO"; delete r.auto; }
+    else { const pt=document.getElementById("agPopTxt"); const nv=pt? pt.value.trim() : ""; r.c="r"; if(nv) r.t=nv; else if(String(r.t||"")!=="OCUPADO"&&!(r.an&&r.an.length)) r.t= +ti===1? "OCUPADO" : ""; if(+ti===1&&!String(r.t||"").trim()) r.t="OCUPADO"; delete r.auto; delete r.an; }
     AG_PICK=null; agMirror(); save(); agRender(); toast(`${k} ${r.h}: ${b.dataset.agset==="g"?"livre":"ocupado"}`); return; }
   if(b.hasAttribute("data-agwh")){ AG_WH=!AG_WH; agRender(); return; }
   if(b.dataset.agwhd){ const W=agWH(); const k=b.dataset.agwhd; W.days=W.days.includes(k)? W.days.filter(x=>x!==k) : [...W.days,k]; agRender(); return; }
