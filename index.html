@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792490486";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792492449";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1458,6 +1458,12 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 #agview .agh,#agview .agt{color:var(--ai)!important;font-size:10.5px!important;padding:2px 2px!important;width:100%;text-align:center;border:0!important;background:transparent}
 #agview .agh{font-weight:900;padding-bottom:0!important}#agview .agt{padding-top:0!important;font-size:10px!important}
 #agview .agdel{padding:0 3px;font-size:10px}
+#agview button.aghb{cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px}
+#agview .agpop{display:grid;gap:8px;background:var(--surface);border:2px solid var(--accent,#1F4E9A);border-radius:14px;padding:14px;position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);width:min(280px,86vw);z-index:400;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+#agview .agpop b{font-size:17px;text-align:center}
+#agview .agpop button{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;font-size:16px;font-weight:800;padding:11px 6px;cursor:pointer;color:var(--ink,#111)}
+#agview .agpop button.g{background:#2EBD4E;color:#fff;border-color:#2EBD4E}#agview .agpop button.r{background:#E53935;color:#fff;border-color:#E53935}#agview .agpop button.x{border:0;color:var(--muted);font-weight:600}
+.agwhi{max-width:90px;text-align:center}
 #agview .agadd{font-size:14px;padding:2px}
 #agview .agempty{font-size:10px;text-align:center;background:var(--surface);padding:4px 0}
 #agview .agtt{font-size:15px}
@@ -1537,7 +1543,8 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
   <button role="tab" id="tab-semana" data-tab="semana" aria-selected="false" aria-label="Programação"><span class="tb-ic" aria-hidden="true">📊</span><span class="tb-tx">Programação</span></button>
   <button role="tab" id="tab-sessao" data-tab="sessao" aria-selected="false" aria-label="Sessão"><span class="tb-ic" aria-hidden="true">🏋️</span><span class="tb-tx">Sessão</span></button>
   <button role="tab" id="tab-corpo" data-tab="corpo" aria-selected="false" aria-label="Avaliação Física"><span class="tb-ic" aria-hidden="true">🧍</span><span class="tb-tx">Avaliação<br>Física</span></button>
-  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Agenda Presença"><span class="tb-ic" aria-hidden="true">✅</span><span class="tb-tx">Agenda<br>Presença</span></button>
+  <button role="tab" id="tab-agenda" data-tab="agenda" aria-selected="false" aria-label="Agenda"><span class="tb-ic" aria-hidden="true">📅</span><span class="tb-tx">Agenda</span></button>
+  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Presença"><span class="tb-ic" aria-hidden="true">✅</span><span class="tb-tx">Presença</span></button>
   <button role="tab" id="tab-financeiro" data-tab="financeiro" aria-selected="false" aria-label="Financeiro"><span class="tb-ic" aria-hidden="true">💰</span><span class="tb-tx">Financeiro</span></button>
 </nav>
 
@@ -2231,18 +2238,37 @@ const rng=a=> a[0]===a[1]? String(a[0]) : a[0]+"–"+a[1];
 function activate(id){ S.active=id; save(); renderAll(); toast(first(A().name)+" · Fase "+A().phase); }
 
 /* ---------- Agenda da semana (duas tabelas, como a planilha) ---------- */
-let AG_OPEN=false, agEdit=false, agMkOn=false, agClr=""; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
+let AG_PICK=null, AG_EDH=null, AG_WH=false; let AG_OPEN=false, agEdit=false, agMkOn=false, agClr=""; const agMk={ti:1,h:"08:00",st:"g",txt:"",days:["Seg"],from:"Seg",to:[]};
 /* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos (linhas automáticas) */
-function agSync(){ if(!presOn()) return false; const A2=agData(); const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={};
-  PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; if(!k||!sl.h) return; (g[k]=g[k]||{}); (g[k][sl.h]=g[k][sl.h]||[]); const n=first(a.nome); if(!g[k][sl.h].includes(n)) g[k][sl.h].push(n); }));
-  let ch=false; const [M,P]=A2.tabs; const srt=L=>L.sort((a,b)=>(a.h||"99").localeCompare(b.h||"99"));
+function agTok(t){ return String(t||"").split(/\s+e\s+|,|\s*\+\s*|\s*\/\s*/).map(x=>x.trim()).filter(Boolean); }
+function agNorm(v){ const d=String(v||"").replace(/\D/g,"").slice(0,4); if(!d) return String(v||"").trim(); let h,m; if(d.length<=2){ h=+d; m=0; } else if(d.length===3){ h=+d[0]; m=+d.slice(1); } else { h=+d.slice(0,2); m=+d.slice(2); } if(h>23||m>59) return String(v||"").trim(); return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"); }
+/* Tabela de novos alunos espelha a Minha agenda: com nome = OCUPADO, vazio = livre */
+function agMirror(){ const A2=agData(); const [M,P]=A2.tabs; let ch=false;
+  A2.days.forEach(k=>{ const L=M.d[k]||[], PL=(P.d[k]=P.d[k]||[]); const occ={}; L.forEach(r=>{ const h=agNorm(r.h); if(/^\d{2}:\d{2}$/.test(h)) occ[h]=occ[h]||r.c==="r"||(r.c!=="g"&&!!String(r.t||"").trim()); });
+    Object.entries(occ).forEach(([h,o])=>{ let r=PL.find(x=>agNorm(x.h)===h);
+      if(!r){ PL.push({h,t:o?"OCUPADO":"",c:"",auto:1}); ch=true; return; }
+      if(o){ if(r.auto||(!String(r.t||"").trim())||r.c==="g"){ if(r.t!=="OCUPADO"||r.c){ r.t="OCUPADO"; r.c=""; ch=true; } if(!r.auto){ r.auto=1; ch=true; } } }
+      else if(r.auto&&r.t){ r.t=""; ch=true; } });
+    for(let j=PL.length-1;j>=0;j--){ const r=PL[j]; if(r.auto&&!(agNorm(r.h) in occ)){ PL.splice(j,1); ch=true; } }
+    if(ch) PL.sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); });
+  return ch; }
+/* Agenda ligada ao cadastro: horários fixos dos alunos entram sozinhos e mudam junto quando o cadastro muda */
+function agSync(){ const A2=agData(); let ch=false;
+  if(presOn()){ const WD={1:"Seg",2:"Ter",3:"Qua",4:"Qui",5:"Sex",6:"Sáb",0:"Dom"}; const g={}, dayOf2={}; const all=new Set();
+  PRES.alunos().forEach(a=>{ const n=first(a.nome); if(n) all.add(n); });
+  PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(sl=>{ const k=WD[sl.d]; const h=agNorm(sl.h); if(!k||!h) return; const n=first(a.nome); (g[k]=g[k]||{}); (g[k][h]=g[k][h]||[]); if(!g[k][h].includes(n)) g[k][h].push(n); (dayOf2[k]=dayOf2[k]||new Set()).add(n); }));
+  const M=A2.tabs[0];
   Object.keys(g).forEach(k=>{ if(!A2.days.includes(k)&&(k==="Sáb"||k==="Dom")){ agAddDay(k); ch=true; } });
-  A2.days.forEach(k=>{ const G=g[k]||{}; M.d[k]=M.d[k]||[]; P.d[k]=P.d[k]||[];
-    M.d[k].forEach(r=>{ if(!r.auto) return; const txt=(G[r.h]||[]).join(" e "); if(r.t!==txt){ r.t=txt; ch=true; } if(!txt){ delete r.auto; ch=true; } });
-    Object.entries(G).forEach(([h,ns])=>{ const txt=ns.join(" e "); let r=M.d[k].find(x=>x.h===h); if(!r){ M.d[k].push({h,t:txt,c:"",auto:1}); ch=true; } else if(!String(r.t||"").trim()){ r.t=txt; r.auto=1; ch=true; } });
-    P.d[k].forEach(r=>{ if(r.auto&&!G[r.h]){ r.t=""; delete r.auto; ch=true; } });
-    Object.keys(G).forEach(h=>{ let r=P.d[k].find(x=>x.h===h); if(!r){ P.d[k].push({h,t:"OCUPADO",c:"",auto:1}); ch=true; } else if(!String(r.t||"").trim()){ r.t="OCUPADO"; r.auto=1; ch=true; } });
-    if(ch){ srt(M.d[k]); srt(P.d[k]); } });
+  A2.days.forEach(k=>{ const G=g[k]||{}, onDay=dayOf2[k]||new Set(); M.d[k]=M.d[k]||[];
+    M.d[k].forEach(r=>{ const h=agNorm(r.h); const want=G[h]||[]; const prevAuto=r.an||(r.auto?agTok(r.t):[]);
+      const toks=agTok(r.t).filter(n=>{ if(want.includes(n)) return true; if(prevAuto.includes(n)) return false; if(all.has(n)&&!onDay.has(n)) return true; return !(all.has(n)&&onDay.has(n)); });
+      want.forEach(n=>{ if(!toks.includes(n)) toks.push(n); });
+      const txt=toks.join(" e "); if(txt!==String(r.t||"").trim()){ r.t=txt; ch=true; }
+      const an=want.slice(); if(JSON.stringify(an)!==JSON.stringify(r.an||[])){ if(an.length) r.an=an; else delete r.an; ch=true; }
+      if(r.auto&&!txt){ delete r.auto; ch=true; } });
+    Object.entries(G).forEach(([h,ns])=>{ if(!M.d[k].some(x=>agNorm(x.h)===h)){ M.d[k].push({h,t:ns.join(" e "),c:"",auto:1,an:ns.slice()}); ch=true; } });
+    M.d[k].sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); }); }
+  if(agMirror()) ch=true;
   if(ch) save(); return ch; }
 let agWa=false;
 function agFree(){ const A2=agData(), P=A2.tabs[1]; const out=[]; A2.days.forEach(k=>{ const hs=(P.d[k]||[]).filter(r=>String(r.h||"").trim()&&(r.c==="g"||(!r.c&&!String(r.t||"").trim()))).map(r=>r.h); if(hs.length) out.push([k,hs]); }); return out; }
@@ -2292,26 +2318,55 @@ function agMkCopy(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const src=T.d[
 const agCol=r=>{ const C=agCores(); if(r.c==="r") return C.ocup; if(r.c==="g") return C.livre; return AG_COL[r.c]|| (String(r.t||"").trim()? C.ocup : C.livre); };
 function agHTML(){ const A2=agData();
   const C=agCores();
-  const tab=(T,ti)=>`<div class="agtab"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
+  const tab=agTabHTML;
+  return agTop(A2);
+}
+function agTabHTML(T,ti){ const A2=agData(), C=agCores(); return `<div class="agtab" data-agtab="${ti}"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
     <div class="aggrid" style="--n:${A2.days.length};--cab:${C.cab};--cabi:${agInk(C.cab)}">${A2.days.map(k=>`<div class="agday"><div class="agdh"><span>${k}</span>${T.d[k].length?`<button class="agclrd" data-agclrd="${ti}|${k}">${agClr===ti+"|"+k?"ok?":"limpar"}</button>`:""}</div>${T.d[k].length?"":`<div class="agempty">vazio</div>`}
-      ${T.d[k].map((r,i)=>`<div class="agrow" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}"><button class="agsw" data-agc="${ti}|${k}|${i}" aria-label="Trocar cor" title="Trocar cor"></button><div class="agcell"><input class="agh" data-agf="${ti}|${k}|${i}|h" value="${esc(r.h)}" inputmode="numeric" aria-label="Horário"><textarea class="agt" rows="1" data-agf="${ti}|${k}|${i}|t" aria-label="${AG_DN[k]} ${esc(r.h)}">${esc(r.t)}</textarea></div>${agEdit?`<button class="agdel" data-agdel="${ti}|${k}|${i}" aria-label="Apagar linha">✕</button>`:""}</div>`).join("")}
-      <button class="agadd" data-agadd="${ti}|${k}">+</button></div>`).join("")}</div></div>`;
-  return `<div class="aghead"><button class="btn small" id="agBack">← Voltar para a Presença</button><b>📅 Agenda da semana</b></div>
+      ${T.d[k].map((r,i)=>`<div class="agrow" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}"><button class="agsw" data-agc="${ti}|${k}|${i}" aria-label="Trocar cor" title="Trocar cor"></button><div class="agcell">${/^\d{2}:\d{2}$/.test(r.h||"")&&AG_EDH!==ti+"|"+k+"|"+i?`<button class="agh aghb" data-agpick="${ti}|${k}|${i}" aria-label="${esc(r.h)}: livre ou ocupado">${esc(r.h)}</button>`:`<input class="agh" data-agf="${ti}|${k}|${i}|h" value="${esc(r.h)}" inputmode="numeric" placeholder="0800" aria-label="Horário">`}<textarea class="agt" rows="1" data-agf="${ti}|${k}|${i}|t" aria-label="${AG_DN[k]} ${esc(r.h)}">${esc(r.t)}</textarea></div>${agEdit?`<button class="agdel" data-agdel="${ti}|${k}|${i}" aria-label="Apagar linha">✕</button>`:""}</div>${AG_PICK===ti+"|"+k+"|"+i?`<div class="agpop"><b>${k} ${esc(r.h)}</b><button class="g" data-agset="g">✅ Livre</button><button class="r" data-agset="r">⛔ Ocupado</button><button data-agedh>✏️ Mudar horário</button><button data-agdelrow>🗑 Apagar</button><button class="x" data-agpickx>Fechar</button></div>`:""}`).join("")}
+      <button class="agadd" data-agadd="${ti}|${k}">+</button></div>`).join("")}</div></div>`; }
+let AG_WHD=null;
+function agWH(){ if(!AG_WHD){ const w=(S.agenda&&S.agenda.wh)||{}; AG_WHD={de:w.de||"05:00",ate:w.ate||"20:00",st:w.st||60,days:w.days||["Seg","Ter","Qua","Qui","Sex"]}; } return AG_WHD; }
+function agWHHTML(){ const W=agWH(); return `<div class="agmk agwh"><b>🕐 Meu horário de trabalho</b>
+    <div class="r"><span class="lb">Das</span><input class="inp agwhi" id="agWhDe" inputmode="numeric" value="${esc(W.de)}"><span class="lb">até</span><input class="inp agwhi" id="agWhAte" inputmode="numeric" value="${esc(W.ate)}"></div>
+    <div class="r"><span class="lb">A cada</span><select class="inp" id="agWhSt" style="max-width:130px"><option value="60" ${W.st==60?"selected":""}>1 hora</option><option value="30" ${W.st==30?"selected":""}>30 minutos</option><option value="15" ${W.st==15?"selected":""}>15 minutos</option></select></div>
+    <div class="r"><span class="lb">Dias</span>${AG_DIAS.map(k=>`<button class="dy" data-agwhd="${k}" aria-pressed="${W.days.includes(k)}">${k}</button>`).join("")}</div>
+    <button class="btn primary" data-agwhgo>Criar os horários</button>
+    <small class="muted">Aparecem todos os horários nas duas tabelas. Depois é só tocar no horário e escolher livre ou ocupado, ou escrever o nome do aluno. Os horários que já existem ficam como estão.</small></div>`; }
+function agTop(A2){ const tab=agTabHTML;
+  return `<div class="aghead"><b>📅 Agenda da semana</b></div>
+    <button class="btn ${AG_WH?"primary":""}" data-agwh style="width:100%">🕐 Meu horário de trabalho (ex.: das 05:00 às 20:00)</button>${AG_WH? agWHHTML() : ""}
     <button class="agwab" data-agwa>📲 Enviar horários livres no WhatsApp</button>${agWa? agWaHTML() : ""}
     <button class="btn ${agMkOn?"primary":""}" data-agmk style="width:100%">⚡ Marcar livre / ocupado e replicar para outros dias</button>${agMkOn? agMkHTML() : ""}
     <div class="agtools"><button class="btn small ${agEdit?"primary":""}" data-agedit>${agEdit?"✓ Pronto":"✎ Apagar linhas"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small" data-aggen>↻ Gerar tabela de novos alunos</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ${agClr==="all"?"danger":"ghost"}" data-agclrall>${agClr==="all"?"Toque de novo para limpar tudo":"🧹 Limpar tudo"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
     <button class="btn small ${agCorOn?"primary":""}" data-agcoron style="justify-self:start">🎨 Cores da agenda</button>${agCorOn? agCorHTML() : ""}
-    <p class="muted agtip">Os alunos do cadastro entram sozinhos (na tabela de baixo como OCUPADO). Com texto, a célula fica na cor de <b>ocupado</b>; vazia, na cor de <b>livre</b>. Toque na faixa à esquerda da célula para trocar a cor só dela.</p>
+    <p class="muted agtip"><b>Toque no horário</b> para marcar livre ou ocupado. Toque no espaço ao lado para escrever. Os alunos do cadastro entram sozinhos e mudam junto quando você muda o horário no cadastro. A tabela de baixo copia a de cima sozinha: com nome vira OCUPADO, vazio fica livre. Horário: digite só os números (0800 vira 08:00). Com texto, a célula fica na cor de <b>ocupado</b>; vazia, na cor de <b>livre</b>. Toque na faixa à esquerda da célula para trocar a cor só dela.</p>
     ${A2.tabs.map(tab).join("")}`; }
 function agFit(t){ if(CSS.supports&&CSS.supports("field-sizing","content")) return; t.style.height="auto"; t.style.height=t.scrollHeight+"px"; }
 function agRender(){ const v=document.getElementById("agview"); if(!v||v.hidden) return; agSync(); v.innerHTML=agHTML(); v.querySelectorAll("textarea.agt").forEach(agFit); }
 document.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.matches&&e.target.matches("textarea.agt")){ e.preventDefault(); e.target.blur(); } });
 function agSet(on){ AG_OPEN=on; const v=document.getElementById("agview"), pm=document.getElementById("pmain"), pn=document.getElementById("pnav"), ab=document.getElementById("agOpen");
-  if(!v) return; v.hidden=!on; if(pm) pm.hidden=on; if(pn) pn.style.display=on?"none":""; if(ab) ab.hidden=on||CUR_TAB!=="presenca"; if(on) agRender(); }
+  if(!v) return; v.hidden=!on; if(pm) pm.hidden=on; if(pn) pn.style.display=on?"none":""; if(ab) ab.hidden=true; if(on) agRender(); }
 document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
   if(b.id==="agOpen"){ agSet(true); window.scrollTo(0,0); return; }
   if(b.id==="agBack"){ agSet(false); return; }
   if(!b.closest("#agview")) return; const A2=agData();
+  if(b.dataset.agpick){ AG_PICK= AG_PICK===b.dataset.agpick? null : b.dataset.agpick; AG_EDH=null; agRender(); return; }
+  if(b.hasAttribute("data-agpickx")){ AG_PICK=null; agRender(); return; }
+  if(b.dataset.agset||b.hasAttribute("data-agedh")||b.hasAttribute("data-agdelrow")){ const [ti,k,i]=(AG_PICK||"").split("|"); const r=A2.tabs[+ti]&&A2.tabs[+ti].d[k]&&A2.tabs[+ti].d[k][+i]; if(!r){ AG_PICK=null; agRender(); return; }
+    if(b.hasAttribute("data-agedh")){ AG_EDH=AG_PICK; AG_PICK=null; agRender(); const el=document.querySelector(`[data-agf="${AG_EDH}|h"]`); if(el){ el.focus(); el.select&&el.select(); } return; }
+    if(b.hasAttribute("data-agdelrow")){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} está neste horário no Cadastro. Mude lá.`); return; } A2.tabs[+ti].d[k].splice(+i,1); AG_PICK=null; agMirror(); save(); agRender(); return; }
+    if(b.dataset.agset==="g"){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro). Para liberar, mude o horário no Cadastro.`); return; } r.c="g"; r.t=""; delete r.auto; }
+    else { r.c="r"; if(+ti===1&&!String(r.t||"").trim()) r.t="OCUPADO"; delete r.auto; }
+    AG_PICK=null; agMirror(); save(); agRender(); toast(`${k} ${r.h}: ${b.dataset.agset==="g"?"livre":"ocupado"}`); return; }
+  if(b.hasAttribute("data-agwh")){ AG_WH=!AG_WH; agRender(); return; }
+  if(b.dataset.agwhd){ const W=agWH(); const k=b.dataset.agwhd; W.days=W.days.includes(k)? W.days.filter(x=>x!==k) : [...W.days,k]; agRender(); return; }
+  if(b.hasAttribute("data-agwhgo")){ const W=agWH(); const de=agNorm(document.getElementById("agWhDe").value), ate=agNorm(document.getElementById("agWhAte").value), st=+document.getElementById("agWhSt").value||60;
+    if(!/^\d{2}:\d{2}$/.test(de)||!/^\d{2}:\d{2}$/.test(ate)){ toast("Coloque o horário de início e de fim"); return; } if(!W.days.length){ toast("Escolha os dias"); return; }
+    const toM=h=>+h.slice(0,2)*60+ +h.slice(3); const a0=toM(de), a1=toM(ate); if(a1<a0){ toast("O fim tem que ser depois do início"); return; }
+    W.de=de; W.ate=ate; W.st=st; S.agenda.wh=W; let n=0;
+    W.days.forEach(k=>{ agAddDay(k); A2.tabs.forEach(T=>{ const L=T.d[k]; for(let m=a0;m<=a1;m+=st){ const h=String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0"); if(!L.some(x=>agNorm(x.h)===h)){ L.push({h,t:"",c:""}); n++; } } L.sort((x,y)=>(x.h||"99").localeCompare(y.h||"99")); }); });
+    agSync(); agMirror(); save(); AG_WH=false; agRender(); toast(n? `Horários criados de ${de} a ${ate}. Toque no horário para marcar livre ou ocupado.` : "Esses horários já estavam na agenda"); return; }
   if(b.hasAttribute("data-agedit")){ agEdit=!agEdit; agRender(); return; }
   if(b.hasAttribute("data-agwa")){ agWa=!agWa; agRender(); return; }
   if(b.hasAttribute("data-agwago")){ const id=document.getElementById("agWaTo").value, txt=document.getElementById("agWaTxt").value; const a=id&&PRES.alunos().find(x=>x.id===id);
@@ -2347,7 +2402,9 @@ document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.clos
   if(t.id==="agMkTi"){ agMk.ti=+t.value; return; } if(t.id==="agMkH"){ agMk.h=t.value; return; } if(t.id==="agMkTxt"){ agMk.txt=t.value; return; }
   if(t.id==="agMkFrom"){ agMk.from=t.value; agMk.to=agMk.to.filter(x=>x!==t.value); agRender(); return; }
   if(t.dataset.agtitle!=null){ A2.tabs[+t.dataset.agtitle].title=t.value; save(); return; }
-  if(t.dataset.agf){ const [ti,k,i,f]=t.dataset.agf.split("|"); const r=A2.tabs[+ti].d[k][+i]; if(!r) return; r[f]=f==="t"? t.value.replace(/\s*\n\s*/g," ") : t.value; if(t.tagName==="TEXTAREA") agFit(t); delete r.auto; save(); t.parentNode.style.setProperty("--ac",agCol(r)); } });
+  if(t.dataset.agf){ const [ti,k,i,f]=t.dataset.agf.split("|"); const r=A2.tabs[+ti].d[k][+i]; if(!r) return; if(f==="h"){ t.value=agNorm(t.value); } r[f]=f==="t"? t.value.replace(/\s*\n\s*/g," ") : t.value; if(t.tagName==="TEXTAREA") agFit(t); delete r.auto; if(f==="t") delete r.an; save(); t.parentNode.style.setProperty("--ac",agCol(r)); if(f==="h"&&AG_EDH){ AG_EDH=null; agMirror(); save(); setTimeout(agRender,0); return; }
+    if(+ti===0&&agMirror()){ save(); const el=document.querySelector('#agview [data-agtab="1"]'); if(el){ el.outerHTML=agTabHTML(A2.tabs[1],1); document.querySelectorAll('#agview [data-agtab="1"] textarea.agt').forEach(agFit); } } } });
+document.addEventListener("input",e=>{ const t=e.target; if(!t.classList||!(t.classList.contains("agh")||t.classList.contains("agwhi"))) return; const d=t.value.replace(/\D/g,"").slice(0,4); const v=d.length>2? d.slice(0,2)+":"+d.slice(2) : d; if(t.value!==v&&!/^\d{1,2}:\d{0,2}$/.test(t.value)) t.value=v; else if(/^\d{3,4}$/.test(t.value)) t.value=v; });
 const FZ=[0.55,0.62,0.7,0.8,0.87,0.94,1,1.08,1.16,1.25]; let fzI=6; try{ const fv=localStorage.getItem("fzV"); if(fv!==null){ const i=FZ.indexOf(+fv); if(i>=0) fzI=i; } else { const o=localStorage.getItem("fzI"); if(o!==null){ const i=FZ.indexOf([0.8,0.87,0.94,1,1.08,1.16,1.25][+o]); if(i>=0) fzI=i; } } }catch(e){}
 function applyFz(){ document.body.style.zoom=FZ[fzI]; try{ sideApply(); }catch(e){} try{ localStorage.setItem("fzV",FZ[fzI]); }catch(e){} }
 document.addEventListener("click",e=>{ const b=e.target.closest("#fzMinus,#fzPlus,.fzMinus,.fzPlus"); if(!b) return; fzI=Math.max(0,Math.min(FZ.length-1,fzI+(b.id==="fzPlus"||b.classList.contains("fzPlus")?1:-1))); applyFz(); toast(`Tamanho: ${Math.round(FZ[fzI]*100)}%`); });
@@ -3061,7 +3118,7 @@ function sesAddHTML(st){
   if(!presOn()||!k) return list;
   if(!sesAddOpen) return `${list}<button class="btn small sesadd" data-sesadd>+ Aluno fora da grade (reposição, adiantamento, extra)</button>`;
   const now=new Date(), hh=String(now.getHours()).padStart(2,"0")+":"+String(Math.floor(now.getMinutes()/5)*5).padStart(2,"0");
-  const ops=PRES.alunos().filter(a=>a.ativo!==false&&a.tipo!=="ficha").sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(a=>({pid:a.id,name:a.nome})).map(x=>{ const sd=PRES.saldo(x.pid), tp=PRES.tipoAluno(x.pid); return `<option value="${x.pid}" data-tp="${tp}" data-sd="${sd}">${esc(x.name)}${sd>0?` · deve ${sd}`:sd<0?` · ${-sd} adiantada${-sd>1?"s":""}`:""}${tp==="pacote"?" · pacote":tp==="avulsa"?" · avulsa":""}</option>`; }).join("");
+  const ops=PRES.alunos().filter(a=>a.ativo!==false&&a.tipo!=="ficha"&&a.tipo!=="consultoria").sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")).map(a=>({pid:a.id,name:a.nome})).map(x=>{ const sd=PRES.saldo(x.pid), tp=PRES.tipoAluno(x.pid); return `<option value="${x.pid}" data-tp="${tp}" data-sd="${sd}">${esc(x.name)}${sd>0?` · deve ${sd}`:sd<0?` · ${-sd} adiantada${-sd>1?"s":""}`:""}${tp==="pacote"?" · pacote":tp==="avulsa"?" · avulsa":""}</option>`; }).join("");
   return `${list}<div class="sesaddf"><b>Lançar aula fora da grade</b>
     <label>Aluno<select class="inp" id="sa-al" data-saal><option value="">Escolha o aluno</option>${ops}</select></label>
     <label>Data<input class="inp" type="date" id="sa-k" value="${k}" max="${isoD(new Date(Date.now()+864e5*60))}"><small class="muted">Aula de dia anterior que não foi contada? Mude a data: ela entra como aula dada.</small></label>
@@ -3201,9 +3258,9 @@ const BOT=[
  {k:"previsto recebido soma total bate",a:"Previsto = recebido + a receber. Se alguém pagou a mais, aparece um aviso amarelo no Financeiro para você conferir."},
  {k:"adiantado trimestral varios meses",a:"Financeiro → cartão do aluno → “Pagou adiantado”. Escolha o mês em que recebeu e os meses que cobre."},
  {k:"relatorio financeiro pdf",a:"Financeiro → “📄 Relatório financeiro (PDF)”, no topo da aba."},
- {k:"presenca chamada falta faltou presente",a:"Aba ✅ Agenda Presença → Chamada: os alunos do dia aparecem sozinhos. Toque em Presente ou Faltou. Ao iniciar o treino na Sessão, a presença é marcada sozinha."},
+ {k:"presenca chamada falta faltou presente",a:"Aba ✅ Presença → Chamada: os alunos do dia aparecem sozinhos. Toque em Presente ou Faltou. Ao iniciar o treino na Sessão, a presença é marcada sozinha."},
  {k:"reposicao extra aula avulsa",a:"Presença → “+ Reposição ou aula extra”."},
- {k:"agenda horarios livres whatsapp ocupado",a:"Presença → “📅 Agenda da semana”. Marque livre/ocupado, replique para outros dias e envie os horários livres pelo WhatsApp."},
+ {k:"agenda horarios livres whatsapp ocupado",a:"Aba 📅 Agenda. Em “🕐 Meu horário de trabalho” crie todos os horários (ex.: 05:00 às 20:00). Toque no horário para marcar livre ou ocupado, ou escreva o nome. A tabela de novos alunos se atualiza sozinha. Dá para enviar os livres pelo WhatsApp."},
  {k:"cor cores agenda",a:"Agenda da semana → “🎨 Cores da agenda”."},
  {k:"programacao fases medo peso minha nenhuma programar",a:"Aba 📊 Programação → no cartão do aluno escolha: Por fases, Medo de peso, Minha programação ou Nenhuma. Toque no ? ao lado de “Programação das semanas” para um resumo."},
  {k:"letra letras repetir",a:"Programação → cartão do aluno → coloque a letra em cada dia e escolha repetir por Letra ou por Dia da semana."},
@@ -3224,6 +3281,7 @@ const BOT=[
  {k:"relatorio aluno whatsapp imagem enviar mandar",a:"Na Sessão: “Rel. do dia” ou “Rel. semanal” → escolha Imagem, Texto ou os dois para mandar pelo WhatsApp."},
  {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia",a:"Aba 🧍 Avaliação Física: escolha Bioimpedância, Medidas (fita métrica) ou Dobras (adipômetro) e toque em Salvar avaliação."},
  {k:"abas esconder aparecer sumir mostrar menu so presenca so financeiro so sessao escolher",a:"Cadastro → “🧩 Abas que aparecem”. Marque só as abas que você usa; as outras ficam escondidas, sem perder nada. “Mostrar todas” volta tudo."},
+ {k:"consultoria online aluno online distancia tipo",a:"Cadastro → aluno → Tipo → “Consultoria online”. Tem valor mensal e não entra na chamada nem na agenda."},
  {k:"logo marca nome relatorios cores frases",a:"Cadastro → “✎ Seu nome, logo, cores e frases dos relatórios”."},
  {k:"senha esqueci trocar email conta sair",a:"Cadastro → botão verde “Minha conta”: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
  {k:"backup copia seguranca dados salvar",a:"Os dados ficam salvos na nuvem sozinhos. Para guardar uma cópia, use o Backup no fim da aba Cadastro."},
@@ -4792,7 +4850,7 @@ function ativos(){return [...alunos.values()].filter(a=>a.ativo!==false).sort((a
 function rk(a,h){return a.id+'_'+h.replace(':','')}
 function contratadas(a){return a.contratadas>0?a.contratadas:(a.slots||[]).length*4}
 function valorAula(a){if(a.valorAula>0)return a.valorAula;const c=contratadas(a);return (a.mensalidade>0&&c>0)?a.mensalidade/c:0}
-function isFicha(a){return a.tipo==='ficha'}
+function isFicha(a){return a.tipo==='ficha'||a.tipo==='consultoria'}
 function mensal(a){if(a.tipo==='pacote'||a.tipo==='avulsa')return 0;return isFicha(a)?(a.valorFicha||0):valorAula(a)*contratadas(a)}
 function mDiff(a,b){const [ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);return (by-ay)*12+(bm-am)}
 const PAC_STEP={mensal:1,bimestral:2,trimestral:3,semestral:6,anual:12};
@@ -5389,7 +5447,7 @@ function renderAluno(){
   const saldo=saldoRepos().get(a.id)||0,lista=aulasDoAluno(a,ym);
   const proj=x.pres+x.fut+x.pend,dif=(ym<cur?x.pres:proj)-x.contr;
   let h=`<div class="daybar"><button class="iconbtn" data-act="alback" aria-label="Voltar">‹</button>
-    <div class="t"><h2>${esc(a.nome)}</h2><small>${isFicha(a)?'Ficha de treino':(a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')}${r_perm(a)?' · Permuta':''}</small></div>
+    <div class="t"><h2>${esc(a.nome)}</h2><small>${a.tipo==='consultoria'?'Consultoria online':isFicha(a)?'Ficha de treino':(a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')}${r_perm(a)?' · Permuta':''}</small></div>
     <div class="row-actions" style="margin:0;flex-wrap:nowrap"><button class="ghost" data-act="aledit">Editar</button><button class="ghost ${a.ativo===false?'':'danger'}" data-act="altoggle">${a.ativo===false?'Reativar':'Inativar'}</button></div></div>
     ${a.ativo===false?`<div class="banner off"><div class="grow"><b>Aluno inativo</b>${a.inativoDesde?` desde ${mesCurto(a.inativoDesde)}`:''}. Não aparece na chamada nem nos pagamentos; o histórico fica guardado.</div></div>`:''}
     <div class="daybar" style="margin-top:0"><button class="iconbtn" data-act="mprev" aria-label="Mês anterior">‹</button>
@@ -5430,8 +5488,8 @@ function renderAlunos(){
   if(!all.length){main.innerHTML=h+`<div class="empty">${st.aTab==='inativos'?'Nenhum aluno inativo. Para inativar, abra o aluno e toque em "Inativar".':'Nenhum aluno ativo. Toque em "Novo aluno" para começar.'}</div>`;return}
   const S=statsMes(today().slice(0,7)),mn=MESES[dOf(today()).getMonth()];
   h+=`<div class="alist">`+all.map(a=>{const x=S.get(a.id);const mais=x&&x.quinta?`<br><span class="pos">+${x.quinta} a mais em ${mn}</span>`:'';return `<div class="arow-wrap"><button class="arow ${a.ativo===false?'inativo':''}" data-ver="${a.id}"><div class="grow"><b>${esc(a.nome)}</b>
-    <div class="sl">${isFicha(a)?'Ficha de treino':a.tipo==='avulsa'?'Aula avulsa, sem dias fixos':((a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')||'sem horário')}</div></div>
-    <div class="sl" style="text-align:right">${isFicha(a)?'Ficha':a.tipo==='pacote'?pacTagP(a)||'Pacote':a.tipo==='avulsa'?'Avulsa':contratadas(a)+' aulas/mês'}${a.adiantado&&a.adiantado.ate>=today().slice(0,7)?`<br><span class="pos">pago até ${mesCurto(a.adiantado.ate)}</span>`:''}${a.permuta?'<br>Permuta':mensal(a)?`<br>${brl(mensal(a))}/mês`:''}${mais}</div></button>
+    <div class="sl">${a.tipo==='consultoria'?'Consultoria online':isFicha(a)?'Ficha de treino':a.tipo==='avulsa'?'Aula avulsa, sem dias fixos':((a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')||'sem horário')}</div></div>
+    <div class="sl" style="text-align:right">${a.tipo==='consultoria'?'Online':isFicha(a)?'Ficha':a.tipo==='pacote'?pacTagP(a)||'Pacote':a.tipo==='avulsa'?'Avulsa':contratadas(a)+' aulas/mês'}${a.adiantado&&a.adiantado.ate>=today().slice(0,7)?`<br><span class="pos">pago até ${mesCurto(a.adiantado.ate)}</span>`:''}${a.permuta?'<br>Permuta':mensal(a)?`<br>${brl(mensal(a))}/mês`:''}${mais}</div></button>
     ${st.delId===a.id?`<span class="confirm"><button class="ghost danger" data-act="rowdelok" data-id="${a.id}">Excluir</button><button class="ghost" data-act="rowdelno">Não</button></span>`:`<button class="iconbtn" data-act="rowdel" data-id="${a.id}" aria-label="Excluir ${esc(a.nome)}">×</button>`}</div>`}).join('')+`</div>`;
   main.innerHTML=h;
 }
@@ -5442,9 +5500,9 @@ function renderEditor(){
   let h=`<div class="card"><h3>${alunos.has(a.id)?'Editar aluno':'Novo aluno'}</h3><div class="form">
   <label for="en">Nome<input id="en" value="${esc(a.nome)}" autocomplete="off"></label>
   <label for="ew">WhatsApp do aluno<input id="ew" type="tel" inputmode="tel" value="${esc(a.tel||'')}" placeholder="(DDD) 9 9999-9999" autocomplete="off"></label>
-  <label for="et">Tipo<select id="et"><option value="aula" ${(a.tipo||'aula')==='aula'?'selected':''}>Aulas (personal)</option><option value="pacote" ${a.tipo==='pacote'?'selected':''}>Pacote de aulas</option><option value="avulsa" ${a.tipo==='avulsa'?'selected':''}>Aula avulsa</option><option value="ficha" ${isFicha(a)?'selected':''}>Ficha de treino (valor mensal)</option></select></label>
+  <label for="et">Tipo<select id="et"><option value="aula" ${(a.tipo||'aula')==='aula'?'selected':''}>Aulas (personal)</option><option value="pacote" ${a.tipo==='pacote'?'selected':''}>Pacote de aulas</option><option value="avulsa" ${a.tipo==='avulsa'?'selected':''}>Aula avulsa</option><option value="ficha" ${a.tipo==='ficha'?'selected':''}>Ficha de treino (valor mensal)</option><option value="consultoria" ${a.tipo==='consultoria'?'selected':''}>Consultoria online (valor mensal)</option></select></label>
   ${a.tipo==='pacote'||a.tipo==='avulsa'?`<p class="note">Quantidade de aulas, valor e início do pacote ficam na aba Cadastro.</p>`:''}
-  ${isFicha(a)?`<label for="evf">Valor mensal da ficha (R$)<input id="evf" type="number" inputmode="decimal" min="0" step="10" value="${a.valorFicha||''}" placeholder="ex.: 100"></label>`:`<div class="two"><label for="ev">Valor por aula (R$)<input id="ev" type="number" inputmode="decimal" min="0" step="5" value="${valorAula(a)||''}" placeholder="ex.: 45"></label>
+  ${isFicha(a)?`<label for="evf">Valor mensal ${a.tipo==='consultoria'?'da consultoria':'da ficha'} (R$)<input id="evf" type="number" inputmode="decimal" min="0" step="10" value="${a.valorFicha||''}" placeholder="ex.: 100"></label>`:`<div class="two"><label for="ev">Valor por aula (R$)<input id="ev" type="number" inputmode="decimal" min="0" step="5" value="${valorAula(a)||''}" placeholder="ex.: 45"></label>
   <label for="ec">Aulas contratadas/mês<input id="ec" type="number" min="0" value="${a.contratadas||''}" placeholder="${(a.slots||[]).length*4} (automático)"></label></div>
   <div><div class="note" style="margin-bottom:6px">Horários fixos na semana — cada dia pode ter um horário diferente</div><div class="form" id="slots">`+
   a.slots.map((s,i)=>`<div class="slotrow"><select data-sd="${i}" aria-label="Dia">${[1,2,3,4,5,6,0].map(w=>`<option value="${w}" ${s.d===w?'selected':''}>${DIAS[w]}</option>`).join('')}</select>
@@ -5918,17 +5976,17 @@ function tecSugHTML(m){ const p=progOf(m); const ln=lineOf(p); const k=+m.phase;
 
 /* ---------- Explicações dentro de cada aba ---------- */
 const SUP_WA="5531988260268"; /* WhatsApp do Tio Má para dúvidas, só números com DDI e DDD. Ex.: 5511999999999 */
-const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["corpo","🧍","Avaliação Física","medidas e dobras"],["presenca","✅","Agenda Presença","chamada e agenda"],["financeiro","💰","Financeiro","pagamentos"]];
-function abasOn(){ const a=(S.brand||{}).abas; return Array.isArray(a)? a : ABAS.map(x=>x[0]); }
+const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["corpo","🧍","Avaliação Física","medidas e dobras"],["agenda","📅","Agenda","horários livres e ocupados"],["presenca","✅","Presença","chamada e reposições"],["financeiro","💰","Financeiro","pagamentos"]];
+function abasOn(){ const b=S.brand||{}, a=b.abas; if(!Array.isArray(a)) return ABAS.map(x=>x[0]); if(!b.agMig&&a.includes("presenca")&&!a.includes("agenda")) return ABAS.map(x=>x[0]).filter(k=>k==="agenda"||a.includes(k)); return a; }
 function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana":t); }
 function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)) show("cadastro"); }
 function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
-  return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de 6</span></summary>
+  return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de ${ABAS.length+1}</span></summary>
     <p style="margin:6px 0 2px;font-size:15px">${first?"<b>O que você mais quer usar no sistema?</b> ":""}Marque as abas que quer ver embaixo. As outras ficam escondidas, sem perder nada. Dá para mudar quando quiser.</p>
     <div class="abasg"><span class="abch on fix">📝 Cadastro<small>sempre aparece</small></span>${ABAS.map(([k,i,n,d])=>`<button class="abch ${on.includes(k)?"on":""}" data-aba="${k}" aria-pressed="${on.includes(k)}">${i} ${n}<small>${d}</small></button>`).join("")}</div>
     <div class="row" style="gap:8px"><button class="btn primary small" data-abaok>Pronto</button><button class="btn small ghost" data-abaall>Mostrar todas</button></div></details>`; }
 let ABAS_OPEN=false;
-const TAB_N={cadastro:"o Cadastro",semana:"a Programação",treino:"o Treino",sessao:"a Sessão",corpo:"a Avaliação física",presenca:"a Presença",financeiro:"o Financeiro"};
+const TAB_N={agenda:"a Agenda",cadastro:"o Cadastro",semana:"a Programação",treino:"o Treino",sessao:"a Sessão",corpo:"a Avaliação física",presenca:"a Presença",financeiro:"o Financeiro"};
 const helpBtn=k=> `<button class="helpbtn" data-help="${k}">ⓘ Entenda ${TAB_N[k]}</button>`;
 const cadTopHTML=()=> `<div class="phtop cadtop">${helpBtn("cadastro")}<div class="fzb fzbig" role="group" aria-label="Tamanho da letra"><button class="fzMinus" aria-label="Diminuir letra">A−</button><button class="fzPlus" aria-label="Aumentar letra">A+</button></div></div>`;
 function tioHelpHTML(){ return `<p class="tio-dir">É a programação usada pelo <b>Professor Maílson</b>. Ajuda quem precisa de uma direção para programar os treinos: as séries e as repetições já vêm definidas, com sugestões de técnicas avançadas (ou sem elas). Depois de concluir as fases, ou mesmo no meio delas, <b>crie a sua linha</b> e siga conforme a sua vivência e o seu conhecimento prático e científico.</p><p class="tio-dir">Uma direção, não uma regra. <b>Você não precisa seguir.</b> Ela está aqui para quem ainda não tem a própria linha ou quer um ponto de partida. Mude qualquer número no cartão do aluno.</p>
@@ -6051,15 +6109,15 @@ function cadTotal(){ const v=document.getElementById("view-cadastro"); const d=c
 function cadPull(){ const v=document.getElementById("view-cadastro"); if(!cadDraft||!v) return;
   v.querySelectorAll("[data-cd]").forEach(i=>{ const k=i.dataset.cd; cadDraft[k]= i.type==="checkbox"? i.checked : i.value; });
   cadDraft.slots=[...v.querySelectorAll("[data-cslot]")].map(r=>({d:+r.querySelector("[data-csd]").value,h:r.querySelector("[data-csh]").value||"07:00"})); }
-function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const ficha=d.tipo==="ficha";
+function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const ficha=d.tipo==="ficha"||d.tipo==="consultoria";
   const others=S.students.filter(o=>o.id!==d.sid&&membersOf(o).length<3);
   const auto=(d.slots.length||0)*4;
   return `<div class="card cadf">
     <div class="phase-head"><h3>${isNew?"Novo aluno":"Editar aluno"}</h3><button class="btn small ghost" data-cadx>Cancelar</button></div>
     <div class="avform"><label>Nome<input class="inp" data-cd="nome" id="cd-nome" value="${esc(d.nome)}" autocomplete="off"></label>
       <label>WhatsApp<input class="inp" type="tel" inputmode="tel" data-cd="tel" id="cd-tel" value="${esc(d.tel)}" placeholder="(DDD) 9 9999-9999"></label></div>
-    <label class="label" style="display:grid;gap:4px">Tipo<select class="inp" data-cd="tipo" id="cd-tipo" data-cre><option value="aula" ${d.tipo==="aula"?"selected":""}>Aulas (personal) · mensal</option><option value="pacote" ${d.tipo==="pacote"?"selected":""}>Pacote de aulas</option><option value="avulsa" ${d.tipo==="avulsa"?"selected":""}>Aula avulsa</option><option value="ficha" ${ficha?"selected":""}>Ficha de treino (valor mensal)</option></select></label>
-    <p class="muted" style="font-size:12px;margin:-4px 0 0">${{aula:"Paga por mês, com dias e horários fixos.",pacote:"Compra uma quantidade de aulas (ex.: 40) e treina até acabar. O app conta as aulas dadas e avisa quando estiver acabando.",avulsa:"Sem dias fixos: paga por aula dada. Lance cada aula na Presença em “+ Reposição ou aula extra”.",ficha:"Só a ficha de treino, com valor mensal."}[d.tipo]||""}</p>
+    <label class="label" style="display:grid;gap:4px">Tipo<select class="inp" data-cd="tipo" id="cd-tipo" data-cre><option value="aula" ${d.tipo==="aula"?"selected":""}>Aulas (personal) · mensal</option><option value="pacote" ${d.tipo==="pacote"?"selected":""}>Pacote de aulas</option><option value="avulsa" ${d.tipo==="avulsa"?"selected":""}>Aula avulsa</option><option value="ficha" ${d.tipo==="ficha"?"selected":""}>Ficha de treino (valor mensal)</option><option value="consultoria" ${d.tipo==="consultoria"?"selected":""}>Consultoria online (valor mensal)</option></select></label>
+    <p class="muted" style="font-size:12px;margin:-4px 0 0">${{aula:"Paga por mês, com dias e horários fixos.",pacote:"Compra uma quantidade de aulas (ex.: 40) e treina até acabar. O app conta as aulas dadas e avisa quando estiver acabando.",avulsa:"Sem dias fixos: paga por aula dada. Lance cada aula na Presença em “+ Reposição ou aula extra”.",ficha:"Só a ficha de treino, com valor mensal.",consultoria:"Aluno online: treino a distância, com valor mensal. Não entra na chamada nem na agenda."}[d.tipo]||""}</p>
     ${d.tipo==="pacote"?(()=>{ const u=d.pid&&presOn()&&PRES.pacUso(d.pid); return `<span class="label">Pacote</span>
     <div class="avform"><label>Aulas no pacote<input class="inp" type="number" inputmode="numeric" data-cd="pacTotal" id="cd-pt" value="${esc(d.pacTotal)}" placeholder="ex.: 40"></label>
       <label>Valor do pacote (R$)<input class="inp" type="number" inputmode="decimal" data-cd="pacValor" id="cd-pv" value="${esc(d.pacValor)}"></label>
@@ -6082,7 +6140,7 @@ function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const fich
     <div class="cslots">${d.slots.map((s,i)=>`<div class="cslot" data-cslot="${i}"><select class="inp" data-csd id="cs-d${i}" aria-label="Dia">${[1,2,3,4,5,6,0].map(n=>[String(n),CAD_DN[n]]).map(([n,l])=>`<option value="${n}" ${s.d===+n?"selected":""}>${DAY_N[l]}</option>`).join("")}</select><input class="inp" type="time" step="300" data-csh id="cs-h${i}" value="${esc(s.h)}" aria-label="Horário"><button class="icon-btn" data-csrm="${i}" aria-label="Remover horário">×</button></div>`).join("")}</div>
     <button class="btn small" data-csadd style="justify-self:start">+ Horário</button>`}
     ${d.tipo==="pacote"?"":`<span class="label">Valores</span>`}
-    <div class="avform ${ficha||d.tipo==="pacote"||d.tipo==="avulsa"?"":"av3"}">${ficha?`<label>Valor mensal da ficha (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorFicha" id="cd-vf" value="${esc(d.valorFicha)}"></label>`
+    <div class="avform ${ficha||d.tipo==="pacote"||d.tipo==="avulsa"?"":"av3"}">${ficha?`<label>Valor mensal ${d.tipo==="consultoria"?"da consultoria":"da ficha"} (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorFicha" id="cd-vf" value="${esc(d.valorFicha)}"></label>`
       :d.tipo==="pacote"?"":d.tipo==="avulsa"?`<label>Valor por aula (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorAula" id="cd-va" value="${esc(d.valorAula)}"></label>`
       :`<label>Valor/aula (R$)<input class="inp" type="number" inputmode="decimal" data-cd="valorAula" id="cd-va" value="${esc(d.valorAula)}"></label>
       <label>Aulas/mês<input class="inp" type="number" data-cd="contratadas" id="cd-ct" value="${esc(d.contratadas)}" placeholder="${auto} auto"></label>`}
@@ -6094,7 +6152,7 @@ function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const fich
     <div class="row"><button class="btn primary" data-cadsave>Salvar</button><button class="btn" data-cadx>Cancelar</button>${isNew?"":`<button class="btn ${d.ativo?"danger":""}" data-cadativo>${d.ativo?"Inativar aluno":"Reativar aluno"}</button>`}</div>
     ${isNew?"":`<div class="cdel">${d.delArm?`<p>Excluir apaga <b>${esc(first(d.nome))}</b> de vez: cadastro, treino e histórico de presença. Se a ideia é só parar de cobrar, use <b>Inativar</b>, que guarda o histórico.</p><div class="row"><button class="btn danger" data-caddelok>Sim, excluir de vez</button><button class="btn" data-caddelno>Não</button></div>`:`<button class="btn small ghost danger" data-caddel>Excluir aluno</button>`}</div>`}
     <p class="muted" style="font-size:12px">Mudar o horário fixo vale daqui pra frente. Para mudar só um dia, ajuste direto na Chamada da Presença.</p></div>`; }
-function cadMensal(){ const d=cadDraft||{}; if(d.tipo==="ficha") return +String(d.valorFicha).replace(",",".")||0;
+function cadMensal(){ const d=cadDraft||{}; if(d.tipo==="ficha"||d.tipo==="consultoria") return +String(d.valorFicha).replace(",",".")||0;
   const va=+String(d.valorAula).replace(",",".")||0, ct=parseInt(d.contratadas,10)||((d.slots||[]).length*4); return va*ct; }
 function cadVencHTML(){ const d=cadDraft; if(d.tipo==="pacote"||d.tipo==="avulsa") return "";
   const n=d.forma==="parcelas"? Math.min(6,Math.max(2,+d.nParc||2)) : 1; d._np=n; const R=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
@@ -6111,7 +6169,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
   if(presOn()){ const base=(pid&&PRES.aluno(pid))||{}; const a=Object.assign({},base,{id:pid||null,nome,tipo:d.tipo,forma:d.forma,ativo:!!d.ativo,permuta:!!d.permuta});
     if(d.tipo==="pacote"){ a.pacote=Object.assign({},base.pacote||{},{total:parseInt(d.pacTotal,10)||0,valor:parseFloat(String(d.pacValor).replace(",","."))||0,inicio:d.pacIni||isoD(new Date()),validade:d.pacVal||"",forma:d.pacForma||"avista",mesCob:(base.pacote&&base.pacote.inicio===d.pacIni&&base.pacote.mesCob)||undefined,parc:Math.max(1,parseInt(d.pacParc,10)||1)}); if(!a.pacote.validade) delete a.pacote.validade; if(a.pacote.forma!=="parcelas") delete a.pacote.parc; if(!a.pacote.mesCob) delete a.pacote.mesCob; a.slots=d.slots; a.contratadas=0; }
     else if(d.tipo==="avulsa"){ a.valorAula=parseFloat(String(d.valorAula).replace(",","."))||0; a.slots=[]; a.contratadas=0; }
-    else if(d.tipo==="ficha"){ a.valorFicha=parseFloat(d.valorFicha)||0; a.slots=[]; } else { a.valorAula=parseFloat(String(d.valorAula).replace(",","."))||0; a.contratadas=parseInt(d.contratadas,10)||0; a.slots=d.slots; delete a.mensalidade; }
+    else if(d.tipo==="ficha"||d.tipo==="consultoria"){ a.valorFicha=parseFloat(d.valorFicha)||0; a.slots=[]; } else { a.valorAula=parseFloat(String(d.valorAula).replace(",","."))||0; a.contratadas=parseInt(d.contratadas,10)||0; a.slots=d.slots; delete a.mensalidade; }
     if(d.tel.trim()) a.tel=d.tel.trim(); else delete a.tel;
     if(d.forma==="outra"&&String(d.formaObs||"").trim()) a.formaObs=String(d.formaObs).trim(); else delete a.formaObs;
     if(d.tipo!=="pacote"&&d.tipo!=="avulsa"){ if(d.forma==="parcelas"){ const n=Math.min(6,Math.max(2,+d.nParc||2)); a.nParc=n; a.parc=Array.from({length:n},(_,i)=>{ const dia=Math.min(31,Math.max(1,parseInt(d["pd"+i],10)||parcDefDias(n)[i])), v=+String(d["pv"+i]||"").replace(",",".")||0; return v>0?{dia,v}:{dia}; }); a.diaVenc=a.parc[0].dia; }
@@ -6121,7 +6179,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
   let st=(d.sid&&stById(d.sid))||(pid&&byPid(pid));
   if(!st){ const pl={id:nid(),sessions:[]}; S.plans.push(pl); st={id:nid(),name:nome,phase:1,novo:true,coreExtra:false,planId:pl.id,ov:{},log:[]}; S.students.push(st); }
   st.name=nome; if(pid){ st.pid=pid; delete st.noLink; }
-  st.days= d.tipo==="ficha"||d.tipo==="avulsa"? [] : [...new Set(d.slots.map(s=>CAD_DN[s.d]))]; st.slotsL= st.days.length? d.slots : []; if(d.tipo==="avulsa") st.avulsa=true; else delete st.avulsa;
+  st.days= d.tipo==="ficha"||d.tipo==="consultoria"||d.tipo==="avulsa"? [] : [...new Set(d.slots.map(s=>CAD_DN[s.d]))]; st.slotsL= st.days.length? d.slots : []; if(d.tipo==="avulsa") st.avulsa=true; else delete st.avulsa;
   S.active=st.id; save(); cadDraft=null; renderAll();
   if(d.tipo==="pacote"&&pid){ const fd=x=>x?`${ddmm(x)}/${x.slice(0,4)}`:"sem prazo"; toast(`${first(nome)} salvo · pacote de ${d.pacTotal} aulas, de ${fd(d.pacIni)} até ${fd(d.pacVal)}`);
     const want=d.pacVal||""; setTimeout(()=>{ const a=PRES.aluno(pid); if(a&&a.pacote&&(a.pacote.validade||"")!==want) toast("⚠ O prazo do pacote não ficou salvo. Abra o aluno e toque em Salvar de novo."); },2500); }
@@ -6136,7 +6194,7 @@ function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(
       <button class="btn small ghost" data-gobrand style="justify-self:start">✎ Seu nome, logo, cores e frases dos relatórios</button>
       ${BR().nome==="Seu nome"?`<p class="pend" style="margin:0">⚠ Coloque o seu nome: ele aparece nos relatórios e no planejamento que o aluno recebe.</p>`:""}
       ${presOn()?"":`<p class="note" style="margin:0">Carregando a Presença… Se demorar, os dias e horários ficam só no treino até ela abrir.</p>`}</div>
-    <div class="clist">${L.map(({a,st})=>{ const nm=(a&&a.nome)||(st&&st.name)||""; const sl=a? (a.tipo==="ficha"?"Ficha de treino":a.tipo==="avulsa"?"Aula avulsa":(a.slots||[]).map(s=>CAD_DN[s.d]+" "+s.h).join(" · ")||(a.tipo==="pacote"?"Pacote, sem dias fixos":"")) : ((st&&st.days)||[]).join(" · ");
+    <div class="clist">${L.map(({a,st})=>{ const nm=(a&&a.nome)||(st&&st.name)||""; const sl=a? (a.tipo==="ficha"?"Ficha de treino":a.tipo==="consultoria"?"💻 Consultoria online":a.tipo==="avulsa"?"Aula avulsa":(a.slots||[]).map(s=>CAD_DN[s.d]+" "+s.h).join(" · ")||(a.tipo==="pacote"?"Pacote, sem dias fixos":"")) : ((st&&st.days)||[]).join(" · ");
       const pend= !sl && !(st&&st.avulsa); const pk=a&&a.tipo==="pacote"&&presOn()? pacTagHTML(PRES.pacUso(a.id)) : "";
       return `<button class="crow ${a&&a.ativo===false?"inativo":""}" data-cadopen="${a?"p:"+a.id:"s:"+st.id}">${st?`<span class="ud" style="--pc:var(--p${st.phase})">${phK(st)}</span>`:`<span class="ud" style="--pc:var(--muted)">–</span>`}<span class="cr-m"><b>${esc(nm)}</b><span>${pend?`<em class="pendtx">⚠ dias e horários pendentes</em>`:esc(sl||"Aula avulsa")}</span>${pk}</span>${a&&a.ativo===false?`<span class="pill">inativo</span>`:""}</button>`; }).join("")}</div>
     <div id="cad-extra" style="display:grid;gap:16px"></div>`;
@@ -6146,7 +6204,7 @@ document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e
     if(b.dataset.aba){ const k=b.dataset.aba; on=on.includes(k)? on.filter(x=>x!==k) : ABAS.map(x=>x[0]).filter(x=>x===k||on.includes(x)); ABAS_OPEN=true; }
     if(b.hasAttribute("data-abaall")){ on=ABAS.map(x=>x[0]); ABAS_OPEN=true; }
     if(b.hasAttribute("data-abaok")) ABAS_OPEN=false;
-    S.brand=Object.assign({},S.brand||{},{abas:on},b.hasAttribute("data-abaok")?{abasOk:true}:{}); save(); applyAbas(); renderCadastro(); if(b.hasAttribute("data-abaok")) toast("Pronto! Só as abas escolhidas aparecem."); return; }
+    S.brand=Object.assign({},S.brand||{},{abas:on,agMig:true},b.hasAttribute("data-abaok")?{abasOk:true}:{}); save(); applyAbas(); renderCadastro(); if(b.hasAttribute("data-abaok")) toast("Pronto! Só as abas escolhidas aparecem."); return; }
   if(b.hasAttribute("data-cadnew")){ cadOpen(null,null); return; }
   if(b.dataset.cadopen){ const [t,id]=b.dataset.cadopen.split(":"); if(t==="p"){ const a=PRES.aluno(id); cadOpen(a,byPid(id)); } else cadOpen(null,stById(id)); return; }
   if(b.hasAttribute("data-cadx")){ cadDraft=null; renderCadastro(); return; }
@@ -6228,13 +6286,13 @@ function show(tab){
   if(tab==="fases"||tab==="guia"||tab==="ajuda") tab="semana";
   if(tab==="volume"||tab==="treino") tab="semana";
   if(!abaOk(tab)) tab="cadastro";
-  CUR_TAB=tab; const view= (tab==="presenca"||tab==="financeiro")? "pres" : tab;
+  CUR_TAB=tab; const view= (tab==="presenca"||tab==="financeiro"||tab==="agenda")? "pres" : tab;
   document.getElementById("wrap").classList.toggle("wide", tab==="sessao"); document.body.classList.toggle("tab-sessao", tab==="sessao");
   document.getElementById("phaseStrip").hidden = true;
   document.getElementById("top").hidden = view==="pres" || tab==="cadastro";
   document.querySelectorAll("section.view").forEach(s=>s.hidden = s.dataset.view!==view);
-  agSet(tab==="presenca"&&AG_OPEN); document.getElementById("agOpen").hidden= tab!=="presenca";
-  if(view==="pres"){ PRES.setMode(tab==="financeiro"?"fin":"pres"); const hb=document.getElementById("presHelp"); hb.dataset.help=tab; hb.textContent="ⓘ Entenda "+TAB_N[tab]; }
+  agSet(tab==="agenda"); document.getElementById("agOpen").hidden=true;
+  if(view==="pres"){ PRES.setMode(tab==="financeiro"?"fin":"pres"); const hb=document.getElementById("presHelp"); hb.dataset.help=tab==="agenda"?"presenca":tab; hb.textContent="ⓘ Entenda "+TAB_N[tab]; hb.hidden=tab==="agenda"; }
   if(tab==="cadastro") renderCadastro();
   document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===tab));
   try{ localStorage.setItem("sf_tab",tab); }catch(e){}
@@ -6253,7 +6311,7 @@ renderAll();
 setCloud("connecting");
 startCloud();
 let startTab="cadastro"; try{ startTab=localStorage.getItem("sf_tab")||"cadastro"; }catch(e){}
-if(["cadastro","guia","fases","semana","treino","sessao","corpo","volume","presenca","financeiro","ajuda"].includes(startTab)) show(startTab);
+if(["cadastro","guia","fases","semana","treino","sessao","corpo","volume","presenca","agenda","financeiro","ajuda"].includes(startTab)) show(startTab);
 </script>
 
 </body></html>
