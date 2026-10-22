@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792707396";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792710111";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1687,9 +1687,30 @@ body[data-tab="cadastro"] #rpSugA{display:none!important}
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="config.js"></script>
 <style>
-#rpLogin{position:fixed;inset:0;z-index:99999;background:#0f1115;color:#f3efe6;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:auto}
+#rpLogin{position:fixed;inset:0;z-index:99999;background:#0f1115;color:#f3efe6;display:block;padding:16px 16px 40px;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:auto}
 #rpLogin[hidden]{display:none}
-.rp-box{width:100%;max-width:360px}
+.rp-box{width:100%;max-width:360px;margin:0 auto}
+.rp-box.land{max-width:560px}.rp-box.land>#rpForm,.rp-box.land>#rpMsg{max-width:360px;margin-left:auto;margin-right:auto}
+#rpLand[hidden]{display:none}
+.lp-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 4px}.lp-top .rp-logo{margin:0}
+.lp-entrar{background:#1a1d23;color:#d4a24c;border:1.5px solid #d4a24c;border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;cursor:pointer;white-space:nowrap}
+.lp-h1{font-size:27px;line-height:1.15;font-weight:900;margin:14px 0 8px;letter-spacing:-.3px}.lp-h1 b{color:#d4a24c}
+.lp-p{color:#cfc8b8;font-size:15.5px;line-height:1.5;margin:0 0 12px}
+.lp-ben{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px}.lp-ben div{background:#1a1d23;border:1px solid #2c3038;border-radius:12px;padding:10px;font-size:14px;line-height:1.3}.lp-ben b{display:block;font-size:20px;margin-bottom:2px}
+.lp-sec{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d4a24c;margin:20px 0 8px}
+.lp-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin:0 0 8px;scrollbar-width:none}.lp-chips::-webkit-scrollbar{display:none}
+.lp-chips button{flex:none;border:1.5px solid #3a3d45;background:#1a1d23;color:#f3efe6;border-radius:999px;padding:7px 12px;font-size:13.5px;font-weight:700;cursor:pointer}.lp-chips button.on{background:#d4a24c;border-color:#d4a24c;color:#111}
+.lp-slide{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;border:1px solid #2c3038;touch-action:pan-y}.lp-slide img{width:100%;height:100%;object-fit:contain;display:block}
+.lp-nav{position:absolute;top:0;bottom:0;width:22%;border:0;background:transparent;color:#fff;font-size:42px;cursor:pointer;text-shadow:0 1px 6px #000;opacity:.8}.lp-nav.l{left:0;text-align:left;padding-left:6px}.lp-nav.r{right:0;text-align:right;padding-right:6px}
+.lp-bar{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0 0}.lp-bar button{background:#1a1d23;color:#f3efe6;border:1px solid #3a3d45;border-radius:10px;padding:7px 12px;font-size:14px;cursor:pointer}.lp-bar b{min-width:62px;text-align:center;font-size:14px}
+#lpFull{position:fixed;inset:0;z-index:100000;background:#000;display:flex;align-items:center;justify-content:center}#lpFull img{max-width:100%;max-height:100%;object-fit:contain}#lpFull .lp-nav{font-size:56px}#lpFull .lp-fx{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:10px;align-items:center;color:#fff}#lpFull .lp-fx button{background:#D93025;color:#fff;border:0;border-radius:10px;padding:9px 16px;font-weight:800;font-size:15px}#lpFull .lp-fx b{background:rgba(0,0,0,.6);padding:4px 10px;border-radius:999px}
+.lp-teste{margin:22px 0 0;padding:16px;border:2px solid #d4a24c;border-radius:16px;background:linear-gradient(180deg,#1d1a12,#14161b)}
+.lp-teste h3{margin:0 0 6px;font-size:20px}.lp-teste p{margin:0 0 10px;color:#e7e0cf;font-size:15px;line-height:1.45}
+.lp-vagas{display:flex;align-items:center;gap:10px;margin:4px 0 12px}.lp-vagas b{font-size:30px;color:#d4a24c;line-height:1}.lp-vagas span{font-size:14px;color:#cfc8b8;line-height:1.3}
+.lp-bar2{height:8px;border-radius:99px;background:#2c3038;overflow:hidden;margin:-4px 0 12px}.lp-bar2 i{display:block;height:100%;background:#d4a24c}
+.lp-cta{display:block;text-align:center;text-decoration:none;width:100%;box-sizing:border-box;margin-top:8px;padding:13px;border-radius:10px;font-size:16px;font-weight:800;border:0;cursor:pointer}
+.lp-wa{background:#1e8e3e;color:#fff}.lp-mail{background:#fff;color:#222}.lp-share{background:#1a1d23;color:#f3efe6;border:1.5px solid #3a3d45!important}
+.lp-div{display:flex;align-items:center;gap:10px;color:#8d8778;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:28px auto 4px;max-width:360px}.lp-div:before,.lp-div:after{content:"";flex:1;height:1px;background:#2c3038}
 .rp-logo{font-size:28px;font-weight:800;letter-spacing:-.5px;margin:0 0 4px}
 .rp-logo b{color:#d4a24c}
 .rp-sub{color:#a9a395;font-size:14px;margin:0 0 22px}
@@ -1741,8 +1762,27 @@ body.kb #rpSugFab{display:none}
 </style>
 <div id="rpLogin">
   <div class="rp-box">
-    <p class="rp-logo">Rotina do <b>Personal</b></p>
-    <p class="rp-sub">Treinos, presença e financeiro dos seus alunos.</p>
+    <div id="rpLand" hidden>
+      <div class="lp-top"><p class="rp-logo">Rotina do <b>Personal</b></p><button class="lp-entrar" id="lpEntrar">Já tenho acesso · Entrar</button></div>
+      <h1 class="lp-h1">Seu trabalho de personal, <b>tudo num lugar só.</b></h1>
+      <p class="lp-p">Você que é personal e usa vários aplicativos, planilhas de Excel, Word e um monte de pastas: no <b>Rotina do Personal</b> está tudo integrado.</p>
+      <div class="lp-ben"><div><b>🏋️</b>Treino do dia, lançado na hora da aula</div><div><b>📄</b>Relatório pronto para mandar ao aluno</div><div><b>✅</b>Presença automática, sem fazer chamada</div><div><b>💰</b>Financeiro com alerta de quem não pagou</div></div>
+      <p class="lp-sec">📽 Conheça o sistema</p>
+      <div class="lp-chips" id="lpChips"></div>
+      <div class="lp-slide" id="lpSlide"><img id="lpImg" alt="Slide da apresentação do sistema"><button class="lp-nav l" data-lp="-1" aria-label="Anterior">‹</button><button class="lp-nav r" data-lp="1" aria-label="Próximo">›</button></div>
+      <div class="lp-bar"><button data-lp="-1">◀</button><b id="lpNum"></b><button data-lp="1">▶</button><button id="lpFullB">⛶ Tela cheia</button></div>
+      <div class="lp-teste">
+        <h3>🧪 Fase de teste · vagas limitadas</h3>
+        <p>Veja se faz sentido para você. Se fizer, <b>solicite seu acesso</b>. Na fase de teste, <b>seus feedbacks viram créditos</b> para usar o sistema por mais tempo.</p>
+        <div id="lpVagas" hidden><div class="lp-vagas"><b id="lpVN"></b><span id="lpVT"></span></div><div class="lp-bar2"><i id="lpVB"></i></div></div>
+        <a class="lp-cta lp-wa" id="lpWa" target="_blank" rel="noopener">📲 Solicitar acesso pelo WhatsApp</a>
+        <a class="lp-cta lp-mail" id="lpMail">✉️ Solicitar por e-mail</a>
+        <button class="lp-cta lp-share" id="lpShare">📤 Mandar para um colega personal</button>
+      </div>
+      <p class="lp-div" id="lpLoginAnchor">Entrar ou criar conta</p>
+    </div>
+    <p class="rp-logo" id="rpLogo2">Rotina do <b>Personal</b></p>
+    <p class="rp-sub" id="rpSub2">Treinos, presença e financeiro dos seus alunos.</p>
     <div id="rpForm">
       <label for="rpEmail">E-mail</label>
       <input id="rpEmail" type="email" autocomplete="email" inputmode="email">
@@ -1883,7 +1923,7 @@ body.kb #rpSugFab{display:none}
   var dBR=function(ms){ return new Date(ms).toLocaleDateString("pt-BR"); };
   var acessoValido=function(a){ return !!(a&&a.status==="liberado"&&(tsMs(a.validoAte)==null||tsMs(a.validoAte)>Date.now())); };
   var acKey=function(){ return "rp_acesso_"+ME.uid; };
-  function bloquear(tit,txt,cv){ $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg(""); $("rpBCv").hidden=!cv;
+  function bloquear(tit,txt,cv){ landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg(""); $("rpBCv").hidden=!cv;
     $("rpBTit").textContent=tit; $("rpBTxt").textContent=txt;
     var t=encodeURIComponent("Olá! Criei minha conta no Rotina do Personal ("+(ME.email||"")+") e quero liberar o acesso.");
     if(RP_SUP_WA){ $("rpBWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t; $("rpBWa").style.display=""; } else $("rpBWa").style.display="none";
@@ -1916,6 +1956,38 @@ body.kb #rpSugFab{display:none}
       if(e&&e.msg){ bloquear("Convite inválido",e.msg+" Se precisar, peça um novo convite."); try{ localStorage.removeItem("rp_convite"); }catch(x){} return; }
       if(acessoValido(cache)){ msg(""); ok(); return; }
       bloquear("Não foi possível verificar","Confira a internet e toque em tentar de novo. ("+((e&&e.code)||"erro")+")"); }); }
+
+  /* Página de entrada: propaganda, slides por aba, fase de teste e convite para colega */
+  var LP={i:0,list:[],all:[],grp:"todo"};
+  var LP_GR=[["todo","Site todo",null],["cadastro","Cadastro",["cadastro","abas","cores"]],["programacao","Programação",["programacao","fases","medo","ajuda","minha","nenhuma","letra","semanas","cardio"]],
+    ["sessao","Sessão",["sessao","ses-novo","tela","ses-dia","ses-lancar","setas","conj","descanso","timers","ses-graf","ses-rel"]],["avaliacao","Avaliação Física",["avaliacao","aval-det","fotos"]],
+    ["presenca","Presença",["presenca","pres-auto","pres-mes","rel-aluno","frases","quinta"]],["agenda","Agenda",["agenda","agenda2"]],["financeiro","Financeiro",["financeiro"]]];
+  var lpSrc=function(n){ return "apresentacao/"+String(n).padStart(2,"0")+".jpg"; };
+  function lpShow(){ var n=LP.list[LP.i]; ["lpImg","lpFImg"].forEach(function(id){ var im=$(id); if(im) im.src=lpSrc(n); }); ["lpNum","lpFNum"].forEach(function(id){ var e=$(id); if(e) e.textContent=(LP.i+1)+" de "+LP.list.length; });
+    var nx=LP.list[LP.i+1]; if(nx){ var pre=new Image(); pre.src=lpSrc(nx); } }
+  function lpGo(d){ LP.i=Math.max(0,Math.min(LP.list.length-1,LP.i+d)); lpShow(); }
+  function lpGrupo(k){ LP.grp=k; var g=LP_GR.find(function(x){ return x[0]===k; }); LP.list= !g[2]? LP.all.map(function(_,i){ return i+1; }) : LP.all.map(function(id,i){ return g[2].indexOf(id)>=0? i+1 : 0; }).filter(Boolean); if(!LP.list.length) LP.list=[1]; LP.i=0;
+    $("lpChips").querySelectorAll("button").forEach(function(b){ b.classList.toggle("on",b.dataset.lpg===k); }); lpShow(); }
+  var LP_OK=false;
+  function lpInit(){ if(LP_OK) return; LP_OK=true;
+    $("lpChips").innerHTML=LP_GR.map(function(g){ return '<button data-lpg="'+g[0]+'">'+g[1]+'</button>'; }).join("");
+    $("lpChips").onclick=function(e){ var b=e.target.closest("[data-lpg]"); if(b) lpGrupo(b.dataset.lpg); };
+    fetch("apresentacao/ordem.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(o){ LP.all=o; }).catch(function(){ LP.all=new Array(43).fill(""); }).then(function(){ lpGrupo("todo"); });
+    $("rpLand").addEventListener("click",function(e){ var b=e.target.closest("[data-lp]"); if(b) lpGo(+b.dataset.lp); });
+    $("lpFullB").onclick=function(){ var f=document.createElement("div"); f.id="lpFull"; f.innerHTML='<img id="lpFImg" alt="Slide"><button class="lp-nav l" data-lp="-1">‹</button><button class="lp-nav r" data-lp="1">›</button><div class="lp-fx"><b id="lpFNum"></b><button id="lpFX">✕ Fechar</button></div>';
+      document.body.appendChild(f); f.addEventListener("click",function(e){ var b=e.target.closest("[data-lp]"); if(b) lpGo(+b.dataset.lp); if(e.target.id==="lpFX") f.remove(); }); lpSwipe(f); lpShow(); };
+    function lpSwipe(el){ var x0=null; el.addEventListener("touchstart",function(e){ x0=e.touches[0].clientX; },{passive:true}); el.addEventListener("touchend",function(e){ if(x0==null) return; var dx=e.changedTouches[0].clientX-x0; x0=null; if(Math.abs(dx)>40) lpGo(dx<0?1:-1); },{passive:true}); }
+    lpSwipe($("lpSlide"));
+    $("lpEntrar").onclick=function(){ $("lpLoginAnchor").scrollIntoView({behavior:"smooth",block:"start"}); setTimeout(function(){ try{ $("rpEmail").focus({preventScroll:true}); }catch(_){} },500); };
+    var t=encodeURIComponent("Olá, Maílson! Vi o Rotina do Personal e quero participar da fase de teste. Meu nome é ");
+    $("lpWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t;
+    $("lpMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Quero testar o Rotina do Personal")+"&body="+t;
+    var url="https://rotinadopersonal.com.br", txt="Olha esse sistema para personal: treino do dia, relatório para o aluno, presença automática e financeiro, tudo num lugar só. Está em fase de teste com vagas limitadas:";
+    $("lpShare").onclick=function(){ if(navigator.share) navigator.share({title:"Rotina do Personal",text:txt,url:url}).catch(function(){}); else window.open("https://wa.me/?text="+encodeURIComponent(txt+" "+url),"_blank"); };
+    fs.doc("publico/vagas").get().then(function(d){ if(!d.exists) return; var v=d.data()||{}, tot=+v.total||0, us=Math.max(0,+v.usadas||0); if(!tot) return; var r=Math.max(0,tot-us);
+      $("lpVN").textContent=r; $("lpVT").innerHTML= r? (r===1?"vaga restante":"vagas restantes")+"<br>de "+tot+" na fase de teste" : "vagas esgotadas<br>peça para entrar na lista de espera"; $("lpVB").style.width=Math.min(100,us/tot*100)+"%"; $("lpVagas").hidden=false;
+      if(!r){ var t2=encodeURIComponent("Olá, Maílson! Vi o Rotina do Personal e quero entrar na lista de espera. Meu nome é "); $("lpWa").textContent="📲 Entrar na lista de espera"; $("lpWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t2; $("lpMail").href="mailto:"+RP_CONTATO+"?subject="+encodeURIComponent("Lista de espera - Rotina do Personal")+"&body="+t2; } }).catch(function(){}); }
+  function landOn(on){ var c=!!conviteCod(); on=on&&!c; $("rpLand").hidden=!on; document.querySelector("#rpLogin .rp-box").classList.toggle("land",on); $("rpLogo2").hidden=on; $("rpSub2").hidden=on; if(on) lpInit(); }
   var TERMOS_V="2026-10-16";
   var telOk=function(t){ return (t||"").replace(/\D/g,"").length>=10; };
   var fmtTel=function(t){ var d=(t||"").replace(/\D/g,"").slice(0,11); if(d.length<3) return d; if(d.length<=6) return "("+d.slice(0,2)+") "+d.slice(2); if(d.length<=10) return "("+d.slice(0,2)+") "+d.slice(2,6)+"-"+d.slice(6); return "("+d.slice(0,2)+") "+d.slice(2,7)+"-"+d.slice(7); };
@@ -1980,7 +2052,7 @@ body.kb #rpSugFab{display:none}
       b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild);
       if(!v.querySelector("#rpSugTop")){ var g=document.createElement("button"); g.id="rpSugTop"; g.className="rp-sug-top"; g.type="button"; g.innerHTML='💡 Sugestão ou ideia para o sistema <span style="margin-left:auto">›</span>'; g.onclick=abrirSug; b.after(g); } };
     put(); new MutationObserver(put).observe(v,{childList:true}); }
-  function pedirPerfil(u){ $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
+  function pedirPerfil(u){ landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
     $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); var rr=(PERFIL&&PERFIL.redes)||{}; $("rpPIg").value=rr.instagram||""; $("rpPSite").value=rr.site||""; }
   $("rpPGo").onclick=function(){ var n=$("rpPNome").value.trim(), t=$("rpPTel").value.trim();
     if(n.length<2){ msg("Digite seu nome."); return; } if(!telOk(t)){ msg("Digite o telefone com DDD."); return; } if(!$("rpPAceite").checked){ msg("Para continuar, aceite os Termos de uso."); return; }
@@ -1991,7 +2063,8 @@ body.kb #rpSugFab{display:none}
   var supCarregado=function(){ fs.doc("config/suporte").get().then(function(d){ if(!d.exists) return; var c=d.data()||{}; if(c.whatsapp) RP_SUP_WA=String(c.whatsapp).replace(/\D/g,""); if(c.email) RP_CONTATO=c.email; }).catch(function(){}); };
   auth.onAuthStateChanged(function(u){
     if(u) supCarregado();
-    if(!u){ $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; return; }
+    if(!u){ $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; landOn(true); return; }
+    landOn(false);
     if(started) return; ME=u;
     PERFIL=cacheGet();
     if(perfilOk(PERFIL)){ startApp(u); perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } else salvarPerfil({}); }).catch(function(){}); return; }
