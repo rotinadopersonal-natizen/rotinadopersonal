@@ -1,11 +1,11 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792679669";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792685500";
 (function(){ var K="rp_upd_try";
-  function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
-      showUpd(m[1]); }).catch(function(){}); }catch(e){} }
+  var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
+      var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
   function go(v){ var u=new URL(location.href); u.searchParams.set("v",v); location.replace(u.toString()); }
   function showUpd(v){ if(document.getElementById("rpUpd")) return; var st=document.createElement("style"); st.textContent="#rpUpd{position:fixed;left:10px;top:10px;z-index:9999;display:flex;align-items:center;gap:10px;width:min(440px,calc(100vw - 86px));background:#DCEBFF;color:#0B2A55;border:2px solid #7FB0F0;border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25);font:700 15px/1.25 system-ui,sans-serif;cursor:pointer;text-align:left}#rpUpd .ic{font-size:30px;animation:rpBlink 1s ease-in-out infinite}#rpUpd small{display:block;font-weight:500;font-size:12.5px;color:#1F4E8C}#rpUpd .bt{margin-left:auto;background:#1B55B8;color:#fff;border-radius:10px;padding:8px 12px;font-size:14px;white-space:nowrap}@keyframes rpBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.15)}}";
     document.head.appendChild(st); var b=document.createElement("button"); b.id="rpUpd"; b.type="button"; b.innerHTML='<span class="ic">🏋️</span><span>Nova atualização!<small>Toque para ver as novidades do Rotina do Personal</small></span><span class="bt">Atualizar</span>'; b.onclick=function(){ go(v); }; document.body.appendChild(b); }
-  setTimeout(chk,1500); document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") chk(); }); })();</script></head><body>
+  setTimeout(chk,1500); setInterval(chk,10*60*1000); document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") chk(); }); })();</script></head><body>
 <title>Rotina do Personal</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1490,6 +1490,12 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .xh-ex{display:flex;align-items:center;justify-content:center;gap:0}.xh-ex .qtip{align-self:flex-start;margin-top:-2px!important}
 .xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
+.ctlbig{display:flex;gap:8px;width:100%;position:relative}.ctlbig .btn{flex:1;font-size:16px;font-weight:800;padding:12px 8px}.ctlbig>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
+.boxw{position:relative;margin:6px 0}.boxh{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:0 2px 2px}
+.boxx{border:1.5px solid var(--line);background:var(--surface);color:var(--muted);border-radius:8px;width:28px;height:24px;font-size:12px;font-weight:900;cursor:pointer;line-height:1}
+.boxbar{display:block;width:100%;text-align:left;border:1.5px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:7px 10px;margin:6px 0;font-weight:800;font-size:13px;cursor:pointer}
+.daychips button.dyoff{color:#D93025!important;border-color:#F5B5B0}.daychips button.dyoff small{color:#D93025!important}.dyfer{display:block;font-style:normal;font-size:8.5px;font-weight:900;text-transform:uppercase;color:#D93025;line-height:1}
+.tmrbar.big{top:50%;transform:translate(-50%,-50%);width:min(96vw,620px);grid-template-columns:1fr;padding:18px 16px;text-align:center}.tmrbar.big .tm-l{justify-items:center}.tmrbar.big .tm-t{font-size:min(30vw,190px);line-height:1}.tmrbar.big .tm-l b{font-size:20px}.tmrbar.big .tm-l small{font-size:16px}.tmrbar.big .tm-b{max-width:none;justify-content:center}.tmrbar.big .tm-b button{min-width:56px;height:52px;font-size:22px}
 .corl{display:block;margin:10px 0 4px;font-size:14px}.seg{position:relative}.seg>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
 .corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
 .donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
@@ -2391,12 +2397,13 @@ function agDelRow(A2,ti,k,i){ const L=A2.tabs[ti].d[k], r=L[i]; if(!r) return; i
   L.splice(i,1); if(ti===0){ const P=A2.tabs[1].d[k]||[]; const j=P.findIndex(x=>agNorm(x.h)===agNorm(r.h)&&(x.auto||!String(x.t||"").trim()||x.t==="OCUPADO")); if(j>=0) P.splice(j,1); }
   agMirror(); save(); agRender(); toast(`${k} ${r.h} apagado`); }
 function agTop(A2){ const tab=agTabHTML;
-  return `<div class="aghead"><b>📅 Agenda da semana</b></div>
-    <button class="btn ${AG_WH?"primary":""}" data-agwh style="width:100%">🕐 Meu horário de trabalho (ex.: das 05:00 às 20:00)</button>${AG_WH? agWHHTML() : ""}
+  const tools=`<div class="agtoolsbox"><button class="btn ${AG_WH?"primary":""}" data-agwh style="width:100%">🕐 Meu horário de trabalho (ex.: das 05:00 às 20:00)</button>${AG_WH? agWHHTML() : ""}
     <button class="agwab" data-agwa>📲 Enviar horários livres no WhatsApp</button>${agWa? agWaHTML() : ""}
     <button class="btn agmkb ${agMkOn?"primary":""}" data-agmk style="width:100%"><span class="agdot g"></span><span class="agdot r"></span> Marcar vários horários de uma vez (livre ou ocupado)</button>${agMkOn? agMkHTML() : ""}
     <div class="agtools"><button class="btn small ${agEdit?"danger":""}" data-agedit>${agEdit?"✓ Pronto, parar de apagar":"🗑 Apagar horários que não uso"}</button><button class="btn small" data-agfill>↻ Atualizar com o cadastro</button><button class="btn small ghost" data-agsab>${A2.days.includes("Sáb")?"− Sábado":"+ Sábado"}</button><button class="btn small ${agClr==="all"?"danger":"ghost"}" data-agclrall>${agClr==="all"?"Toque de novo para limpar tudo":"🧹 Limpar tudo"}</button><button class="btn small ghost" data-agdom>${A2.days.includes("Dom")?"− Domingo":"+ Domingo"}</button></div>
     <button class="btn small ${agCorOn?"primary":""}" data-agcoron style="justify-self:start">🎨 Cores da agenda</button>${agCorOn? agCorHTML() : ""}
+    </div>`;
+  return `<div class="aghead"><b>📅 Agenda da semana</b></div>${boxW("agtools","🧰 Ferramentas da agenda",tools)}
     <p class="muted agtip"><b>Toque no horário</b> para marcar ✅ livre ou ⛔ ocupado e escrever o nome. A tabela de novos alunos copia sozinha. Alunos do Cadastro entram sozinhos.</p>${agEdit?`<p class="agdelmsg">🗑 Toque nos horários que você quer tirar. Depois toque em “Pronto”.</p>`:""}
     ${A2.tabs.map(tab).join("")}`; }
 function agFit(t){ if(CSS.supports&&CSS.supports("field-sizing","content")) return; t.style.height="auto"; t.style.height=t.scrollHeight+"px"; }
@@ -3419,6 +3426,10 @@ document.addEventListener("submit",e=>{ if(!e.target.matches("[data-botf]")) ret
 /* ---------- Contagem de semanas (S1, S2…) e lembrete ---------- */
 let WKCFG_OPEN=false;
 function wkCfg(){ S.wkCfg=S.wkCfg||{}; return S.wkCfg; }
+/* Caixas que a pessoa fecha no X e reabre pelo nome: a tela fica só com o que ela usa */
+function boxOff(k){ return !!(((S.brand||{}).fech||{})[k]); }
+function boxW(k,title,inner){ if(!inner) return ""; return boxOff(k)? `<button class="boxbar" data-boxopen="${k}">▸ ${title}</button>` : `<div class="boxw" data-box="${k}"><div class="boxh"><span>${title}</span><button class="boxx" data-boxx="${k}" aria-label="Fechar ${title}">✕</button></div>${inner}</div>`; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-boxx],[data-boxopen]"); if(!b) return; e.stopPropagation(); const k=b.dataset.boxx||b.dataset.boxopen; const f=Object.assign({},((S.brand||{}).fech)||{}); if(b.dataset.boxx) f[k]=1; else delete f[k]; S.brand=Object.assign({},S.brand||{},{fech:f}); save(); renderAll(); try{ agRender(); }catch(_){} },true);
 function wkRowHTML(){ const c=wkCfg(), cur=S.weeks.find(x=>x.id===S.week);
   return `<div class="wkrow" role="tablist" aria-label="Semanas">${wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)||"–"} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")}<button data-wtab="cfg" class="wcfg" aria-label="Nomes e lembrete das semanas">⚙</button></div>
   <div class="wkrep"><label>Repetir esta programação por <input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="4"> semanas</label><button class="btn small" data-wkok>OK</button><button class="btn small wkred" data-wkreset>Zerar contagem das semanas</button></div>
@@ -4206,7 +4217,8 @@ function tmRender(fast){ document.querySelectorAll(".tmlive").forEach(z=>z.inner
       else if(a==="done"){ const x=TMR.seq[TMR.i]; if(x&&x.k==="man"){ tmNext(); return; } if(x&&x.k==="up"){ TMR.fin=(Date.now()-TMR.st)/1000; TMR.done=true; beep(); clearInterval(TMR_I); } }
       else if(a==="rnd"){ TMR.rounds++; }
       else if(a==="rndm"){ TMR.rounds=Math.max(0,TMR.rounds-1); }
-      else if(a==="min"){ TMR.min=!TMR.min; }
+      else if(a==="min"){ TMR.min=!TMR.min; TMR.big=false; }
+      else if(a==="big"){ TMR.big=!TMR.big; TMR.min=false; }
       else if(a==="stop"){ clearInterval(TMR_I); TMR=null; tmRender(); return; }
       tmRender(); }); }
   const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)], nx=TMR.seq[TMR.i+1];
@@ -4214,11 +4226,11 @@ function tmRender(fast){ document.querySelectorAll(".tmlive").forEach(z=>z.inner
   const col= TMR.done? "#2F8F5B" : x.k==="rest"? "#2F8F5B" : x.c;
   el.style.setProperty("--tc",col);
   const t=el.querySelector(".tm-t"); if(fast&&t&&!TMR.min===!el.classList.contains("min")){ t.textContent=shown; return; }
-  el.classList.toggle("min",!!TMR.min);
+  el.classList.toggle("min",!!TMR.min); el.classList.toggle("big",!!TMR.big&&!TMR.min);
   const cnt= TMR.seq.some(z=>z.cnt);
   el.innerHTML= TMR.min? `<button class="tm-pill" data-tma="min"><span class="tm-t">${shown}</span> ${esc(TMR.done?"Fim":x.lab)}</button>`
    : `<div class="tm-l"><b>${TMR.done?"Fim! 🎉":esc(x.lab)}${!TMR.done&&x.r?` <small>${x.r}/${x.of}</small>`:""}${!TMR.done&&x.set?` <small>· ${x.set}</small>`:""}</b><span class="tm-t">${shown}</span><small>${TMR.done? (TMR.fin?"tempo final":"") : nx? `Próximo: ${esc(nx.lab)} ${nx.k==="man"?"(livre)":tmFmt(nx.d)}` : "Último"}${cnt?` · rodadas: <b>${TMR.rounds}</b>`:""}</small></div>
-    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="${x.k==="man"?"Terminei a série":"Terminou"}">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
+    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="${x.k==="man"?"Terminei a série":"Terminou"}">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="big" title="${TMR.big?"Diminuir":"Aumentar na tela"}">${TMR.big?"🗗":"⛶"}</button><button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
 function colHTML(m,w,ms){
   const d=dayOf(w.id,m.id,S.day,true); const dRaw=d; const T=totDay(d); const st=A();
   const planSe=(planOf(m)||{sessions:[]}).sessions.filter(se=>se.day===S.day);
@@ -4238,9 +4250,9 @@ function colHTML(m,w,ms){
     ${(!ltrOf(m.id,w.id,S.day,d)||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     ${sugOpen===m.id? sugHTML(m,d) : ""}
-    ${m===sesMembers()[0]?ntfBanHTML():""}<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle${qtip("ctl")}</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button></div>
+    ${m===sesMembers()[0]?boxW("alarmeban","🔔 Aviso do alarme",ntfBanHTML()):""}${boxW("controle","🎯 Metas e controle",`<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><div class="ctlbig"><button class="btn" data-ctlov="ses">📊 Controle da sessão</button><button class="btn" data-ctlov="sem">📅 Controle da semana</button>${qtip("ctl")}</div></div>`)}
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
-    ${m===ms[0]&&sesMode==="lancar"? SES_WK : ""}
+    ${m===ms[0]&&sesMode==="lancar"? boxW("semana","📅 Semana e dia",SES_WK) : ""}
     ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn mvtop" data-mvopen>↔ Mover este treino para outro dia</button>`}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
@@ -4250,8 +4262,7 @@ function colHTML(m,w,ms){
         return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1&&!r.cj?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
       <button class="xadd" data-addrow>+ Linha</button>
 
-      ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return `<div class="xcard2">
-        ${tmrHTML(m)}
+      ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return boxW("crono","⏱ Cronômetro",`<div class="xcard2">${tmrHTML(m)}</div>`)+boxW("cardio","🏃 Cardio",`<div class="xcard2">
         <span class="xc2-h">Cardio${oth.length?` <button class="xcp" data-copycardio>📋 copiar cardio p/ ${esc(oth.map(o=>first(o.name)).join(" e "))}</button>`:""}</span>
         <div class="xc2-g2"><label>Tipo ${qtip("c_tipo")}<select class="inp" data-cf="tipo" id="cy-${m.id}"><option value="">–</option>${CARDIO_T.map(x=>`<option ${tp===x?"selected":""}>${x}</option>`).join("")}${tp&&!CARDIO_T.includes(tp)?`<option selected>${esc(tp)}</option>`:""}</select></label>
           <label>Método ${qtip("c_met")}<select class="inp" data-wf="tipo" id="wt-${m.id}"><option value="">–</option>${WOD_TIPOS.map(x=>`<option ${W.tipo===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
@@ -4269,12 +4280,12 @@ function colHTML(m,w,ms){
               <label>PSE<select class="inp" data-cf="pse${k}" id="cp${k}-${m.id}"><option value="">–</option>${[0,1,2,3,4,5,6,7,8,9,10].map(z=>`<option ${g("pse")!=null&&g("pse")!==""&&num(g("pse"))===z?"selected":""}>${z}</option>`).join("")}</select></label></div></div>`; }
           return h+`<button class="linkbtn" data-cz2 style="justify-self:start">+ adicionar outro cardio${N<2?" (ex.: AMRAP e depois volta à calma em Z2)":""}</button>`; })()}
         <textarea class="inp xwdesc2" data-wf="desc" id="wd-${m.id}" rows="2" placeholder="Descrição do método (opcional). Ex.: EMOM 12' — 10 kettlebell swing + 8 burpees">${esc(W.desc)}</textarea>
-      </div>`; })()}
+      </div>`); })()}
     </div>
     <div class="row">
       ${has? `<button class="btn small danger" data-clear>${arm("clear")?"Toque de novo para limpar":"Limpar dia"}</button>`:""}
     </div>
-    <div class="card wk" id="wk-${m.id}">${weekCardHTML(m,w.id)}</div>
+    ${boxW("grafsem","📊 Gráfico da semana",`<div class="card wk" id="wk-${m.id}">${weekCardHTML(m,w.id)}</div>`)}
   </div>`;
 }
 function painelHTML(st,w){
@@ -4331,15 +4342,15 @@ function renderSessao0(){
     ${armNewWeek? `<div class="note" style="display:grid;gap:8px"><span>Criar a semana ${last.n+1} (${ddmm(addDays(last.start,7))})</span>
       <div class="row"><button class="btn primary small" data-nw="copy">Copiar exercícios e cargas da semana ${last.n}</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>`
       : wkRowHTML()}
-    <div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>`<button data-dy="${dy}" aria-pressed="${dy===S.day}">${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?'<span class="dot"></span>':""}</button>`).join("")}</div>
+    <div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>{ const kk=addDays(w.start,DAYS.indexOf(dy)); const off=presOn()&&PRES.isOff(kk); return `<button data-dy="${dy}" aria-pressed="${dy===S.day}" class="${off?"dyoff":""}">${off?`<i class="dyfer">${(()=>{ const r=String(PRES.offReason(kk)||""); return /^(Viagem|Folga)/.test(r)? r.split(/[ (]/)[0] : "Feriado"; })()}</i>`:""}${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?'<span class="dot"></span>':""}</button>`; }).join("")}</div>
     <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button>${qtip("rel")}</div>
   </div>`;
   document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
   <datalist id="cardiolist">${["Esteira","Bike","Spinning","Elíptico","Escada","Remo","Corrida na rua","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
   ${wkCfgHTML("banner")}
-  ${todayHTML(st)}
-  ${sesMode==="lancar"? "" : SES_WK}
+  ${boxW("alunos","👥 Alunos do dia",todayHTML(st))}
+  ${sesMode==="lancar"? "" : boxW("semana","📅 Semana e dia",SES_WK)}
   ${sesProgHTML(st)}
   ${sesMode==="lancar"? `<div class="cols" style="--n:${ms.length}">${ms.map(m=>colHTML(m,w,ms)).join("")}</div>` : painelHTML(st,w)}`;
   ms.forEach(m=>paintAlerts(m,dayOf(w.id,m.id,S.day)));
