@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792498655";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792673744";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -327,7 +327,9 @@ input.mini{padding:5px;text-align:center}
 .xb-sug{white-space:nowrap}
 .xhead span:last-child{padding:7px 0!important;font-size:10px!important;letter-spacing:0!important}
 .xrest{min-width:28px!important;padding:3px 2px!important;font-size:10.5px!important}
-.xdesc{position:relative;display:flex;align-items:center;justify-content:center;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
+.xdelc{position:absolute;top:0;right:0;bottom:0;width:15px;border:0;border-left:1px solid #E8A5A0;background:#FDE2E1;color:#B42318;font-size:9px;padding:3px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;line-height:1}
+.xdelc small{writing-mode:vertical-rl;font-size:8px;font-weight:800;margin-top:3px}.xdelc.arm{background:#D93025;color:#fff}
+.xdesc{position:relative;display:flex;align-items:center;justify-content:center;padding-right:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
 .xtot>span:last-child,.xband>span:last-child{border-left:1px solid var(--line)}
 .xhead span{border-left:1px solid color-mix(in srgb,var(--bg) 25%,transparent)}
 .xhead span:nth-child(2){text-align:center}
@@ -1473,11 +1475,19 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .wbell{flex:none;border:1.5px dashed var(--line);background:var(--surface);border-radius:10px;font-size:16px;padding:4px 10px;cursor:pointer}.wbell.on{border-style:solid;border-color:#2EBD4E}
 #ntfpop{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:16px}#ntfpop[hidden]{display:none}
 .ntfbox{background:var(--surface,#fff);border-radius:16px;padding:16px;display:grid;gap:10px;max-width:440px;width:100%;max-height:86vh;overflow:auto}.ntfbox>b{font-size:18px}
+.payal-s{display:flex;align-items:center;gap:8px;padding:8px 12px!important}.payal-go{flex:1;text-align:left;border:0;background:transparent;color:#fff;font-weight:800;font-size:17px;cursor:pointer;padding:0}.payal-go small{font-weight:600;font-size:12px;opacity:.9;margin-left:6px}
 .ntfban{display:grid;gap:2px;width:100%;text-align:left;border:2px solid #E5A100;background:#FFF4D6;color:#5C3B00;border-radius:12px;padding:10px 12px;margin:0 0 10px;cursor:pointer;font:inherit}.ntfban b{font-size:16px}.ntfban span{font-size:13px}
 .ntfban.on{border-color:#2EBD4E;background:#E8F7EE;color:#14532D;padding:6px 12px}.ntfban.on b{font-size:14px}
 .ntfml{display:grid;gap:4px;font-weight:700;font-size:14px}.ntfml .inp{font-size:16px}.ntfprev{display:grid;gap:2px;background:#F1F3F5;border-radius:10px;padding:8px 10px;color:#111}.ntfprev small{color:#666}.ntfprev b{font-size:14px!important}
 .trest .tr-s{display:block!important;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0;line-height:1.2;background:#FDE2E1;color:#B42318;border:1px solid #F5B5B0;border-radius:6px;padding:1px 3px;max-width:100%;overflow:hidden;box-sizing:border-box;justify-self:stretch;text-align:center;margin-bottom:2px}
 .ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
+.slot.own{border-style:dashed;border-color:#1E8E3E}.slot.own.on{border-style:solid}.ownnew{justify-self:start;border:1.5px dashed #1E8E3E!important;color:#1E6B34!important;margin-top:4px}
+.wkrow{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.wkrow button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;font-size:15px;cursor:pointer;color:var(--fg)}
+.wkrow button small{font-weight:500;font-size:12px;color:var(--muted)}.wkrow button[aria-selected="true"]{background:#1E8E3E;border-color:#1E8E3E;color:#fff}.wkrow button[aria-selected="true"] small{color:#E3F5EA}
+.wkrow button.due{border-color:#E5A100;background:#FFF1D6}.wkrow .wcfg{border-style:dashed}
+.wkrep{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.wkrep label{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14px}.wkrep .inp{width:62px;text-align:center;padding:6px}.wkreph{font-size:12px}
+.wkred{background:#FDE2E1!important;color:#B42318!important;border-color:#F5B5B0!important}
+.wbig{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15px;padding:8px 12px}.wbig small{font-weight:600;font-size:12px;color:var(--muted)}.wbig.on small{color:#1E8E3E}
 .agmkb{display:flex;align-items:center;justify-content:center;gap:6px}.agdot{display:inline-block;width:14px;height:14px;border-radius:50%}.agdot.g{background:#2EBD4E}.agdot.r{background:#E53935;margin-right:4px}
 @media (min-width:560px){#agview .agcellb{grid-template-columns:3.1em minmax(0,1fr);align-items:center;text-align:left}#agview .agcellb b{text-align:center;border-right:1px solid rgba(0,0,0,.22);font-size:9.5px}#agview .agcellb span{padding-left:3px}}
 #agview .agpop{display:grid;gap:8px;background:var(--surface);border:2px solid var(--accent,#1F4E9A);border-radius:14px;padding:14px;position:fixed;left:50%;top:45%;transform:translate(-50%,-50%);width:min(280px,86vw);z-index:400;box-shadow:0 6px 18px rgba(0,0,0,.25)}
@@ -1504,8 +1514,8 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .agpo input{width:30px;height:30px;border:0;padding:0;background:none;cursor:pointer}
 .agcor .lk{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:12.5px;justify-self:start;padding:2px}
 #agview .agday{background:var(--line)!important;border-color:var(--line)!important}
-.xhead,.xband,.xrow,.xtot{grid-template-columns:52px minmax(0,1fr) repeat(3,34px) 42px 32px!important}
-@media (min-width:480px){.xhead,.xband,.xrow,.xtot{grid-template-columns:58px minmax(0,1fr) repeat(3,64px) 62px 58px!important}}
+.xhead,.xband,.xrow,.xtot{grid-template-columns:52px minmax(0,1fr) repeat(3,34px) 42px 46px!important}
+@media (min-width:480px){.xhead,.xband,.xrow,.xtot{grid-template-columns:58px minmax(0,1fr) repeat(3,64px) 62px 74px!important}}
 .xg{grid-template-columns:14px auto;column-gap:3px;padding-left:1px!important}
 .xg>*{grid-column:2}
 .xg>.xmic{grid-column:1;grid-row:1 / span 3;align-self:stretch;width:14px;min-height:60px;border:0;border-radius:7px;background:#1e8e3e;color:#fff;font-size:10px;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl}
@@ -2226,7 +2236,7 @@ const isGroup=st=> membersOf(st).length>1;
 const groupLabel=n=> n===1?"Individual":n===2?"Dupla":"Trio";
 const exById=id=> LIB.find(e=>e.id===id) || (S.custom||[]).find(e=>e.id===id) || {id, n:"Exercício", t:"mono", m:{}};
 const phaseOf=st=> PHASES[st.phase]||PHASES[1];
-const first=n=>{ const w=String(n||"").replace(/\s*\(.*\)\s*$/,"").trim().split(/\s+/); return (/^(dona|seu|sr|sra|padre|pe\.?|dr|dra|tia|tio|irmã|irma|pastor|pastora)$/i.test(w[0]||"") && w[1]? w[0]+" "+w[1] : w[0]) || "aluno"; };
+const first=n=>{ if(String(n||"").trim()==="Meu treino") return "Meu treino"; const w=String(n||"").replace(/\s*\(.*\)\s*$/,"").trim().split(/\s+/); return (/^(dona|seu|sr|sra|padre|pe\.?|dr|dra|tia|tio|irmã|irma|pastor|pastora)$/i.test(w[0]||"") && w[1]? w[0]+" "+w[1] : w[0]) || "aluno"; };
 function catOf(st,k){ return (k==="core" && st.coreExtra)? "M" : MUSCLES[k].c; }
 
 function hasOv(o){ return o && (o.sets!=null || o.reps!=null || o.ex!=null); }
@@ -2345,7 +2355,7 @@ function agHTML(){ const A2=agData();
 }
 function agTabHTML(T,ti){ const A2=agData(), C=agCores(); return `<div class="agtab" data-agtab="${ti}"><div class="agtitle" ${T.bg?`style="background:${T.bg}"`:""}><input class="agtt" data-agtitle="${ti}" value="${esc(T.title)}" aria-label="Título da tabela"></div>
     <div class="aggrid" style="--n:${A2.days.length};--cab:${C.cab};--cabi:${agInk(C.cab)}">${A2.days.map(k=>`<div class="agday"><div class="agdh"><span>${k}</span>${T.d[k].length?`<button class="agclrd" data-agclrd="${ti}|${k}">${agClr===ti+"|"+k?"ok?":"limpar"}</button>`:""}</div>${T.d[k].length?"":`<div class="agempty">vazio</div>`}
-      ${T.d[k].map((r,i)=>{ const key=ti+"|"+k+"|"+i, okH=/^\d{2}:\d{2}$/.test(r.h||"")&&AG_EDH!==key; return `<div class="agrow ${agEdit?"agdelon":""} ${AG_PICK===key?"agsel":""}" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}">${okH?`<button class="agcellb" data-agpick="${key}" aria-label="${AG_DN[k]} ${esc(r.h)}${r.t?" "+esc(r.t):""}: ${agEdit?"apagar":"livre ou ocupado"}"><b>${esc(r.h)}</b>${String(r.t||"").trim()?`<span>${esc(r.t)}</span>`:""}${agEdit?`<i class="agx">✕</i>`:""}</button>`:`<div class="agcell"><input class="agh" data-agf="${key}|h" value="${esc(r.h)}" inputmode="numeric" placeholder="0800" aria-label="Horário"></div>`}</div>${AG_PICK===key?`<div class="agpop" role="dialog" aria-label="${AG_DN[k]} ${esc(r.h)}"><b>${AG_DN[k]} · ${esc(r.h)}</b>
+      ${T.d[k].map((r,i)=>{ const key=ti+"|"+k+"|"+i, okH=/^\d{2}:\d{2}$/.test(r.h||"")&&AG_EDH!==key; return `<div class="agrow ${agEdit?"agdelon":""} ${AG_PICK===key?"agsel":""}" style="--ac:${agCol(r)};--ai:${agInk(agCol(r))}">${okH?`<button class="agcellb" data-agpick="${key}" aria-label="${AG_DN[k]} ${esc(r.h)}${r.t?" "+esc(r.t):""}: ${agEdit?"apagar":"livre ou ocupado"}"><b>${esc(r.h)}</b>${String(r.t||"").trim()?`<span>${esc(r.t)}</span>`: ti===1&&r.c!=="r"? `<span>LIVRE</span>` : ""}${agEdit?`<i class="agx">✕</i>`:""}</button>`:`<div class="agcell"><input class="agh" data-agf="${key}|h" value="${esc(r.h)}" inputmode="numeric" placeholder="0800" aria-label="Horário"></div>`}</div>${AG_PICK===key?`<div class="agpop" role="dialog" aria-label="${AG_DN[k]} ${esc(r.h)}"><b>${AG_DN[k]} · ${esc(r.h)}</b>
         <button class="g" data-agset="g">✅ Livre</button>
         <label class="agpl" for="agPopTxt">Nome do aluno (opcional)</label><div class="agpok"><input class="inp" id="agPopTxt" value="${esc(String(r.t||"")==="OCUPADO"?"":r.t||"")}" placeholder="ex.: Carol" enterkeyhint="done"><button class="ok" data-agset="r" data-agok>OK</button></div>
         <button class="r" data-agset="r">⛔ Ocupado</button>
@@ -3124,10 +3134,10 @@ const presOn=()=> typeof PRES!=="undefined" && PRES.isReady();
 function dateOfDay(dy){ const w=S.weeks.find(x=>x.id===S.week); return w? addDays(w.start,DAYS.indexOf(dy)) : null; }
 const byPid=pid=> S.students.find(x=>x.pid===pid);
 function presGrade(dy){ if(!presOn()) return []; const wd=(DAYS.indexOf(dy)+1)%7; const g={};
-  PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(s=>{ if(s.d!==wd) return; const st=byPid(a.id); if(!st) return; (g[s.h]=g[s.h]||[]).push(st.id); }));
+  PRES.alunos().filter(a=>a.ativo!==false).forEach(a=>(a.slots||[]).forEach(s=>{ if(s.d!==wd) return; const st=byPid(a.id); if(!st) return; (g[s.h]=g[s.h]||[]); if(!g[s.h].includes(st.id)) g[s.h].push(st.id); }));
   return Object.entries(g).map(([t,ids])=>({id:"p"+dy+t,t,ids:ids.slice(0,3),auto:1})); }
 function stInativo(sid){ if(!presOn()) return false; const st=S.students.find(x=>x.id===sid); if(!st||!st.pid) return false; const a=PRES.aluno(st.pid); return !!(a&&a.ativo===false); }
-function slotsOf(dy){ const L=((S.grade||{})[dy]||[]); return (L.length? L.map(x=>Object.assign({},x,{ids:x.ids.filter(id=>!stInativo(id))})).filter(x=>x.ids.length) : presGrade(dy)).slice().sort((a,b)=>a.t<b.t?-1:1); }
+function slotsOf(dy){ if(presOn()&&!gradeEdit&&PRES.alunos().some(a=>a.ativo!==false&&(a.slots||[]).length)) return presGrade(dy).slice().sort((a,b)=>a.t<b.t?-1:1); const L=((S.grade||{})[dy]||[]); return (L.length? L.map(x=>Object.assign({},x,{ids:x.ids.filter(id=>!stInativo(id))})).filter(x=>x.ids.length) : presGrade(dy)).slice().sort((a,b)=>a.t<b.t?-1:1); }
 function presSlots(st){ if(!presOn()||!st.pid) return null; const a=PRES.alunos().find(x=>x.id===st.pid); return a&&a.ativo!==false? (a.slots||[]) : []; }
 function gradeDays(st){ return DAYS.filter(dy=>slotsOf(dy).some(x=>x.ids.includes(st.id))); }
 function trainDays(st){ const g=gradeDays(st); if(g.length) return g; if(Array.isArray(st.days)) return st.days; const pl=planOf(st); return pl? [...new Set(pl.sessions.filter(se=>se.items.length).map(se=>se.day))] : []; }
@@ -3173,6 +3183,8 @@ function todayHTML(st){
   const h=todayHTML0(st); if(gradeEdit) return h;
   return h.replace(/<\/div>\s*$/, sesAddHTML(st)+"</div>");
 }
+function ownSt(make){ let o=S.students.find(x=>x.own); if(!o&&make){ const pl={id:nid(),sessions:[]}; S.plans.push(pl); o={id:nid(),name:"Meu treino",own:true,phase:1,coreExtra:false,planId:pl.id,ov:{},log:[]}; S.students.push(o); } return o; }
+function ownBtnHTML(st){ const o=ownSt(false); return o? `<button class="slot own ${st&&st.id===o.id?"on":""}" data-unit="${o.id}"><b>🏋️</b><span>Meu treino (professor)</span></button>` : `<button class="btn small ownnew" data-ownnew>🏋️ Meu treino (professor)</button>`; }
 function todayHTML0(st){
   const slots=slotsOf(S.day); const cs=curSlot();
   if(presOn()&&!gradeEdit){ const k=dateOfDay(S.day);
@@ -3184,12 +3196,12 @@ function todayHTML0(st){
       <button class="icon-btn" data-gslotdel aria-label="Apagar horário">✕</button></div>`).join("")}
     <button class="btn small" data-gnew style="justify-self:start">+ Horário</button>
     <p class="muted" style="font-size:12px">Aluno novo: cadastre primeiro no botão Alunos.</p></div>`;
-  if(slots.length) return `<div class="card today"><div class="phase-head"><span class="label">Alunos de ${DAY_N[S.day].toLowerCase()} · ${slots.length} horários</span><button class="btn small ghost" data-gedit>Editar grade</button></div>
-    <div class="slots">${slots.map(sl=>`<button class="slot ${cs&&cs.id===sl.id?"on":""}" data-slot="${sl.id}"><b class="num">${sl.t}</b><span>${sl.ids.map(id=>{ const m=stById(id); return m?esc(m.name):""; }).filter(Boolean).join(" + ")}</span></button>`).join("")}</div></div>`;
+  if(slots.length) return `<div class="card today"><div class="phase-head"><span class="label">Alunos de ${DAY_N[S.day].toLowerCase()} · ${slots.length} horários</span>${presOn()?`<button class="btn small ghost" data-gocad>✎ Mudar no Cadastro</button>`:`<button class="btn small ghost" data-gedit>Editar grade</button>`}</div>
+    <div class="slots">${slots.map(sl=>`<button class="slot ${cs&&cs.id===sl.id?"on":""}" data-slot="${sl.id}"><b class="num">${sl.t}</b><span>${sl.ids.map(id=>{ const m=stById(id); return m?esc(m.name):""; }).filter(Boolean).join(" + ")}</span></button>`).join("")}${ownSt(false)?ownBtnHTML(st):""}</div>${ownSt(false)?"":ownBtnHTML(st)}</div>`;
   const units=unitsOfDay(S.day); const n=units.reduce((a,u)=>a+u.length,0);
   return `<div class="card today"><div class="phase-head"><span class="label">Alunos de ${DAY_N[S.day].toLowerCase()} · ${n}</span><button class="btn small ghost" data-gedit>Montar grade</button></div>
     ${units.length? `<div class="units">${units.map(u=>`<button class="unit ${u.some(m=>m.id===st.id)?"on":""}" data-unit="${u.some(m=>m.id===st.id)?st.id:u[0].id}">${u.map(m=>`<span class="ud" style="--pc:var(--p${m.phase})">${phK(m)}</span>${esc(first(m.name))}`).join('<span class="uplus">+</span>')}</button>`).join("")}</div>`
-      : `<p class="muted" style="font-size:14px">Nenhum aluno na grade de ${DAY_N[S.day].toLowerCase()}.</p>`}</div>`;
+      : `<p class="muted" style="font-size:14px">Nenhum aluno na grade de ${DAY_N[S.day].toLowerCase()}.</p>`}${ownBtnHTML(st)}</div>`;
 }
 let CUR_TAB="treino";
 function renderTurnbar(){
@@ -3203,7 +3215,8 @@ function renderTurnbar(){
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
   wt.hidden=!onW; document.getElementById("wrap").classList.toggle("withweeks",!!onW);
-  if(onW){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button class="wbell ${ntfOk()?"on":""}" data-ntf aria-label="Alarme no celular">${ntfOk()?"🔔":"🔕"}</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
+  if(onW){ wt.innerHTML=`<button class="wbell wbig ${ntfOk()?"on":""}" data-ntf>🔔 Alarme do descanso no celular <small>${ntfOk()?"✓ ligado":"toque para ativar"}</small></button>`; }
+  if(false){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button class="wbell ${ntfOk()?"on":""}" data-ntf aria-label="Alarme no celular">${ntfOk()?"🔔":"🔕"}</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
     const on=wt.querySelector('[aria-selected="true"]'); if(on) on.scrollIntoView({inline:"nearest",block:"nearest"}); }
   let pop=document.getElementById("wkpop"); if(!pop){ pop=document.createElement("div"); pop.id="wkpop"; document.body.appendChild(pop); }
   if(onW&&WKCFG_OPEN){ pop.innerHTML=wkCfgHTML("ses"); pop.hidden=false; } else { pop.hidden=true; pop.innerHTML=""; }
@@ -3230,8 +3243,7 @@ setInterval(restTick,250);
 let ALARM=[], alarmT=null;
 const ALM_DEF="Bora para a próxima série!";
 const almMsg=()=>String((S.brand||{}).alarmMsg||"").trim()||ALM_DEF;
-function ntfBanHTML(){ return ntfOk()? `<button class="ntfban on" data-ntf><b>🔔 Alarme do descanso ligado no celular</b><span>Mensagem: “${esc(almMsg())}” · toque para mudar</span></button>`
-  : `<button class="ntfban" data-ntf><b>🔔 Use o timer como alarme no celular</b><span>Avisa e vibra quando o descanso acaba, mesmo com a tela bloqueada. Toque aqui para ativar.</span></button>`; }
+function ntfBanHTML(){ return ntfOk()? "" : `<button class="ntfban" data-ntf><b>🔔 Use o timer como alarme no celular</b><span>Avisa e vibra quando o descanso acaba, mesmo com a tela bloqueada. Toque aqui para ativar.</span></button>`; }
 function ntfOk(){ return "Notification" in window && Notification.permission==="granted"; }
 function ntfShow(title,body){ if(!ntfOk()) return; const o={body,tag:"rp-alarm",renotify:true,requireInteraction:true,vibrate:[300,120,300,120,500],icon:"icon-192.png",badge:"icon-192.png"};
   try{ if(navigator.serviceWorker&&navigator.serviceWorker.controller!==undefined&&navigator.serviceWorker.getRegistration){ navigator.serviceWorker.getRegistration().then(r=>{ if(r) r.showNotification(title,o); else { try{ new Notification(title,o); }catch(e){} } }); } else new Notification(title,o); }catch(e){} }
@@ -3390,6 +3402,10 @@ document.addEventListener("submit",e=>{ if(!e.target.matches("[data-botf]")) ret
 /* ---------- Contagem de semanas (S1, S2…) e lembrete ---------- */
 let WKCFG_OPEN=false;
 function wkCfg(){ S.wkCfg=S.wkCfg||{}; return S.wkCfg; }
+function wkRowHTML(){ const c=wkCfg(), cur=S.weeks.find(x=>x.id===S.week);
+  return `<div class="wkrow" role="tablist" aria-label="Semanas">${wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)||"–"} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")}<button data-wtab="cfg" class="wcfg" aria-label="Nomes e lembrete das semanas">⚙</button></div>
+  <div class="wkrep"><label>Repetir esta programação por <input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="4"> semanas</label><button class="btn small" data-wkok>OK</button><button class="btn small wkred" data-wkreset>Zerar contagem das semanas</button></div>
+  ${+c.alerta?`<small class="muted wkreph">Ao chegar na S${c.alerta}, a semana fica laranja com 🔔 para você decidir se muda o treino.</small>`:""}`; }
 function wkSorted(){ return (S.weeks||[]).slice().sort((a,b)=>a.start<b.start?-1:1); }
 function wkNum(w){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.id===c.base); if(!b) return w.n; const i=L.indexOf(w)-L.indexOf(b); return i>=0? i+1 : null; }
 function wkLbl(w){ const k=wkNum(w); return k==null? "" : "S"+k; }
@@ -3410,7 +3426,7 @@ function wkCfgHTML(where){ const c=wkCfg(), L=wkSorted(), b=c.base&&L.find(x=>x.
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-wkreset],[data-wkkeep],[data-wkcfgx],[data-wkset],[data-wkok]"); if(!b) return;
   const c=wkCfg();
   if(b.dataset.wkset!=null){ c.alerta=+b.dataset.wkset||0; c.manter=false; save(); renderAll(); toast(c.alerta?`Vou lembrar ao chegar em ${c.alerta} semanas`:"Sem lembrete de semanas"); return; }
-  if(b.hasAttribute("data-wkok")){ const i=document.querySelector("#wkpop [data-wkalert]"); const v=Math.max(0,Math.min(99,parseInt(i&&i.value,10)||0)); c.alerta=v; c.manter=false; save(); renderAll(); toast(v?`Vou lembrar ao chegar em ${v} semanas`:"Sem lembrete de semanas"); return; }
+  if(b.hasAttribute("data-wkok")){ const i=(b.parentNode&&b.parentNode.querySelector("[data-wkalert]"))||document.querySelector("#wkpop [data-wkalert]"); const v=Math.max(0,Math.min(99,parseInt(i&&i.value,10)||0)); c.alerta=v; c.manter=false; save(); renderAll(); toast(v?`Vou lembrar ao chegar em ${v} semanas`:"Sem lembrete de semanas"); return; }
   if(b.hasAttribute("data-wkcfgx")){ WKCFG_OPEN=false; renderTurnbar(); return; }
   if(b.hasAttribute("data-wkreset")){ c.base=S.week||(wkSorted().pop()||{}).id; c.manter=false; save(); renderAll(); toast("Contagem recomeçada: esta semana é a S1"); return; }
   if(b.hasAttribute("data-wkkeep")){ c.manter=b.dataset.wkkeep==="1"; save(); renderAll(); toast(c.manter?"Lembrete pausado: a contagem segue":"Lembrete ligado de novo"); return; } });
@@ -4025,12 +4041,12 @@ function rowHTML(row,i,prev,linkPrev,sg,cpTo){
     <div class="xg ${linkPrev?"xg-cj":""}" ${SB.length?`style="grid-row:span ${K}"`:""}>${linkPrev?`<button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício conjugado" title="Falar: ex. flexora 3 séries 12 repetições 30 quilos">🎤</button><button class="xcj xcjrm" data-cjrm title="Tirar este exercício do conjugado" aria-label="Tirar do conjugado">×</button><button class="xcj xcjadd" data-cjadd title="Conjugar mais um exercício">+ex.</button>`:`<button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício" title="Falar: ex. supino 4 séries 10 repetições 40 quilos">🎤</button><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar: abre outro exercício nesta caixa">Conj</button>`}<button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
       <button class="rb on r-${k} ${named?"":"dim"}" data-reg aria-expanded="${regPick===row.id}" aria-label="${REG_LABEL[k]}${rowSz(row,k)?` · músculo ${rowSz(row,k)==="G"?"grande":"pequeno"}`:""}: toque para trocar" title="${REG_LABEL[k]} · toque para trocar">${ICO[k]}${rowSz(row,k)?`<i class="rsz">${rowSz(row,k)}</i>`:""}</button>
       ${regPick===row.id?`<div class="regpick" role="menu">${[["MMSS","G","💪 Superior · grande"],["MMSS","P","💪 Superior · pequeno"],["MMII","G","🦵 Inferior · grande"],["MMII","P","🦵 Inferior · pequeno"],["Core","","🎯 Core"]].map(([R,z,t])=>`<button role="menuitem" data-regset="${R}|${z}" class="${k===R&&(R==="Core"||rowSz(row,k)===z)?"on":""}">${t}</button>`).join("")}</div>`:""}</div>
-    <span class="xp xpn">${pv?`<small class="xsp"><b>Sem. Pass.</b> ${esc(pn||"—")}</small>`:""}${true?`<span class="xacts">${cpTo?`<button class="xcp" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Método avançado">${row.tec?esc(TEC_SH[row.tec]||row.tec):"Met. Avan."}</button>${row.tec&&(row.tecR||row.tecD)?`<small class="xtecinfo">${row.tecR?esc(row.tecR)+" séries/rod.":""}${row.tecR&&row.tecD?" · ":""}${row.tecD?"rest "+esc(row.tecD)+'"':""}</small>`:""}`:""}<button class="xdel ${ROWDEL_ARM===row.id?"arm":""}" data-rowdel title="Apagar este exercício" aria-label="Apagar este exercício">${ROWDEL_ARM===row.id?"Apagar? toque de novo":"🗑 apagar"}</button></span>`:""}
+    <span class="xp xpn">${pv?`<small class="xsp"><b>Sem. Pass.</b> ${esc(pn||"—")}</small>`:""}${true?`<span class="xacts">${cpTo?`<button class="xcp" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Método avançado">${row.tec?esc(TEC_SH[row.tec]||row.tec):"Met. Avan."}</button>${row.tec&&(row.tecR||row.tecD)?`<small class="xtecinfo">${row.tecR?esc(row.tecR)+" séries/rod.":""}${row.tecR&&row.tecD?" · ":""}${row.tecD?"rest "+esc(row.tecD)+'"':""}</small>`:""}`:""}</span>`:""}
       ${tecPick===row.id?`<div class="regpick tecpick" role="menu"><b class="tecph">${tecNew===row.id?"Criar método":"Método avançado"}</b>${tecNew===row.id?"":`${TEC_PICK.map(t=>`<button role="menuitem" data-tecset="${esc(t)}" class="${row.tec===t?"on":""}">${t}</button>`).join("")}${tecMine().map(c=>`<span class="tecmy"><button role="menuitem" data-tecset="${esc(c.n)}" class="${row.tec===c.n?"on":""}">★ ${esc(c.n)}</button><button class="tecdel" data-tecdel="${esc(c.n)}" aria-label="Apagar ${esc(c.n)}">×</button></span>`).join("")}<button role="menuitem" data-tecnew class="tec-new">＋ Criar método</button>${row.tec?`<button role="menuitem" data-tecset="" class="tec-rm">Sem método</button>`:""}`}
         ${tecNew===row.id?(()=>{ const c=tecMine().find(x=>x.n===row.tec)||{}; const rr=row.tec&&!TEC_PICK.includes(row.tec); return `<div class="tecnew"><label>Nome do método<input id="tn-n" value="${esc(rr?row.tec:"")}" placeholder="ex.: FST-7, Circuito, EMOM"></label><div class="tecnew2"><label>Séries/rodadas<input id="tn-r" inputmode="numeric" value="${esc(rr?(row.tecR||c.r||""):"")}" placeholder="ex.: 3"></label><label>Rest/descanso (seg)<input id="tn-d" inputmode="numeric" value="${esc(rr?(row.tecD||c.d||""):"")}" placeholder="ex.: 30"></label></div><div class="tecnew2"><button class="tec-ok" data-tecnewok>Salvar</button><button data-tecnewx>Cancelar</button></div></div>`; })():""}</div>`:""}</span>${pc(pv&&pv.s)}${pc(pv&&pv.r)}${pc(pv&&(num(pv.c)?pv.c:num(pv.sec)?pv.sec+'"':""))}<span class="xp num">${pv&&vol(pv)?nf(vol(pv)):""}</span>
     ${sgH}
     <span class="xnw"><textarea class="xn xn1" rows="1" data-n="n1" id="n1-${row.id}" spellcheck="false" aria-label="Exercício ${i+1}" placeholder="${esc(pn||(row.iso?"Isometria · ex.: Prancha":""))}">${esc(row.n1)}</textarea></span>
-    ${cell("s")}${cell("r")}${cell("c")}<span class="xdesc" style="grid-column:7;grid-row:1 / span ${K}"><button class="xrest ${row.rest?"on":""}" data-rrest title="Descanso deste exercício" aria-label="Descanso deste exercício">${row.rest?`${row.rest}"`:"⏱"}</button>${rrOpen===row.id?`<span class="rrpop" role="group" aria-label="Descanso deste exercício">${REST_OPTS.map(v=>`<button data-rrset="${v}" aria-pressed="${row.rest===v}">${v}"</button>`).join("")}${row.rest?`<button data-rrset="0">padrão</button>`:""}</span>`:""}</span><span class="xv num">${AR("v")}<span id="va-${row.id}">${isoSo?"Iso":vol(row.a)?nf(vol(row.a)*uf(row)):"0"}${isUni(row)&&!isoSo?`<small class="xvu">2 lados</small>`:""}</span></span>
+    ${cell("s")}${cell("r")}${cell("c")}<span class="xdesc" style="grid-column:7;grid-row:1 / span ${K}"><button class="xdelc ${ROWDEL_ARM===row.id?"arm":""}" data-rowdel title="Apagar este exercício" aria-label="${ROWDEL_ARM===row.id?"Toque de novo para apagar":"Apagar este exercício"}">🗑${ROWDEL_ARM===row.id?"<small>de novo</small>":""}</button><button class="xrest ${row.rest?"on":""}" data-rrest title="Descanso deste exercício" aria-label="Descanso deste exercício">${row.rest?`${row.rest}"`:"⏱"}</button>${rrOpen===row.id?`<span class="rrpop" role="group" aria-label="Descanso deste exercício">${REST_OPTS.map(v=>`<button data-rrset="${v}" aria-pressed="${row.rest===v}">${v}"</button>`).join("")}${row.rest?`<button data-rrset="0">padrão</button>`:""}</span>`:""}</span><span class="xv num">${AR("v")}<span id="va-${row.id}">${isoSo?"Iso":vol(row.a)?nf(vol(row.a)*uf(row)):"0"}${isUni(row)&&!isoSo?`<small class="xvu">2 lados</small>`:""}</span></span>
     ${row.iso?`<span class="xiso-n"><span>⏱ Iso</span><select class="inp" data-isom aria-label="Onde entra a isometria">${Object.entries(ISO_M).map(([k,t])=>`<option value="${k}" ${(row.a.isoM||"so")===k?"selected":""}>${t}</option>`).join("")}</select></span>
       <input class="xc xiso-c" type="text" inputmode="numeric" data-isos aria-label="Séries com isometria" placeholder="${esc(row.a.s||"")}" value="${esc(row.a.isoS||"")}">
       <input class="xc xsec" type="text" inputmode="numeric" list="secsdl" data-sec aria-label="Segundos de isometria" placeholder="seg" value="${esc(row.a.sec||"")}">${secsDL()}<span class="xiso-e"></span><span class="xiso-e"></span>`:""}
@@ -4285,6 +4301,7 @@ function renderSessao0(){
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
   <datalist id="cardiolist">${["Esteira","Bike","Spinning","Elíptico","Escada","Remo","Corrida na rua","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
   ${wkCfgHTML("banner")}
+  ${todayHTML(st)}
   <div class="card">
     <div class="weeknav">
       <button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button>
@@ -4293,11 +4310,10 @@ function renderSessao0(){
     </div>
     ${armNewWeek? `<div class="note" style="display:grid;gap:8px"><span>Criar a semana ${last.n+1} (${ddmm(addDays(last.start,7))})</span>
       <div class="row"><button class="btn primary small" data-nw="copy">Copiar exercícios e cargas da semana ${last.n}</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>`
-      : `<button class="btn small" data-nw="ask" style="justify-self:start">+ Nova semana</button>`}
+      : wkRowHTML()}
     <div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>`<button data-dy="${dy}" aria-pressed="${dy===S.day}">${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?'<span class="dot"></span>':""}</button>`).join("")}</div>
     <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button></div>${qtip("rel")}
   </div>
-  ${todayHTML(st)}
   ${sesProgHTML(st)}
   ${sesMode==="lancar"? `<div class="cols" style="--n:${ms.length}">${ms.map(m=>colHTML(m,w,ms)).join("")}</div>` : painelHTML(st,w)}`;
   ms.forEach(m=>paintAlerts(m,dayOf(w.id,m.id,S.day)));
@@ -4417,6 +4433,8 @@ function sesClick(e){
   if(b.dataset.sesed!=null){ sesEdit=b.dataset.sesed||null; renderSessao(); return; }
   if(b.dataset.slot){ const sl=slotsOf(S.day).find(x=>x.id===b.dataset.slot); if(sl&&sl.ids.length){ S.slot=sl.id; S.active=sl.ids[0]; save(); renderAll(); } return; }
   if(b.hasAttribute("data-gopres")){ show("presenca"); return; }
+  if(b.hasAttribute("data-gocad")){ show("cadastro"); return; }
+  if(b.hasAttribute("data-ownnew")){ const o=ownSt(true); S.active=o.id; S.slot=null; save(); renderAll(); toast("Seu treino: lance como o de um aluno. Não entra na Presença nem no Financeiro."); return; }
   if(b.hasAttribute("data-gedit")){ gradeEdit=!gradeEdit; if(!S.grade) S.grade={}; renderSessao(); return; }
   if(b.hasAttribute("data-gnew")){ (S.grade[S.day]=S.grade[S.day]||[]).push({id:nid(),t:"12:00",ids:[]}); save(); renderSessao(); return; }
   const gs=b.closest("[data-gslot]"); if(gs){ const L=S.grade[S.day]||[]; const sl=L.find(x=>x.id===gs.dataset.gslot); if(!sl) return;
@@ -4466,7 +4484,7 @@ function sesClick(e){
   if(b.hasAttribute("data-addrow")){ const d=dayOf(w.id,sid,S.day,true); d.rows.push(newRow()); rer(); return; }
   const rowEl=b.closest("[data-row]"); if(!rowEl) return;
   const d=dayOf(w.id,sid,S.day,true); const row=d.rows.find(x=>x.id===rowEl.dataset.row); if(!row) return;
-  if(b.hasAttribute("data-rowdel")){ if(ROWDEL_ARM!==row.id){ ROWDEL_ARM=row.id; clearTimeout(ROWDEL_T); ROWDEL_T=setTimeout(()=>{ if(ROWDEL_ARM===row.id){ ROWDEL_ARM=null; renderSessao(); } },4000); renderSessao(); return; }
+  if(b.hasAttribute("data-rowdel")){ if(ROWDEL_ARM!==row.id){ ROWDEL_ARM=row.id; clearTimeout(ROWDEL_T); ROWDEL_T=setTimeout(()=>{ if(ROWDEL_ARM===row.id){ ROWDEL_ARM=null; renderSessao(); } },4000); renderSessao(); toast("Toque de novo na lixeira para apagar"); return; }
     ROWDEL_ARM=null; const i=d.rows.indexOf(row); const pr=d.rows[i-1]; if(pr&&pr.cj) pr.cj=!!row.cj; d.rows.splice(i,1); if(!d.rows.length) d.rows.push(newRow()); rer(); toast((row.n1.trim()||"Exercício")+" apagado"); return; }
   if(b.dataset.cyc){ cycPick={id:row.id,w:b.dataset.cyc}; renderSessao(); return; }
   if(b.dataset.pkreg){ if(cycPick&&cycPick.w==="b") row.regB=b.dataset.pkreg; else row.reg=b.dataset.pkreg; cycPick=null; rer(); return; }
@@ -4582,7 +4600,7 @@ document.getElementById("view-sessao").addEventListener("change",e=>{ const t=e.
   const k=o&&o.dataset.tp, v=tp.value;
   hp.textContent= v==="rep"? "Repõe uma falta: abate 1 do saldo de reposição. Não cobra a mais." : v==="adi"? "Adianta uma aula: fica 1 aula de crédito. Depois, na falta do dia fixo, escolha “Repor” e o saldo zera." : v==="pac"&&k!=="pacote"? "Este aluno não é de pacote: vai contar como aula extra." : k==="pacote"? "Conta como 1 aula do pacote." : k==="avulsa"? "Aula avulsa: entra na cobrança do mês." : "Aula a mais: conta como presença, não mexe no saldo de reposição.";
 });
-document.getElementById("weektabs").addEventListener("click",e=>{ const b=e.target.closest("[data-wtab]"); if(!b) return; if(b.dataset.wtab==="cfg"){ WKCFG_OPEN=!WKCFG_OPEN; renderTurnbar(); return; } if(b.dataset.wtab==="new"){ newWeekNow(); renderAll(); window.scrollTo(0,0); return; } S.week=b.dataset.wtab; armAct=null; save(); renderSessao(); });
+document.addEventListener("click",e=>{ const b=e.target.closest("#weektabs [data-wtab], .wkrow [data-wtab]"); if(!b) return; if(b.dataset.wtab==="cfg"){ WKCFG_OPEN=!WKCFG_OPEN; renderTurnbar(); return; } if(b.dataset.wtab==="new"){ newWeekNow(); renderAll(); window.scrollTo(0,0); return; } S.week=b.dataset.wtab; armAct=null; save(); renderSessao(); });
 document.getElementById("turnbar").addEventListener("click",e=>{
   const r=e.target.closest("[data-rest]"); if(r){ const id=r.dataset.rest; const m=S.students.find(x=>x.id===id);
     try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); }catch(err){}
@@ -5767,8 +5785,9 @@ function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el)
   const sig=JSON.stringify(L.map(v=>[v.a.id,v.prazo,Math.round(v.falta)])); const hid=PAY_HIDE||"";
   if(!L.length||hid===sig){ el.hidden=true; el.innerHTML=""; PAY_SIG=sig; return; }
   if(sig===PAY_SIG&&!el.hidden) return; PAY_SIG=sig;
-  el.innerHTML=`<div class="payal"><b>⚠ Pagamento vencido</b><div class="payal-l">${L.map(v=>`<button data-payal="${v.a.id}|${v.ym}">${esc(first(v.a.nome))} <small>${v.prometido?"prometeu":"venceu"} ${v.prazo.slice(8,10)}/${v.prazo.slice(5,7)} · ${v.falta.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})}</small></button>`).join("")}</div><button class="payal-x" data-payalx aria-label="Ocultar hoje">×</button></div>`;
+  el.innerHTML=`<div class="payal payal-s"><button class="payal-go" data-payalgo>⚠ Pagamento vencido <small>ver no Financeiro ›</small></button><button class="payal-x" data-payalx aria-label="Ocultar">×</button></div>`;
   el.hidden=false; }
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-payalgo]"); if(g){ show("financeiro"); window.scrollTo(0,0); return; } });
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-payal],[data-payalx]"); if(!b) return;
   if(b.hasAttribute("data-payalx")){ PAY_HIDE=PAY_SIG; document.getElementById("payAlert").hidden=true; toast("Aviso fechado. Volta a aparecer quando você sair e entrar de novo."); return; }
   const [id,ym]=b.dataset.payal.split("|"); show("financeiro"); PRES.goPag(id,ym); window.scrollTo(0,0); });
@@ -6165,7 +6184,7 @@ function parcSplit(L,valor){ const fix=L.reduce((t,p)=>t+(p.v||0),0), nA=L.filte
 const CAD_FORMAS={mensal:"Mensal",parcelas:"Parcelado",semanal:"Semanal",trimestral:"Trimestral",semestral:"Semestral",anual:"Anual",outra:"Outra"};
 function cadList(){ const out=[]; const seen=new Set();
   if(presOn()) PRES.alunos().forEach(a=>{ const st=byPid(a.id); if(st) seen.add(st.id); out.push({a,st}); });
-  S.students.filter(s=>!seen.has(s.id)).forEach(st=>out.push({a:null,st}));
+  S.students.filter(s=>!seen.has(s.id)&&!s.own).forEach(st=>out.push({a:null,st}));
   const nm=x=>(x.a&&x.a.nome)||(x.st&&x.st.name)||"";
   return out.sort((x,y)=>((x.a&&x.a.ativo===false?1:0)-(y.a&&y.a.ativo===false?1:0))||nm(x).localeCompare(nm(y),"pt-BR")); }
 function cadOpen(a,st){ const ph=st?st.phase:1;
