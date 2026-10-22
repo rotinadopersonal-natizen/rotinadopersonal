@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792701438";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792702610";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1486,7 +1486,7 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
 .slot.own{border-style:dashed;border-color:#1E8E3E}.slot.own.on{border-style:solid}.ownnew{justify-self:start;border:1.5px dashed #1E8E3E!important;color:#1E6B34!important;margin-top:4px}
 .wkmo{color:#1E8E3E}.seswk{margin-bottom:10px}
-.qtip{width:14px!important;height:14px!important;font-size:9px!important;vertical-align:super!important;margin:0 0 0 2px!important;position:relative;top:-2px}
+.qtip{color:#fff!important;text-shadow:0 0 2px rgba(0,0,0,.55);box-shadow:0 0 0 1.5px rgba(255,255,255,.85),0 1px 3px rgba(0,0,0,.35);width:14px!important;height:14px!important;font-size:9px!important;vertical-align:super!important;margin:0 0 0 2px!important;position:relative;top:-2px}
 .xh-ex{display:flex;align-items:center;justify-content:center;gap:0}.xh-ex .qtip{align-self:flex-start;margin-top:-2px!important}
 .xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
@@ -1508,12 +1508,12 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .fttab{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.fttab th,.fttab td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}.fttab td.dn{color:#1E7E44;font-weight:800}.fttab td.up{color:#B42318;font-weight:800}
 .fttilt{margin:8px 0;font-size:14px}
 .corl{display:block;margin:22px 0 10px;font-size:17px;text-align:center}.corg{justify-content:center}
-.boxprev{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bxp{display:grid;gap:6px;justify-items:center;border:2px solid var(--line);background:transparent;border-radius:14px;padding:8px;cursor:pointer;color:var(--fg);font:inherit}.bxp.on{border-color:var(--fg)}.bxp b{font-size:13px;text-align:center}
+.boxprev{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.cord{margin:-4px 0 8px;font-size:13px;text-align:center}.bxp{display:grid;gap:6px;justify-items:center;border:2px solid var(--line);background:transparent;border-radius:14px;padding:8px;cursor:pointer;color:var(--fg);font:inherit}.bxp.on{border-color:var(--fg)}.bxp b{font-size:13px;text-align:center}
 .bxpic{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;aspect-ratio:4/3;border-radius:10px;padding:8px;box-sizing:border-box}.bxpic i{border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.15)}.bxpic i.s{grid-column:span 2}
 .ldrule{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;font-weight:700;margin-top:8px;justify-content:center;text-align:center}.ldrule .inp{width:64px;text-align:center;padding:5px}
 body[data-tab="cadastro"] #rpSugA{display:none!important}
 .sesprog .row{justify-content:center}.sesadd{justify-self:center!important;margin-inline:auto;display:block}.copybar{justify-content:center}
-.rp-sug-top,.rp-sug-any{background:var(--accent-soft)!important;color:var(--fg)!important}.seg{position:relative}.seg>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
+.rp-sug-top,.rp-sug-any{background:var(--accent-soft)!important;color:var(--fg)!important}.seg{position:relative}.seg>.qtip{background:var(--accent)!important;color:#fff!important;padding:0!important;min-width:0!important;position:absolute!important;top:-8px;right:-4px;margin:0!important}
 .corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
 .donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
 .cbusca{display:flex;align-items:center;gap:8px;font-size:20px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;position:sticky;top:6px;z-index:4}.cbusca .inp{border:0;font-size:16px;flex:1;padding:6px}
@@ -6173,7 +6173,8 @@ function applySiteCor(){ const b=S.brand||{}, c=SITE_COR.find(x=>x[0]===(b.siteC
   const dark=b.siteBg==="preto"; if(dark) document.documentElement.setAttribute("data-theme","dark"); else if(document.documentElement.getAttribute("data-theme")==="dark") document.documentElement.removeAttribute("data-theme");
   let css=""; const bg=SITE_BG.find(x=>x[0]===(b.siteBg||""));
   if(bg&&bg[0]&&!dark) css+=`html:root:root{--bg:${bg[2]}}body{background:${bg[2]}}`;
-  if(b.boxCor==="tom"&&!dark){ const bgc=(bg&&bg[2])||"#EEF1F0"; css+=`html:root:root{--surface:color-mix(in srgb,${bgc} 45%,#fff);--sunk:color-mix(in srgb,${bgc} 80%,#000 6%);--line:color-mix(in srgb,${bgc} 70%,#000 14%)}`; }
+  const bxc=BOX_COR.find(x=>x[0]===(b.boxCor||"")); if(bxc&&bxc[0]&&!dark){ const bgc=(bg&&bg[2])||"#EEF1F0"; const sf=bxc[2]||`color-mix(in srgb,${bgc} 45%,#fff)`; css+=`html:root:root{--surface:${sf};--sunk:color-mix(in srgb,${sf} 82%,#000 7%);--line:color-mix(in srgb,${sf} 72%,#000 16%)}`; }
+  const tx=TXT_COR.find(x=>x[0]===(b.txtCor||"")); if(tx&&tx[0]&&!dark){ css+=`html:root:root{--fg:${tx[2]};--muted:color-mix(in srgb,${tx[2]} 68%,#fff)}body{color:${tx[2]}}`; }
   if(c&&c[2]!=null){ const h=c[2], sat=c[0]==="cinza"?8:55; const H=(l,s2)=>`hsl(${h},${s2==null?sat:s2}%,${l}%)`; const L=(lt,dk)=>dark?dk:lt;
     css+=`html:root:root,html:root:root[data-theme]{--accent:${H(L(32,68))};--accent-soft:${H(L(92,20),45)};--ok:${H(L(28,62))};--ok-soft:${H(L(90,18),40)};--warn:${H(L(38,64))};--warn-soft:${H(L(92,18),40)};--p0:${H(L(45,60),30)};--p1:${H(L(30,58))};--p2:${H(L(42,66))};--p3:${H(L(22,50))};--p4:${H(L(55,70),20)}}
   body.mono .qtip{background:${H(32)}!important}body.mono .wkrow button[aria-selected="true"]{background:${H(30)}!important;border-color:${H(30)}!important}body.mono .xcpn{color:${H(L(32,70))};border-color:${H(L(32,60))};background:${H(L(95,18),40)}}
@@ -6187,13 +6188,18 @@ function applySiteCor(){ const b=S.brand||{}, c=SITE_COR.find(x=>x[0]===(b.siteC
   const ac=ALERT_COR.find(x=>x[0]===(b.payCor||"")); if(ac&&ac[2]&&ac[0]) css+=`.payal{background:${ac[2]}!important;box-shadow:none!important}`;
   el.textContent=css; }
 let COR_OPEN=false;
-function corHTML(){ const b=S.brand||{}; return `<details class="card abasbox" ${COR_OPEN?"open":""}><summary><b>🎨 Cores do site</b> <span class="muted">· ${esc((SITE_COR.find(x=>x[0]===(b.siteCor||""))||SITE_COR[0])[1])}</span></summary>
-  <b class="corl">Cor dos botões e destaques</b><p style="margin:2px 0 6px;font-size:13px" class="muted">Escolha uma cor e o site usa só os tons dela. “Colorido” volta ao padrão.</p>
+const BOX_COR=[["","Branco","#FFFFFF"],["tom","Mesmo tom do fundo",null],["creme","Creme","#FFF8E7"],["areia","Areia","#F3EAD8"],["cinza","Cinza claro","#EEF0F2"],["azul","Azul claro","#E7F0FC"],["verde","Verde claro","#E6F4EA"],["menta","Menta","#E3F6F1"],["rosa","Rosa claro","#FCE8EE"],["lilas","Lilás","#EFE8FA"],["amarelo","Amarelo claro","#FFF7D6"],["pessego","Pêssego","#FFEADB"]];
+const TXT_COR=[["","Padrão","#16201D"],["preto","Preto","#000000"],["grafite","Grafite","#3A3F44"],["marinho","Azul-marinho","#16325C"],["marrom","Marrom","#4A2E1E"],["vinho","Vinho","#6A1B30"],["verdee","Verde escuro","#1F4D2E"],["roxoe","Roxo escuro","#3B1F5E"]];
+function corHTML(){ const b=S.brand||{}; const bgc=((SITE_BG.find(x=>x[0]===(b.siteBg||""))||SITE_BG[0])[2]);
+  return `<details class="card abasbox" ${COR_OPEN?"open":""}><summary><b>🎨 Cores do site</b> <span class="muted">· ${esc((SITE_COR.find(x=>x[0]===(b.siteCor||""))||SITE_COR[0])[1])}</span></summary>
+  <b class="corl">Cor das caixas</b><p class="muted cord">Toque no exemplo para escolher.</p>
+  <div class="boxprev">${BOX_COR.map(([k,n,c])=>{ const bx=c||`color-mix(in srgb,${bgc} 45%,#fff)`; return `<button class="bxp ${(b.boxCor||"")===k?"on":""}" data-boxcor="${k}" aria-label="Caixas: ${n}"><span class="bxpic" style="background:${bgc}"><i style="background:${bx}"></i><i style="background:${bx}"></i><i class="s" style="background:${bx}"></i></span><b>${n}</b></button>`; }).join("")}</div>
+  <b class="corl">Cor dos botões e destaques</b><p class="muted cord">O site usa só os tons da cor escolhida. “Colorido” volta ao padrão.</p>
   <div class="corg">${SITE_COR.map(([k,n,h])=>`<button class="corb ${(b.siteCor||"")===k?"on":""}" data-sitecor="${k}" style="--cc:${h==null?"conic-gradient(#2E8B57,#1B55B8,#C9962B,#C8322B,#2E8B57)":`linear-gradient(135deg,hsl(${h},${k==="cinza"?8:55}%,28%),hsl(${h},${k==="cinza"?8:55}%,70%))`}"><i></i>${n}</button>`).join("")}</div>
   <b class="corl">Cor de fundo da tela</b>
   <div class="corg">${SITE_BG.map(([k,n,c])=>`<button class="corb ${(b.siteBg||"")===k?"on":""}" data-sitebg="${k}" style="--cc:${c}"><i style="border:1px solid #999"></i>${n}</button>`).join("")}</div>
-  <b class="corl">Caixas</b>
-  <div class="boxprev">${[["","Caixas brancas"],["tom","Caixas na mesma cor (outro tom)"]].map(([k,n])=>{ const bgc=((SITE_BG.find(x=>x[0]===(b.siteBg||""))||SITE_BG[0])[2]); const bx=k?`color-mix(in srgb,${bgc} 45%,#fff)`:"#fff"; return `<button class="bxp ${(b.boxCor||"")===k?"on":""}" data-boxcor="${k}" aria-label="${n}"><span class="bxpic" style="background:${bgc}"><i style="background:${bx}"></i><i style="background:${bx}"></i><i class="s" style="background:${bx}"></i></span><b>${n}</b></button>`; }).join("")}</div>
+  <b class="corl">Cor das letras</b>
+  <div class="corg">${TXT_COR.map(([k,n,c])=>`<button class="corb ${(b.txtCor||"")===k?"on":""}" data-txtcor="${k}" style="--cc:${c}"><i></i><span style="color:${c};font-weight:900">Aa</span> ${n}</button>`).join("")}</div>
   <b class="corl">Cor do alerta importante (pagamento vencido)</b>
   <div class="corg">${ALERT_COR.map(([k,n,c])=>`<button class="corb ${(b.payCor||"")===k?"on":""}" data-paycor2="${k}" style="--cc:${c||"var(--accent)"}"><i></i>${n}</button>`).join("")}</div></details>`; }
 function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
@@ -6417,6 +6423,7 @@ function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(
     <div id="cad-extra" style="display:grid;gap:16px"></div>`;
   renderAjuda(); }
 document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.txtcor!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{txtCor:b.dataset.txtcor}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.boxcor!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{boxCor:b.dataset.boxcor}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.sitebg!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{siteBg:b.dataset.sitebg}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.paycor2!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{payCor:b.dataset.paycor2}); save(); applySiteCor(); renderCadastro(); return; }
