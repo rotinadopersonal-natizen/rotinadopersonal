@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792696757";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792697253";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1495,9 +1495,9 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .boxx{border:1.5px solid var(--line);background:var(--surface);color:var(--muted);border-radius:8px;width:28px;height:24px;font-size:12px;font-weight:900;cursor:pointer;line-height:1}
 .boxbar{display:block;width:100%;text-align:left;border:1.5px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:7px 10px;margin:6px 0;font-weight:800;font-size:13px;cursor:pointer}
 .daychips button.dyoff{color:#D93025!important;border-color:#F5B5B0}.daychips button.dyoff small{color:#D93025!important}.dyfer{display:block;font-style:normal;font-size:8.5px;font-weight:900;text-transform:uppercase;color:#D93025;line-height:1}
-.tmrbar.big{top:50%;transform:translate(-50%,-50%);width:min(96vw,620px);grid-template-columns:1fr;padding:18px 16px;text-align:center}.tmrbar.big .tm-l{justify-items:center}.tmrbar.big .tm-t{font-size:min(30vw,190px);line-height:1}.tmrbar.big .tm-l b{font-size:20px}.tmrbar.big .tm-l small{font-size:16px}.tmrbar.big .tm-b{max-width:none;justify-content:center}.tmrbar.big .tm-b button{min-width:56px;height:52px;font-size:22px}
+.tmrbar.big{top:50%;transform:translate(-50%,-50%);width:min(96vw,620px);grid-template-columns:1fr;padding:18px 16px;text-align:center;touch-action:none;cursor:move;user-select:none}.tmrbar.big .tm-l{justify-items:center}.tmrbar.big .tm-t{font-size:calc(190px * var(--tz,1));line-height:1}.tm-rs{position:absolute;right:4px;bottom:2px;font-size:26px;color:#fff;opacity:.8;cursor:nwse-resize;padding:4px 6px;touch-action:none}.tmrbar.big .tm-l b{font-size:20px}.tmrbar.big .tm-l small{font-size:16px}.tmrbar.big .tm-b{max-width:none;justify-content:center}.tmrbar.big .tm-b button{min-width:56px;height:52px;font-size:22px}
 .boxw[data-box="crono"]>.xcard2,.boxw[data-box="cardio"]>.xcard2{border:2.5px solid var(--fg)!important;border-radius:12px}.tmtit{display:block;text-align:center;font-size:18px!important;font-weight:900!important;letter-spacing:.06em}
-.sesprog .btn{border:2.5px solid var(--fg)!important;font-weight:800!important}.sesprog .btn.primary{background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important}
+.sesprog .btn{border:2.5px solid var(--fg)!important;font-weight:800!important;background:var(--fg)!important;color:var(--surface)!important}.sesprog .btn.primary{background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important}
 .ftaviso{background:#FFF4D6;border:1.5px solid #E5A100;color:#5C3B00;border-radius:10px;padding:8px 10px;margin:0 0 8px;font-size:14px}.ftdicas summary{cursor:pointer}.ftdicas ol{margin:6px 0;padding-left:20px;display:grid;gap:4px;font-size:14px}
 .ftadd{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.ftbtn{flex:1;text-align:center;font-weight:800}.ftbusy{font-weight:700}.fterr{color:#B42318;font-weight:700}
 .ftpos{display:flex;gap:6px;margin:8px 0}.ftpos button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:7px;font-weight:800;cursor:pointer;color:var(--fg)}.ftpos button[aria-pressed="true"]{background:var(--fg);color:var(--surface)}
@@ -4218,6 +4218,17 @@ function tmStart(mode,sid){ const seq=tmSeq(mode); if(!seq.length){ toast("Confi
   keepAwake(); clearInterval(TMR_I); TMR_I=setInterval(tmTick,200); tmRender(); }
 function tmNext(){ if(!TMR) return; const cur=TMR.seq[TMR.i]; TMR.i++; if(TMR.i>=TMR.seq.length){ TMR.done=true; TMR.fin=cur&&cur.k==="up"? (Date.now()-TMR.st)/1000 : 0; beep(); if(document.visibilityState!=="visible") ntfShow("⏰ Cronômetro terminou","Toque para voltar ao treino."); clearInterval(TMR_I); tmRender(); return; }
   const x=TMR.seq[TMR.i]; TMR.end=Date.now()+x.d*1000; TMR.st=Date.now(); TMR.beeped={}; tone(x.k==="rest"?660:1320,0.45); tmRender(); }
+/* Timer grande: dá para arrastar pela tela e aumentar/diminuir pelo canto ⇲ */
+let TMPOS=null; try{ TMPOS=JSON.parse(localStorage.getItem("rp_tmpos")||"null"); }catch(e){}
+function tmPlace(el){ if(TMR&&TMR.big&&!TMR.min&&TMPOS){ const W=Math.max(220,Math.min(window.innerWidth-8,TMPOS.w||420)); el.style.width=W+"px"; el.style.left=Math.max(0,Math.min(window.innerWidth-60,TMPOS.x))+"px"; el.style.top=Math.max(0,Math.min(window.innerHeight-60,TMPOS.y))+"px"; el.style.transform="none"; el.style.setProperty("--tz",W/620); }
+  else { el.style.width=""; el.style.left=""; el.style.top=""; el.style.transform=""; el.style.setProperty("--tz",TMR&&TMR.big? Math.min(620,window.innerWidth*0.96)/620 : 1); } }
+function tmSavePos(){ try{ localStorage.setItem("rp_tmpos",JSON.stringify(TMPOS)); }catch(e){} }
+document.addEventListener("pointerdown",e=>{ const el=e.target.closest&&e.target.closest("#tmrbar.big"); if(!el) return; const rs=e.target.closest(".tm-rs"); if(!rs&&e.target.closest("button")) return;
+  const r=el.getBoundingClientRect(); const z=parseFloat(getComputedStyle(document.body).zoom)||1; const st={x:e.clientX,y:e.clientY,l:r.left/z,t:r.top/z,w:r.width/z,rs:!!rs};
+  if(!TMPOS) TMPOS={x:st.l,y:st.t,w:st.w}; e.preventDefault(); try{ el.setPointerCapture(e.pointerId); }catch(_){}
+  const mv=ev=>{ const dx=(ev.clientX-st.x)/z, dy=(ev.clientY-st.y)/z; if(st.rs) TMPOS={x:st.l,y:st.t,w:Math.max(220,st.w+dx)}; else TMPOS={x:st.l+dx,y:st.t+dy,w:st.w}; tmPlace(el); };
+  const up=()=>{ el.removeEventListener("pointermove",mv); el.removeEventListener("pointerup",up); el.removeEventListener("pointercancel",up); tmSavePos(); };
+  el.addEventListener("pointermove",mv); el.addEventListener("pointerup",up); el.addEventListener("pointercancel",up); });
 function tmLeft(){ if(!TMR) return 0; return TMR.paused? TMR.left : (TMR.end-Date.now())/1000; }
 function tmTick(){ if(!TMR||TMR.paused||TMR.done) return; const l=tmLeft(); const sec=Math.ceil(l);
   if(TMR.seq[TMR.i]&&TMR.seq[TMR.i].k==="man"){ tmRender(true); return; } if(sec<=3&&sec>=1&&!TMR.beeped[sec]){ TMR.beeped[sec]=1; tone(880,0.15); }
@@ -4239,11 +4250,11 @@ function tmRender(fast){ document.querySelectorAll(".tmlive").forEach(z=>z.inner
   const col= TMR.done? "#2F8F5B" : x.k==="rest"? "#2F8F5B" : x.c;
   el.style.setProperty("--tc",col);
   const t=el.querySelector(".tm-t"); if(fast&&t&&!TMR.min===!el.classList.contains("min")){ t.textContent=shown; return; }
-  el.classList.toggle("min",!!TMR.min); el.classList.toggle("big",!!TMR.big&&!TMR.min);
+  el.classList.toggle("min",!!TMR.min); el.classList.toggle("big",!!TMR.big&&!TMR.min); tmPlace(el);
   const cnt= TMR.seq.some(z=>z.cnt);
   el.innerHTML= TMR.min? `<button class="tm-pill" data-tma="min"><span class="tm-t">${shown}</span> ${esc(TMR.done?"Fim":x.lab)}</button>`
    : `<div class="tm-l"><b>${TMR.done?"Fim! 🎉":esc(x.lab)}${!TMR.done&&x.r?` <small>${x.r}/${x.of}</small>`:""}${!TMR.done&&x.set?` <small>· ${x.set}</small>`:""}</b><span class="tm-t">${shown}</span><small>${TMR.done? (TMR.fin?"tempo final":"") : nx? `Próximo: ${esc(nx.lab)} ${nx.k==="man"?"(livre)":tmFmt(nx.d)}` : "Último"}${cnt?` · rodadas: <b>${TMR.rounds}</b>`:""}</small></div>
-    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="${x.k==="man"?"Terminei a série":"Terminou"}">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="big" title="${TMR.big?"Diminuir":"Aumentar na tela"}">${TMR.big?"🗗":"⛶"}</button><button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
+    <div class="tm-b">${cnt&&!TMR.done?`<button data-tma="rnd" title="Contar rodada">+1</button>`:""}${!TMR.done&&up?`<button data-tma="done" title="${x.k==="man"?"Terminei a série":"Terminou"}">✔</button>`:""}${!TMR.done?`<button data-tma="pause">${TMR.paused?"▶":"⏸"}</button><button data-tma="skip" title="Pular">⏭</button>`:""}<button data-tma="big" title="${TMR.big?"Voltar ao normal":"Aumentar na tela"}">${TMR.big?"↙":"⛶"}</button>`+(TMR.big?`<span class="tm-rs" title="Arraste para aumentar ou diminuir" aria-hidden="true">⇲</span>`:"")+`<button data-tma="min" title="Minimizar">–</button><button data-tma="stop" title="Fechar">✕</button></div>`; }
 function colHTML(m,w,ms){
   const d=dayOf(w.id,m.id,S.day,true); const dRaw=d; const T=totDay(d); const st=A();
   const planSe=(planOf(m)||{sessions:[]}).sessions.filter(se=>se.day===S.day);
@@ -4298,7 +4309,7 @@ function colHTML(m,w,ms){
     <div class="row">
       ${has? `<button class="btn small danger" data-clear>${arm("clear")?"Toque de novo para limpar":"Limpar dia"}</button>`:""}
     </div>
-    ${boxW("grafsem","📊 Gráfico da semana",`<div class="card wk" id="wk-${m.id}">${weekCardHTML(m,w.id)}</div>`)}
+    ${boxW("grafsem","📊 Gráfico do cardio da semana",`<div class="card wk" id="wk-${m.id}">${weekCardHTML(m,w.id)}</div>`)}
   </div>`;
 }
 function painelHTML(st,w){
