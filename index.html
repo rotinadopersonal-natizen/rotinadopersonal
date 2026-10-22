@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792710111";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792711866";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -50,6 +50,8 @@ button,select,input,textarea{font:inherit;color:inherit}
 /* Cabeçalho */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-16px;padding:12px 16px 10px}
 .top-row{display:flex;align-items:center;gap:12px}
+.plate{position:relative}.plbadge{position:absolute;top:-8px;right:-14px;background:#D93025;color:#fff;font-style:normal;font-family:system-ui,sans-serif;font-size:11px;font-weight:900;line-height:1;padding:3px 5px;border-radius:999px;border:2px solid #fff;animation:plb 1.2s ease-in-out infinite}.plate.plal{cursor:pointer;box-shadow:0 0 0 3px #D93025}
+@keyframes plb{50%{transform:scale(1.15)}}.salert{position:relative;padding-right:36px!important}.salx{position:absolute;top:6px;right:6px;width:28px;height:26px;border-radius:8px;border:1.5px solid currentColor;background:rgba(255,255,255,.7);color:inherit;font-weight:900;cursor:pointer}.salfl{animation:salfl .4s 3}@keyframes salfl{50%{transform:scale(1.03)}}
 .plate{width:40px;height:40px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--pc);color:#fff;font-family:var(--f-display);font-weight:700;font-size:20px;box-shadow:inset 0 0 0 4px color-mix(in srgb,#000 18%,transparent)}
 .top-title{min-width:0;flex:1}
 .top-title .label{display:block}
@@ -1698,12 +1700,13 @@ body[data-tab="cadastro"] #rpSugA{display:none!important}
 .lp-p{color:#cfc8b8;font-size:15.5px;line-height:1.5;margin:0 0 12px}
 .lp-ben{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 18px}.lp-ben div{background:#1a1d23;border:1px solid #2c3038;border-radius:12px;padding:10px;font-size:14px;line-height:1.3}.lp-ben b{display:block;font-size:20px;margin-bottom:2px}
 .lp-sec{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d4a24c;margin:20px 0 8px}
-.lp-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin:0 0 8px;scrollbar-width:none}.lp-chips::-webkit-scrollbar{display:none}
+.lp-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 10px}
 .lp-chips button{flex:none;border:1.5px solid #3a3d45;background:#1a1d23;color:#f3efe6;border-radius:999px;padding:7px 12px;font-size:13.5px;font-weight:700;cursor:pointer}.lp-chips button.on{background:#d4a24c;border-color:#d4a24c;color:#111}
 .lp-slide{position:relative;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:16/9;border:1px solid #2c3038;touch-action:pan-y}.lp-slide img{width:100%;height:100%;object-fit:contain;display:block}
 .lp-nav{position:absolute;top:0;bottom:0;width:22%;border:0;background:transparent;color:#fff;font-size:42px;cursor:pointer;text-shadow:0 1px 6px #000;opacity:.8}.lp-nav.l{left:0;text-align:left;padding-left:6px}.lp-nav.r{right:0;text-align:right;padding-right:6px}
 .lp-bar{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0 0}.lp-bar button{background:#1a1d23;color:#f3efe6;border:1px solid #3a3d45;border-radius:10px;padding:7px 12px;font-size:14px;cursor:pointer}.lp-bar b{min-width:62px;text-align:center;font-size:14px}
 #lpFull{position:fixed;inset:0;z-index:100000;background:#000;display:flex;align-items:center;justify-content:center}#lpFull img{max-width:100%;max-height:100%;object-fit:contain}#lpFull .lp-nav{font-size:56px}#lpFull .lp-fx{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:10px;align-items:center;color:#fff}#lpFull .lp-fx button{background:#D93025;color:#fff;border:0;border-radius:10px;padding:9px 16px;font-weight:800;font-size:15px}#lpFull .lp-fx b{background:rgba(0,0,0,.6);padding:4px 10px;border-radius:999px}
+.lp-mes{display:grid;gap:8px;margin:0 0 6px}.lp-mes div{border:2px solid #d4a24c;background:#1d1a12;border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.4;color:#e7e0cf}.lp-mes b{color:#f3efe6}.lp-mes div>b:first-child{display:block;color:#d4a24c;font-size:16px;margin-bottom:2px}
 .lp-teste{margin:22px 0 0;padding:16px;border:2px solid #d4a24c;border-radius:16px;background:linear-gradient(180deg,#1d1a12,#14161b)}
 .lp-teste h3{margin:0 0 6px;font-size:20px}.lp-teste p{margin:0 0 10px;color:#e7e0cf;font-size:15px;line-height:1.45}
 .lp-vagas{display:flex;align-items:center;gap:10px;margin:4px 0 12px}.lp-vagas b{font-size:30px;color:#d4a24c;line-height:1}.lp-vagas span{font-size:14px;color:#cfc8b8;line-height:1.3}
@@ -1765,8 +1768,9 @@ body.kb #rpSugFab{display:none}
     <div id="rpLand" hidden>
       <div class="lp-top"><p class="rp-logo">Rotina do <b>Personal</b></p><button class="lp-entrar" id="lpEntrar">Já tenho acesso · Entrar</button></div>
       <h1 class="lp-h1">Seu trabalho de personal, <b>tudo num lugar só.</b></h1>
-      <p class="lp-p">Você que é personal e usa vários aplicativos, planilhas de Excel, Word e um monte de pastas: no <b>Rotina do Personal</b> está tudo integrado.</p>
-      <div class="lp-ben"><div><b>🏋️</b>Treino do dia, lançado na hora da aula</div><div><b>📄</b>Relatório pronto para mandar ao aluno</div><div><b>✅</b>Presença automática, sem fazer chamada</div><div><b>💰</b>Financeiro com alerta de quem não pagou</div></div>
+      <p class="lp-p">Você que é personal e usa vários aplicativos, planilhas de Excel, Word e precisa criar um monte de pastas: no <b>Rotina do Personal</b> você tem <b>tudo em um só lugar</b>, funcionando <b>de forma automática</b>, sem aquele monte de arquivos.</p>
+      <div class="lp-ben"><div><b>🏋️</b>Treino do dia, lançado na hora da aula</div><div><b>📈</b>Gráficos e evolução de cada aluno</div><div><b>✅</b>Presença automática, sem fazer chamada</div><div><b>💰</b>Financeiro com alerta de quem não pagou</div></div>
+      <div class="lp-mes"><div><b>📅 Início do mês</b>Planejamento para o aluno, já com os <b>feriados</b> e as suas <b>férias</b>, se for tirar.</div><div><b>📄 Fim do mês</b>Relatório do mês pronto para mandar ao aluno: presenças, faltas e evolução.</div></div>
       <p class="lp-sec">📽 Conheça o sistema</p>
       <div class="lp-chips" id="lpChips"></div>
       <div class="lp-slide" id="lpSlide"><img id="lpImg" alt="Slide da apresentação do sistema"><button class="lp-nav l" data-lp="-1" aria-label="Anterior">‹</button><button class="lp-nav r" data-lp="1" aria-label="Próximo">›</button></div>
@@ -2586,7 +2590,7 @@ setTimeout(applyFz,0);
 function renderTop(){
   const st=A(); const p=phaseOf(st); const ms=sesMembers(); const uph=usesPh(st);
   document.documentElement.style.setProperty("--pc",uph?`var(--p${st.phase})`:"var(--accent)");
-  document.getElementById("topPlate").textContent=uph? phK(st) : (st.name||"?").trim().charAt(0).toUpperCase();
+  document.getElementById("topPlate").textContent=uph? phK(st) : (st.name||"?").trim().charAt(0).toUpperCase(); setTimeout(alrBadge,0);
   document.getElementById("topName").textContent=st.name;
   document.getElementById("topMode").innerHTML= esc(ms.length>1? `${groupLabel(ms.length)} com ${ms.filter(m=>m!==st).map(m=>first(m.name)).join(" e ")}` : "Individual") + (stPend(st)? ` <button class="pendpill" data-pend>⚠ dias e horários pendentes</button>` : stTipo(st)==="avulsa"? ` <span class="pendpill ok">aula avulsa</span>` : "") + (()=>{ const u=st.pid&&presOn()&&PRES.pacUso(st.pid); return u? " "+pacTagHTML(u) : ""; })();
   document.getElementById("topPhase").textContent=uph? `${phT(st)} · ${p.n}` : "";
@@ -4106,10 +4110,20 @@ const TON_MAX=20;
 function regAlerts(m,d){ const ref=prevRef(m.id); if(!ref||!ref.d||!d) return []; const T=totDay(d), P=totDay(ref.d); const out=[];
   REG.forEach(k=>{ const a=T.reg[k].t, b=P.reg[k].t; if(a&&b&&(a-b)/b*100>TON_MAX+0.01) out.push(`${REG_LABEL[k]}: tonelagem ${nf(b)} → ${nf(a)} kg (+${Math.round((a-b)/b*100)}% em relação ao último treino igual). Salto grande, confira`); });
   return out; }
+/* Alerta de carga: aparece no círculo do aluno lá em cima; a caixa fecha no ✕ e volta tocando no círculo */
+let ALR_HIDE={}; const alrKey=m=>m.id+"|"+S.week+"|"+S.day;
+function alertList(m,d){ return (d?d.rows:[]).flatMap(r=>rowAlerts(m,r).out).concat(regAlerts(m,d)); }
+function alrBadge(){ const pl=document.getElementById("topPlate"); if(!pl) return; let n=0; try{ if(CUR_TAB==="sessao") sesMembers().forEach(m=>{ n+=alertList(m,dayOf(S.week,m.id,S.day)).length; }); }catch(_){}
+  let bd=pl.querySelector(".plbadge"); if(!n){ if(bd) bd.remove(); pl.classList.remove("plal"); return; }
+  if(!bd){ bd=document.createElement("i"); bd.className="plbadge"; pl.appendChild(bd); } bd.textContent="⚠"+n; pl.classList.add("plal"); pl.title="Ver alertas de carga"; }
+document.addEventListener("pointerdown",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x) ALR_HIDE[x.dataset.alrx]=+x.dataset.n; },true);
+document.addEventListener("click",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x){ e.stopPropagation(); ALR_HIDE[x.dataset.alrx]=+x.dataset.n; const box=x.closest(".salert"); if(box) box.remove(); return; }
+  const pl=e.target.closest&&e.target.closest("#topPlate.plal"); if(!pl) return; ALR_HIDE={}; try{ renderSessao(); }catch(_){} setTimeout(()=>{ const a=document.querySelector(".salert"); if(a){ a.scrollIntoView({block:"center",behavior:"smooth"}); a.classList.add("salfl"); setTimeout(()=>a.classList.remove("salfl"),1600); } alrBadge(); },60); },true);
 function alertsHTML(m,d){
-  const all=(d?d.rows:[]).flatMap(r=>rowAlerts(m,r).out).concat(regAlerts(m,d));
+  const all=alertList(m,d); setTimeout(alrBadge,0);
   if(!all.length) return "";
-  return `<div class="salert" role="alert"><b>⚠ ${all.length} ${all.length>1?"alertas":"alerta"} neste treino</b><ul>${all.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span>Pode manter se for intencional. Confira antes de seguir.</span></div>`;
+  if(ALR_HIDE[alrKey(m)]>=all.length) return "";
+  return `<div class="salert" role="alert"><button class="salx" data-alrx="${alrKey(m)}" data-n="${all.length}" aria-label="Fechar alerta">✕</button><b>⚠ ${all.length} ${all.length>1?"alertas":"alerta"} neste treino</b><ul>${all.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><span>Pode manter se for intencional. Confira antes de seguir.</span></div>`;
 }
 function paintAlerts(m,d){
   (d?d.rows:[]).forEach(r=>{ const {cells}=rowAlerts(m,r); ["a","b"].forEach(w=>["s","r","c"].forEach(f=>{ const el=document.getElementById(`x-${r.id}-${w}${f}`); if(!el) return; el.classList.remove("al-hi","al-lo"); if(cells[w+f]) el.classList.add("al-"+cells[w+f]); })); });
@@ -6758,7 +6772,7 @@ function show(tab,force){
   if(tab==="cadastro") renderCadastro();
   document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===tab));
   try{ localStorage.setItem("sf_tab",tab); }catch(e){}
-  renderTurnbar();
+  renderTurnbar(); setTimeout(alrBadge,0);
   window.scrollTo(0,0);
 }
 document.querySelector(".tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-tab]"); if(b) show(b.dataset.tab); });
