@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792685500";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792696757";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1496,6 +1496,17 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .boxbar{display:block;width:100%;text-align:left;border:1.5px dashed var(--line);background:transparent;color:var(--muted);border-radius:10px;padding:7px 10px;margin:6px 0;font-weight:800;font-size:13px;cursor:pointer}
 .daychips button.dyoff{color:#D93025!important;border-color:#F5B5B0}.daychips button.dyoff small{color:#D93025!important}.dyfer{display:block;font-style:normal;font-size:8.5px;font-weight:900;text-transform:uppercase;color:#D93025;line-height:1}
 .tmrbar.big{top:50%;transform:translate(-50%,-50%);width:min(96vw,620px);grid-template-columns:1fr;padding:18px 16px;text-align:center}.tmrbar.big .tm-l{justify-items:center}.tmrbar.big .tm-t{font-size:min(30vw,190px);line-height:1}.tmrbar.big .tm-l b{font-size:20px}.tmrbar.big .tm-l small{font-size:16px}.tmrbar.big .tm-b{max-width:none;justify-content:center}.tmrbar.big .tm-b button{min-width:56px;height:52px;font-size:22px}
+.boxw[data-box="crono"]>.xcard2,.boxw[data-box="cardio"]>.xcard2{border:2.5px solid var(--fg)!important;border-radius:12px}.tmtit{display:block;text-align:center;font-size:18px!important;font-weight:900!important;letter-spacing:.06em}
+.sesprog .btn{border:2.5px solid var(--fg)!important;font-weight:800!important}.sesprog .btn.primary{background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important}
+.ftaviso{background:#FFF4D6;border:1.5px solid #E5A100;color:#5C3B00;border-radius:10px;padding:8px 10px;margin:0 0 8px;font-size:14px}.ftdicas summary{cursor:pointer}.ftdicas ol{margin:6px 0;padding-left:20px;display:grid;gap:4px;font-size:14px}
+.ftadd{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.ftbtn{flex:1;text-align:center;font-weight:800}.ftbusy{font-weight:700}.fterr{color:#B42318;font-weight:700}
+.ftpos{display:flex;gap:6px;margin:8px 0}.ftpos button{flex:1;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:7px;font-weight:800;cursor:pointer;color:var(--fg)}.ftpos button[aria-pressed="true"]{background:var(--fg);color:var(--surface)}
+.ftsel{display:flex;gap:8px}.ftsel label{flex:1;display:grid;gap:3px;font-size:13px;font-weight:700}
+.ftlado{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.ftcap{display:grid;grid-template-columns:1fr 1fr;text-align:center;font-weight:800;font-size:13px}
+.ftph{position:relative;background:#111;border-radius:10px;overflow:hidden;aspect-ratio:3/4;display:grid;place-items:center;color:#999;font-size:13px}.ftph img{width:100%;height:100%;object-fit:contain;display:block}.ftph.ftar img{object-fit:fill}.ftph svg{position:absolute;inset:0;width:100%;height:100%}
+.ftslide{position:relative;margin-top:10px;max-width:420px}.ftslide .fttop{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p)) 0 0)}.ftslide .fttop .ftph{height:100%}.ftslide input{width:100%;margin-top:4px}
+.fttab{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.fttab th,.fttab td{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}.fttab td.dn{color:#1E7E44;font-weight:800}.fttab td.up{color:#B42318;font-weight:800}
+.fttilt{margin:8px 0;font-size:14px}
 .corl{display:block;margin:10px 0 4px;font-size:14px}.seg{position:relative}.seg>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
 .corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
 .donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
@@ -4146,15 +4157,16 @@ function mvHTML(m,w,others){ const wk=S.weeks.find(x=>x.id===(mvWk||w.id))||w; c
     <button class="btn small ghost" data-mvopen style="justify-self:start">Cancelar</button></div>`; }
 
 /* ---------- Cronômetro de cardio (AMRAP, Por tempo, EMOM, Tabata, Mix) ---------- */
-const TM_MODES={amrap:{n:"AMRAP",c:"#E0913F"},fortime:{n:"POR TEMPO",c:"#5B6EF5"},emom:{n:"EMOM",c:"#8E1CDB"},tabata:{n:"TABATA",c:"#3FAE7E"},mix:{n:"MIX",c:"#444"}};
-const TM_DEF={amrap:{min:10,sec:0},fortime:{cap:15},emom:{every:60,rounds:10},tabata:{work:20,rest:10,rounds:8},mix:{blocks:[{t:"emom",every:60,rounds:5},{t:"rest",sec:60},{t:"tabata",work:20,rest:10,rounds:8}]},prep:10};
+const TM_MODES={crono:{n:"⏱ CRONÔMETRO",c:"#2B3440"},amrap:{n:"AMRAP",c:"#E0913F"},fortime:{n:"POR TEMPO",c:"#5B6EF5"},emom:{n:"EMOM",c:"#8E1CDB"},tabata:{n:"TABATA",c:"#3FAE7E"},mix:{n:"MIX",c:"#444"}};
+const TM_DEF={crono:{},amrap:{min:10,sec:0},fortime:{cap:15},emom:{every:60,rounds:10},tabata:{work:20,rest:10,rounds:8},mix:{blocks:[{t:"emom",every:60,rounds:5},{t:"rest",sec:60},{t:"tabata",work:20,rest:10,rounds:8}]},prep:10};
 function tmMineL(){ return Array.isArray(S.tmMine)? S.tmMine : []; }
 function tmModes(){ const o=Object.assign({},TM_MODES); tmMineL().forEach(c=>{ o["c_"+c.id]={n:String(c.n||"Meu cronômetro").toUpperCase(),c:"#1F7A8C",mine:1}; }); return o; }
 function tmCfg(mode){ S.tmr=S.tmr||{}; if(S.tmr.prep==null) S.tmr.prep=10; if(String(mode).startsWith("c_")){ return tmMineL().find(c=>"c_"+c.id===mode)||{n:"",rounds:1,work:0,rest:0}; } if(!S.tmr[mode]) S.tmr[mode]=JSON.parse(JSON.stringify(TM_DEF[mode])); if(S.tmr.prep==null) S.tmr.prep=10; return S.tmr[mode]; }
 let tmrEd=null, TMR=null, TMR_I=null;
 const tmN=v=>Math.max(0,Math.round(+String(v).replace(",","."))||0);
 function tmBlockSeq(b){ const out=[];
-  if(b.t==="amrap") out.push({lab:"AMRAP",k:"work",d:tmN(b.min)*60+tmN(b.sec),cnt:1});
+  if(b.t==="crono") out.push({lab:"Cronômetro",k:"up",d:5940});
+  else if(b.t==="amrap") out.push({lab:"AMRAP",k:"work",d:tmN(b.min)*60+tmN(b.sec),cnt:1});
   else if(b.t==="fortime") out.push({lab:"Por tempo",k:"up",d:tmN(b.cap)*60,cnt:1});
   else if(b.t==="emom"){ const n=Math.max(1,tmN(b.rounds)); for(let i=0;i<n;i++) out.push({lab:"EMOM",k:"work",d:Math.max(5,tmN(b.every)),r:i+1,of:n}); }
   else if(b.t==="tabata"){ const n=Math.max(1,tmN(b.rounds)); for(let i=0;i<n;i++){ out.push({lab:"Trabalho",k:"work",d:Math.max(1,tmN(b.work)),r:i+1,of:n}); if(i<n-1&&tmN(b.rest)) out.push({lab:"Descanso",k:"rest",d:tmN(b.rest),r:i+1,of:n}); } }
@@ -4165,11 +4177,11 @@ function tmSeq(mode){ const c=tmCfg(mode); let bl= mode==="mix"? (c.blocks||[]) 
   if(mode!=="mix"){ const n=Math.max(1,tmN(c.reps||1)), r=tmN(c.rrest); const L=[]; for(let i=0;i<n;i++){ L.push(Object.assign({t:mode},c,{_set:i+1,_sets:n})); if(i<n-1&&r) L.push({t:"rest",sec:r}); }
     (c.more||[]).forEach(b=>{ if(tmN(b.rb)) L.push({t:"rest",sec:tmN(b.rb)}); const k=Math.max(1,tmN(b.reps||1)); for(let i=0;i<k;i++){ L.push(Object.assign({t:mode},b,{_set:i+1,_sets:k})); if(i<k-1&&tmN(b.rrest)) L.push({t:"rest",sec:tmN(b.rrest)}); } }); bl=L; }
   const seq=[];   bl.forEach((b,bi)=>tmBlockSeq(b).forEach(x=>{ const MM=tmModes(); x.c=MM[b.t]?MM[b.t].c:"#2F8F5B"; x.blk=bi; if(b._sets>1) x.set=`Série ${b._set}/${b._sets}`; seq.push(x); }));
-  const p=tmN(S.tmr.prep); if(p) seq.unshift({lab:"Prepare",k:"prep",d:p,c:"#666"}); return seq; }
+  const p=tmN(S.tmr.prep); if(p&&mode!=="crono") seq.unshift({lab:"Prepare",k:"prep",d:p,c:"#666"}); return seq; }
 const tmFmt=s=>{ s=Math.max(0,Math.ceil(s)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); };
 function tmTotal(mode){ return tmSeq(mode).reduce((a,x)=>a+(x.k==="prep"||x.k==="man"?0:x.d),0); }
 function tmBlockTxt(b){ if(String(b.t).startsWith("c_")) return `${b.n||"Cronômetro"}: ${Math.max(1,tmN(b.rounds))} séries/rodadas${tmN(b.work)?` de ${tmN(b.work)}"`:""}${tmN(b.rest)?` · rest ${tmN(b.rest)}"`:""}`; return b.t==="amrap"?`AMRAP ${tmN(b.min)}'${tmN(b.sec)?tmN(b.sec)+'"':""}`:b.t==="fortime"?`Por tempo (limite ${tmN(b.cap)}')`:b.t==="emom"?`EMOM ${tmN(b.rounds)}x a cada ${tmN(b.every)}"`:b.t==="tabata"?`Tabata ${tmN(b.rounds)}x ${tmN(b.work)}"/${tmN(b.rest)}"`:`Rest ${tmN(b.sec)}"`; }
-function tmSummary(mode){ const c=tmCfg(mode); if(String(mode).startsWith("c_")) return tmBlockTxt(Object.assign({t:mode},c)); const n=Math.max(1,tmN(c.reps||1)); return mode==="mix"? "Mix: "+(c.blocks||[]).map(tmBlockTxt).join(" + ") : (n>1?`${n}x `:"")+tmBlockTxt(Object.assign({t:mode},c))+(n>1&&tmN(c.rrest)?` · rest ${tmN(c.rrest)}" entre`:"")+(c.more||[]).map(b=>{ const k=Math.max(1,tmN(b.reps||1)); return (tmN(b.rb)?` + rest ${tmN(b.rb)}"`:"")+" + "+(k>1?`${k}x `:"")+tmBlockTxt(Object.assign({t:mode},b)); }).join(""); }
+function tmSummary(mode){ if(mode==="crono") return "Conta o tempo do zero, sem limite. Toque ✔ para parar."; const c=tmCfg(mode); if(String(mode).startsWith("c_")) return tmBlockTxt(Object.assign({t:mode},c)); const n=Math.max(1,tmN(c.reps||1)); return mode==="mix"? "Mix: "+(c.blocks||[]).map(tmBlockTxt).join(" + ") : (n>1?`${n}x `:"")+tmBlockTxt(Object.assign({t:mode},c))+(n>1&&tmN(c.rrest)?` · rest ${tmN(c.rrest)}" entre`:"")+(c.more||[]).map(b=>{ const k=Math.max(1,tmN(b.reps||1)); return (tmN(b.rb)?` + rest ${tmN(b.rb)}"`:"")+" + "+(k>1?`${k}x `:"")+tmBlockTxt(Object.assign({t:mode},b)); }).join(""); }
 function tmFields(b,pre){ const f=(k,l,u)=>`<label>${l}<input class="inp tmn" type="number" inputmode="numeric" min="0" ${pre}="${k}" value="${esc(String(b[k]??""))}"${u?` placeholder="${u}"`:""}></label>`;
   return b.t==="amrap"? f("min","Minutos")+f("sec","Segundos") : b.t==="fortime"? f("cap","Limite (min)") : b.t==="emom"? f("every","A cada (seg)")+f("rounds","Rodadas") : b.t==="tabata"? f("work","Trabalho (seg)")+f("rest","Descanso (seg)")+f("rounds","Rodadas") : f("sec","Rest (seg)"); }
 function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v])=>`<button class="tmb ${tmrEd&&tmrEd.sid===m.id&&tmrEd.mode===k?"on":""}" style="--tc:${v.c}" data-tmopen="${k}">${v.mine?"★ ":""}${esc(v.n)}</button>`).join("").replace(/(<button class="tmb [^"]*" style="[^"]*" data-tmopen="(amrap|fortime|emom|tabata|mix)">[^<]*<\/button>)/g,(m0,b0,k0)=>`<span class="tmbw">${b0}${qtip("t_"+k0)}</span>`)+`<span class="tmbw"><button class="tmb tmnew" data-tmnew>＋ CRIAR</button>${qtip("t_criar")}</span>`;
@@ -4184,6 +4196,7 @@ function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v
             <div class="tmmv"><button class="icon-btn" data-tmmv="${i}|-1" ${i?"":"disabled"} aria-label="Para a esquerda">←</button><button class="icon-btn" data-tmmv="${i}|1" ${i<B.length-1?"":"disabled"} aria-label="Para a direita">→</button><button class="icon-btn" data-tmdel="${i}" aria-label="Apagar">✕</button></div>
             <div class="tmf tmv">${tmFields(b,`data-tmb="${i}" data-k`)}</div></div>${B[i+1]&&B[i+1].t!=="rest"?plus(i+1):""}`).join("")}
         <div class="tmaddc">${[["amrap","+ AMRAP"],["fortime","+ Por tempo"],["emom","+ EMOM"],["tabata","+ Tabata"],["rest","+ Rest"]].map(([v,l])=>`<button class="btn small" data-tmadd="${v}|end">${l}</button>`).join("")}</div></div>`; })()
+      : mode==="crono"? `<p class="muted" style="margin:4px 0">Cronômetro simples: começa do zero e conta até você tocar <b>✔</b> (terminou) ou ✕.</p>`
       : (()=>{ const col=(b,pre,title,del)=>`<div class="tmcol">${title?`<div class="tmmore-h"><b>${title}</b>${del!=null?`<button class="icon-btn" data-tmmdel="${del}" aria-label="Apagar ${title}">✕</button>`:""}</div>`:""}<div class="tmf tmv">${tmFields(Object.assign({t:mode},b),pre)}
           <label>Repetir (vezes)<input class="inp tmn" type="number" inputmode="numeric" min="1" ${pre}="reps" value="${esc(String(b.reps||1))}"></label>
           <label class="tmrl">⏸ Rest entre (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" ${pre}="rrest" value="${esc(String(b.rrest??60))}"></label></div></div>`;
@@ -4192,10 +4205,10 @@ function tmrHTML(m){ const MM=tmModes(); const btns=Object.entries(MM).map(([k,v
     const right="";
     const live=`<div class="tmlive" id="tmlive-${m.id}">${tmLiveHTML()}</div>`;
     ed=`<div class="tmed" style="--tc:${(MM[mode]||{c:"#444"}).c}"><b>${esc((MM[mode]||{n:""}).n)}</b>${body}
-      <div class="tmf ${mode==="mix"?"":"tmv"}"><label>Preparação (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmprep value="${esc(String(S.tmr.prep))}"></label></div>
-      <p class="muted tmsum">${esc(tmSummary(mode))}${tmSeq(mode).some(z=>z.k==="man")?"":` · total ${tmFmt(tmTotal(mode))}`}</p>${live}
+      ${mode==="crono"?"":`<div class="tmf ${mode==="mix"?"":"tmv"}"><label>Preparação (seg)<input class="inp tmn" type="number" inputmode="numeric" min="0" data-tmprep value="${esc(String(S.tmr.prep))}"></label></div>`}
+      <p class="muted tmsum">${esc(tmSummary(mode))}${tmSeq(mode).some(z=>z.k==="man")||mode==="crono"?"":` · total ${tmFmt(tmTotal(mode))}`}</p>${live}
       <div class="row"><button class="btn primary" data-tmgo>▶ Iniciar</button><button class="btn small ghost" data-tmopen="${mode}">Fechar</button></div></div>`; }
-  return `<div class="tmbox"><span class="xc2-h">Cronômetro</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
+  return `<div class="tmbox"><span class="xc2-h tmtit">Timers</span><div class="tmbtns">${btns}</div>${ed}</div>`; }
 function tmLiveHTML(){ if(!TMR) return `<span class="tml-idle">⏱ o tempo aparece aqui</span>`;
   const x=TMR.seq[Math.min(TMR.i,TMR.seq.length-1)]; const l=tmLeft(); const shown= TMR.done? (TMR.fin? tmFmt(TMR.fin) : "0:00") : (x.k==="up"||x.k==="man")? tmFmt(x.d-l) : tmFmt(l);
   return `<div class="tml" style="--lc:${TMR.done||x.k==="rest"?"#2F8F5B":x.c}"><small>${TMR.done?"Fim!":esc(x.lab)}${!TMR.done&&x.r?` ${x.r}/${x.of}`:""}${!TMR.done&&x.set?` · ${x.set}`:""}</small><b>${shown}</b>${TMR.seq.some(z=>z.cnt)?`<small>rodadas: ${TMR.rounds}</small>`:""}</div>`; }
@@ -4262,7 +4275,7 @@ function colHTML(m,w,ms){
         return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1&&!r.cj?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
       <button class="xadd" data-addrow>+ Linha</button>
 
-      ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return boxW("crono","⏱ Cronômetro",`<div class="xcard2">${tmrHTML(m)}</div>`)+boxW("cardio","🏃 Cardio",`<div class="xcard2">
+      ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return boxW("crono","⏱ Timers",`<div class="xcard2">${tmrHTML(m)}</div>`)+boxW("cardio","🏃 Cardio",`<div class="xcard2">
         <span class="xc2-h">Cardio${oth.length?` <button class="xcp" data-copycardio>📋 copiar cardio p/ ${esc(oth.map(o=>first(o.name)).join(" e "))}</button>`:""}</span>
         <div class="xc2-g2"><label>Tipo ${qtip("c_tipo")}<select class="inp" data-cf="tipo" id="cy-${m.id}"><option value="">–</option>${CARDIO_T.map(x=>`<option ${tp===x?"selected":""}>${x}</option>`).join("")}${tp&&!CARDIO_T.includes(tp)?`<option selected>${esc(tp)}</option>`:""}</select></label>
           <label>Método ${qtip("c_met")}<select class="inp" data-wf="tipo" id="wt-${m.id}"><option value="">–</option>${WOD_TIPOS.map(x=>`<option ${W.tipo===x?"selected":""}>${x}</option>`).join("")}</select></label></div>
@@ -4439,6 +4452,7 @@ function sesClick(e){
   if(b.dataset.tmmdel!=null){ const c=tmCfg(tmrEd.mode); (c.more||[]).splice(+b.dataset.tmmdel,1); save(); renderSessao(); return; }
   if(b.dataset.tmdel!=null){ const c=tmCfg("mix"); c.blocks.splice(+b.dataset.tmdel,1); save(); renderSessao(); return; }
   if(b.dataset.tmmv){ const [i,dv]=b.dataset.tmmv.split("|").map(Number); const c=tmCfg("mix"); const j=i+dv; if(c.blocks[j]){ [c.blocks[i],c.blocks[j]]=[c.blocks[j],c.blocks[i]]; save(); renderSessao(); } return; }
+  if(b.hasAttribute("data-tmgo")&&tmrEd&&tmrEd.mode==="crono"){ tmStart("crono",sid); return; }
   if(b.hasAttribute("data-tmgo")){ const mode=tmrEd.mode; const d=dayOf(w.id,sid,S.day,true); const W=wodOf(d);
     const TP={amrap:"AMRAP",fortime:"For Time",emom:"EMOM",tabata:"Tabata",mix:"Circuito"}; if(!W.tipo) W.tipo=TP[mode]||"Outro"; if(!String(W.desc||"").trim()||W._auto){ W.desc=tmSummary(mode); W._auto=1; }
     if(!num(d.cardio.t)) d.cardio.t=String(Math.max(1,Math.round(tmTotal(mode)/60))); save(); renderSessao(); tmStart(mode,sid); markStart(sid); autoPres(sid); return; }
@@ -6465,6 +6479,108 @@ function sugHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const sp=((progOf(m).
     ${sp?"":`<p class="muted" style="font-size:13px">Sem divisão para este treino. Monte em <b>Programação → Divisão muscular</b> para ver só os músculos do dia.</p>`}
     ${GR.map(([R,c,t])=>{ const mk=ks.filter(k=>MUSCLES[k]&&MUSCLES[k].r===R&&(!c||MUSCLES[k].c===c)); if(!mk.length) return ""; return `<details class="sug-g" style="--rc:${REG_COL[R]}" ${sp?"open":""}><summary>${t} <span class="muted">· ${mk.map(k=>MUSCLES[k].n).join(", ")}</span></summary>${mk.map(musc).join("")}</details>`; }).join("")}
     <p class="muted" style="font-size:12px">Toque para incluir na próxima linha vazia. Pode continuar escrevendo o exercício à mão na planilha.</p></div>`; }
+
+/* ---------- Fotos e medidas por foto (estimativa) ----------
+   Lê a pessoa na foto (no próprio aparelho, nada sai daqui), acha ombros, quadril e joelhos,
+   e mede a largura do corpo em altura fixa. Compara datas em % da altura do corpo. */
+const FT={sid:null,list:null,busy:"",cmpA:"",cmpB:"",pos:"frente",slide:50,err:""};
+const MPV="0.10.14", MPB="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@"+MPV;
+const MP_MODEL="https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task";
+const FT_POS=[["frente","Frente"],["lado","Lado"],["costas","Costas"]];
+const FT_REG=[["peito","Peito"],["cintura","Cintura"],["quadril","Quadril"],["coxa","Coxa"]];
+let MP=null;
+async function mpPose(){ if(MP) return MP; const v=await import(MPB+"/vision_bundle.mjs"); const fs=await v.FilesetResolver.forVisionTasks(MPB+"/wasm");
+  MP=await v.PoseLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:MP_MODEL,delegate:"CPU"},runningMode:"IMAGE",numPoses:1,outputSegmentationMasks:true}); return MP; }
+function ftLocal(){ try{ return JSON.parse(localStorage.getItem("rp_fotos")||"{}")||{}; }catch(e){ return {}; } }
+async function ftCol(sid){ const w=await DBW; return w? w.db.collection(`data/users/${w.uid}/fotos/${sid}/it`) : null; }
+async function ftLoad(sid){ try{ const c=await ftCol(sid); let L;
+    if(c){ const qs=await c.get(); L=qs.docs.map(d=>d.data()).filter(Boolean); } else L=Object.values(ftLocal()).filter(x=>x.sid===sid);
+    return L.sort((a,b)=>(a.data+a.pos).localeCompare(b.data+b.pos)); }catch(e){ return []; } }
+async function ftSave(f){ const c=await ftCol(f.sid); if(c){ await c.doc(f.id).set(f); return; } const o=ftLocal(); o[f.id]=f; try{ localStorage.setItem("rp_fotos",JSON.stringify(o)); }catch(e){ throw new Error("Sem espaço no aparelho para guardar a foto"); } }
+async function ftDel(f){ const c=await ftCol(f.sid); if(c){ await c.doc(f.id).delete(); return; } const o=ftLocal(); delete o[f.id]; try{ localStorage.setItem("rp_fotos",JSON.stringify(o)); }catch(e){} }
+function ftImg(file){ return new Promise((ok,no)=>{ const rd=new FileReader(); rd.onload=()=>{ const im=new Image(); im.onload=()=>ok(im); im.onerror=()=>no(new Error("Não consegui abrir a foto")); im.src=rd.result; }; rd.onerror=()=>no(new Error("Não consegui ler a foto")); rd.readAsDataURL(file); }); }
+function ftCanvas(im){ const H=Math.min(1100,im.naturalHeight), sc=H/im.naturalHeight; const c=document.createElement("canvas"); c.width=Math.round(im.naturalWidth*sc); c.height=Math.round(im.naturalHeight*sc); c.getContext("2d").drawImage(im,0,0,c.width,c.height); return c; }
+/* largura do pedaço contínuo do corpo que passa por x, na linha y */
+function ftSpan(M,W,H,y,x){ y=Math.max(0,Math.min(H-1,Math.round(y))); x=Math.max(0,Math.min(W-1,Math.round(x))); const row=y*W;
+  if(M[row+x]<0.5){ let best=-1,d=1e9; for(let i=0;i<W;i++) if(M[row+i]>=0.5&&Math.abs(i-x)<d){ d=Math.abs(i-x); best=i; } if(best<0||d>W*0.08) return null; x=best; }
+  let a=x,b=x; while(a>0&&M[row+a-1]>=0.5) a--; while(b<W-1&&M[row+b+1]>=0.5) b++; return [a,b]; }
+function ftMeasure(res,W,H,pos){ const lm=res.landmarks&&res.landmarks[0]; if(!lm) throw new Error("Não achei a pessoa na foto. Corpo inteiro, de pé, com boa luz.");
+  const mk=res.segmentationMasks&&res.segmentationMasks[0]; if(!mk) throw new Error("Não consegui separar o corpo do fundo.");
+  const M=mk.getAsFloat32Array(); const P=i=>({x:lm[i].x*W,y:lm[i].y*H,v:lm[i].visibility==null?1:lm[i].visibility});
+  const sh=[P(11),P(12)], hp=[P(23),P(24)], kn=[P(25),P(26)], an=[P(27),P(28)];
+  if(Math.min(an[0].v,an[1].v)<0.3&&Math.min(kn[0].v,kn[1].v)<0.3) throw new Error("A foto precisa pegar o corpo inteiro, da cabeça aos pés.");
+  let top=-1,bot=-1; for(let y=0;y<H&&top<0;y++){ for(let x=0;x<W;x+=2) if(M[y*W+x]>=0.5){ top=y; break; } } for(let y=H-1;y>=0&&bot<0;y--){ for(let x=0;x<W;x+=2) if(M[y*W+x]>=0.5){ bot=y; break; } }
+  const alt=bot-top; if(alt<H*0.35) throw new Error("A pessoa ficou pequena na foto. Chegue mais perto, mas com o corpo inteiro.");
+  const sy=(sh[0].y+sh[1].y)/2, hy=(hp[0].y+hp[1].y)/2, ky=(kn[0].y+kn[1].y)/2, cx=(hp[0].x+hp[1].x+sh[0].x+sh[1].x)/4;
+  const rows={peito:sy+0.25*(hy-sy),cintura:sy+0.62*(hy-sy),quadril:hy+0.10*(ky-hy),coxa:hy+0.35*(ky-hy)};
+  const w={}, lines=[];
+  Object.entries(rows).forEach(([k,y])=>{ let sp;
+    if(k==="coxa"&&pos!=="lado"){ const L=[0,1].map(i=>ftSpan(M,W,H,y,hp[i].x+0.35*(kn[i].x-hp[i].x))).filter(Boolean); if(!L.length) return; const avg=L.reduce((t,s)=>t+(s[1]-s[0]+1),0)/L.length; w[k]=avg; L.forEach(s=>lines.push({k,y:y/H,x1:s[0]/W,x2:s[1]/W})); return; }
+    sp=ftSpan(M,W,H,y,cx); if(!sp) return; w[k]=sp[1]-sp[0]+1; lines.push({k,y:y/H,x1:sp[0]/W,x2:sp[1]/W}); });
+  const r={}; Object.keys(w).forEach(k=>r[k]=Math.round(w[k]/alt*10000)/100);
+  const ang=(a,b)=>Math.round(Math.atan2(b.y-a.y,b.x-a.x)*1800/Math.PI)/10;
+  const tilt= pos==="lado"? null : {ombro:ang(sh[1],sh[0]),quadril:ang(hp[1],hp[0])};
+  if(mk.close) mk.close();
+  return {r,lines,tilt,alt:alt/H,ar:Math.round(W/H*1000)/1000}; }
+async function ftAdd(file,pos){ const m=A(); FT.busy=`Lendo a foto de ${pos}…`; FT.err=""; fotoRender();
+  try{ const im=await ftImg(file); const c=ftCanvas(im); const pose=await mpPose(); const res=pose.detect(c);
+    const meas=ftMeasure(res,c.width,c.height,pos); const img=c.toDataURL("image/jpeg",0.72);
+    const data=isoD(new Date()); const old=(FT.list||[]).find(x=>x.data===data&&x.pos===pos);
+    const f={id:old?old.id:nid(),sid:m.id,data,pos,img,meas}; await ftSave(f);
+    FT.list=(FT.list||[]).filter(x=>x.id!==f.id).concat(f).sort((a,b)=>(a.data+a.pos).localeCompare(b.data+b.pos)); FT.busy=""; FT.cmpB=data; FT.pos=pos; fotoRender(); toast("Foto lida e guardada ✓"); }
+  catch(e){ FT.busy=""; FT.err=(e&&e.message)||"Não deu certo"; fotoRender(); } }
+/* circunferência aproximada pela elipse: largura (frente) × profundidade (lado) */
+function ftCirc(fr,ld,altCm,k){ if(!fr||!ld||!altCm||!fr.meas.r[k]||!ld.meas.r[k]) return null; const a=fr.meas.r[k]*altCm/200, b=ld.meas.r[k]*altCm/200; return Math.round(Math.PI*(3*(a+b)-Math.sqrt((3*a+b)*(a+3*b)))); }
+function ftDates(){ return [...new Set((FT.list||[]).map(x=>x.data))].sort(); }
+function ftGet(d,pos){ return (FT.list||[]).find(x=>x.data===d&&x.pos===pos); }
+function ftPic(f,cls){ if(!f) return `<div class="ftph ${cls||""}"><span>sem foto</span></div>`;
+  const C={peito:"#2A5BD7",cintura:"#E8710A",quadril:"#7B3FC4",coxa:"#1E8E3E"};
+  return `<div class="ftph ${cls||""} ${f.meas.ar?"ftar":""}" ${f.meas.ar?`style="aspect-ratio:${f.meas.ar}"`:""}><img src="${f.img}" alt="Foto de ${f.pos} em ${ddmm(f.data)}"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${(f.meas.lines||[]).map(l=>`<line x1="${l.x1*100}" x2="${l.x2*100}" y1="${l.y*100}" y2="${l.y*100}" stroke="${C[l.k]}" stroke-width="0.9" vector-effect="non-scaling-stroke" style="stroke-width:3px"/>`).join("")}</svg></div>`; }
+function ftTiltTxt(t){ if(!t) return ""; const s=(v,a,b)=> Math.abs(v)<1? `${a} alinhados` : `${v>0?b+" direito":b+" esquerdo"} mais baixo ${String(Math.abs(v)).replace(".",",")}°`; return `${s(t.ombro,"Ombros","Ombro")} · ${s(t.quadril,"Quadris","Quadril")}`; }
+function fotoHTML(){ const m=A(); if(FT.sid!==m.id) return `<div class="card"><p class="muted">Carregando fotos…</p></div>`;
+  const D=ftDates(); const A0=FT.cmpA||D[0]||"", B0=FT.cmpB||D[D.length-1]||""; const altCm=num(m.alt);
+  const fa=ftGet(A0,FT.pos), fb=ftGet(B0,FT.pos);
+  const rowsCmp= fa&&fb&&A0!==B0? FT_REG.map(([k,n])=>{ const a=fa.meas.r[k], b=fb.meas.r[k]; if(!a||!b) return ""; const d=Math.round((b-a)/a*1000)/10;
+      const ca=ftCirc(ftGet(A0,"frente"),ftGet(A0,"lado"),altCm,k), cb=ftCirc(ftGet(B0,"frente"),ftGet(B0,"lado"),altCm,k);
+      return `<tr><td>${n}</td><td class="${d<0?"dn":d>0?"up":""}">${d<0?"▼":d>0?"▲":"="} ${d>0?"+":""}${String(d).replace(".",",")}%</td><td>${ca&&cb?`${ca} → <b>${cb} cm</b>`:"–"}</td></tr>`; }).join("") : "";
+  return `<div class="card ftcard">
+    <p class="ftaviso">⚠ <b>Estimativa por foto.</b> Use só se não tiver equipamento (fita, adipômetro, bioimpedância) ou se não quiser usar. Serve para ver <b>tendência</b>, não é medida exata.</p>
+    <details class="ftdicas"><summary><b>📋 Como tirar a foto para comparar sem erro</b></summary><ol>
+      <li><b>Mesmo lugar</b> e mesmo fundo, liso e de cor diferente da roupa.</li>
+      <li><b>Celular parado</b> (apoiado ou num tripé) na <b>altura do umbigo</b>, a uns <b>2,5 m</b>. Sempre a mesma distância: marque o chão.</li>
+      <li><b>Corpo inteiro</b> na foto, da cabeça aos pés, sem cortar.</li>
+      <li><b>Mesma roupa</b>, justa (top/short ou sunga), e cabelo preso.</li>
+      <li><b>Braços afastados</b> do corpo (uns 30°) e pés na largura do quadril.</li>
+      <li><b>Relaxado</b>: sem encolher a barriga e sem contrair.</li>
+      <li><b>Mesmo horário</b>, de preferência de manhã, antes de comer.</li>
+      <li>Boa luz, de frente para a pessoa, sem sombra forte.</li>
+      <li>Para os cm: tire <b>frente e lado no mesmo dia</b> e preencha a altura lá em cima.</li></ol></details>
+    <div class="ftadd">${FT_POS.map(([k,n])=>`<label class="btn ftbtn">📷 ${n}<input type="file" accept="image/*" capture="environment" data-ftadd="${k}" hidden></label>`).join("")}</div>
+    ${FT.busy?`<p class="ftbusy">⏳ ${FT.busy} <small>(a primeira vez demora mais)</small></p>`:""}${FT.err?`<p class="fterr">⚠ ${esc(FT.err)}</p>`:""}
+    ${D.length?`<div class="ftcmp">
+      <div class="ftpos" role="group" aria-label="Posição">${FT_POS.map(([k,n])=>`<button data-ftpos="${k}" aria-pressed="${FT.pos===k}">${n}</button>`).join("")}</div>
+      <div class="ftsel"><label>Antes<select class="inp" data-ftsel="A">${D.map(d=>`<option value="${d}" ${d===A0?"selected":""}>${ddmm(d)}/${d.slice(2,4)}</option>`).join("")}</select></label>
+        <label>Depois<select class="inp" data-ftsel="B">${D.map(d=>`<option value="${d}" ${d===B0?"selected":""}>${ddmm(d)}/${d.slice(2,4)}</option>`).join("")}</select></label></div>
+      <div class="ftlado">${ftPic(fa)}${ftPic(fb)}</div>
+      <div class="ftcap"><span>${A0?ddmm(A0):""}</span><span>${B0?ddmm(B0):""}</span></div>
+      ${fa&&fb?`<div class="ftslide" style="--p:${FT.slide}%">${ftPic(fb,"ftb")}<div class="fttop">${ftPic(fa,"fta")}</div><input type="range" min="0" max="100" value="${FT.slide}" data-ftslide aria-label="Arraste para comparar antes e depois"></div><small class="muted">Arraste: esquerda = antes, direita = depois.</small>`:""}
+      ${rowsCmp?`<table class="fttab"><thead><tr><th>Região</th><th>Mudou</th><th>Circunferência*</th></tr></thead><tbody>${rowsCmp}</tbody></table>
+        <small class="muted">% = largura em relação à altura do corpo na foto. *cm só com frente e lado no mesmo dia e a altura preenchida. Linhas na foto: <b style="color:#2A5BD7">peito</b>, <b style="color:#E8710A">cintura</b>, <b style="color:#7B3FC4">quadril</b>, <b style="color:#1E8E3E">coxa</b>.</small>`:`<small class="muted">Escolha duas datas diferentes para comparar.</small>`}
+      ${fb&&fb.meas.tilt?`<p class="fttilt">⚖️ <b>Simetria (${ddmm(B0)}):</b> ${ftTiltTxt(fb.meas.tilt)}</p>`:""}
+      ${fb?`<button class="btn small ghost" data-ftdel="${fb.id}">🗑 Apagar a foto de ${FT_POS.find(x=>x[0]===fb.pos)[1].toLowerCase()} de ${ddmm(fb.data)}</button>`:""}
+    </div>`:`<p class="muted">Ainda sem fotos de ${esc(first(m.name))}.</p>`}</div>`; }
+function fotoRender(){ const el=document.getElementById("fotoBox"); if(!el) return; el.innerHTML=boxW("fotos","📸 Fotos e medidas (estimativa)",fotoHTML()); }
+async function fotoMount(){ const v=document.getElementById("view-corpo"); if(!v) return; let el=document.getElementById("fotoBox"); if(!el){ el=document.createElement("div"); el.id="fotoBox"; v.appendChild(el); }
+  const m=A(); if(FT.sid!==m.id){ FT.sid=m.id; FT.list=null; FT.cmpA=""; FT.cmpB=""; fotoRender(); FT.list=await ftLoad(m.id); FT.sid=m.id; }
+  fotoRender(); }
+document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.closest("#fotoBox")) return;
+  if(t.dataset.ftadd&&t.files&&t.files[0]){ ftAdd(t.files[0],t.dataset.ftadd); t.value=""; return; }
+  if(t.dataset.ftsel){ if(t.dataset.ftsel==="A") FT.cmpA=t.value; else FT.cmpB=t.value; fotoRender(); } });
+document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("[data-ftslide]")) return; FT.slide=+t.value; const w=t.closest(".ftslide"); if(w) w.style.setProperty("--p",FT.slide+"%"); });
+document.addEventListener("click",async e=>{ const b=e.target.closest&&e.target.closest("#fotoBox [data-ftpos],#fotoBox [data-ftdel]"); if(!b) return;
+  if(b.dataset.ftpos){ FT.pos=b.dataset.ftpos; fotoRender(); return; }
+  if(b.dataset.ftdel){ if(b.dataset.arm!=="1"){ b.dataset.arm="1"; b.textContent="Toque de novo para apagar"; return; } const f=(FT.list||[]).find(x=>x.id===b.dataset.ftdel); if(!f) return; await ftDel(f); FT.list=FT.list.filter(x=>x.id!==f.id); fotoRender(); toast("Foto apagada"); } });
+const _renderCorpo0=renderCorpo; renderCorpo=function(){ _renderCorpo0(); fotoMount(); };
 
 /* ---------- Navegação ---------- */
 function show(tab,force){
