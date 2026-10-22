@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792676873";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792678535";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -327,9 +327,9 @@ input.mini{padding:5px;text-align:center}
 .xb-sug{white-space:nowrap}
 .xhead span:last-child{padding:7px 0!important;font-size:10px!important;letter-spacing:0!important}
 .xrest{min-width:28px!important;padding:3px 2px!important;font-size:10.5px!important}
-.xdelc{position:absolute;top:0;left:0;bottom:0;width:15px;border:0;border-right:1px solid #E8A5A0;background:#FDE2E1;color:#B42318;font-size:9px;padding:3px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;line-height:1}
+.xdelc{position:absolute;top:0;right:0;bottom:0;width:15px;border:0;border-left:1px solid #E8A5A0;background:#FDE2E1;color:#B42318;font-size:9px;padding:3px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;cursor:pointer;line-height:1}
 .xdl-t{display:flex;flex-direction:column;align-items:center;margin-top:2px}.xdl-t i{font-style:normal;font-size:8.5px;font-weight:900;line-height:1.05}.xdelc.arm{background:#D93025;color:#fff}
-.xdesc{position:relative;display:flex;align-items:center;justify-content:center;padding-left:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
+.xdesc{position:relative;display:flex;align-items:center;justify-content:center;padding-right:15px;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
 .xtot>span:last-child,.xband>span:last-child{border-left:1px solid var(--line)}
 .xhead span{border-left:1px solid color-mix(in srgb,var(--bg) 25%,transparent)}
 .xhead span:nth-child(2){text-align:center}
@@ -1483,10 +1483,16 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
 .slot.own{border-style:dashed;border-color:#1E8E3E}.slot.own.on{border-style:solid}.ownnew{justify-self:start;border:1.5px dashed #1E8E3E!important;color:#1E6B34!important;margin-top:4px}
 .wkmo{color:#1E8E3E}.seswk{margin-bottom:10px}
-.qtip{width:16px!important;height:16px!important;font-size:10px!important;vertical-align:super!important;margin:0 0 0 2px!important;position:relative;top:-2px}
+.qtip{width:14px!important;height:14px!important;font-size:9px!important;vertical-align:super!important;margin:0 0 0 2px!important;position:relative;top:-2px}
 .xh-ex{display:flex;align-items:center;justify-content:center;gap:0}.xh-ex .qtip{align-self:flex-start;margin-top:-2px!important}
 .xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
+.corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
+.donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
+.cbusca{display:flex;align-items:center;gap:8px;font-size:20px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;position:sticky;top:6px;z-index:4}.cbusca .inp{border:0;font-size:16px;flex:1;padding:6px}
+.mvtop{margin:4px 0 0!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;border-bottom:0!important}
+.confbox summary{cursor:pointer;list-style:none}.confbox summary::-webkit-details-marker{display:none}.confl{display:grid;gap:6px;margin:10px 0}.confr{display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:6px}.confr b{font-variant-numeric:tabular-nums}
+.confm{display:grid;gap:4px;font-size:13px;font-weight:700}.confm textarea{font-size:15px}
 .wkrow{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.wkrow button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;font-size:15px;cursor:pointer;color:var(--fg)}
 .wkrow button small{font-weight:500;font-size:12px;color:var(--muted)}.wkrow button[aria-selected="true"]{background:#1E8E3E;border-color:#1E8E3E;color:#fff}.wkrow button[aria-selected="true"] small{color:#E3F5EA}
 .wkrow button.due{border-color:#E5A100;background:#FFF1D6}.wkrow .wcfg{border-style:dashed}
@@ -3274,6 +3280,8 @@ function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.per
   <li>iPhone: só funciona com o site na tela de início (iOS 16.4 ou mais novo), aberto pelo ícone.</li></ol>
   <p class="muted" style="font-size:13px;margin:0">O melhor é deixar o site aberto: com o descanso correndo, a tela não apaga sozinha. Fora do site, o aviso chega como notificação com vibração.</p>
   <button class="btn ghost" data-ntfx>Fechar</button></div>`; }
+document.addEventListener("change",e=>{ if(!e.target.matches||!e.target.matches("[data-paycor]")) return; S.brand=Object.assign({},S.brand||{},{payCor:e.target.value}); save(); applySiteCor(); });
+document.addEventListener("change",e=>{ if(!e.target.matches||!e.target.matches("[data-donesend]")) return; S.brand=Object.assign({},S.brand||{},{doneSend:e.target.value}); save(); toast("Guardado"); });
 document.addEventListener("input",e=>{ if(e.target.id!=="ntfMsg") return; S.brand=Object.assign({},S.brand||{},{alarmMsg:e.target.value}); save(); const pv=document.getElementById("ntfPrev"); if(pv) pv.textContent=almMsg(); });
 function ntfRender(){ let el=document.getElementById("ntfpop"); if(!el){ el=document.createElement("div"); el.id="ntfpop"; document.body.appendChild(el); } el.hidden=!NTF_OPEN; el.innerHTML=NTF_OPEN? ntfHTML() : ""; }
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-ntf],[data-ntfgo],[data-ntftest],[data-ntfx]"); if(!b) return;
@@ -3862,13 +3870,17 @@ function renderReport(){
 }
 function repImageBlob(id){ const card=document.getElementById(id||"repcard");
   return h2cZ(card,{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(c=>new Promise(res=>c.toBlob(res,"image/png"))); }
-async function saveImgBlob(blob,name){ const dl=(window.claude&&claude.use)? await claude.use("downloads") : null; if(!dl) return false; await dl.save({filename:name,data:blob}); return true; }
+async function saveImgBlob(blob,name){ const dl=(window.claude&&claude.use)? await claude.use("downloads") : null;
+  if(dl){ await dl.save({filename:name,data:blob}); return true; }
+  try{ const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); return true; }catch(e){ return false; } }
+async function shareImg(blob,name,text){ try{ const f=new File([blob],name,{type:"image/png"}); if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share({files:[f],text}); return "shared"; } }catch(e){ if(e&&e.name==="AbortError") return "cancel"; } return ""; }
 async function sendFlow(panelId,cardId,fname,goAttr){
   const m=A(); const p=document.getElementById(panelId); const nm=esc(first(m.name));
   if(!window.html2canvas){ toast("O gerador de imagem não carregou. Recarregue a página."); return; }
   p.hidden=false; p.innerHTML=`<b>Preparando a imagem…</b>`;
   let how="fail";
-  try{ const blob=await repImageBlob(cardId); if(await saveImgBlob(blob,fname)) how="saved"; else { showImgs([{src:await blobToUrl(blob),name:fname}],"Salvar a imagem"); how="shown"; } }catch(e){ if(e&&e.code==="declined") how="declined"; }
+  try{ const blob=await repImageBlob(cardId); const sh=await shareImg(blob,fname,reportText(m)); if(sh==="shared"){ p.innerHTML=`<b>✓ Enviado pelo compartilhar.</b> Se escolheu o WhatsApp, a imagem foi com o texto junto.`; return; }
+    if(await saveImgBlob(blob,fname)) how="saved"; else { showImgs([{src:await blobToUrl(blob),name:fname}],"Salvar a imagem"); how="shown"; } }catch(e){ if(e&&e.code==="declined") how="declined"; }
   p.innerHTML=`${how==="saved"?`<b>1. Imagem salva ✓</b>`:how==="shown"?`<b>1. Toque e segure a imagem que abriu e escolha Baixar imagem.</b>`:how==="declined"?`<b>1. Você cancelou o salvamento.</b> Toque de novo para salvar.`:`<b>1. Não consegui salvar a imagem.</b> Tire um print do relatório.`}
     <button class="btn primary" ${goAttr}>2. Abrir WhatsApp de ${nm} com o texto</button>
     <span><b>3.</b> Na conversa: 📎 → <b>Galeria</b> → a primeira foto (é a do relatório) → enviar.<br><b>4.</b> Depois envie o texto, que já está escrito.</span>`;
@@ -4225,6 +4237,7 @@ function colHTML(m,w,ms){
     ${m===sesMembers()[0]?ntfBanHTML():""}<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button>${qtip("ctl")}</div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${m===ms[0]&&sesMode==="lancar"? SES_WK : ""}
+    ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn mvtop" data-mvopen>↔ Mover este treino para outro dia</button>`}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
       <div class="xband"><span></span><span class="xb-ex"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -4232,8 +4245,7 @@ function colHTML(m,w,ms){
         const pick=(r,i)=>{ let x=null; if(r.n1.trim()) x=pr.find(y=>!used.has(y)&&noAcc(y.n1).trim()===noAcc(r.n1).trim()); if(!x&&!r.n1.trim()&&pr[i]&&!used.has(pr[i])&&(pr[i].n1.trim()||subUsed(pr[i].a))) x=pr[i]; if(x) used.add(x); return x; };
         return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1&&!r.cj?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
       <button class="xadd" data-addrow>+ Linha</button>
-      ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn" data-mvopen>↔ Mover este treino para outro dia</button>`}
-      <div id="tot-${m.id}">${totRowsHTML(m,T)}</div>
+
       ${(()=>{ const W=wodOf(d); const tp=d.cardio.tipo||""; const oth=sesMembers().filter(o=>o!==m); return `<div class="xcard2">
         ${tmrHTML(m)}
         <span class="xc2-h">Cardio${oth.length?` <button class="xcp" data-copycardio>📋 copiar cardio p/ ${esc(oth.map(o=>first(o.name)).join(" e "))}</button>`:""}</span>
@@ -4463,7 +4475,8 @@ function sesClick(e){
   if(b.hasAttribute("data-ltredit")){ ltrEdit= ltrEdit===sid? null : sid; renderSessao(); return; }
   if(b.dataset.setltr){ ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const cur=ltrOf(sid,w.id,S.day,d); d.ltr= b.dataset.setltr; if(d.ltr===progLtr(sid,S.day)&&!dayHasData(d)) delete d.ltr; const r=fillByLtr(sid,w.id,S.day,true); { const u=LTR_UNDO[w.id+"|"+sid+"|"+S.day]; if(u&&cur) u.ltr=cur; } save(); renderSessao(); toast(r? `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios de ${ddmm(r.date)} carregados` : `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios zerados (primeiro Treino ${b.dataset.setltr})`); return; }
   if(b.dataset.setph!=null){ if(+b.dataset.setph===m.phase) return; m.phase=+b.dataset.setph; save(); renderAll(); toast(`${first(m.name)}: ${phT(m)} · ${phaseOf(m).n}`); return; }
-  if(b.hasAttribute("data-done")){ const d=dayOf(w.id,sid,S.day); if(!d) return; d.done=1; if(d.ini&&sesDateOf()===isoD(new Date())) d.fim=hmNow(); delete REST[sid]; save(); renderSessao(); renderTurnbar(); toast(`Treino de ${first(m.name)} concluído 💪`); return; }
+  if(b.hasAttribute("data-done")){ const d=dayOf(w.id,sid,S.day); if(!d) return; d.done=1; if(d.ini&&sesDateOf()===isoD(new Date())) d.fim=hmNow(); delete REST[sid]; save(); renderSessao(); renderTurnbar(); toast(`Treino de ${first(m.name)} concluído 💪`);
+    const ds=(S.brand||{}).doneSend||"txt"; if(!m.own&&ds==="txt"){ S.active=sid; repKind="day"; waOpen(m, reportText(m)); } else if(!m.own&&ds==="img"){ S.active=sid; repKind="day"; repOpen=true; renderReport(); document.body.style.overflow="hidden"; sendBoth(); } return; }
   if(b.hasAttribute("data-reopen")){ const d=dayOf(w.id,sid,S.day); if(d){ delete d.done; delete d.fim; } save(); renderSessao(); return; }
   if(b.hasAttribute("data-sendboth")){ S.active=sid; repKind="day"; repOpen=true; renderReport(); document.body.style.overflow="hidden"; sendBoth(); return; }
   if(b.hasAttribute("data-sendimg")){ S.active=sid; repKind="day"; repOpen=true; renderReport(); document.body.style.overflow="hidden"; setTimeout(reportImage,60); return; }
@@ -4577,6 +4590,7 @@ function sbarInner(m){
   if(!d||!dayHasData(d)) return `<span class="sb-t muted">O treino começa quando você lançar o primeiro exercício.</span>`;
   if(d.done) return `<span class="sb-t ok">✔ Treino concluído${sesTimes(d)?` · ${sesTimes(d)}`:""}</span>
     <button class="btn small primary" data-sendboth>📲 Enviar texto + imagem para ${nm}</button>
+    <label class="donesend">Ao concluir: <select class="inp" data-donesend><option value="txt" ${((S.brand||{}).doneSend||"txt")==="txt"?"selected":""}>abrir o WhatsApp do aluno com o texto</option><option value="img" ${(S.brand||{}).doneSend==="img"?"selected":""}>compartilhar imagem + texto</option><option value="nao" ${(S.brand||{}).doneSend==="nao"?"selected":""}>não enviar</option></select></label>
     <button class="btn small" data-sendwa>Só texto</button>
     <button class="btn small" data-report="day">Ver relatório</button><button class="btn small ghost" data-reopen>Reabrir</button>`;
   return `<span class="sb-t run">▶ Em andamento${d.ini?` desde ${d.ini}`:""}</span><button class="btn small primary" data-done>✅ Treino concluído</button>`;
@@ -5232,6 +5246,7 @@ function renderHoje(){
     <div class="row-actions"><button class="primary" data-act="offok">Confirmar</button><button class="ghost" data-act="offcancel">Cancelar</button></div></div></div>`;
   }
   if(!loadedA){h+=`<div class="empty">Carregando seus alunos…</div>`;main.innerHTML=h;return}
+  if(!off) h+=confHTML(k,items);
   if(!alunos.size){h+=`<div class="empty">Nenhum aluno cadastrado. Cadastre na aba Alunos.</div>`;main.innerHTML=h;return}
   if(!off){
     const pend=items.filter(i=>!i.status).length;
@@ -5275,6 +5290,20 @@ function renderHoje(){
   main.innerHTML=h;
 }
 
+/* Mensagens de confirmação de aula pelo WhatsApp (um toque por aluno) */
+const CONF_DEF="Olá, {nome}! Confirmando sua aula {dia} às {hora}. Posso contar com você? 💪";
+let confOpen=false;
+function confTel(a){ let d=String(a.tel||"").replace(/\D/g,""); if(!d) return ""; if(d.length<=11) d="55"+d.replace(/^0+/,""); return d; }
+function confDia(k){ const t=today(); if(k===t) return "hoje"; if(k===addDays(t,1)) return "amanhã"; const d=dOf(k); return DIAS[d.getDay()].toLowerCase()+" ("+d.getDate()+"/"+(d.getMonth()+1)+")"; }
+function confHTML(k,items){ const tpl=String((BR().confMsg)||"").trim()||CONF_DEF; const L=items.filter(i=>i.status!=='f'&&i.a&&!isFicha(i.a)).sort((x,y)=>x.hora.localeCompare(y.hora));
+  if(!L.length) return "";
+  const txt=i=>tpl.replace(/\{nome\}/g,first(i.a.nome)).replace(/\{hora\}/g,i.hora).replace(/\{dia\}/g,confDia(k));
+  return `<details class="card confbox" ${confOpen?"open":""} data-confd><summary><b>📲 Confirmar as aulas de ${confDia(k)} pelo WhatsApp</b> <span class="muted">· ${L.length}</span></summary>
+    <div class="confl">${L.map(i=>{ const t=confTel(i.a); return `<div class="confr"><b>${i.hora}</b><span>${esc(i.a.nome)}</span>${t?`<a class="btn small primary" href="https://wa.me/${t}?text=${encodeURIComponent(txt(i))}" target="_blank" rel="noopener">Enviar</a>`:`<small class="muted">sem WhatsApp</small>`}</div>`; }).join("")}</div>
+    <label class="confm">Mensagem (use {nome}, {dia} e {hora})<textarea class="inp" id="confMsg" rows="3">${esc(tpl)}</textarea></label>
+    <small class="muted">Use as setas ‹ › do dia para mandar as de amanhã. Cada toque abre a conversa do aluno com o texto pronto: é só enviar.</small></details>`; }
+main.addEventListener('toggle',e=>{ if(e.target.matches&&e.target.matches('[data-confd]')) confOpen=e.target.open; },true);
+main.addEventListener('change',e=>{ if(e.target.id!=='confMsg') return; S.brand=Object.assign({},S.brand||{},{confMsg:e.target.value}); save(); render(); toast('Mensagem guardada'); });
 function renderMes(){
   const ym=st.month,[y,m]=ym.split('-').map(Number),ks=diasDoMes(ym);
   const cnt=[0,0,0,0,0,0,0];ks.forEach(k=>cnt[dOf(k).getDay()]++);
@@ -6089,6 +6118,23 @@ function abasOn(){ const b=S.brand||{}, a=b.abas; if(!Array.isArray(a)) return A
 function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana":t); }
 let FORCE_TAB=null;
 function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)&&CUR_TAB!==FORCE_TAB) show("cadastro"); }
+const SITE_COR=[["","Colorido (padrão)",null],["verde","Verde",145],["azul","Azul",215],["dourado","Dourado",40],["roxo","Roxo",270],["vinho","Vinho",345],["cinza","Cinza",210]];
+function applySiteCor(){ const b=S.brand||{}, c=SITE_COR.find(x=>x[0]===(b.siteCor||"")); let el=document.getElementById("siteCorCss"); if(!el){ el=document.createElement("style"); el.id="siteCorCss"; document.head.appendChild(el); }
+  if(!c||c[2]==null){ el.textContent=""; document.body.classList.remove("mono"); return; } const h=c[2], sat=c[0]==="cinza"?8:55;
+  const H=(l,s2)=>`hsl(${h},${s2==null?sat:s2}%,${l}%)`;
+  el.textContent=`html:root:root,html:root:root[data-theme]{--accent:${H(32)};--accent-soft:${H(92,45)};--ok:${H(28)};--ok-soft:${H(90,40)};--warn:${H(38)};--warn-soft:${H(92,40)};--p0:${H(45,30)};--p1:${H(30)};--p2:${H(42)};--p3:${H(22)};--p4:${H(55,20)}}
+  body.mono .qtip{background:${H(32)}!important}body.mono .wkrow button[aria-selected="true"]{background:${H(30)}!important;border-color:${H(30)}!important}body.mono .xcpn{color:${H(32)};border-color:${H(32)};background:${H(95,40)}}
+  body.mono .xrep{color:${H(25)};border-color:${H(30)};background:${H(92,40)}}body.mono .ntfban{border-color:${H(40)};background:${H(94,40)};color:${H(22)}}body.mono .slot.own{border-color:${H(30)}}
+  body.mono .rb.r-MMII,body.mono .rb.r-MMSS{color:${H(32)}}body.mono .rb.on.r-MMII,body.mono .rb.on.r-MMSS{background:${H(32)};border-color:${H(32)};color:#fff}
+  body.mono .rp-sug-top,body.mono .rp-sug-any{background:${H(85,40)}!important;color:${H(18)}!important}body.mono #sidectl .sidehelp,body.mono #sidectl button{background-color:${H(32)}!important;color:#fff!important}
+  body.mono .trest .tr-s{background:${H(92,40)}!important;color:${H(25)}!important;border-color:${H(75,30)}!important}body.mono .xdelc{background:${H(92,30)}!important;color:${H(28)}!important}
+  ${b.payCor==="site"?`body.mono .payal{background:${H(30)}!important}`:""}`;
+  document.body.classList.add("mono"); }
+let COR_OPEN=false;
+function corHTML(){ const b=S.brand||{}; return `<details class="card abasbox" ${COR_OPEN?"open":""}><summary><b>🎨 Cores do site</b> <span class="muted">· ${esc((SITE_COR.find(x=>x[0]===(b.siteCor||""))||SITE_COR[0])[1])}</span></summary>
+  <p style="margin:6px 0;font-size:14px">Escolha uma cor e o site usa só os tons dela. “Colorido” volta ao padrão.</p>
+  <div class="corg">${SITE_COR.map(([k,n,h])=>`<button class="corb ${(b.siteCor||"")===k?"on":""}" data-sitecor="${k}" style="--cc:${h==null?"conic-gradient(#2E8B57,#1B55B8,#C9962B,#C8322B,#2E8B57)":`linear-gradient(135deg,hsl(${h},${k==="cinza"?8:55}%,28%),hsl(${h},${k==="cinza"?8:55}%,70%))`}"><i></i>${n}</button>`).join("")}</div>
+  <label class="donesend" style="margin-top:6px">Aviso de pagamento vencido: <select class="inp" data-paycor><option value="" ${b.payCor!=="site"?"selected":""}>vermelho (padrão)</option><option value="site" ${b.payCor==="site"?"selected":""}>na cor do site</option></select></label></details>`; }
 function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
   return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de ${ABAS.length+1}</span></summary>
     <p style="margin:6px 0 2px;font-size:15px">${first?"<b>O que você mais quer usar no sistema?</b> ":""}Marque as abas que quer ver embaixo. As outras ficam escondidas, sem perder nada. Dá para mudar quando quiser.</p>
@@ -6296,19 +6342,21 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
 function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(!v) return;
   if(cadDraft){ v.innerHTML=cadTopHTML()+cadFormHTML(); return; }
   const L=cadList();
-  v.innerHTML=`${cadTopHTML()}${abasHTML()}
+  v.innerHTML=`${cadTopHTML()}${abasHTML()}${corHTML()}
     <div class="card"><span class="label">Cadastro</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
       <button class="btn small ghost" data-gobrand style="justify-self:start">✎ Seu nome, logo, cores e frases dos relatórios</button>
       ${BR().nome==="Seu nome"?`<p class="pend" style="margin:0">⚠ Coloque o seu nome: ele aparece nos relatórios e no planejamento que o aluno recebe.</p>`:""}
       ${presOn()?"":`<p class="note" style="margin:0">Carregando a Presença… Se demorar, os dias e horários ficam só no treino até ela abrir.</p>`}</div>
+    ${L.length>5?`<label class="cbusca">🔍<input class="inp" id="cadBusca" type="search" placeholder="Procurar aluno pelo nome" autocomplete="off"></label>`:""}
     <div class="clist">${L.map(({a,st})=>{ const nm=(a&&a.nome)||(st&&st.name)||""; const sl=a? (a.tipo==="ficha"?"Ficha de treino":a.tipo==="consultoria"?"💻 Consultoria online":a.tipo==="avulsa"?"Aula avulsa":(a.slots||[]).map(s=>CAD_DN[s.d]+" "+s.h).join(" · ")||(a.tipo==="pacote"?"Pacote, sem dias fixos":"")) : ((st&&st.days)||[]).join(" · ");
       const pend= !sl && !(st&&st.avulsa); const pk=a&&a.tipo==="pacote"&&presOn()? pacTagHTML(PRES.pacUso(a.id)) : "";
       return `<button class="crow ${a&&a.ativo===false?"inativo":""}" data-cadopen="${a?"p:"+a.id:"s:"+st.id}">${st?`<span class="ud" style="--pc:var(--p${st.phase})">${phK(st)}</span>`:`<span class="ud" style="--pc:var(--muted)">–</span>`}<span class="cr-m"><b>${esc(nm)}</b><span>${pend?`<em class="pendtx">⚠ dias e horários pendentes</em>`:esc(sl||"Aula avulsa")}</span>${pk}</span>${a&&a.ativo===false?`<span class="pill">inativo</span>`:""}</button>`; }).join("")}</div>
     <div id="cad-extra" style="display:grid;gap:16px"></div>`;
   renderAjuda(); }
 document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.sitecor!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{siteCor:b.dataset.sitecor}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.aba||b.hasAttribute("data-abaok")||b.hasAttribute("data-abaall")){ let on=abasOn().slice();
     if(b.dataset.aba){ const k=b.dataset.aba; on=on.includes(k)? on.filter(x=>x!==k) : ABAS.map(x=>x[0]).filter(x=>x===k||on.includes(x)); ABAS_OPEN=true; }
     if(b.hasAttribute("data-abaall")){ on=ABAS.map(x=>x[0]); ABAS_OPEN=true; }
@@ -6342,7 +6390,8 @@ document.getElementById("view-cadastro").addEventListener("change",e=>{ if(!cadD
     if(e.target.id==="cd-np"){ if(+cadDraft.nParc>1) cadDraft.forma="parcelas"; else if(cadDraft.forma==="parcelas") cadDraft.forma="mensal"; }
     if(e.target.id==="cd-fp"){ if(cadDraft.forma==="parcelas"&&+cadDraft.nParc<2) cadDraft.nParc="2"; if(cadDraft.forma!=="parcelas") cadDraft.nParc="1"; }
     renderCadastro(); } });
-document.getElementById("view-cadastro").addEventListener("input",e=>{ if(!cadDraft||!/^cd-(va|ct)$|^cs-/.test(e.target.id||"")) return; const el=document.getElementById("cd-mens"); if(!el) return;
+document.getElementById("view-cadastro").addEventListener("input",e=>{ if(e.target.id==="cadBusca"){ const q=noAcc(e.target.value).toLowerCase().trim(); let n=0; document.querySelectorAll("#view-cadastro .crow").forEach(r=>{ const ok=!q||noAcc(r.querySelector("b").textContent).toLowerCase().includes(q); r.hidden=!ok; if(ok) n++; }); let m=document.getElementById("cadBuscaN"); if(!m){ m=document.createElement("p"); m.id="cadBuscaN"; m.className="muted"; e.target.closest(".cbusca").after(m); } m.textContent= q? (n? `${n} encontrado${n>1?"s":""}` : "Nenhum aluno com esse nome") : ""; return; }
+ if(!cadDraft||!/^cd-(va|ct)$|^cs-/.test(e.target.id||"")) return; const el=document.getElementById("cd-mens"); if(!el) return;
   el.innerHTML=cadTotal(); });
 
 /* ---------- Músculos pelo nome do exercício ---------- */
@@ -6413,7 +6462,7 @@ let toastT; function toast(msg){ const t=document.getElementById("toast"); t.tex
 
 let AUTO_KEY=null;
 let FROZEN=false;
-function renderAll(){ try{ sideCtl(); }catch(e){} try{ applyAbas(); }catch(e){} if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
+function renderAll(){ try{ sideCtl(); }catch(e){} try{ applyAbas(); }catch(e){} try{ applySiteCor(); }catch(e){} if(S.seed){ delete S.seed; } ensureWeeks(); setTimeout(()=>{ try{ renderPayAlert(); }catch(e){} },0); if(!FROZEN){ FROZEN=true; try{ if(freezeAll()) save(); }catch(e){} }
   const imp=importGrade(); const key=cloud.ready?"c":"l"; if(AUTO_KEY!==key){ AUTO_KEY=key; autoToday(); }
   if(imp) save(); renderTop(); renderGuia(); if(cadDraft&&document.querySelector("#view-cadastro .cadf")) cadPull(); renderCadastro(); renderSemana(); renderTreino(); renderSessao(); renderCorpo(); }
 renderAll();
