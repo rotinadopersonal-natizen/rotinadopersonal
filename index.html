@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792676022";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792676873";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
@@ -1483,6 +1483,10 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .ntfst{margin:0;font-weight:700;color:#9A5B00}.ntfst.ok{color:#1E7E44}.ntfl{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px}
 .slot.own{border-style:dashed;border-color:#1E8E3E}.slot.own.on{border-style:solid}.ownnew{justify-self:start;border:1.5px dashed #1E8E3E!important;color:#1E6B34!important;margin-top:4px}
 .wkmo{color:#1E8E3E}.seswk{margin-bottom:10px}
+.qtip{width:16px!important;height:16px!important;font-size:10px!important;vertical-align:super!important;margin:0 0 0 2px!important;position:relative;top:-2px}
+.xh-ex{display:flex;align-items:center;justify-content:center;gap:0}.xh-ex .qtip{align-self:flex-start;margin-top:-2px!important}
+.xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
 .wkrow{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.wkrow button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;font-size:15px;cursor:pointer;color:var(--fg)}
 .wkrow button small{font-weight:500;font-size:12px;color:var(--muted)}.wkrow button[aria-selected="true"]{background:#1E8E3E;border-color:#1E8E3E;color:#fff}.wkrow button[aria-selected="true"] small{color:#E3F5EA}
 .wkrow button.due{border-color:#E5A100;background:#FFF1D6}.wkrow .wcfg{border-style:dashed}
@@ -3086,7 +3090,7 @@ function dayHasData(d){ return !!d && ((d.rows||[]).some(r=>r.n1.trim()||subUsed
 function totDay(d){
   const o={s:0,r:0,t:0,n:0,reg:{},cmin:0,cz:0};
   REG.forEach(k=>o.reg[k]={s:0,r:0,t:0,e:0});
-  if(d) (d.rows||[]).forEach(row=>{
+  if(d) (d.rows||[]).forEach(row=>{ if(row.cp) return;
     if(row.n1.trim()) o.n+= row.conj&&row.n2.trim()?2:1;
     if(row.n1.trim()){ o.reg[rowReg(row,"a")].e++; if(row.conj && String(row.n1).split("+").length>1) o.reg[rowReg(row,"b")].e++; }
     [["a",row.a],["b",row.b],...subsOf(row).map(x=>["a",x])].forEach(([w,x])=>{ if(!subUsed(x)) return; const k=rowReg(row,w); const s=num(x.s), r=num(x.r), c=num(x.c);
@@ -3106,7 +3110,7 @@ function totWeek(wid,sid){
   o.wod=o.wod||0; o.eq=o.mod+2*o.int+o.wod; return o;
 }
 function prevWeekId(wid){ const i=S.weeks.findIndex(w=>w.id===wid); return i>0? S.weeks[i-1].id : null; }
-function cloneDay(d,keepLoads){ const c=clean(normDay(d)); delete c.presOk; delete c.ini; delete c.fim; delete c.done; delete c.ltr; c.cp=1; c.rows.forEach(r=>{ r.id=nid(); if(!keepLoads){ r.a.c=""; r.b.c=""; } }); return c; }
+function cloneDay(d,keepLoads){ const c=clean(normDay(d)); delete c.presOk; delete c.ini; delete c.fim; delete c.done; delete c.ltr; c.cp=1; c.rows.forEach(r=>{ r.id=nid(); if(r.n1&&r.n1.trim()) r.cp=1; if(!keepLoads){ r.a.c=""; r.b.c=""; } }); return c; }
 function phaseDefaults(m){ const ln0=lineOf(progOf(m)); if(ln0!=="tio"&&ln0!=="conf") return {s:"",r:""}; const w=(typeof curWkPlan==="function")? curWkPlan(m) : null;
   if(w){ const ps=String(w.s).split(/[–-]/), pr=String(w.r).split(/[–-]/); const sv=parseInt(ps[ps.length-1],10), rv=parseInt(pr[0],10); if(sv&&rv) return {s:sv,r:rv}; }
   if(ln0==="conf") return {s:3,r:8}; const p=phaseOf(m); return {s:p.sets[1], r:p.reps[0]}; }
@@ -3506,7 +3510,7 @@ const REG_LIT={MMSS:[30,60],MMII:[30,60],Core:[4,10]};
 const REG_COL={MMSS:"#2F6FE4",MMII:"#D03A2F",Core:"#D9A400"};
 const REG_DK={MMSS:"#1B3F8F",MMII:"#8E1F17",Core:"#7A5A00"};
 function weekRegMG(m,wid){ const o={MMSS:{t:0,G:0,P:0,RG:0,RP:0},MMII:{t:0,G:0,P:0,RG:0,RP:0},Core:{t:0,R:0}};
-  DAYS.forEach(dy=>{ const d=dayOf(wid||S.week,m.id,dy); if(!isReal(d)) return; d.rows.forEach(r=>{ const sv=num(r.a.s)+subsOf(r).reduce((t,x)=>t+num(x.s),0); if(!sv||!(r.n1||"").trim()) return; const R=rowReg(r,"a"); const rv=(num(r.a.s)*num(r.a.r)+subsOf(r).reduce((t,x)=>t+num(x.s)*num(x.r),0))*uf(r); o[R].t+=sv;
+  DAYS.forEach(dy=>{ const d=dayOf(wid||S.week,m.id,dy); if(!isReal(d)) return; d.rows.forEach(r=>{ if(r.cp) return; const sv=num(r.a.s)+subsOf(r).reduce((t,x)=>t+num(x.s),0); if(!sv||!(r.n1||"").trim()) return; const R=rowReg(r,"a"); const rv=(num(r.a.s)*num(r.a.r)+subsOf(r).reduce((t,x)=>t+num(x.s)*num(x.r),0))*uf(r); o[R].t+=sv;
     if(R==="Core"){ o.Core.R+=rv; return; } const z=rowSz(r,R); if(z){ o[R][z]+=sv; o[R]["R"+z]+=rv; } }); });
   return o; }
 function volWeekHTML(m){ const V=weekRegMG(m); const W=totWeek(S.week,m.id); const g=tg(m); const goal=g.cardio||150; const eq=Math.round(W.eq||0);
@@ -4038,15 +4042,15 @@ function rowHTML(row,i,prev,linkPrev,sg,cpTo){
   const pc=v=>`<span class="xp num">${pv&&v!==""&&v!=null?esc(String(v)):""}</span>`;
   const same= sg&&String(row.a.s)===String(sg.s)&&String(row.a.r)===String(sg.r)&&String(row.a.c).replace(".",",")===String(sg.c);
   const sgH= sg? `<span class="xs xsn"><button class="xsug ${same?"ok":""}" data-sugok='${esc(JSON.stringify({s:sg.s,r:sg.r,c:sg.c}))}' title="Toque para usar a sugestão">${same?"✓ ":"Sug. "}${esc(sg.lab)}</button></span><span class="xs num">${sg.s}</span><span class="xs num">${sg.r}</span><span class="xs num">${sg.c||""}</span><span class="xs"></span>` : "";
-  return `<div class="xrow xr1 ${sg?"xr-sug":""} ${row.iso?"xr-iso":""} ${row.cj?"cja":""} ${linkPrev?"cjb":""} ${SB.length?"xr-subs":""}" data-row="${row.id}" ${SB.length?`style="grid-template-rows:repeat(${K},auto)!important"`:""}>
+  return `<div class="xrow xr1 ${row.cp?"xr-cp":""} ${sg?"xr-sug":""} ${row.iso?"xr-iso":""} ${row.cj?"cja":""} ${linkPrev?"cjb":""} ${SB.length?"xr-subs":""}" data-row="${row.id}" ${SB.length?`style="grid-template-rows:repeat(${K},auto)!important"`:""}>
     <div class="xg ${linkPrev?"xg-cj":""}" ${SB.length?`style="grid-row:span ${K}"`:""}>${linkPrev?`<button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício conjugado" title="Falar: ex. flexora 3 séries 12 repetições 30 quilos">🎤</button><button class="xcj xcjrm" data-cjrm title="Tirar este exercício do conjugado" aria-label="Tirar do conjugado">×</button><button class="xcj xcjadd" data-cjadd title="Conjugar mais um exercício">+ex.</button>`:`<button class="xmic ${vozRow===row.id?"on":""}" data-mic aria-label="Falar o exercício" title="Falar: ex. supino 4 séries 10 repetições 40 quilos">🎤</button><button class="xcj ${row.cj?"on":""}" data-cjt aria-pressed="${!!row.cj}" title="Conjugar: abre outro exercício nesta caixa">Conj</button>`}<button class="xcj xisb ${row.iso?"on":""}" data-isot aria-pressed="${!!row.iso}" title="Isometria neste exercício">Iso</button>
       <button class="rb on r-${k} ${named?"":"dim"}" data-reg aria-expanded="${regPick===row.id}" aria-label="${REG_LABEL[k]}${rowSz(row,k)?` · músculo ${rowSz(row,k)==="G"?"grande":"pequeno"}`:""}: toque para trocar" title="${REG_LABEL[k]} · toque para trocar">${ICO[k]}${rowSz(row,k)?`<i class="rsz">${rowSz(row,k)}</i>`:""}</button>
       ${regPick===row.id?`<div class="regpick" role="menu">${[["MMSS","G","💪 Superior · grande"],["MMSS","P","💪 Superior · pequeno"],["MMII","G","🦵 Inferior · grande"],["MMII","P","🦵 Inferior · pequeno"],["Core","","🎯 Core"]].map(([R,z,t])=>`<button role="menuitem" data-regset="${R}|${z}" class="${k===R&&(R==="Core"||rowSz(row,k)===z)?"on":""}">${t}</button>`).join("")}</div>`:""}</div>
-    <span class="xp xpn">${true?`<span class="xacts">${cpTo?`<button class="xcp" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Método avançado">${row.tec?esc(TEC_SH[row.tec]||row.tec):"Met. Avan."}</button>${row.tec&&(row.tecR||row.tecD)?`<small class="xtecinfo">${row.tecR?esc(row.tecR)+" séries/rod.":""}${row.tecR&&row.tecD?" · ":""}${row.tecD?"rest "+esc(row.tecD)+'"':""}</small>`:""}`:""}</span>`:""}
+    <span class="xp xpn">${true?`<span class="xacts">${row.cp?`<button class="xrep" data-rowrep title="Fez igual à semana passada: conta no gráfico">↻ Repetir</button>`:""}${true?`<button class="xtec ${row.tec?"on":""}" data-tecb aria-expanded="${tecPick===row.id}" title="Método avançado">${row.tec?esc(TEC_SH[row.tec]||row.tec):"Met. Avan."}</button>${row.tec&&(row.tecR||row.tecD)?`<small class="xtecinfo">${row.tecR?esc(row.tecR)+" séries/rod.":""}${row.tecR&&row.tecD?" · ":""}${row.tecD?"rest "+esc(row.tecD)+'"':""}</small>`:""}`:""}</span>`:""}
       ${tecPick===row.id?`<div class="regpick tecpick" role="menu"><b class="tecph">${tecNew===row.id?"Criar método":"Método avançado"}</b>${tecNew===row.id?"":`${TEC_PICK.map(t=>`<button role="menuitem" data-tecset="${esc(t)}" class="${row.tec===t?"on":""}">${t}</button>`).join("")}${tecMine().map(c=>`<span class="tecmy"><button role="menuitem" data-tecset="${esc(c.n)}" class="${row.tec===c.n?"on":""}">★ ${esc(c.n)}</button><button class="tecdel" data-tecdel="${esc(c.n)}" aria-label="Apagar ${esc(c.n)}">×</button></span>`).join("")}<button role="menuitem" data-tecnew class="tec-new">＋ Criar método</button>${row.tec?`<button role="menuitem" data-tecset="" class="tec-rm">Sem método</button>`:""}`}
         ${tecNew===row.id?(()=>{ const c=tecMine().find(x=>x.n===row.tec)||{}; const rr=row.tec&&!TEC_PICK.includes(row.tec); return `<div class="tecnew"><label>Nome do método<input id="tn-n" value="${esc(rr?row.tec:"")}" placeholder="ex.: FST-7, Circuito, EMOM"></label><div class="tecnew2"><label>Séries/rodadas<input id="tn-r" inputmode="numeric" value="${esc(rr?(row.tecR||c.r||""):"")}" placeholder="ex.: 3"></label><label>Rest/descanso (seg)<input id="tn-d" inputmode="numeric" value="${esc(rr?(row.tecD||c.d||""):"")}" placeholder="ex.: 30"></label></div><div class="tecnew2"><button class="tec-ok" data-tecnewok>Salvar</button><button data-tecnewx>Cancelar</button></div></div>`; })():""}</div>`:""}</span>${pc(pv&&pv.s)}${pc(pv&&pv.r)}${pc(pv&&(num(pv.c)?pv.c:num(pv.sec)?pv.sec+'"':""))}<span class="xp num">${pv&&vol(pv)?nf(vol(pv)):""}</span>
     ${sgH}
-    <span class="xnw"><textarea class="xn xn1" rows="1" data-n="n1" id="n1-${row.id}" spellcheck="false" aria-label="Exercício ${i+1}" placeholder="${esc(pn||(row.iso?"Isometria · ex.: Prancha":""))}">${esc(row.n1)}</textarea></span>
+    <span class="xnw"><textarea class="xn xn1" rows="1" data-n="n1" id="n1-${row.id}" spellcheck="false" aria-label="Exercício ${i+1}" placeholder="${esc(pn||(row.iso?"Isometria · ex.: Prancha":""))}">${esc(row.n1)}</textarea>${cpTo?`<button class="xcp xcpn" data-copyrow="${row.id}">📋 copiar ${esc(cpTo)}</button>`:""}</span>
     ${cell("s")}${cell("r")}${cell("c")}<span class="xdesc" style="grid-column:7;grid-row:1 / span ${K}"><button class="xdelc ${ROWDEL_ARM===row.id?"arm":""}" data-rowdel title="Apagar este exercício" aria-label="${ROWDEL_ARM===row.id?"Toque de novo para apagar":"Apagar este exercício"}">🗑<span class="xdl-t">${(ROWDEL_ARM===row.id?"DENOVO":"APAGAR").split("").map(c=>`<i>${c}</i>`).join("")}</span></button><button class="xrest ${row.rest?"on":""}" data-rrest title="Descanso deste exercício" aria-label="Descanso deste exercício">${row.rest?`${row.rest}"`:"⏱"}</button>${rrOpen===row.id?`<span class="rrpop" role="group" aria-label="Descanso deste exercício">${REST_OPTS.map(v=>`<button data-rrset="${v}" aria-pressed="${row.rest===v}">${v}"</button>`).join("")}${row.rest?`<button data-rrset="0">padrão</button>`:""}</span>`:""}</span><span class="xv num">${AR("v")}<span id="va-${row.id}">${isoSo?"Iso":vol(row.a)?nf(vol(row.a)*uf(row)):"0"}${isUni(row)&&!isoSo?`<small class="xvu">2 lados</small>`:""}</span></span>
     ${row.iso?`<span class="xiso-n"><span>⏱ Iso</span><select class="inp" data-isom aria-label="Onde entra a isometria">${Object.entries(ISO_M).map(([k,t])=>`<option value="${k}" ${(row.a.isoM||"so")===k?"selected":""}>${t}</option>`).join("")}</select></span>
       <input class="xc xiso-c" type="text" inputmode="numeric" data-isos aria-label="Séries com isometria" placeholder="${esc(row.a.s||"")}" value="${esc(row.a.isoS||"")}">
@@ -4079,7 +4083,7 @@ let ctlOv=null, semV={mode:"w",from:"",to:"",a:"",b:""};
 function aggPeriod(sid,from,to){ const o={n:0,s:0,r:0,t:0,c:0,reg:{},ex:{}}; REG.forEach(k=>o.reg[k]={s:0,r:0,t:0});
   S.weeks.forEach(w=>DAYS.forEach((dy,j)=>{ const date=addDays(w.start,j); if((from&&date<from)||(to&&date>to)) return; const d=dayOf(w.id,sid,dy); if(!isReal(d)||!dayHasData(d)) return;
     const T=totDay(d); o.n++; o.s+=T.s; o.r+=T.r; o.t+=T.t; o.c+=T.cmin||0; REG.forEach(k=>{ o.reg[k].s+=T.reg[k].s; o.reg[k].r+=T.reg[k].r; o.reg[k].t+=T.reg[k].t; });
-    d.rows.forEach(r=>{ const nm=(r.n1||"").trim(); if(!nm) return; const SB=subsOf(r); const sv=num(r.a.s)+SB.reduce((a,x)=>a+num(x.s),0); if(!sv) return;
+    d.rows.forEach(r=>{ if(r.cp) return; const nm=(r.n1||"").trim(); if(!nm) return; const SB=subsOf(r); const sv=num(r.a.s)+SB.reduce((a,x)=>a+num(x.s),0); if(!sv) return;
       const k=noAcc(nm).toLowerCase(); const e=o.ex[k]=o.ex[k]||{n:nm,x:0,s:0,r:0,t:0,mx:0};
       e.x++; e.s+=sv; e.r+=(num(r.a.s)*num(r.a.r)+SB.reduce((a,x)=>a+num(x.s)*num(x.r),0))*uf(r); e.t+=(vol(r.a)+SB.reduce((a,x)=>a+vol(x),0))*uf(r); e.mx=Math.max(e.mx,num(r.a.c),...SB.map(x=>num(x.c))); }); }));
   return o; }
@@ -4222,8 +4226,8 @@ function colHTML(m,w,ms){
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${m===ms[0]&&sesMode==="lancar"? SES_WK : ""}
     <div class="sheetx" data-sheet>
-      <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span>${DAY_N[S.day]} ${ddmm(addDays(w.start,DAYS.indexOf(S.day)))}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
-      <div class="xband"><span></span><span class="xb-ex">Exercícios ${qtip("ex")}<button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug aria-label="Sugerir exercícios" title="Sugerir exercícios">💡</button></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
+      <div class="xband"><span></span><span class="xb-ex"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button></span><span></span><span></span><span></span><span></span><span></span></div>
       ${(()=>{ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : []; const used=new Set();
         const pick=(r,i)=>{ let x=null; if(r.n1.trim()) x=pr.find(y=>!used.has(y)&&noAcc(y.n1).trim()===noAcc(r.n1).trim()); if(!x&&!r.n1.trim()&&pr[i]&&!used.has(pr[i])&&(pr[i].n1.trim()||subUsed(pr[i].a))) x=pr[i]; if(x) used.add(x); return x; };
         return d.rows.map((r,i)=>{ const pv=pick(r,i); const cpTo= ms.length>1? "p/ "+ms.filter(o=>o!==m).map(o=>first(o.name)).join(" e ") : ""; return rowHTML(r,i,pv,i>0&&d.rows[i-1].cj, r.iso&&(r.a.isoM||"so")==="so"? null : sugFor(m,pv), cpTo)+(i<d.rows.length-1&&!r.cj?`<button class="xinsbar" data-insrow data-after="${r.id}" aria-label="Inserir exercício aqui"><span>+ exercício</span></button>`:""); }).join(""); })()}
@@ -4378,7 +4382,7 @@ function copyRow(fromId,row,toId){
 }
 function copyDay(fromId,toId){
   const w=S.weeks.find(x=>x.id===S.week); const src=dayOf(w.id,fromId,S.day); if(!src) return;
-  const c=cloneDay(src,true); delete c.cp; c.cardio={...c.cardio,pse:""};
+  const c=cloneDay(src,true); delete c.cp; c.rows.forEach((r,i)=>{ if(!(src.rows[i]&&src.rows[i].cp)) delete r.cp; }); c.cardio={...c.cardio,pse:""};
   const fm=S.students.find(x=>x.id===fromId), tm=S.students.find(x=>x.id===toId);
   if(fm&&tm&&fm.phase!==tm.phase){ const df=phaseDefaults(tm); c.rows.forEach(r=>["a","b"].forEach(w2=>{ if(subUsed(r[w2])){ r[w2].s=df.s; r[w2].r=df.r; } })); }
   ((S.days[w.id]||(S.days[w.id]={}))[toId]||(S.days[w.id][toId]={}))[S.day]=c;
@@ -4490,6 +4494,7 @@ function sesClick(e){
   if(b.hasAttribute("data-addrow")){ const d=dayOf(w.id,sid,S.day,true); d.rows.push(newRow()); rer(); return; }
   const rowEl=b.closest("[data-row]"); if(!rowEl) return;
   const d=dayOf(w.id,sid,S.day,true); const row=d.rows.find(x=>x.id===rowEl.dataset.row); if(!row) return;
+  if(b.hasAttribute("data-rowrep")){ delete row.cp; delete d.cp; save(); rer(); markStart(sid); autoPres(sid); toast(`${row.n1.trim()||"Exercício"}: repetido igual, já conta no gráfico`); return; }
   if(b.hasAttribute("data-rowdel")){ if(ROWDEL_ARM!==row.id){ ROWDEL_ARM=row.id; clearTimeout(ROWDEL_T); ROWDEL_T=setTimeout(()=>{ if(ROWDEL_ARM===row.id){ ROWDEL_ARM=null; renderSessao(); } },4000); renderSessao(); toast("Toque de novo na lixeira para apagar"); return; }
     ROWDEL_ARM=null; const i=d.rows.indexOf(row); const pr=d.rows[i-1]; if(pr&&pr.cj) pr.cj=!!row.cj; d.rows.splice(i,1); if(!d.rows.length) d.rows.push(newRow()); rer(); toast((row.n1.trim()||"Exercício")+" apagado"); return; }
   if(b.dataset.cyc){ cycPick={id:row.id,w:b.dataset.cyc}; renderSessao(); return; }
@@ -4585,7 +4590,7 @@ function autoPres(sid){
   else if(r==="noslot") toast(`${first(m.name)} não tem horário neste dia. Use “+ Aluno fora da grade” no topo para contar a aula.`);
   else if(r==="off") toast(`Dia marcado como sem aula na Presença.`);
 }
-["input","change"].forEach(ev=>document.getElementById("view-sessao").addEventListener(ev,e=>{ const c=e.target.closest("[data-col]"); if(c){ const dd=dayOf(S.week,c.dataset.col,S.day); if(dd&&dd.cp) delete dd.cp; if(dd&&dd.ltr==null){ const pl=progLtr(c.dataset.col,S.day); if(pl) dd.ltr=pl; } } if(c) setTimeout(()=>{ markStart(c.dataset.col); autoPres(c.dataset.col); },0); }));
+["input","change"].forEach(ev=>document.getElementById("view-sessao").addEventListener(ev,e=>{ const c=e.target.closest("[data-col]"); if(c){ const dd=dayOf(S.week,c.dataset.col,S.day); if(dd&&dd.cp) delete dd.cp; const re=e.target.closest("[data-row]"); if(dd&&re&&!e.target.closest("[data-rowrep]")){ const rr=dd.rows.find(x=>x.id===re.dataset.row); if(rr&&rr.cp&&e.target.matches("input,textarea,select")){ delete rr.cp; re.classList.remove("xr-cp"); const rb=re.querySelector("[data-rowrep]"); if(rb) rb.remove(); } } if(dd&&dd.ltr==null){ const pl=progLtr(c.dataset.col,S.day); if(pl) dd.ltr=pl; } } if(c) setTimeout(()=>{ markStart(c.dataset.col); autoPres(c.dataset.col); },0); }));
 document.getElementById("view-sessao").addEventListener("click",e=>{ if(e.target.classList&&e.target.classList.contains("ctlov")){ ctlOv=null; metasOpen=null; renderSessao(); } },true);
 document.getElementById("view-sessao").addEventListener("click",sesClick);
 document.getElementById("view-sessao").addEventListener("change",e=>{ const t=e.target;
@@ -5786,14 +5791,14 @@ function syncStudents(){
 let PRES_FIRST=true, PRES_SIG="";
 let PAY_SIG="", PAY_HIDE=null;
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&PAY_HIDE!==null){ PAY_HIDE=null; PAY_SIG=""; try{ renderPayAlert(); }catch(e){} } }); const hojeK=()=>{ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); };
-function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el) return; if(!presOn()||!abaOk("financeiro")){ el.hidden=true; return; }
+function renderPayAlert(){ const el=document.getElementById("payAlert"); if(!el) return; if(!presOn()){ el.hidden=true; return; }
   let L=[]; try{ L=PRES.vencidos(); }catch(e){ L=[]; }
   const sig=JSON.stringify(L.map(v=>[v.a.id,v.prazo,Math.round(v.falta)])); const hid=PAY_HIDE||"";
   if(!L.length||hid===sig){ el.hidden=true; el.innerHTML=""; PAY_SIG=sig; return; }
   if(sig===PAY_SIG&&!el.hidden) return; PAY_SIG=sig;
   el.innerHTML=`<div class="payal payal-s"><button class="payal-go" data-payalgo>⚠ Pagamento vencido <small>ver no Financeiro ›</small></button><button class="payal-x" data-payalx aria-label="Ocultar">×</button></div>`;
   el.hidden=false; }
-document.addEventListener("click",e=>{ const g=e.target.closest("[data-payalgo]"); if(g){ show("financeiro"); window.scrollTo(0,0); return; } });
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-payalgo]"); if(g){ show("financeiro",true); window.scrollTo(0,0); return; } });
 document.addEventListener("click",e=>{ const b=e.target.closest("[data-payal],[data-payalx]"); if(!b) return;
   if(b.hasAttribute("data-payalx")){ PAY_HIDE=PAY_SIG; document.getElementById("payAlert").hidden=true; toast("Aviso fechado. Volta a aparecer quando você sair e entrar de novo."); return; }
   const [id,ym]=b.dataset.payal.split("|"); show("financeiro"); PRES.goPag(id,ym); window.scrollTo(0,0); });
@@ -6082,7 +6087,8 @@ const SUP_WA="5531988260268"; /* WhatsApp do Tio Má para dúvidas, só números
 const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["corpo","🧍","Avaliação Física","medidas e dobras"],["agenda","📅","Agenda","horários livres e ocupados"],["presenca","✅","Presença","chamada e reposições"],["financeiro","💰","Financeiro","pagamentos"]];
 function abasOn(){ const b=S.brand||{}, a=b.abas; if(!Array.isArray(a)) return ABAS.map(x=>x[0]); if(!b.agMig&&a.includes("presenca")&&!a.includes("agenda")) return ABAS.map(x=>x[0]).filter(k=>k==="agenda"||a.includes(k)); return a; }
 function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana":t); }
-function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)) show("cadastro"); }
+let FORCE_TAB=null;
+function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)&&CUR_TAB!==FORCE_TAB) show("cadastro"); }
 function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
   return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de ${ABAS.length+1}</span></summary>
     <p style="margin:6px 0 2px;font-size:15px">${first?"<b>O que você mais quer usar no sistema?</b> ":""}Marque as abas que quer ver embaixo. As outras ficam escondidas, sem perder nada. Dá para mudar quando quiser.</p>
@@ -6385,10 +6391,10 @@ function sugHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const sp=((progOf(m).
     <p class="muted" style="font-size:12px">Toque para incluir na próxima linha vazia. Pode continuar escrevendo o exercício à mão na planilha.</p></div>`; }
 
 /* ---------- Navegação ---------- */
-function show(tab){
+function show(tab,force){
   if(tab==="fases"||tab==="guia"||tab==="ajuda") tab="semana";
   if(tab==="volume"||tab==="treino") tab="semana";
-  if(!abaOk(tab)) tab="cadastro";
+  if(!abaOk(tab)&&!force) tab="cadastro"; FORCE_TAB= force? tab : null;
   CUR_TAB=tab; const view= (tab==="presenca"||tab==="financeiro"||tab==="agenda")? "pres" : tab;
   document.getElementById("wrap").classList.toggle("wide", tab==="sessao"); document.body.classList.toggle("tab-sessao", tab==="sessao");
   document.getElementById("phaseStrip").hidden = true;
