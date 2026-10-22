@@ -1,7 +1,10 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792678535";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792679669";
 (function(){ var K="rp_upd_try";
   function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
-      var tried=sessionStorage.getItem(K); if(tried===m[1]) return; sessionStorage.setItem(K,m[1]); var u=new URL(location.href); u.searchParams.set("v",m[1]); location.replace(u.toString()); }).catch(function(){}); }catch(e){} }
+      showUpd(m[1]); }).catch(function(){}); }catch(e){} }
+  function go(v){ var u=new URL(location.href); u.searchParams.set("v",v); location.replace(u.toString()); }
+  function showUpd(v){ if(document.getElementById("rpUpd")) return; var st=document.createElement("style"); st.textContent="#rpUpd{position:fixed;left:10px;top:10px;z-index:9999;display:flex;align-items:center;gap:10px;width:min(440px,calc(100vw - 86px));background:#DCEBFF;color:#0B2A55;border:2px solid #7FB0F0;border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25);font:700 15px/1.25 system-ui,sans-serif;cursor:pointer;text-align:left}#rpUpd .ic{font-size:30px;animation:rpBlink 1s ease-in-out infinite}#rpUpd small{display:block;font-weight:500;font-size:12.5px;color:#1F4E8C}#rpUpd .bt{margin-left:auto;background:#1B55B8;color:#fff;border-radius:10px;padding:8px 12px;font-size:14px;white-space:nowrap}@keyframes rpBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.15)}}";
+    document.head.appendChild(st); var b=document.createElement("button"); b.id="rpUpd"; b.type="button"; b.innerHTML='<span class="ic">🏋️</span><span>Nova atualização!<small>Toque para ver as novidades do Rotina do Personal</small></span><span class="bt">Atualizar</span>'; b.onclick=function(){ go(v); }; document.body.appendChild(b); }
   setTimeout(chk,1500); document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") chk(); }); })();</script></head><body>
 <title>Rotina do Personal</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1487,6 +1490,7 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .xh-ex{display:flex;align-items:center;justify-content:center;gap:0}.xh-ex .qtip{align-self:flex-start;margin-top:-2px!important}
 .xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
+.corl{display:block;margin:10px 0 4px;font-size:14px}.seg{position:relative}.seg>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
 .corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
 .donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
 .cbusca{display:flex;align-items:center;gap:8px;font-size:20px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;position:sticky;top:6px;z-index:4}.cbusca .inp{border:0;font-size:16px;flex:1;padding:6px}
@@ -4234,7 +4238,7 @@ function colHTML(m,w,ms){
     ${(!ltrOf(m.id,w.id,S.day,d)||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     ${sugOpen===m.id? sugHTML(m,d) : ""}
-    ${m===sesMembers()[0]?ntfBanHTML():""}<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle:</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button>${qtip("ctl")}</div>
+    ${m===sesMembers()[0]?ntfBanHTML():""}<div class="ctlbtns"><button class="btn small ctlmeta" data-metas>🎯 Metas de séries, repetições, cardio e músculos</button><span>Controle${qtip("ctl")}</span><button class="btn small" data-ctlov="ses">📊 Sessão</button><button class="btn small" data-ctlov="sem">📅 Semanal</button></div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${m===ms[0]&&sesMode==="lancar"? SES_WK : ""}
     ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn mvtop" data-mvopen>↔ Mover este treino para outro dia</button>`}
@@ -4328,7 +4332,7 @@ function renderSessao0(){
       <div class="row"><button class="btn primary small" data-nw="copy">Copiar exercícios e cargas da semana ${last.n}</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>`
       : wkRowHTML()}
     <div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>`<button data-dy="${dy}" aria-pressed="${dy===S.day}">${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?'<span class="dot"></span>':""}</button>`).join("")}</div>
-    <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button></div>${qtip("rel")}
+    <div class="seg" role="group" aria-label="Modo"><button data-mode="lancar" aria-pressed="${sesMode==="lancar"}">Lançar</button><button data-report="day">Rel. do dia ↗</button><button data-report="week">Rel. semanal ↗</button>${qtip("rel")}</div>
   </div>`;
   document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
@@ -6119,22 +6123,32 @@ function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana
 let FORCE_TAB=null;
 function applyAbas(){ document.querySelectorAll(".tabs [data-tab]").forEach(b=>b.hidden=!abaOk(b.dataset.tab)); if(typeof CUR_TAB!=="undefined"&&CUR_TAB&&!abaOk(CUR_TAB)&&CUR_TAB!==FORCE_TAB) show("cadastro"); }
 const SITE_COR=[["","Colorido (padrão)",null],["verde","Verde",145],["azul","Azul",215],["dourado","Dourado",40],["roxo","Roxo",270],["vinho","Vinho",345],["cinza","Cinza",210]];
+const SITE_BG=[["","Claro (padrão)","#EEF1F0"],["branco","Branco","#FFFFFF"],["cinza","Cinza","#D9DEDC"],["bege","Bege","#F3EEE4"],["preto","Preto","#101614"]];
+const ALERT_COR=[["","Vermelho (padrão)","#E53935"],["laranja","Laranja","#E8710A"],["roxo","Roxo","#7B3FC4"],["site","Na cor do site",null]];
 function applySiteCor(){ const b=S.brand||{}, c=SITE_COR.find(x=>x[0]===(b.siteCor||"")); let el=document.getElementById("siteCorCss"); if(!el){ el=document.createElement("style"); el.id="siteCorCss"; document.head.appendChild(el); }
-  if(!c||c[2]==null){ el.textContent=""; document.body.classList.remove("mono"); return; } const h=c[2], sat=c[0]==="cinza"?8:55;
-  const H=(l,s2)=>`hsl(${h},${s2==null?sat:s2}%,${l}%)`;
-  el.textContent=`html:root:root,html:root:root[data-theme]{--accent:${H(32)};--accent-soft:${H(92,45)};--ok:${H(28)};--ok-soft:${H(90,40)};--warn:${H(38)};--warn-soft:${H(92,40)};--p0:${H(45,30)};--p1:${H(30)};--p2:${H(42)};--p3:${H(22)};--p4:${H(55,20)}}
-  body.mono .qtip{background:${H(32)}!important}body.mono .wkrow button[aria-selected="true"]{background:${H(30)}!important;border-color:${H(30)}!important}body.mono .xcpn{color:${H(32)};border-color:${H(32)};background:${H(95,40)}}
-  body.mono .xrep{color:${H(25)};border-color:${H(30)};background:${H(92,40)}}body.mono .ntfban{border-color:${H(40)};background:${H(94,40)};color:${H(22)}}body.mono .slot.own{border-color:${H(30)}}
-  body.mono .rb.r-MMII,body.mono .rb.r-MMSS{color:${H(32)}}body.mono .rb.on.r-MMII,body.mono .rb.on.r-MMSS{background:${H(32)};border-color:${H(32)};color:#fff}
-  body.mono .rp-sug-top,body.mono .rp-sug-any{background:${H(85,40)}!important;color:${H(18)}!important}body.mono #sidectl .sidehelp,body.mono #sidectl button{background-color:${H(32)}!important;color:#fff!important}
-  body.mono .trest .tr-s{background:${H(92,40)}!important;color:${H(25)}!important;border-color:${H(75,30)}!important}body.mono .xdelc{background:${H(92,30)}!important;color:${H(28)}!important}
-  ${b.payCor==="site"?`body.mono .payal{background:${H(30)}!important}`:""}`;
-  document.body.classList.add("mono"); }
+  const dark=b.siteBg==="preto"; if(dark) document.documentElement.setAttribute("data-theme","dark"); else if(document.documentElement.getAttribute("data-theme")==="dark") document.documentElement.removeAttribute("data-theme");
+  let css=""; const bg=SITE_BG.find(x=>x[0]===(b.siteBg||""));
+  if(bg&&bg[0]&&!dark) css+=`html:root:root{--bg:${bg[2]}}body{background:${bg[2]}}`;
+  if(c&&c[2]!=null){ const h=c[2], sat=c[0]==="cinza"?8:55; const H=(l,s2)=>`hsl(${h},${s2==null?sat:s2}%,${l}%)`; const L=(lt,dk)=>dark?dk:lt;
+    css+=`html:root:root,html:root:root[data-theme]{--accent:${H(L(32,68))};--accent-soft:${H(L(92,20),45)};--ok:${H(L(28,62))};--ok-soft:${H(L(90,18),40)};--warn:${H(L(38,64))};--warn-soft:${H(L(92,18),40)};--p0:${H(L(45,60),30)};--p1:${H(L(30,58))};--p2:${H(L(42,66))};--p3:${H(L(22,50))};--p4:${H(L(55,70),20)}}
+  body.mono .qtip{background:${H(32)}!important}body.mono .wkrow button[aria-selected="true"]{background:${H(30)}!important;border-color:${H(30)}!important}body.mono .xcpn{color:${H(L(32,70))};border-color:${H(L(32,60))};background:${H(L(95,18),40)}}
+  body.mono .xrep{color:${H(L(25,70))};border-color:${H(30)};background:${H(L(92,18),40)}}body.mono .ntfban{border-color:${H(40)};background:${H(L(94,16),40)};color:${H(L(22,80))}}body.mono .slot.own{border-color:${H(30)}}
+  body.mono .rb.r-MMII,body.mono .rb.r-MMSS{color:${H(L(32,68))}}body.mono .rb.on.r-MMII,body.mono .rb.on.r-MMSS{background:${H(32)};border-color:${H(32)};color:#fff}
+  body.mono .rp-sug-top,body.mono .rp-sug-any{background:${H(L(85,22),40)}!important;color:${H(L(18,85))}!important}body.mono #sidectl .sidehelp,body.mono #sidectl button{background-color:${H(32)}!important;color:#fff!important}
+  body.mono .trest .tr-s{background:${H(L(92,20),40)}!important;color:${H(L(25,75))}!important;border-color:${H(L(75,35),30)}!important}body.mono .xdelc{background:${H(L(92,20),30)}!important;color:${H(L(28,75))}!important}`;
+    document.body.classList.add("mono");
+    if(b.payCor==="site") css+=`.payal{background:${H(30)}!important;box-shadow:none!important}`;
+  } else document.body.classList.remove("mono");
+  const ac=ALERT_COR.find(x=>x[0]===(b.payCor||"")); if(ac&&ac[2]&&ac[0]) css+=`.payal{background:${ac[2]}!important;box-shadow:none!important}`;
+  el.textContent=css; }
 let COR_OPEN=false;
 function corHTML(){ const b=S.brand||{}; return `<details class="card abasbox" ${COR_OPEN?"open":""}><summary><b>🎨 Cores do site</b> <span class="muted">· ${esc((SITE_COR.find(x=>x[0]===(b.siteCor||""))||SITE_COR[0])[1])}</span></summary>
-  <p style="margin:6px 0;font-size:14px">Escolha uma cor e o site usa só os tons dela. “Colorido” volta ao padrão.</p>
+  <b class="corl">Cor dos botões e destaques</b><p style="margin:2px 0 6px;font-size:13px" class="muted">Escolha uma cor e o site usa só os tons dela. “Colorido” volta ao padrão.</p>
   <div class="corg">${SITE_COR.map(([k,n,h])=>`<button class="corb ${(b.siteCor||"")===k?"on":""}" data-sitecor="${k}" style="--cc:${h==null?"conic-gradient(#2E8B57,#1B55B8,#C9962B,#C8322B,#2E8B57)":`linear-gradient(135deg,hsl(${h},${k==="cinza"?8:55}%,28%),hsl(${h},${k==="cinza"?8:55}%,70%))`}"><i></i>${n}</button>`).join("")}</div>
-  <label class="donesend" style="margin-top:6px">Aviso de pagamento vencido: <select class="inp" data-paycor><option value="" ${b.payCor!=="site"?"selected":""}>vermelho (padrão)</option><option value="site" ${b.payCor==="site"?"selected":""}>na cor do site</option></select></label></details>`; }
+  <b class="corl">Cor de fundo da tela</b>
+  <div class="corg">${SITE_BG.map(([k,n,c])=>`<button class="corb ${(b.siteBg||"")===k?"on":""}" data-sitebg="${k}" style="--cc:${c}"><i style="border:1px solid #999"></i>${n}</button>`).join("")}</div>
+  <b class="corl">Cor do alerta importante (pagamento vencido)</b>
+  <div class="corg">${ALERT_COR.map(([k,n,c])=>`<button class="corb ${(b.payCor||"")===k?"on":""}" data-paycor2="${k}" style="--cc:${c||"var(--accent)"}"><i></i>${n}</button>`).join("")}</div></details>`; }
 function abasHTML(){ const b=S.brand||{}, on=abasOn(), first=!b.abasOk;
   return `<details class="card abasbox" ${first||ABAS_OPEN?"open":""}><summary><b>🧩 Abas que aparecem</b> <span class="muted">· ${on.length+1} de ${ABAS.length+1}</span></summary>
     <p style="margin:6px 0 2px;font-size:15px">${first?"<b>O que você mais quer usar no sistema?</b> ":""}Marque as abas que quer ver embaixo. As outras ficam escondidas, sem perder nada. Dá para mudar quando quiser.</p>
@@ -6356,6 +6370,8 @@ function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(
     <div id="cad-extra" style="display:grid;gap:16px"></div>`;
   renderAjuda(); }
 document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.sitebg!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{siteBg:b.dataset.sitebg}); save(); applySiteCor(); renderCadastro(); return; }
+  if(b.dataset.paycor2!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{payCor:b.dataset.paycor2}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.sitecor!=null){ COR_OPEN=true; S.brand=Object.assign({},S.brand||{},{siteCor:b.dataset.sitecor}); save(); applySiteCor(); renderCadastro(); return; }
   if(b.dataset.aba||b.hasAttribute("data-abaok")||b.hasAttribute("data-abaall")){ let on=abasOn().slice();
     if(b.dataset.aba){ const k=b.dataset.aba; on=on.includes(k)? on.filter(x=>x!==k) : ABAS.map(x=>x[0]).filter(x=>x===k||on.includes(x)); ABAS_OPEN=true; }
