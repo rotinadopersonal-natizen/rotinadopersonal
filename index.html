@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792778150";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792779120";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1433,7 +1433,8 @@ textarea.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;backgroun
 #pres .partsum{margin:2px 0;font-size:12.5px;color:var(--muted)}
 #pres .partrow{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:8px 10px;font:inherit;cursor:pointer}
 #pres .partrow small{color:var(--muted)}#pres .partrow em{font-style:normal;font-size:12px;font-weight:700;color:var(--warn)}
-#pres .partrow.on{border-color:var(--ok);background:var(--ok-soft)}#pres .partrow.on em{color:var(--ok)}
+#pres .partrow.venc{border-color:var(--bad)!important;background:color-mix(in srgb,var(--bad) 8%,var(--surface))}.partrow.venc em{color:var(--bad);font-weight:800}
+.partrow.on{border-color:var(--ok);background:var(--ok-soft)}#pres .partrow.on em{color:var(--ok)}
 #pres .avlist{display:grid;gap:4px;margin-top:6px}#pres .avrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 8px;border-radius:8px;background:var(--ok-soft);font-size:13px}#pres .avrow small{color:var(--muted)}
 #pres .ovbs{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}#pres .ovbs .ovb{margin:0}
 #pres .ajnote{font-size:12.5px;background:var(--warn-soft);border-radius:8px;padding:5px 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px}#pres .ajnote s{color:var(--muted)}#pres .ajnote .iconbtn{margin-left:auto}
@@ -5220,7 +5221,7 @@ function rk(a,h){return a.id+'_'+h.replace(':','')}
 function contratadas(a){return a.contratadas>0?a.contratadas:(a.slots||[]).length*4}
 function valorAula(a){if(a.valorAula>0)return a.valorAula;const c=contratadas(a);return (a.mensalidade>0&&c>0)?a.mensalidade/c:0}
 function isFicha(a){return a.tipo==='ficha'||a.tipo==='consultoria'}
-function mensal(a){if(a.tipo==='pacote'||a.tipo==='avulsa')return 0;return isFicha(a)?(a.valorFicha||0):valorAula(a)*contratadas(a)}
+function mensal(a){if(a.tipo==='pacote'||a.tipo==='avulsa'||a.forma==='poraula')return 0;return isFicha(a)?(a.valorFicha||0):valorAula(a)*contratadas(a)}
 function mDiff(a,b){const [ay,am]=a.split('-').map(Number),[by,bm]=b.split('-').map(Number);return (by-ay)*12+(bm-am)}
 const PAC_STEP={mensal:1,bimestral:2,trimestral:3,semestral:6,anual:12};
 function pacBase(p){return (p.mesCob||p.inicio).slice(0,7)}
@@ -5238,7 +5239,7 @@ function pacUso(a){const p=a.pacote;if(a.tipo!=='pacote'||!p||!(+p.total))return
   const val=p.validade||'',dv=val?Math.round((dOf(val)-dOf(hoje))/864e5):null,perd=+p.perdidas||0;
   return {used,total:+p.total,rest:+p.total-used-perd,perdidas:perd,pend,inicio:p.inicio,validade:val,dias:dv,vencido:val?dv<0:false};}
 function pacTagP(a){return pacTagHTML(pacUso(a))}
-const FORMAS={mensal:'Mensal',parcelas:'Em 2+ vezes',semanal:'Semanal',trimestral:'Trimestral',semestral:'Semestral',anual:'Anual',outra:'Outra'};
+const FORMAS={mensal:'Mensal',poraula:'Por aula feita',parcelas:'Em 2+ vezes',semanal:'Semanal',trimestral:'Trimestral',semestral:'Semestral',anual:'Anual',outra:'Outra'};
 
 function agendaDoDia(k){
   const wd=dOf(k).getDay(), recs=dayData(k).registros||{}, out=[];
@@ -5284,7 +5285,7 @@ function saldoRepos(){
   for(let k=INICIO;k<=hoje;k=addDays(k,1)){
     if(isOff(k))continue;
     const wd=dOf(k).getDay(),recs=dayData(k).registros||{};
-    for(const a of ativos()) for(const sl of (a.slots||[])) if(sl.d===wd){
+    for(const a of ativos()) if(a.forma!=='poraula') for(const sl of (a.slots||[])) if(sl.d===wd){
       const r=recs[rk(a,sl.h)]||{};
       if(r.status==='f'?(r.destino||'rep')==='rep':(!r.status&&k<hoje)) inc(a.id,1);
     }
@@ -5621,10 +5622,24 @@ function coberto(a,ym){const d=a.adiantado;return !!(d&&d.ate&&ym>=(d.desde||'00
 function mesCurto(ym){const [y,m]=ym.split('-').map(Number);return MESES[m-1].slice(0,3)+'/'+String(y).slice(2)}
 function addMes(ym,n){const [y,m]=ym.split('-').map(Number);const d=new Date(y,m-1+n,1);return keyOf(d).slice(0,7)}
 const pad2=n=>String(n).padStart(2,'0');
+/* Por aula feita: o mês é dividido em ciclos (semana, quinzena, mês ou datas escolhidas); cada ciclo cobra as aulas feitas nele */
+const CICLOS={semanal:'Toda semana',quinzenal:'Por quinzena (dia 15 e fim do mês)',mensal:'Uma vez no fim do mês',datas:'Nas datas que eu escolher'};
+function ciclosDe(a,ym){ const [y,m]=ym.split('-').map(Number), last=new Date(y,m,0).getDate(), D=n=>ym+'-'+pad2(n), c=a.ciclo||'quinzenal', out=[];
+  const fx=(i,f,l)=>out.push({k:'c'+(out.length+1),ini:D(i),fim:D(f),l});
+  if(c==='mensal') fx(1,last,'Mês todo');
+  else if(c==='semanal'){ let i=1; while(i<=last){ const wd=new Date(y,m-1,i).getDay(); const f=Math.min(last,i+((7-wd)%7)); fx(i,f,'Semana '+pad2(i)+' a '+pad2(f)); i=f+1; } }
+  else if(c==='datas'){ let ds=[...new Set((a.cicloDias||[]).map(x=>Math.min(last,Math.max(1,+x||0))).filter(Boolean))].sort((p,q)=>p-q); if(!ds.length) ds=[15];
+    let i=1; ds.forEach(d=>{ if(d>=i){ fx(i,d,pad2(i)+' a '+pad2(d)); i=d+1; } }); if(i<=last) fx(i,last,pad2(i)+' a '+pad2(last)+' (fim do mês)'); }
+  else { fx(1,Math.min(15,last),'1ª quinzena (01 a 15)'); fx(16,last,'2ª quinzena (16 a '+pad2(last)+')'); }
+  return out; }
+function aulasFeitas(a,ini,fim){ const hoje=today(); let n=0; for(let k=ini;k<=fim&&k<=hoje;k=addDia(k)) for(const i of agendaDoDia(k)) if(i.a.id===a.id&&(i.status==='p'||i.status==='x')) n++; return n; }
+function addDia(k){ const d=dOf(k); d.setDate(d.getDate()+1); return isoD2(d); }
+function isoD2(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
 function diaVenc(a){ return Math.min(31,Math.max(1,+a.diaVenc||10)); }
 function prazoDe(a,ym,pp){ pp=pp||{}; if(pp.ate) return pp.ate; if(pp.venc) return pp.venc; const [y,m]=ym.split('-').map(Number); const last=new Date(y,m,0).getDate(); return ym+'-'+pad2(Math.min(diaVenc(a),last)); }
 /* cada parte com sua data de vencimento; o que já foi pago cobre as partes em ordem */
 function dueParts(r,ym){ const pp=r.pp||{}, last=new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate();
+  if(r.pa) return (r.partes.length?r.partes:[{v:0,l:'',k:'',due:ym+'-'+pad2(last)}]).map(t=>({v:t.v,l:t.l,k:t.k,due:t.due,cob:pp[t.k]?t.v:0,resta:pp[t.k]?0:t.v}));
   const L=(r.a.forma==='parcelas'&&r.partes&&r.partes.length>1&&r.partes[0].dia)? r.partes.map(t=>({v:t.v,l:t.l,k:t.k,due:ym+'-'+pad2(Math.min(t.dia,last))})) : [{v:r.valor,l:'',k:'',due:prazoDe(r.a,ym,{})}];
   if(pp.ate||pp.venc){ const d=pp.ate||pp.venc; L.forEach(t=>{ if(t.due<d) t.due=d; }); }
   let cob=r.pago; return L.map(t=>{ const c=Math.min(t.v,Math.max(0,cob)); cob-=c; return {...t,cob:c,resta:Math.max(0,t.v-c)}; }); }
@@ -5635,7 +5650,7 @@ function vencidos(){ if(!loadedA) return []; const hoje=today(), out=new Map(); 
       const falta=L.reduce((t,x)=>t+x.resta,0);
       if(!out.has(r.a.id)) out.set(r.a.id,{a:r.a,ym,prazo:L[0].due,prometido:!!(r.pp&&r.pp.ate),falta}); else out.get(r.a.id).falta+=falta; }); }
   return [...out.values()]; }
-function prazoHTML(r){ if(r.stt!=='no'&&r.stt!=='part') return ''; const pp=r.pp||{}, pz=proxPrazo(r,st.month), atras=today()>pz, multi=r.a.forma==='parcelas'&&r.partes.length>1&&r.partes[0].dia;
+function prazoHTML(r){ if(r.pa||(r.stt!=='no'&&r.stt!=='part')) return ''; const pp=r.pp||{}, pz=proxPrazo(r,st.month), atras=today()>pz, multi=r.a.forma==='parcelas'&&r.partes.length>1&&r.partes[0].dia;
   const dias=atras? Math.round((dOf(today())-dOf(pz))/864e5) : 0;
   return `<div class="prazo ${atras?'atras':''}">${atras?`<b>⚠ Vencido há ${dias} dia${dias>1?'s':''}</b> (${pp.ate?'prometeu':'venceu'} ${pz.slice(8,10)}/${pz.slice(5,7)})`:`<b>📅 ${pp.ate?'Prometeu pagar até':'Vence'} ${pz.slice(8,10)}/${pz.slice(5,7)}</b>`}
     ${multi?`<div class="prz-p">${dueParts(r,st.month).map((t,i)=>`<label class="${t.resta<=0.005?'ok':today()>t.due?'atras':''}"><span>${i+1}ª · ${brl(t.v)} · ${t.resta<=0.005?'✓ paga':today()>t.due?'vencida':'a pagar'}</span><span>dia <input type="number" inputmode="numeric" min="1" max="31" data-pdia="${i}" data-id="${r.a.id}" value="${r.partes[i].dia}"></span></label>`).join('')}</div>`:''}
@@ -5718,6 +5733,12 @@ function finCalc(ym){
       const stt=r_perm(a)?'perm':!v?'na':pago>=v-0.005?'ok':pago>0?'part':'no';
       if(stt==='perm'){rows.push({a,bruto:v,desc:0,valor:v,partes,pp,pago:0,stt,pk,u});continue}
       prev+=v;rec+=pago;rows.push({a,bruto:v,desc:0,valor:v,partes,pp,pago,stt,pk,u});continue}
+    if(a.forma==='poraula'&&a.tipo!=='avulsa'&&!isFicha(a)){ const pp=P[a.id]||{}, va=valorAula(a), hoje=today(), av=(pp.avulsos||[]);
+      const partes=ciclosDe(a,ym).map(c=>{ const n=aulasFeitas(a,c.ini,c.fim); return {k:c.k,l:c.l,v:n*va,aulas:n,due:c.fim,venc:hoje>c.fim&&n>0&&!pp[c.k],aberto:hoje<=c.fim}; }).filter(t=>t.aulas>0||pp[t.k]);
+      const valor=partes.reduce((t,x)=>t+x.v,0), pago=partes.filter(t=>pp[t.k]).reduce((t,x)=>t+x.v,0)+av.reduce((t,x)=>t+(+x.v||0),0);
+      const stt=r_perm(a)?'perm':!(valor>0.005)?'na':partes.some(t=>t.venc)?'no':partes.every(t=>pp[t.k])?'ok':'pa';
+      if(stt!=='perm'){ prev+=pago; rec+=pago; }
+      rows.push({a,bruto:valor||1,desc:0,valor,partes,pp,pago:stt==='perm'?0:pago,stt,pa:true,va}); continue; }
     const x=S.get(a.id),bruto=(a.tipo==='avulsa'?valorAula(a)*(x?x.extras:0):0)+mensal(a)+(BR().q5==="cobra"&&x&&!isFicha(a)?x.quinta*valorAula(a):0),desc=x?x.desconto:0,pp=P[a.id]||{}; let valor=Math.max(0,bruto-desc);
     const valor0=valor; const aj=pp.aj&&num(pp.aj.v)>=0&&pp.aj.v!==''? pp.aj : null; if(aj) valor=+aj.v;
     const partes=partesDe(a,valor),av=(pp.avulsos||[]);
@@ -5733,9 +5754,9 @@ function finCalc(ym){
   // adiantamentos recebidos neste mês entram como dinheiro recebido agora
   for(const a of ativos()){const d=a.adiantado;if(d&&d.recebidoEm===ym&&+d.valor>0){prev+= +d.valor;rec+= +d.valor;advNovo+= +d.valor}}
   /* a receber = soma do que cada aluno ainda deve (quem pagou a mais não abate a dívida dos outros) */
-  const pend=rows.filter(r=>r.stt==='no'||r.stt==='part').reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0);
+  const pend=rows.filter(r=>!r.pa&&(r.stt==='no'||r.stt==='part')).reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0);
   /* quem pagou mais que o valor do mês: o excesso não entra no recebido (senão previsto ≠ recebido + a receber) e aparece em aviso */
-  const mais=rows.filter(r=>r.stt!=='adv'&&r.stt!=='perm'&&r.pago>r.valor+0.005).map(r=>({a:r.a,v:r.pago-r.valor}));
+  const mais=rows.filter(r=>!r.pa&&r.stt!=='adv'&&r.stt!=='perm'&&r.pago>r.valor+0.005).map(r=>({a:r.a,v:r.pago-r.valor}));
   const excesso=mais.reduce((t,x)=>t+x.v,0); rec-=excesso;
   return {prev,rec,rows,advNovo,advCob,pend,mais,excesso};
 }
@@ -5747,7 +5768,7 @@ function renderPag(){
   if(!loadedA){main.innerHTML=h+`<div class="empty">Carregando…</div>`;return}
   const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend,mais,excesso}=F;
   st._fin={ym,prev,rec,rows,advNovo,pend,excesso};
-  const ord={no:0,part:1,ok:2,adv:3,pac:3,na:4,perm:5};rows.sort((p,q)=>ord[p.stt]-ord[q.stt]||p.a.nome.localeCompare(q.a.nome,'pt-BR'));
+  const ord={no:0,part:1,pa:1,ok:2,adv:3,pac:3,na:4,perm:5};rows.sort((p,q)=>ord[p.stt]-ord[q.stt]||p.a.nome.localeCompare(q.a.nome,'pt-BR'));
   h+=`<div class="row-actions" style="margin:0 0 6px"><button class="ghost" data-finpdf>📄 Relatório financeiro de ${mesCurto(ym)} (PDF)</button></div>
   <div class="kpis"><div class="kpi"><b class="kprev">${brl(prev)}</b><span>previsto no mês</span></div>
     <button class="kpi kbtn ${st.kpi==='rec'?'on':''}" data-kpi="rec" aria-expanded="${st.kpi==='rec'}"><b class="pos">${brl(rec)}</b><span>recebido <i>${st.kpi==='rec'?'▴':'▾'} quem pagou</i></span></button>
@@ -5758,7 +5779,9 @@ function renderPag(){
   ${(()=>{ const L=ativos().filter(a=>!isFicha(a)&&!r_perm(a)&&mensal(a)>0); const tot=L.reduce((t,a)=>t+mensal(a),0), au=L.reduce((t,a)=>t+contratadas(a),0); const H=horasMes(ym);
     return tot&&au?`<div class="card" style="margin-block:8px 0"><h3>Média do seu trabalho</h3><div class="kpis" style="margin:0"><div class="kpi"><b>${brl(tot/au)}</b><span>média por aula (${brl(tot)} ÷ ${au} aulas)</span></div>${H.prev?`<div class="kpi"><b>${brl(tot/H.prev)}</b><span>média por hora (${H.prev}h no mês)</span></div>`:''}</div><p class="note" style="margin:8px 0 0">Soma das mensalidades dos alunos de aula, sem ficha nem permuta. Por hora: dupla ou trio no mesmo horário conta 1 hora.</p></div>`:''; })()}
   ${advCob||advNovo?`<p class="note">${advCob?`${advCob} aluno${advCob>1?'s':''} com mês pago adiantado: aparece${advCob>1?'m':''} como quitado${advCob>1?'s':''}, mas não soma${advCob>1?'m':''} no previsto nem no recebido.`:''}${advNovo?` O recebido inclui ${brl(advNovo)} de adiantamentos recebidos neste mês.`:''}</p>`:''}`;
-  const lbl={pac:'Pacote',adv:'Adiantado',ok:'Pago',part:'Parcial',no:'Pendente',na:'Sem valor',perm:'Permuta'};
+  const lbl={pac:'Pacote',adv:'Adiantado',ok:'Pago',part:'Parcial',no:'Pendente',na:'Sem valor',perm:'Permuta',pa:'Em aberto'};
+  const paR=rows.filter(r=>r.pa&&r.stt!=='perm'), paRec=paR.reduce((t,r)=>t+r.pago,0), paVenc=paR.reduce((t,r)=>t+r.partes.filter(x=>x.venc).reduce((s2,x)=>s2+x.v,0),0);
+  if(paR.length) h+=`<p class="note pa-note">💵 <b>Por aula feita</b> (${paR.length} aluno${paR.length>1?'s':''}): entra só o que foi pago, como extra. Recebido <b class="pos">${brl(paRec)}</b>${paVenc>0.005?` · vencido <b class="neg">${brl(paVenc)}</b>`:''}. Não soma no previsto.</p>`;
   h+=`<div class="alist">`+rows.map(r=>`<div class="paycard" id="pc-${r.a.id}" data-st="${r.stt}"><div class="paytop"><b>${esc(r.a.nome)}</b>
     <span class="chip ${r.stt}">${lbl[r.stt]}</span><span class="payval">${r.stt==='adv'||r.stt==='pac'?'—':r.bruto?brl(r.valor):'—'}</span>${r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='pac'?`<span class="ovbs"><button class="chipbtn ovb ${st.ajOpen===r.a.id?'on':''}" data-ajopen="${r.a.id}">✎ ajustar valor</button><button class="chipbtn ovb ${st.avOpen===r.a.id?'on':''}" data-avopen2="${r.a.id}">+ outro valor</button></span>`:''}</div>
     ${r.aj?`<div class="ajnote">Valor ajustado neste mês: <b>${brl(r.valor)}</b> <s>${brl(r.valor0)}</s> · ${esc(r.aj.m||'Ajuste')}${r.aj.d?` <small>(${esc(r.aj.d)})</small>`:''} <button class="iconbtn" data-ajrm="${r.a.id}" aria-label="Desfazer ajuste">×</button></div>`:''}
@@ -5767,11 +5790,14 @@ function renderPag(){
       <input id="ajd-${r.a.id}" value="${esc(r.aj&&r.aj.d||'')}" placeholder="Detalhe (opcional): ex.: abateu 2 aulas de setembro">
       <div class="row-actions" style="margin:0"><button class="primary" data-ajsave="${r.a.id}">Salvar ajuste</button><button class="ghost" data-ajopen="${r.a.id}">Cancelar</button></div>
       <p class="note" style="margin:0">Vale só para este mês. No mês seguinte volta ao valor normal.</p></div>`:''}
-    <div class="note">${r.stt==='pac'?(r.u?`Pacote de ${r.u.total} aulas, início em ${mesCurto(r.u.inicio.slice(0,7))} · ${r.u.used} feitas · <b class="${r.u.rest<=3?'neg':'pos'}">${r.u.rest>0?`faltam ${r.u.rest}`:'encerrado'}</b>`:'Pacote sem quantidade de aulas: complete no Cadastro'):r.pk?`Pacote de ${r.pk.total||'?'} aulas${r.pk._n>1?` · ${brl(+r.pk.valor||0)} em ${r.pk._n}x`:''}${r.pago?` · recebido <b class="pos">${brl(r.pago)}</b>`:''}${r.pago&&r.pago<r.valor-0.005?` · falta <b class="neg">${brl(r.valor-r.pago)}</b>`:''}`:r.stt==='adv'?`Pago adiantado até <b>${mesCurto(r.a.adiantado.ate)}</b>${r.a.adiantado.valor?` · ${brl(+r.a.adiantado.valor)} pagos`:''}${r.a.adiantado.desde?` (cobre ${mesCurto(r.a.adiantado.desde)} a ${mesCurto(r.a.adiantado.ate)})`:''}${r.a.adiantado.recebidoEm?` · recebido em ${mesCurto(r.a.adiantado.recebidoEm)}`:''}`:r.stt==='perm'?'Paga em permuta, sem cobrança em dinheiro':r.bruto?`${isFicha(r.a)?'Ficha de treino':r.a.tipo==='avulsa'?`${brl(valorAula(r.a))}/aula × ${Math.round(r.bruto/(valorAula(r.a)||1))} aulas avulsas no mês`:`${brl(valorAula(r.a))}/aula × ${contratadas(r.a)} aulas`}${r.a.forma==='outra'&&r.a.formaObs?` · <b>${esc(r.a.formaObs)}</b>`:''}${['trimestral','semestral','anual'].includes(r.a.forma)?` · ${FORMAS[r.a.forma]}: ao receber, use "Pagou adiantado"`:''}${r.desc?` · <span class="neg">−${brl(r.desc)} abatido</span>`:''}${r.pago?` · recebido <b class="pos">${brl(r.pago)}</b>`:''}${r.pago&&r.pago<r.valor-0.005?` · falta <b class="neg">${brl(r.valor-r.pago)}</b>`:''}`:(r.a.tipo==='avulsa'?(valorAula(r.a)?'Nenhuma aula avulsa dada neste mês':'Cadastre o valor da aula no Cadastro'):'Cadastre o valor na aba Alunos')}</div>
+    <div class="note">${r.pa?`Cobra só as aulas feitas. Toque no período quando ${esc(first(r.a.nome))} pagar.${r.partes.some(t=>t.venc)?` <b class="neg">⚠ Tem período vencido.</b>`:''}`:r.stt==='pac'?(r.u?`Pacote de ${r.u.total} aulas, início em ${mesCurto(r.u.inicio.slice(0,7))} · ${r.u.used} feitas · <b class="${r.u.rest<=3?'neg':'pos'}">${r.u.rest>0?`faltam ${r.u.rest}`:'encerrado'}</b>`:'Pacote sem quantidade de aulas: complete no Cadastro'):r.pk?`Pacote de ${r.pk.total||'?'} aulas${r.pk._n>1?` · ${brl(+r.pk.valor||0)} em ${r.pk._n}x`:''}${r.pago?` · recebido <b class="pos">${brl(r.pago)}</b>`:''}${r.pago&&r.pago<r.valor-0.005?` · falta <b class="neg">${brl(r.valor-r.pago)}</b>`:''}`:r.stt==='adv'?`Pago adiantado até <b>${mesCurto(r.a.adiantado.ate)}</b>${r.a.adiantado.valor?` · ${brl(+r.a.adiantado.valor)} pagos`:''}${r.a.adiantado.desde?` (cobre ${mesCurto(r.a.adiantado.desde)} a ${mesCurto(r.a.adiantado.ate)})`:''}${r.a.adiantado.recebidoEm?` · recebido em ${mesCurto(r.a.adiantado.recebidoEm)}`:''}`:r.stt==='perm'?'Paga em permuta, sem cobrança em dinheiro':r.bruto?`${isFicha(r.a)?'Ficha de treino':r.a.tipo==='avulsa'?`${brl(valorAula(r.a))}/aula × ${Math.round(r.bruto/(valorAula(r.a)||1))} aulas avulsas no mês`:`${brl(valorAula(r.a))}/aula × ${contratadas(r.a)} aulas`}${r.a.forma==='outra'&&r.a.formaObs?` · <b>${esc(r.a.formaObs)}</b>`:''}${['trimestral','semestral','anual'].includes(r.a.forma)?` · ${FORMAS[r.a.forma]}: ao receber, use "Pagou adiantado"`:''}${r.desc?` · <span class="neg">−${brl(r.desc)} abatido</span>`:''}${r.pago?` · recebido <b class="pos">${brl(r.pago)}</b>`:''}${r.pago&&r.pago<r.valor-0.005?` · falta <b class="neg">${brl(r.valor-r.pago)}</b>`:''}`:(r.a.tipo==='avulsa'?(valorAula(r.a)?'Nenhuma aula avulsa dada neste mês':'Cadastre o valor da aula no Cadastro'):'Cadastre o valor na aba Alunos')}</div>
     ${st.advId===r.a.id?advForm(r.a):r.stt==='adv'?`<div class="parts"><button data-advopen="${r.a.id}">Editar adiantamento</button><button data-advrm="${r.a.id}">Remover adiantamento</button></div>`:''}
     ${prazoHTML(r)}
     ${r.bruto&&r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='pac'?`<div class="paygrid">${r.pk?'':`<select data-forma="${r.a.id}" aria-label="Forma de pagamento de ${esc(r.a.nome)}">${Object.entries(FORMAS).map(([v,l])=>`<option value="${v}" ${(r.a.forma||'mensal')===v?'selected':''}>${l}</option>`).join('')}</select>`}
-      ${r.partes.length>1?`<div class="partlist"><p class="partsum">${(r.a.forma==='parcelas')?`Paga em <b>${r.partes.length} vezes</b>: ${r.partes.map(t=>brl(t.v)).join(' + ')}`:`Paga <b>por semana</b>: ${r.partes.length} pagamentos${r.partes[0].aulas?` de ${r.partes[0].aulas} aula${r.partes[0].aulas>1?'s':''}`:''}`}</p>
+      ${r.pa?`<div class="partlist"><p class="partsum">Cobra <b>por aula feita</b> · ${brl(r.va)} por aula · <select data-ciclo="${r.a.id}" aria-label="Quando cobra">${Object.entries(CICLOS).map(([v,l])=>`<option value="${v}" ${(r.a.ciclo||'quinzenal')===v?'selected':''}>${l}</option>`).join('')}</select></p>
+        ${r.partes.length?r.partes.map(t=>`<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''} ${t.venc?'venc':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l} <small>· ${t.aulas} aula${t.aulas!==1?'s':''}</small></span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':t.venc?'⚠ vencido':t.aberto?'em andamento':'a pagar'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}</div>`).join(''):`<p class="partsum">Nenhuma aula feita ainda neste mês.</p>`}
+        ${r.partes.length?`<p class="partsum">Aulas no mês: <b>${r.partes.reduce((s2,t)=>s2+t.aulas,0)}</b> · pagas: <b class="pos">${r.partes.filter(t=>r.pp[t.k]).reduce((s2,t)=>s2+t.aulas,0)}</b></p>`:''}</div>`
+      :r.partes.length>1?`<div class="partlist"><p class="partsum">${(r.a.forma==='parcelas')?`Paga em <b>${r.partes.length} vezes</b>: ${r.partes.map(t=>brl(t.v)).join(' + ')}`:`Paga <b>por semana</b>: ${r.partes.length} pagamentos${r.partes[0].aulas?` de ${r.partes[0].aulas} aula${r.partes[0].aulas>1?'s':''}`:''}`}</p>
         ${r.partes.map(t=>`<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l}${t.aulas?` <small>· ${t.aulas} aula${t.aulas>1?'s':''}</small>`:''}</span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':'a pagar'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}</div>`).join('')}
         ${r.partes.some(t=>t.aulas)?(()=>{ const tot=r.partes.reduce((s2,t)=>s2+(t.aulas||0),0), pg=r.partes.filter(t=>r.pp[t.k]).reduce((s2,t)=>s2+(t.aulas||0),0); return `<p class="partsum">Aulas pagas: <b class="${pg>=tot?'pos':''}">${pg} de ${tot}</b></p>`; })():''}</div>`
       :`<div class="parts">${r.partes.map(t=>`<button data-pay="${t.k}" data-id="${r.a.id}" class="${r.pp[t.k]?'on':''}" aria-pressed="${!!r.pp[t.k]}">${r.pp[t.k]?'✓ ':''}${t.l}</button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}`).join('')}</div>`}</div>
@@ -6002,6 +6028,7 @@ main.addEventListener('change',e=>{
   if(e.target.dataset&&(e.target.dataset.pvenc||e.target.dataset.pate)){const id=e.target.dataset.pvenc||e.target.dataset.pate,f=e.target.dataset.pvenc?'venc':'ate',v=e.target.value;mutPag(st.month,d=>{d[id]=d[id]||{};if(v)d[id][f]=v;else delete d[id][f]});toast(v?(f==='ate'?'Pendente até ':'Vence em ')+v.slice(8,10)+'/'+v.slice(5,7):'Data removida');return}
   if(e.target.dataset&&e.target.dataset.paydate){const id=e.target.dataset.id,k=e.target.dataset.paydate,v=e.target.value||today();mutPag(st.month,d=>{d[id]=d[id]||{};d[id][k]=v});toast('Data do pagamento: '+v.slice(8,10)+'/'+v.slice(5,7));return}
   if(e.target.id==='et'&&draft){pullDraft();draft.tipo=e.target.value;if(draft.tipo==='aula'&&!(draft.slots||[]).length)draft.slots=[{d:1,h:'07:00'}];renderEditor();return}
+  if(e.target.dataset.ciclo){const a=alunos.get(e.target.dataset.ciclo);if(a){const n=Object.assign({},a,{ciclo:e.target.value});alunos.set(a.id,n);saveAluno(n);render();toast('Cobrança: '+CICLOS[e.target.value]);}return}
   if(e.target.dataset.forma){const a=alunos.get(e.target.dataset.forma);if(a){const n=Object.assign({},a,{forma:e.target.value});alunos.set(a.id,n);saveAluno(n);render();toast('Forma de pagamento: '+FORMAS[e.target.value])}return}
   const t=e.target;if(!t.classList.contains('tm'))return;
   const key=t.dataset.k,tp=t.dataset.t,v=t.value;if(!v)return;
@@ -6041,7 +6068,7 @@ function getAula(k,id){ return ((dayData(k).extras)||[]).find(x=>x.id===id)||nul
 function updAula(k,id,o){ const x=getAula(k,id); if(!x) return;
   if(o.k&&o.k!==k){ const nx=Object.assign({},x,o.hora?{hora:o.hora}:{},o.tipo?{tipo:o.tipo}:{}); delete nx.k; if(o.k<today()) nx.status=nx.status||'p'; rmAula(k,id); mutDay(o.k,d=>d.extras.push(nx)); return; }
   mutDay(k,d=>{ const y=d.extras.find(z=>z.id===id); if(y){ if(o.hora) y.hora=o.hora; if(o.tipo) y.tipo=o.tipo; } }); }
-return {vencidos, goPag:(id,ym)=>{ if(ym) st.month=ym; st.kpi=null; setMode('fin'); setTimeout(()=>{ const el=document.getElementById('pc-'+id); if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1600); } },120); }, pacSched, addAula, rmAula, updAula, getAula, saldo:pid=>saldoRepos().get(pid)||0, tipoAluno:pid=>{ const a=alunos.get(pid); return a? a.tipo||'aula' : ''; }, finCard:()=>st._fin? finCardHTML(st._fin):'', planCard:(id,ym)=>{ const a=alunos.get(id); return a? planCardHTML(a,ym) : ""; }, fechCard:(id,ym)=>{ const a=alunos.get(id); return a? fechCardHTML(a,ym) : ""; }, pacUso:id=>{ const a=alunos.get(id); return a? pacUso(a) : null; }, remove:id=>{ alunos.delete(id); if(db) db.doc(PB+'alunos/'+id).delete().catch(()=>toast('Não excluiu.')); render(); }, upsert:a=>{ if(!a.id) a.id=slug(a.nome); alunos.set(a.id,a); saveAluno(a); render(); return a.id; }, aluno:id=>{ const a=alunos.get(id); return a? JSON.parse(JSON.stringify(a)) : null; }, dump:()=>{ const cl=v=>JSON.parse(JSON.stringify(v)); const o={v:2,inicio:INICIO,alunos:{},dias:{},pagamentos:{},historico:{}};
+return {vencidos, CICLOS, goPag:(id,ym)=>{ if(ym) st.month=ym; st.kpi=null; setMode('fin'); setTimeout(()=>{ const el=document.getElementById('pc-'+id); if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1600); } },120); }, pacSched, addAula, rmAula, updAula, getAula, saldo:pid=>saldoRepos().get(pid)||0, tipoAluno:pid=>{ const a=alunos.get(pid); return a? a.tipo||'aula' : ''; }, finCard:()=>st._fin? finCardHTML(st._fin):'', planCard:(id,ym)=>{ const a=alunos.get(id); return a? planCardHTML(a,ym) : ""; }, fechCard:(id,ym)=>{ const a=alunos.get(id); return a? fechCardHTML(a,ym) : ""; }, pacUso:id=>{ const a=alunos.get(id); return a? pacUso(a) : null; }, remove:id=>{ alunos.delete(id); if(db) db.doc(PB+'alunos/'+id).delete().catch(()=>toast('Não excluiu.')); render(); }, upsert:a=>{ if(!a.id) a.id=slug(a.nome); alunos.set(a.id,a); saveAluno(a); render(); return a.id; }, aluno:id=>{ const a=alunos.get(id); return a? JSON.parse(JSON.stringify(a)) : null; }, dump:()=>{ const cl=v=>JSON.parse(JSON.stringify(v)); const o={v:2,inicio:INICIO,alunos:{},dias:{},pagamentos:{},historico:{}};
     alunos.forEach((v,k)=>{ const x=cl(v); delete x.id; o.alunos[k]=x; }); dias.forEach((v,k)=>o.dias[k]=cl(v)); pags.forEach((v,k)=>o.pagamentos[k]=cl(v)); hist.forEach((v,k)=>o.historico[k]=cl(v)); return o; },
   load:o=>{ if(!o||!db) return; const W=[];
     if(o.v===2){ if(o.inicio){ INICIO=o.inicio; W.push(db.doc(PB+'cfg/geral').set({inicio:o.inicio})); }
@@ -6525,7 +6552,7 @@ function parcSplit(L,valor){ const fix=L.reduce((t,p)=>t+(p.v||0),0), nA=L.filte
   if(nA){ const li=autos[autos.length-1]; out[li].v=Math.round((resto-base*(nA-1))*100)/100; }
   else { const s=out.reduce((t,p)=>t+p.v,0); out[out.length-1].v=Math.round((out[out.length-1].v+valor-s)*100)/100; }
   return out; }
-const CAD_FORMAS={mensal:"Mensal",parcelas:"Parcelado",semanal:"Semanal",trimestral:"Trimestral",semestral:"Semestral",anual:"Anual",outra:"Outra"};
+const CAD_FORMAS={mensal:"Mensal",poraula:"Por aula feita (cobra só o que fez)",parcelas:"Parcelado",semanal:"Semanal",trimestral:"Trimestral",semestral:"Semestral",anual:"Anual",outra:"Outra"};
 function cadList(){ const out=[]; const seen=new Set();
   if(presOn()) PRES.alunos().forEach(a=>{ const st=byPid(a.id); if(st) seen.add(st.id); out.push({a,st}); });
   S.students.filter(s=>!seen.has(s.id)&&!s.own).forEach(st=>out.push({a:null,st}));
@@ -6537,6 +6564,7 @@ function cadOpen(a,st){ const ph=st?st.phase:1;
     ativo:a? a.ativo!==false : true, permuta:!!(a&&a.permuta), formaObs:(a&&a.formaObs)||"", slots:a? clean(a.slots||[]) : st? getSlots(st) : [{d:1,h:"07:00"}],
     phase:ph, peso:(st&&st.peso)||"", alt:(st&&st.alt)||"", ob:!!(st&&st.ob), novo: st? !!st.novo : true, junto:"",
     pacTotal:(a&&a.pacote&&a.pacote.total)||"", pacValor:(a&&a.pacote&&a.pacote.valor)||"", pacIni:(a&&a.pacote&&a.pacote.inicio)||isoD(new Date()), pacVal:(a&&a.pacote&&a.pacote.validade)||"", pacParc:String((a&&a.pacote&&a.pacote.parc)||2), pacForma:(a&&a.pacote&&(a.pacote.forma||((+a.pacote.parc||1)>1?"parcelas":"")))||"avista", renArm:false, delArm:false,
+    ciclo:(a&&a.ciclo)||"quinzenal", cdia0:String((a&&a.cicloDias&&a.cicloDias[0])||""), cdia1:String((a&&a.cicloDias&&a.cicloDias[1])||""), cdia2:String((a&&a.cicloDias&&a.cicloDias[2])||""), cdia3:String((a&&a.cicloDias&&a.cicloDias[3])||""),
     diaVenc:String((a&&+a.diaVenc)||10), nParc:String(a&&a.forma==="parcelas"? (parseInt(a.nParc,10)||2) : 1) };
   { const P=(a&&a.forma==="parcelas"&&Array.isArray(a.parc))? a.parc : []; for(let i=0;i<6;i++){ const x=P[i]; cadDraft["pd"+i]=x&&+x.dia? String(x.dia) : ""; cadDraft["pv"+i]=x&&+x.v>0? String(x.v) : ""; } }
   renderCadastro(); window.scrollTo(0,0); }
@@ -6545,6 +6573,7 @@ function cadTotal(){ const v=document.getElementById("view-cadastro"); const d=c
   const nS=(v&&v.querySelector("[data-cslot]"))? v.querySelectorAll("[data-cslot]").length : (d.slots||[]).length;
   const ctv=(v&&v.querySelector("#cd-ct"))? +v.querySelector("#cd-ct").value||0 : +d.contratadas||0; const nM=ctv||nS*4;
   const R=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const fpE=v&&v.querySelector("#cd-fp"); if((fpE?fpE.value:d.forma)==="poraula") return va? `Cobra <b>${R(va)} por aula feita</b>. Ex.: 8 aulas no mês = ${R(va*8)}, mas só entra o que ela fizer e pagar.` : `Coloque o valor da aula.`;
   if(!va||!nS) return `Coloque o valor da aula e os dias para ver o total.`;
   return `${R(va)} × ${nS}x por semana = <b>${R(va*nS)} por semana</b><br>${R(va)} × ${nM} aulas no mês = <b>${R(va*nM)} por mês</b>${ctv?"":` <span class="muted">(${nS}x por semana × 4 semanas)</span>`}`; }
 function cadPull(){ const v=document.getElementById("view-cadastro"); if(!cadDraft||!v) return;
@@ -6596,6 +6625,9 @@ function cadFormHTML(){ const d=cadDraft; const isNew=!d.pid&&!d.sid; const fich
 function cadMensal(){ const d=cadDraft||{}; if(d.tipo==="ficha"||d.tipo==="consultoria") return +String(d.valorFicha).replace(",",".")||0;
   const va=+String(d.valorAula).replace(",",".")||0, ct=parseInt(d.contratadas,10)||((d.slots||[]).length*4); return va*ct; }
 function cadVencHTML(){ const d=cadDraft; if(d.tipo==="pacote"||d.tipo==="avulsa") return "";
+  if(d.forma==="poraula") return `<span class="label">Quando cobra</span><div class="vencbox"><select class="inp" data-cd="ciclo" id="cd-ci" data-cre>${Object.entries(PRES.CICLOS).map(([v,l])=>`<option value="${v}" ${(d.ciclo||"quinzenal")===v?"selected":""}>${l}</option>`).join("")}</select>
+    ${d.ciclo==="datas"?`<div class="avform av3">${[0,1,2,3].map(i=>`<label style="display:grid;gap:2px;font-size:11px">${i+1}ª data (dia)<input class="inp" type="number" inputmode="numeric" min="1" max="31" data-cd="cdia${i}" id="cd-cdia${i}" value="${esc(d["cdia"+i]||"")}" placeholder="${["10","20","",""][i]}"></label>`).join("")}</div>`:""}
+    <small class="muted">Cobra só as aulas que a pessoa fez em cada período. Não entra no previsto do mês: o que ela pagar entra como extra. Período fechado sem pagar acusa vencido.</small></div>`;
   const n=d.forma==="parcelas"? Math.min(6,Math.max(2,+d.nParc||2)) : 1; d._np=n; const R=x=>x.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
   const opts=`<label style="display:grid;gap:3px;font-size:11.5px;font-weight:700">Paga em<select class="inp" data-cd="nParc" id="cd-np" data-cre>${[1,2,3,4,5,6].map(k=>`<option value="${k}" ${k===n?"selected":""}>${k===1?"1 vez (mês inteiro)":k+" vezes"}</option>`).join("")}</select></label>`;
   if(d.forma==="semanal") return `<span class="label">Vencimento</span><div class="vencbox"><small class="muted">Semanal: cada semana é marcada no Financeiro.</small></div>`;
@@ -6613,6 +6645,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
     else if(d.tipo==="ficha"||d.tipo==="consultoria"){ a.valorFicha=parseFloat(d.valorFicha)||0; a.slots=[]; } else { a.valorAula=parseFloat(String(d.valorAula).replace(",","."))||0; a.contratadas=parseInt(d.contratadas,10)||0; a.slots=d.slots; delete a.mensalidade; }
     if(d.tel.trim()) a.tel=d.tel.trim(); else delete a.tel;
     if(d.forma==="outra"&&String(d.formaObs||"").trim()) a.formaObs=String(d.formaObs).trim(); else delete a.formaObs;
+    if(d.forma==="poraula"){ a.ciclo=d.ciclo||"quinzenal"; const ds=[0,1,2,3].map(i=>parseInt(d["cdia"+i],10)).filter(x=>x>=1&&x<=31); if(a.ciclo==="datas"&&ds.length) a.cicloDias=ds; else delete a.cicloDias; } else { delete a.ciclo; delete a.cicloDias; }
     if(d.tipo!=="pacote"&&d.tipo!=="avulsa"){ if(d.forma==="parcelas"){ const n=Math.min(6,Math.max(2,+d.nParc||2)); a.nParc=n; a.parc=Array.from({length:n},(_,i)=>{ const dia=Math.min(31,Math.max(1,parseInt(d["pd"+i],10)||parcDefDias(n)[i])), v=+String(d["pv"+i]||"").replace(",",".")||0; return v>0?{dia,v}:{dia}; }); a.diaVenc=a.parc[0].dia; }
       else { delete a.nParc; delete a.parc; a.diaVenc=Math.min(31,Math.max(1,parseInt(d.diaVenc,10)||10)); } }
     if(a.ativo===false&&base.ativo!==false) a.inativoDesde=isoD(new Date()).slice(0,7); if(a.ativo) delete a.inativoDesde;
