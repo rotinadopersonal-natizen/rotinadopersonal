@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792751217";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792753427";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -329,7 +329,9 @@ input.mini{padding:5px;text-align:center}
 .xhead,.xband,.xrow,.xtot{grid-template-columns:38px minmax(0,1fr) repeat(3,34px) 42px 32px!important}
 @media (min-width:480px){.xhead,.xband,.xrow,.xtot{grid-template-columns:42px minmax(0,1fr) repeat(3,64px) 62px 58px!important}}
 .xv{font-size:12px!important;padding:0 3px 0 2px!important;letter-spacing:-.02em}
-.xb-sug{white-space:nowrap}.xband .xb-ex2{grid-column:2 / -1;display:flex!important;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.xb-ex2 .xb-sug{font-size:11px!important;padding:3px 9px!important}.xrepw{display:flex;margin:1px 0 0 4px}.xrepw:empty{display:none}.xrepw .xrep{font-size:10px!important;padding:1px 8px!important}.xb-tec.on{background:var(--accent)!important;color:#fff!important}
+.xb-sug{white-space:nowrap}.xband .xb-ex2{grid-column:2 / -1;display:flex!important;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.xb-ex2 .xb-sug{font-size:11px!important;padding:3px 9px!important}.xrepw{display:flex;margin:1px 0 0 4px}.xrepw:empty{display:none}.xrepw .xrep{font-size:10px!important;padding:1px 8px!important}.repask{position:relative;margin:10px 0 14px;padding:14px;border:2.5px solid var(--accent);border-radius:16px;background:var(--accent-soft);display:grid;gap:8px;text-align:center}.repask:after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);border:10px solid transparent;border-top-color:var(--accent);border-bottom:0}
+.repask p{margin:0}.repask .rq{font-size:17px;font-weight:800}.repask .rbt{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.repask .rbt .btn{flex:1 1 140px}.repask small{color:var(--muted);font-size:12px}
+.xb-tec.on{background:var(--accent)!important;color:#fff!important}
 .tecmhint{margin:0;padding:4px 8px;font-size:11px;text-align:center;background:var(--accent-soft);color:var(--fg)}.xtec.pick{border-style:solid!important;color:var(--accent)!important;border-color:var(--accent)!important}
 .xhead span:last-child{padding:7px 0!important;font-size:10px!important;letter-spacing:0!important}
 .xrest{min-width:28px!important;padding:3px 2px!important;font-size:10.5px!important}
@@ -3431,7 +3433,7 @@ function autoWeek(){ const mon=mondayOf(new Date()); let w=S.weeks.find(x=>x.sta
   w={id:nid(),n:last.n+1,start:mon}; const src=S.days[last.id]||{}; const dst=S.days[w.id]={};
   Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); });
   S.weeks.push(w); fillWeekByLtr(w.id);
-  toast(`Semana ${w.n} começou: o último treino aparece em cima de cada exercício. Toque em ↻ Repetir para usar`); return {w,made:true}; }
+  toast(`Semana ${w.n} começou. Escolha repetir o treino anterior ou só visualizar`); return {w,made:true}; }
 /* Semana nova: cada dia com letra (na programação ou já marcada) puxa o último treino daquela letra */
 function fillWeekByLtr(wid){ const W=S.days[wid]||{}; const done=new Set();
   Object.keys(W).forEach(sid=>Object.keys(W[sid]).forEach(dy=>{ done.add(sid+"|"+dy); try{ fillByLtr(sid,wid,dy); }catch(e){} }));
@@ -3587,7 +3589,7 @@ document.addEventListener("change",e=>{ if(!(e.target.matches&&e.target.matches(
 function newWeekNow(){ const last=S.weeks.slice().sort((a,b)=>a.start<b.start?-1:1).pop(); const nw={id:nid(),n:last.n+1,start:addDays(last.start,7)};
   const src=S.days[last.id]||{}; const dst=S.days[nw.id]={}; Object.keys(src).forEach(s2=>{ dst[s2]={}; Object.keys(src[s2]).forEach(dy=>{ const c=cloneDay(src[s2][dy],true); c.cardio={...c.cardio,pse:""}; dst[s2][dy]=c; }); });
   S.weeks.push(nw); fillWeekByLtr(nw.id);
-  S.week=nw.id; armNewWeek=false; save(); toast(`Semana ${nw.n} criada: o último treino aparece em cima de cada exercício. Toque em ↻ Repetir para usar`); return nw; }
+  S.week=nw.id; armNewWeek=false; save(); toast(`Semana ${nw.n} criada. Escolha repetir o treino anterior ou só visualizar`); return nw; }
 function autoWeekTick(){ if(!S||!S.weeks) return; const cur=S.week; const r=autoWeek(); if(r.made){ const wasLast=!cur||S.weeks.findIndex(x=>x.id===cur)===S.weeks.length-2; if(wasLast) S.week=r.w.id; save(); renderAll(); } }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") autoWeekTick(); });
 setInterval(autoWeekTick,10*60*1000);
@@ -4132,12 +4134,23 @@ function regAlerts(m,d){ const ref=prevRef(m.id); if(!ref||!ref.d||!d) return []
 /* Alerta de carga: aparece no círculo do aluno lá em cima; a caixa fecha no ✕ e volta tocando no círculo */
 let ALR_HIDE={}; const alrKey=m=>m.id+"|"+S.week+"|"+S.day;
 function alertList(m,d){ return (d?d.rows:[]).flatMap(r=>rowAlerts(m,r).out).concat(regAlerts(m,d)); }
-function alrBadge(){ const pl=document.getElementById("topPlate"); if(!pl) return; let n=0; try{ if(CUR_TAB==="sessao") sesMembers().forEach(m=>{ n+=alertList(m,dayOf(S.week,m.id,S.day)).length; }); }catch(_){}
+function alrBadge(){ const pl=document.getElementById("topPlate"); if(!pl) return; let n=0; try{ if(CUR_TAB==="sessao") sesMembers().forEach(m=>{ const k=alertList(m,dayOf(S.week,m.id,S.day)).length; if(!(ALR_HIDE[alrKey(m)]>=k)) n+=k; }); }catch(_){}
   let bd=pl.querySelector(".plbadge"); if(!n){ if(bd) bd.remove(); pl.classList.remove("plal"); return; }
   if(!bd){ bd=document.createElement("i"); bd.className="plbadge"; pl.appendChild(bd); } bd.textContent="⚠"+n; pl.classList.add("plal"); pl.title="Ver alertas de carga"; }
-document.addEventListener("pointerdown",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x) ALR_HIDE[x.dataset.alrx]=+x.dataset.n; },true);
-document.addEventListener("click",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x){ e.stopPropagation(); ALR_HIDE[x.dataset.alrx]=+x.dataset.n; const box=x.closest(".salert"); if(box) box.remove(); return; }
+document.addEventListener("pointerdown",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x){ ALR_HIDE[x.dataset.alrx]=+x.dataset.n; setTimeout(alrBadge,0); } },true);
+document.addEventListener("click",e=>{ const x=e.target.closest&&e.target.closest("[data-alrx]"); if(x){ e.stopPropagation(); ALR_HIDE[x.dataset.alrx]=+x.dataset.n; const box=x.closest(".salert"); if(box) box.remove(); alrBadge(); return; }
   const pl=e.target.closest&&e.target.closest("#topPlate.plal"); if(!pl) return; ALR_HIDE={}; try{ renderSessao(); }catch(_){} setTimeout(()=>{ const a=document.querySelector(".salert"); if(a){ a.scrollIntoView({block:"center",behavior:"smooth"}); a.classList.add("salfl"); setTimeout(()=>a.classList.remove("salfl"),1600); } alrBadge(); },60); },true);
+/* Início do treino: pergunta se repete o treino anterior inteiro ou só mostra como referência */
+function repAskOn(m,d){ if(!d||!d.cp||d.ask||d.ini||d.done||d.presOk) return null; const ref=prevRef(m.id); return ref&&ref.d&&dayHasData(ref.d)&&(!ref.d.cp||ref.d.done||ref.d.ini||ref.d.presOk)? ref : null; }
+function repAskHTML(m,d){ const ref=repAskOn(m,d); if(!ref) return "";
+  return `<div class="repask" role="dialog" aria-label="Treino anterior"><p><b>${esc(first(m.name))}</b>, ${ref.ltr?`treino ${esc(ref.ltr)}`:"treino"} de ${ddmm(ref.date)}:</p><p class="rq">Deseja repetir o treino anterior ou apenas visualizar?</p>
+    <div class="rbt"><button class="btn primary" data-repask="rep">↻ Repetir o treino anterior</button><button class="btn" data-repask="ver">👀 Apenas visualizar</button></div>
+    <small>Visualizar: o treino anterior fica em cima de cada exercício, e o ↻ Repetir de cada linha continua valendo.</small></div>`; }
+function repAskDo(sid,v){ const d=dayOf(S.week,sid,S.day); const ref=repAskOn(stById(sid),d); if(!d) return; d.ask=1; if(!ref){ save(); return; }
+  const keep=d.ltr, card=d.cardio; const c= v==="rep"? cloneDay(ref.d,true,true) : cloneDay(ref.d,true,false);
+  c.ask=1; if(keep!=null) c.ltr=keep; if(card) c.cardio=card;
+  if(v==="rep"){ c.rows.forEach(r=>delete r.cp); delete c.cp; }
+  S.days[S.week][sid][S.day]=c; save(); if(v==="rep"){ try{ markStart(sid); autoPres(sid); }catch(_){} toast("Treino anterior repetido. Ajuste o que quiser."); } }
 function alertsHTML(m,d){
   const all=alertList(m,d); setTimeout(alrBadge,0);
   if(!all.length) return "";
@@ -4403,7 +4416,7 @@ function colHTML(m,w,ms){
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${m===ms[0]&&sesMode==="lancar"? boxW("semana","📅 Semana e dia",SES_WK) : ""}
     ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn mvtop" data-mvopen>↔ Mover este treino para outro dia</button>`}
-    <div id="alr-${m.id}">${alertsHTML(m,d)}</div>
+    ${repAskHTML(m,d)}<div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
       <div class="xband"><span></span><span class="xb-ex xb-ex2"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button><button class="xb-sug xb-tec ${TEC_MODE?"on":""}" data-tecmode title="Escolher método avançado nos exercícios">⚡ Métodos avançados${TEC_MODE?" ✓":""}</button></span></div>${TEC_MODE?`<p class="tecmhint">Toque em <b>+ Método</b> no exercício. Toque em ⚡ Métodos avançados de novo para esconder.</p>`:""}
@@ -4667,6 +4680,7 @@ function sesClick(e){
   if(b.hasAttribute("data-copyto")){ if(!dayHasData(dayOf(w.id,sid,S.day))){ toast(`Lance o treino de ${first(m.name)} primeiro`); return; } const others=sesMembers().filter(o=>o!==m); const filled=others.some(o=>dayHasData(dayOf(w.id,o.id,S.day))); if(filled && !arm("copyto")) return; others.forEach(o=>copyDay(sid,o.id)); rer(); toast("Copiado com as cargas. Ajuste o que mudar."); return; }
   if(b.hasAttribute("data-clear")){ if(!arm("clear")) return; const P=(S.days[w.id]||{})[sid]; if(P) delete P[S.day]; rer(); return; }
   if(b.hasAttribute("data-tecpop")){ tecPop= tecPop===sid? null : sid; renderSessao(); return; }
+  if(b.dataset.repask){ repAskDo(sid,b.dataset.repask); renderSessao(); return; }
   if(b.hasAttribute("data-tecmode")){ TEC_MODE=!TEC_MODE; if(!TEC_MODE) tecPick=null; renderSessao(); return; }
   if(b.hasAttribute("data-sug")){ sugOpen= sugOpen===sid? null : sid; renderSessao(); return; }
   if(b.dataset.sugex){ const d=dayOf(w.id,sid,S.day,true); let row=d.rows.find(r=>!r.n1.trim()&&!subUsed(r.a)&&!subUsed(r.b)); if(!row){ row=newRow(); d.rows.push(row); }
