@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792757905";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792761458";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1627,9 +1627,9 @@ body[data-tab="cadastro"] #rpSugA{display:none!important}
   <button role="tab" id="tab-cadastro" data-tab="cadastro" aria-selected="false" aria-label="Cadastro"><span class="tb-ic" aria-hidden="true">📝</span><span class="tb-tx">Cadastro</span></button>
   <button role="tab" id="tab-semana" data-tab="semana" aria-selected="false" aria-label="Programação"><span class="tb-ic" aria-hidden="true">📊</span><span class="tb-tx">Programação</span></button>
   <button role="tab" id="tab-sessao" data-tab="sessao" aria-selected="false" aria-label="Sessão"><span class="tb-ic" aria-hidden="true">🏋️</span><span class="tb-tx">Sessão</span></button>
+  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Presença"><span class="tb-ic" aria-hidden="true">✅</span><span class="tb-tx">Presença</span></button>
   <button role="tab" id="tab-corpo" data-tab="corpo" aria-selected="false" aria-label="Avaliação Física"><span class="tb-ic" aria-hidden="true">🧍</span><span class="tb-tx">Avaliação<br>Física</span></button>
   <button role="tab" id="tab-agenda" data-tab="agenda" aria-selected="false" aria-label="Agenda"><span class="tb-ic" aria-hidden="true">📅</span><span class="tb-tx">Agenda</span></button>
-  <button role="tab" id="tab-presenca" data-tab="presenca" aria-selected="false" aria-label="Presença"><span class="tb-ic" aria-hidden="true">✅</span><span class="tb-tx">Presença</span></button>
   <button role="tab" id="tab-financeiro" data-tab="financeiro" aria-selected="false" aria-label="Financeiro"><span class="tb-ic" aria-hidden="true">💰</span><span class="tb-tx">Financeiro</span></button>
 </nav>
 
@@ -1788,7 +1788,7 @@ body.kb #rpSugFab{display:none}
       <div class="lp-ben"><div><b>🏋️</b>Treino do dia, lançado na hora da aula</div><div><b>📈</b>Gráficos e evolução de cada aluno</div><div><b>✅</b>Presença automática, sem fazer chamada</div><div><b>💰</b>Financeiro com alerta de quem não pagou</div></div>
       <div class="lp-mes"><button data-lpex="ex_planejamento"><b>📅 Início do mês</b>Planejamento para o aluno, já com os <b>feriados</b> e as suas <b>férias</b>, se for tirar.<i>👆 Toque para ver um exemplo</i></button><button data-lpex="ex_relatorio"><b>📄 Fim do mês</b>Relatório do mês pronto para mandar ao aluno: aulas feitas, faltas e reposições.<i>👆 Toque para ver um exemplo</i></button>
         <div class="lp-mesx"><p>🎨 <b>Do seu jeito:</b> com a sua <b>logo</b> e as suas <b>frases</b>, ou só as informações.</p><p>📆 <b>Mês de 5 semanas:</b> você escolhe se dá as aulas a mais sem cobrar ou se cobra. O aluno já fica sabendo no planejamento.</p></div></div>
-      <div class="lp-fut"><b>🔜 Novidade em breve</b>Integração com o seu aluno: você vai poder <b>enviar o treino direto pelo Rotina do Personal</b>.</div>
+      <div class="lp-fut"><b>🔜 Novidades em breve</b>• Integração com o seu aluno: você vai poder <b>enviar o treino direto pelo Rotina do Personal</b>.<br>• <b>Mensagens automáticas no WhatsApp</b> do aluno: lembrete e confirmação da aula, planejamento e relatório do mês.</div>
       <p class="lp-sec">📽 Conheça o sistema</p>
       <div class="lp-chips" id="lpChips"></div>
       <div class="lp-slide" id="lpSlide"><img id="lpImg" alt="Slide da apresentação do sistema"><button class="lp-nav l" data-lp="-1" aria-label="Anterior">‹</button><button class="lp-nav r" data-lp="1" aria-label="Próximo">›</button></div>
@@ -1990,8 +1990,7 @@ body.kb #rpSugFab{display:none}
   /* Página de entrada: propaganda, slides por aba, fase de teste e convite para colega */
   var LP={i:0,list:[],all:[],grp:"todo"};
   var LP_GR=[["todo","Site todo",null],["cadastro","Cadastro",["cadastro","abas","cores","convite"]],["programacao","Programação",["programacao","fases","medo","ajuda","minha","nenhuma","letra","semanas","cardio"]],
-    ["sessao","Sessão",["sessao","ses-repetir","ses-novo","tela","ses-dia","ses-lancar","setas","conj","descanso","timers","ses-graf","ses-rel"]],["avaliacao","Avaliação Física",["avaliacao","aval-det","fotos"]],
-    ["presenca","Presença",["presenca","pres-auto","pres-mes","rel-aluno","frases","quinta"]],["agenda","Agenda",["agenda","agenda2"]],["financeiro","Financeiro",["financeiro"]]];
+    ["sessao","Sessão",["sessao","ses-repetir","ses-novo","tela","ses-dia","ses-lancar","setas","conj","descanso","timers","ses-graf","ses-rel"]],["presenca","Presença",["presenca","pres-auto","pres-mes","rel-aluno","frases","quinta"]],["avaliacao","Avaliação Física",["avaliacao","aval-det","fotos"]],["agenda","Agenda",["agenda","agenda2"]],["financeiro","Financeiro",["financeiro"]]];
   var lpSrc=function(n){ return "apresentacao/"+String(n).padStart(2,"0")+".jpg"; };
   function lpShow(){ var n=LP.list[LP.i]; ["lpImg","lpFImg"].forEach(function(id){ var im=$(id); if(im) im.src=lpSrc(n); }); ["lpNum","lpFNum"].forEach(function(id){ var e=$(id); if(e) e.textContent=(LP.i+1)+" de "+LP.list.length; });
     var nx=LP.list[LP.i+1]; if(nx){ var pre=new Image(); pre.src=lpSrc(nx); } }
@@ -6360,7 +6359,7 @@ function tecSugHTML(m){ const p=progOf(m); const ln=lineOf(p); const k=+m.phase;
 
 /* ---------- Explicações dentro de cada aba ---------- */
 const SUP_WA="5531988260268"; /* WhatsApp do Tio Má para dúvidas, só números com DDI e DDD. Ex.: 5511999999999 */
-const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["corpo","🧍","Avaliação Física","medidas e dobras"],["agenda","📅","Agenda","horários livres e ocupados"],["presenca","✅","Presença","chamada e reposições"],["financeiro","💰","Financeiro","pagamentos"]];
+const ABAS=[["semana","📊","Programação","montar fases e semanas"],["sessao","🏋️","Sessão","o treino do dia"],["presenca","✅","Presença","chamada e reposições"],["corpo","🧍","Avaliação Física","medidas e dobras"],["agenda","📅","Agenda","horários livres e ocupados"],["financeiro","💰","Financeiro","pagamentos"]];
 function abasOn(){ const b=S.brand||{}, a=b.abas; if(!Array.isArray(a)) return ABAS.map(x=>x[0]); if(!b.agMig&&a.includes("presenca")&&!a.includes("agenda")) return ABAS.map(x=>x[0]).filter(k=>k==="agenda"||a.includes(k)); return a; }
 function abaOk(t){ return t==="cadastro"||abasOn().includes(t==="treino"?"semana":t); }
 let FORCE_TAB=null;
