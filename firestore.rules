@@ -10,6 +10,12 @@ service cloud.firestore {
         && (get(/databases/$(database)/documents/acessos/$(uid)).data.validoAte == null
             || get(/databases/$(database)/documents/acessos/$(uid)).data.validoAte > request.time);
     }
+    function vagasDoc() {
+      return /databases/$(database)/documents/publico/vagas;
+    }
+    function cotaDoc(uid) {
+      return /databases/$(database)/documents/cotas/$(uid);
+    }
     function convite(cod) {
       return get(/databases/$(database)/documents/convites/$(cod)).data;
     }
@@ -42,6 +48,21 @@ service cloud.firestore {
     match /publico/{doc} {
       allow read: if true;
       allow write: if isAdmin();
+      // Colega liberado gasta 1 vaga ao criar um convite (sempre junto com o convite)
+      allow update: if doc == "vagas" && request.auth != null && acessoOk(request.auth.uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["usadas"])
+        && request.resource.data.usadas == resource.data.usadas + 1
+        && request.resource.data.usadas <= resource.data.total;
+    }
+    match /cotas/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
+      allow create: if request.auth != null && request.auth.uid == uid && acessoOk(uid)
+        && request.resource.data.keys().hasOnly(["n"]) && request.resource.data.n == 1
+        && 1 <= get(vagasDoc()).data.get("porUsuario", 3);
+      allow update: if request.auth != null && request.auth.uid == uid && acessoOk(uid)
+        && request.resource.data.keys().hasOnly(["n"]) && request.resource.data.n == resource.data.n + 1
+        && request.resource.data.n <= get(vagasDoc()).data.get("porUsuario", 3);
     }
     match /config/{doc} {
       allow read: if request.auth != null;
@@ -50,6 +71,17 @@ service cloud.firestore {
     match /convites/{cod} {
       allow get: if request.auth != null;
       allow read, write: if isAdmin();
+      allow list: if request.auth != null && resource.data.criadoPor == request.auth.uid;
+      // Colega liberado cria convite: gasta 1 da cota dele e 1 vaga da fase beta, tudo junto
+      allow create: if request.auth != null && acessoOk(request.auth.uid)
+        && request.resource.data.keys().hasOnly(["dias", "nome", "usado", "criadoEm", "criadoPor"])
+        && request.resource.data.criadoPor == request.auth.uid
+        && request.resource.data.usado == false
+        && request.resource.data.nome is string && request.resource.data.nome.size() <= 80
+        && request.resource.data.dias == get(vagasDoc()).data.get("diasConvite", 30)
+        && getAfter(vagasDoc()).data.usadas == get(vagasDoc()).data.usadas + 1
+        && getAfter(vagasDoc()).data.usadas <= get(vagasDoc()).data.total
+        && getAfter(cotaDoc(request.auth.uid)).data.n == (exists(cotaDoc(request.auth.uid)) ? get(cotaDoc(request.auth.uid)).data.n : 0) + 1;
       allow update: if request.auth != null
         && resource.data.usado == false
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["usado", "usadoPor", "usadoEm"])
