@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792761458";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792778150";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1496,6 +1496,7 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .xr-cp .xc,.xr-cp .xn1{color:#8A9099!important;font-style:italic}.xacts{flex-wrap:wrap!important;row-gap:3px}.xcpn{display:block;margin:2px 0 0 4px;font-size:10px;font-weight:700;border:1.5px solid #2A5BD7;color:#2A5BD7;background:#EEF3FF;border-radius:6px;padding:1px 6px;cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .xrep{flex:none;border:1.5px solid #1E8E3E;background:#E3F5EA;color:#1E6B34;border-radius:6px;font-size:9.5px;font-weight:800;padding:1px 5px;white-space:nowrap;cursor:pointer}
 .ctlbig{display:flex;gap:8px;width:100%;position:relative}.ctlbig .btn{flex:1;font-size:16px;font-weight:800;padding:12px 8px}.ctlbig>.qtip{position:absolute!important;top:-8px;right:-4px;margin:0!important}
+.rp-soon{margin:10px 0;padding:10px 12px;border-radius:12px;border:2px dashed #5bb8e8;background:color-mix(in srgb,#5bb8e8 12%,var(--surface));color:var(--fg);font-size:14px;line-height:1.4}body.rp-owner .rp-soon{display:none!important}
 .perso{margin:18px 0 4px;text-align:center;font-family:var(--f-display);font-size:21px;line-height:1.15;color:var(--accent);background:var(--accent-soft);border-radius:14px;padding:12px 10px}
 .cadhelp{display:flex;justify-content:center;margin:4px 0 10px}.cadtop{justify-content:flex-end}
 .appbox{border:2.5px solid var(--accent)!important}.appbox .appt{font-size:18px}.appbox p{margin:0}.appbox ol{margin:0;padding-left:22px;display:grid;gap:4px;font-size:15px}
@@ -2119,6 +2120,7 @@ body.kb #rpSugFab{display:none}
     putSug(); if(w) new MutationObserver(function(){ if(w.lastElementChild&&w.lastElementChild.id!=="rpSugZ") putSug(); }).observe(w,{childList:true});
     var put=function(){ if(v.querySelector("#rpAcctTop")) return; var b=document.createElement("button"); b.id="rpAcctTop"; b.className="rp-acct-top"; b.type="button";
       b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild);
+      try{ document.body.classList.toggle("rp-owner",!!(ME&&ME.uid===OWNER)); }catch(_){}
       if(ME&&ME.uid===OWNER&&!v.querySelector("#rpAdmTop")){ var ad=document.createElement("a"); ad.id="rpAdmTop"; ad.href="admin.html"; ad.className="rp-sug-top"; ad.style.cssText="background:#d4a24c;color:#14161b;text-decoration:none"; ad.innerHTML='🛠 <span><b>Painel ADM</b><small style="display:block;font-size:12px;font-weight:600">Vagas, liberações, convites e sugestões</small></span><span style="margin-left:auto">›</span>'; b.after(ad); }
       if(!v.querySelector("#rpSugTop")){ var g=document.createElement("button"); g.id="rpSugTop"; g.className="rp-sug-top"; g.type="button"; g.innerHTML='💡 Sugestão ou ideia para o sistema <span style="margin-left:auto">›</span>'; g.onclick=abrirSug; b.after(g); }
     };
@@ -5545,7 +5547,7 @@ function confHTML(k,items){ const tpl=String((BR().confMsg)||"").trim()||CONF_DE
   if(!L.length) return "";
   const txt=i=>tpl.replace(/\{nome\}/g,first(i.a.nome)).replace(/\{hora\}/g,i.hora).replace(/\{dia\}/g,confDia(k));
   return `<details class="card confbox" ${confOpen?"open":""} data-confd><summary><b>📲 Confirmar as aulas de ${confDia(k)} pelo WhatsApp</b> <span class="muted">· ${L.length}</span></summary>
-    <div class="confl">${L.map(i=>{ const t=confTel(i.a); return `<div class="confr"><b>${i.hora}</b><span>${esc(i.a.nome)}</span>${t?`<a class="btn small primary" href="https://wa.me/${t}?text=${encodeURIComponent(txt(i))}" target="_blank" rel="noopener">Enviar</a>`:`<small class="muted">sem WhatsApp</small>`}</div>`; }).join("")}</div>
+    ${soonHTML()}<div class="confl">${L.map(i=>{ const t=confTel(i.a); return `<div class="confr"><b>${i.hora}</b><span>${esc(i.a.nome)}</span>${t?`<a class="btn small primary" href="https://wa.me/${t}?text=${encodeURIComponent(txt(i))}" target="_blank" rel="noopener">Enviar</a>`:`<small class="muted">sem WhatsApp</small>`}</div>`; }).join("")}</div>
     <label class="confm">Mensagem (use {nome}, {dia} e {hora})<textarea class="inp" id="confMsg" rows="3">${esc(tpl)}</textarea></label>
     <small class="muted">Use as setas ‹ › do dia para mandar as de amanhã. Cada toque abre a conversa do aluno com o texto pronto: é só enviar.</small></details>`; }
 main.addEventListener('toggle',e=>{ if(e.target.matches&&e.target.matches('[data-confd]')) confOpen=e.target.open; },true);
@@ -6637,6 +6639,8 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
 let APR_X=null; document.addEventListener("touchstart",e=>{ if(e.target.closest&&e.target.closest("#aprImg,#aprFull")) APR_X=e.touches[0].clientX; },{passive:true});
 document.addEventListener("touchend",e=>{ if(APR_X===null) return; const dx=e.changedTouches[0].clientX-APR_X; APR_X=null; if(Math.abs(dx)>40) aprGo(dx<0?1:-1); },{passive:true});
 document.addEventListener("keydown",e=>{ if(!document.getElementById("aprFull")) return; if(e.key==="ArrowRight") aprGo(1); else if(e.key==="ArrowLeft") aprGo(-1); else if(e.key==="Escape") document.getElementById("aprFull").remove(); });
+/* Aviso para os colegas: o envio automático ainda vai chegar (o administrador não vê, porque está testando) */
+function soonHTML(){ return `<div class="rp-soon">🔜 <b>Em breve:</b> o próprio sistema vai mandar as mensagens no WhatsApp dos seus alunos, sozinho: <b>confirmação e lembrete da aula</b>, planejamento e relatório do mês.</div>`; }
 function aprBlock(){ return `<div class="boxw apresw" data-box="apres"><div class="boxh"><span>📽 Conheça o sistema · passe para o lado</span></div>${aprHTML()}</div>`; }
 /* Instalar como aplicativo: some quando o site já está aberto pelo ícone */
 let APP_EVT=null; window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); APP_EVT=e; try{ if(CUR_TAB==="cadastro") renderCadastro(); }catch(_){} });
@@ -6649,7 +6653,7 @@ function appHTML(){ if(isApp()) return ""; const ios=/iPhone|iPad|iPod/.test(nav
 function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(!v) return;
   if(cadDraft){ v.innerHTML=cadTopHTML()+cadFormHTML(); return; }
   const L=cadList();
-  v.innerHTML=`${cadTopHTML(1)}${appHTML()}${aprBlock()}<h2 class="perso">✨ Personalize a página do seu jeito!</h2>${abasHTML()}${corHTML()}<div class="cadhelp">${helpBtn("cadastro")}</div>
+  v.innerHTML=`${cadTopHTML(1)}${appHTML()}${aprBlock()}${soonHTML()}<h2 class="perso">✨ Personalize a página do seu jeito!</h2>${abasHTML()}${corHTML()}<div class="cadhelp">${helpBtn("cadastro")}</div>
     <div class="card"><span class="label">Cadastro</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
