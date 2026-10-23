@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792756367";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792757244";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1740,6 +1740,7 @@ body[data-tab="cadastro"] #rpSugA{display:none!important}
 .iv-msg{min-height:18px;font-size:14px;margin:8px 0 0}.iv-msg.bad{color:#c62828}.iv-link{background:#f3f4f6;border-radius:10px;padding:10px;font-size:13px;word-break:break-all;margin:8px 0}
 .iv-bt{display:flex;gap:8px;flex-wrap:wrap}.iv-bt a,.iv-bt button{flex:1 1 140px;text-align:center;text-decoration:none;padding:11px;border-radius:10px;font-weight:800;font-size:14.5px;border:0;cursor:pointer}.iv-wa{background:#1e8e3e;color:#fff}.iv-cp{background:#eee;color:#222}
 .iv-it{display:flex;justify-content:space-between;gap:8px;align-items:center;border-top:1px solid #eee;padding:9px 0;font-size:14.5px}.iv-it small{display:block;color:#777}.iv-it .iv-bt{flex:none}.iv-it .iv-bt a,.iv-it .iv-bt button{flex:none;padding:7px 10px;font-size:13px}
+#rpInvTop{margin:0 0 10px!important;padding:9px 12px!important}
 .rp-inv-top{background:#1a1d23!important;color:#f3efe6!important}.rp-inv-top b{color:#d4a24c}
 #rpSug{position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center}
 #rpSug[hidden]{display:none}
@@ -2110,7 +2111,7 @@ body.kb #rpSugFab{display:none}
     .then(function(){ INV.busy=false; invRender(""); })
     .catch(function(e){ INV.busy=false; invCarregar().catch(function(){}).then(function(){ invRender(e&&e.msg? e.msg : (e&&e.code==="permission-denied"? "Não deu para criar: confira se ainda tem convite e vaga. Se continuar, fale com o suporte." : "Não consegui criar o convite ("+((e&&e.code)||"sem internet")+"). Tente de novo."),true); }); }); }
   function abrirInv(){ INV.novo=null; $("rpInv").hidden=false; $("rpInvBody").innerHTML='<p style="color:#555">Carregando…</p>'; invCarregar().then(function(){ invRender(""); }).catch(function(){ invRender("Sem internet agora. Tente de novo em instantes.",true); }); }
-  $("rpInvX").onclick=function(){ $("rpInv").hidden=true; };
+  $("rpInvX").onclick=function(){ $("rpInv").hidden=true; try{ window.rpInvBar&&window.rpInvBar(); }catch(_){} };
   $("rpInv").addEventListener("click",function(e){ if(e.target.id==="rpInv") $("rpInv").hidden=true; });
   function botaoTopo(){ var v=document.getElementById("view-cadastro"); if(!v) return;
     var sugB=function(id){ var g=document.createElement("button"); g.id=id; g.className="rp-sug-top rp-sug-any"; g.type="button"; g.innerHTML='💡 <span><b>Sugestão ou ideia</b><small>Ajude a melhorar o sistema: escreva ou fale</small></span><span style="margin-left:auto">›</span>'; g.onclick=abrirSug; return g; };
@@ -2120,7 +2121,14 @@ body.kb #rpSugFab{display:none}
     var put=function(){ if(v.querySelector("#rpAcctTop")) return; var b=document.createElement("button"); b.id="rpAcctTop"; b.className="rp-acct-top"; b.type="button";
       b.innerHTML='<span class="ic">👤</span><span><b>Minha conta</b><small>Seus dados, redes sociais, e-mail e sair</small></span><span class="ar">›</span>'; b.onclick=abrirConta; v.insertBefore(b,v.firstChild);
       if(!v.querySelector("#rpSugTop")){ var g=document.createElement("button"); g.id="rpSugTop"; g.className="rp-sug-top"; g.type="button"; g.innerHTML='💡 Sugestão ou ideia para o sistema <span style="margin-left:auto">›</span>'; g.onclick=abrirSug; b.after(g); }
-      if(!v.querySelector("#rpInvTop")){ var iv=document.createElement("button"); iv.id="rpInvTop"; iv.className="rp-sug-top rp-inv-top"; iv.type="button"; iv.innerHTML='✉️ <span>Convidar colega personal <small style="display:block;font-size:12px;font-weight:600;opacity:.85">Vagas limitadas na fase beta</small></span><span style="margin-left:auto">›</span>'; iv.onclick=abrirInv; var sg=v.querySelector("#rpSugTop")||b; sg.after(iv); } };
+    };
+    var ivTxt=function(){ var vg=INV.vg; if(!vg||!(+vg.total)) return "Vagas limitadas na fase beta"; var r=Math.max(0,(+vg.total)-(+vg.usadas||0)); return r? "Restam "+r+" de "+vg.total+" vagas · depois, fila de espera" : "Vagas esgotadas · fila de espera"; };
+    var putInv=function(){ if(!w) return; var iv=document.getElementById("rpInvTop");
+      if(!iv){ iv=document.createElement("button"); iv.id="rpInvTop"; iv.className="rp-sug-top rp-inv-top"; iv.type="button"; iv.onclick=abrirInv; }
+      iv.innerHTML='✉️ <span>Convidar colega personal <small id="rpInvSub" style="display:block;font-size:12px;font-weight:600;opacity:.9">'+ivTxt()+'</small></span><span style="margin-left:auto">›</span>';
+      if(w.firstElementChild!==iv) w.insertBefore(iv,w.firstElementChild); };
+    window.rpInvBar=putInv; putInv(); if(w) new MutationObserver(function(){ if(w.firstElementChild&&w.firstElementChild.id!=="rpInvTop") putInv(); }).observe(w,{childList:true});
+    fs.doc("publico/vagas").get().then(function(d){ INV.vg=d.exists? d.data() : null; putInv(); }).catch(function(){});
     put(); new MutationObserver(put).observe(v,{childList:true}); }
   function pedirPerfil(u){ landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
     $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); var rr=(PERFIL&&PERFIL.redes)||{}; $("rpPIg").value=rr.instagram||""; $("rpPSite").value=rr.site||""; }
