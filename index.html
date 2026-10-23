@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792780114";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792786117";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1061,6 +1061,8 @@ input.xn1:focus{outline:2px solid var(--accent);outline-offset:-2px;background:v
 input.xn1::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent);font-weight:500}
 .xrow.cja,.xrow.cjb{box-shadow:inset 4px 0 0 var(--accent)!important}
 .xrow.cja{border-bottom-color:transparent}
+.phmini .ltrdel{width:auto!important;min-width:0!important;height:auto!important;border:0!important;background:transparent!important;box-shadow:none!important;padding:0 6px!important;color:var(--muted)!important}
+.ltrmy{display:inline-flex;align-items:center;gap:0}.ltrmy>button[data-setltr]{width:auto!important;padding:0 10px!important;min-width:44px}.ltrdel{border:0;background:transparent;color:var(--muted);font-weight:900;font-size:14px;padding:0 4px;cursor:pointer}.ltrhint{display:block;color:var(--muted);font-size:12px;margin-top:4px}
 .ltrbox{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
 .ltr-q{font-family:var(--f-display);font-weight:700;font-size:17px}
 .ltr-txt{width:auto!important;flex:1;min-width:110px;padding:6px 8px!important;font-size:14px}
@@ -2082,7 +2084,7 @@ body.kb #rpSugFab{display:none}
   var INV={vg:null,cota:0,lista:[],novo:null,busy:false};
   var invCod=function(){ var a="abcdefghjkmnpqrstuvwxyz23456789", r=""; var b=new Uint8Array(8); crypto.getRandomValues(b); for(var i=0;i<8;i++) r+=a[b[i]%a.length]; return r; };
   var invLink=function(c){ return location.origin+location.pathname.replace(/index\.html$/,"")+"?convite="+c; };
-  var invTxt=function(c){ var n=(PERFIL&&PERFIL.nome)? PERFIL.nome.split(" ")[0] : ""; return "Olá! "+(n?"Aqui é o "+n+". ":"")+"Estou usando o *Rotina do Personal*: treino do dia, relatório para o aluno, presença automática e financeiro, tudo em um só lugar. Está em fase beta, com vagas limitadas, e separei um convite para você.\n\nCrie sua conta por este link (vale para uma pessoa):\n"+invLink(c); };
+  var invTxt=function(c){ var n=(PERFIL&&PERFIL.nome)? PERFIL.nome.split(" ")[0] : "", d=(INV.vg&&+INV.vg.diasConvite)||30; return "Olá! "+(n?"Aqui é o "+n+". ":"")+"Separei para você um acesso ao *Rotina do Personal*, o sistema de treinos, presença e financeiro para usar com seus alunos, tudo em um só lugar. 💪\n\nVocê tem *"+d+" dias* para testar à vontade. Ele está em *fase beta* e com vagas limitadas, então a sua opinião vale muito: dentro do site, toque em *💡 Sugestão ou ideia* (escreva ou fale) e conte o que achou e o que poderia melhorar.\n\nCrie sua conta por este link (vale para uma pessoa):\n"+invLink(c); };
   function invCarregar(){ var vg=fs.doc("publico/vagas").get(), ct=fs.doc("cotas/"+ME.uid).get().catch(function(){ return null; }), ls=fs.collection("convites").where("criadoPor","==",ME.uid).get().catch(function(){ return null; });
     return Promise.all([vg,ct,ls]).then(function(r){ INV.vg=r[0].exists? r[0].data() : null; INV.cota= r[1]&&r[1].exists? (+r[1].data().n||0) : 0; INV.lista= r[2]? r[2].docs.map(function(d){ return Object.assign({id:d.id},d.data()); }) : []; }); }
   function invRender(m,bad){ var B=$("rpInvBody"); if(!B) return; var h="";
@@ -3715,11 +3717,15 @@ const tname=L=> LTR_ALL.includes(L)? `Treino ${L}` : L;
 let ltrEdit=null, cz2Open=null;
 const CZF=["tipo","met","t","z","v","pse"];
 function cardioN(C){ let n=Math.max(1,+C.n||1); for(let k=2;k<=12;k++) if(CZF.some(f=>C[f+k]!=null&&C[f+k]!=="")) n=Math.max(n,k); return n; }
+/* Treinos com nome próprio (ex.: MMSS na reposição) ficam salvos como botões */
+function ltrMine(){ return ((S.brand||{}).ltrMine||[]).filter(x=>x&&!LTR_ALL.includes(x)); }
+function ltrAddMine(v){ v=String(v||"").trim().slice(0,14); if(!v||LTR_ALL.includes(v)) return; const L=ltrMine(); if(L.includes(v)) return; S.brand=Object.assign({},S.brand||{},{ltrMine:[...L,v].slice(-12)}); }
 function ltrPickHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const r=L? prevRef(m.id) : null; const p=progOf(m); const pl=p.map[S.day]||""; const bi=blockInfo(m); const custom=L&&!LTR_ALL.includes(L); const w=curWkPlan(m);
   const src= d&&d.ltr!=null&&pl&&d.ltr!==pl? `<span class="ltr-chg">Trocado só neste dia (Programação: Treino ${pl})</span>` : "";
   const blk= bi&&!bi.before? (bi.over? `<p class="blk-over">⚠ As ${bi.N} semanas deste treino terminaram. Monte o treino novo e, na Programação, escolha em <b>a partir de</b> a semana em que ele começa.</p>` : `<span class="blk-n">Semana ${bi.n} de ${bi.N}${w?` · ${planTxt(w)}`:""}</span>`) : "";
   return `<div class="ltrbox"><span class="ltr-q">Qual treino é hoje?</span>
-    <div class="phmini ltrpick" role="group" aria-label="Treino de ${esc(first(m.name))}">${LTR_ALL.map(x=>`<button style="--pc:var(--accent)" data-setltr="${x}" ${x==="FB"?'title="Full body"':""} aria-pressed="${x===L}">${x}</button>`).join("")}<input class="inp ltr-txt" data-ltrtxt id="lt-${m.id}" value="${custom?esc(L):""}" placeholder="ou outro nome"></div>
+    <div class="phmini ltrpick" role="group" aria-label="Treino de ${esc(first(m.name))}">${LTR_ALL.map(x=>`<button style="--pc:var(--accent)" data-setltr="${x}" ${x==="FB"?'title="Full body"':""} aria-pressed="${x===L}">${x}</button>`).join("")}${ltrMine().map(x=>`<span class="ltrmy"><button style="--pc:var(--accent)" data-setltr="${esc(x)}" aria-pressed="${x===L}">${esc(x)}</button><button class="ltrdel" data-ltrdel="${esc(x)}" aria-label="Tirar ${esc(x)} da lista">×</button></span>`).join("")}<input class="inp ltr-txt" data-ltrtxt id="lt-${m.id}" value="${custom&&!ltrMine().includes(L)?esc(L):""}" placeholder="ou digite: ex. MMSS"></div>
+    <small class="ltrhint">Digitou um treino novo (ex.: <b>MMSS</b>, <b>MMII</b>, <b>Reposição</b>)? Ele fica salvo aqui como botão para as próximas vezes.</small>
     <p class="ltrnote">${blk}${L? (r? `Comparando com o <b>${esc(tname(L))}</b> de ${DAY_N[r.day].toLowerCase()}, ${ddmm(r.date)}.` : `Primeiro <b>${esc(tname(L))}</b> registrado: ele vira a referência do próximo.`) : `Escolha o treino para comparar com o último igual. Sem escolher, compara com o mesmo dia da semana passada.`} ${src}</p></div>`; }
 function prevDayTot(sid){ const r=prevRef(sid); return r? totDay(r.d) : null; }
 function deltaTxt(a,b){ if(!b) return ""; const p=Math.round((a-b)/b*100); return `${p>0?"+":""}${p}%`; }
@@ -4720,6 +4726,7 @@ function sesClick(e){
   if(b.dataset.czrm){ const d=dayOf(w.id,sid,S.day,true), C=d.cardio, k=+b.dataset.czrm, N=cardioN(C);
     for(let j=k;j<N;j++) CZF.forEach(f=>{ const v=C[f+(j+1)]; if(v==null) delete C[f+j]; else C[f+j]=v; }); CZF.forEach(f=>delete C[f+N]); C.n=N-1; save(); renderSessao(); return; }
   if(b.hasAttribute("data-ltredit")){ ltrEdit= ltrEdit===sid? null : sid; renderSessao(); return; }
+  if(b.dataset.ltrdel){ S.brand=Object.assign({},S.brand||{},{ltrMine:ltrMine().filter(x=>x!==b.dataset.ltrdel)}); save(); renderSessao(); toast("Tirado da lista. Os treinos já feitos continuam salvos."); return; }
   if(b.dataset.setltr){ ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const cur=ltrOf(sid,w.id,S.day,d); d.ltr= b.dataset.setltr; if(d.ltr===progLtr(sid,S.day)&&!dayHasData(d)) delete d.ltr; const r=fillByLtr(sid,w.id,S.day,true); { const u=LTR_UNDO[w.id+"|"+sid+"|"+S.day]; if(u&&cur) u.ltr=cur; } save(); renderSessao(); toast(r? `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios de ${ddmm(r.date)} carregados` : `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios zerados (primeiro Treino ${b.dataset.setltr})`); return; }
   if(b.dataset.setph!=null){ if(+b.dataset.setph===m.phase) return; m.phase=+b.dataset.setph; save(); renderAll(); toast(`${first(m.name)}: ${phT(m)} · ${phaseOf(m).n}`); return; }
   if(b.hasAttribute("data-done")){ const d=dayOf(w.id,sid,S.day); if(!d) return; d.done=1; if(d.ini&&sesDateOf()===isoD(new Date())) d.fim=hmNow(); delete REST[sid]; save(); renderSessao(); renderTurnbar(); toast(`Treino de ${first(m.name)} concluído 💪`);
@@ -4804,7 +4811,7 @@ function sesInput(e){
     if(ps.length===1) g.cardio=v; else g[ps[0]][ps[1]][+ps[2]]=v; save(); refreshNumbers(sid); return; }
   if(t.dataset.cf){ const d=dayOf(w.id,sid,S.day,true); d.cardio[t.dataset.cf]=t.value; save(); refreshNumbers(sid); return; }
   if(t.dataset.wf){ const d=dayOf(w.id,sid,S.day,true); wodOf(d)[t.dataset.wf]=t.value; save(); refreshNumbers(sid); return; }
-  if(t.hasAttribute("data-ltrtxt")){ if(e.type!=="change") return; ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const v=t.value.trim(); if(v) d.ltr=v; else delete d.ltr; save(); renderSessao(); return; }
+  if(t.hasAttribute("data-ltrtxt")){ if(e.type!=="change") return; ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const v=t.value.trim().slice(0,14); if(v){ d.ltr=v; ltrAddMine(v); } else delete d.ltr; save(); renderSessao(); if(v) toast(`Treino ${v} salvo: da próxima vez é só tocar no botão`); return; }
   const rowEl=t.closest("[data-row]"); if(!rowEl) return;
   const d=dayOf(w.id,sid,S.day,true); const row=d.rows.find(x=>x.id===rowEl.dataset.row); if(!row) return;
   if(t.hasAttribute("data-conj")){ if(e.type!=="change") return; row.conj=t.checked; 
