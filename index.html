@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792833225";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792839698";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1063,6 +1063,7 @@ input.xn1::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent);fon
 .xrow.cja{border-bottom-color:transparent}
 .phmini .ltrdel{width:auto!important;min-width:0!important;height:auto!important;border:0!important;background:transparent!important;box-shadow:none!important;padding:0 6px!important;color:var(--muted)!important}
 .ltrmy{display:inline-flex;align-items:center;gap:0}.ltrmy>button[data-setltr]{width:auto!important;padding:0 10px!important;min-width:44px}.ltrdel{border:0;background:transparent;color:var(--muted);font-weight:900;font-size:14px;padding:0 4px;cursor:pointer}.ltrhint{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.ltrbox{position:relative}.ltrx{position:absolute;top:8px;right:8px;width:30px;height:28px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);font-weight:900;cursor:pointer}
 .ltrbox{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
 .ltr-q{font-family:var(--f-display);font-weight:700;font-size:17px}
 .ltr-txt{width:auto!important;flex:1;min-width:110px;padding:6px 8px!important;font-size:14px}
@@ -1540,6 +1541,11 @@ body[data-tab="cadastro"] #rpSugA{display:none!important}
 .cbusca{display:flex;align-items:center;gap:8px;font-size:20px;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:6px 10px;position:sticky;top:6px;z-index:4}.cbusca .inp{border:0;font-size:16px;flex:1;padding:6px}
 .mvtop{margin:4px 0 0!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;border-bottom:0!important}
 .confseq{display:grid;gap:6px;justify-items:center;margin:10px 0 4px;text-align:center}.confnext{font-size:16px!important;padding:12px 16px!important;width:100%;text-align:center;text-decoration:none}.confr.sent{opacity:.7}
+button.mc-chip{border:0;cursor:pointer;font:inherit;font-weight:800}.mc-sumb{display:block;width:100%;text-align:left;border:1.5px solid #E8B04A;background:#FFF6E3;border-radius:12px;padding:10px 12px;cursor:pointer;font:inherit;color:inherit}
+.reppan{border:2px solid #E8B04A!important;display:grid;gap:8px}.rp-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.rp-al{display:flex;justify-content:space-between;gap:8px;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;cursor:pointer;font:inherit;color:inherit}.rp-al b{color:#A8641A}
+.rp-f{border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px}.rp-f.rep{border-left:5px solid #E8B04A}.rp-f.nao{border-left:5px solid #9AA0A6;opacity:.85}.rp-f.abt{border-left:5px solid #1E8E3E}.rp-d{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.rp-d small{color:var(--muted)}
+.rp-seg{display:flex;gap:6px;flex-wrap:wrap}.rp-seg button{flex:1;min-width:90px}.rp-m{display:grid;grid-template-columns:1fr 1fr;gap:6px}.rp-m select,.rp-m input{width:100%;min-width:0;padding:8px;border-radius:8px;border:1px solid var(--line);font:inherit;font-size:14px;background:var(--surface);color:var(--fg)}
+.lrow.lmais{background:color-mix(in srgb,#1E8E3E 10%,transparent);border-radius:8px}.maistag{display:inline-block;margin-left:4px;font-size:11px;font-weight:800;color:#fff;background:#1E8E3E;border-radius:999px;padding:1px 8px}.q5card{border:2px solid #1E8E3E!important}.q5seg{display:flex;gap:6px;flex-wrap:wrap;align-items:center}.q5seg button{flex:1;min-width:120px}
 .confbox summary{cursor:pointer;list-style:none}.confbox summary::-webkit-details-marker{display:none}.confl{display:grid;gap:6px;margin:10px 0}.confr{display:grid;grid-template-columns:52px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:6px}.confr b{font-variant-numeric:tabular-nums}
 .confm{display:grid;gap:4px;font-size:13px;font-weight:700}.confm textarea{font-size:15px}
 .wkrow{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}.wkrow button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:6px 10px;font-weight:800;font-size:15px;cursor:pointer;color:var(--fg)}
@@ -3745,7 +3751,7 @@ function fillByLtr(sid,wid,day,force,clearLtr){ if(byDia(sid)) return null; let 
   const c= ref? cloneDay(ref.d,true) : emptyDay(); if(ref) c.cardio={...c.cardio,pse:""}; else c.cp=1; if(keep!=null) c.ltr=keep; P[day]=c; return ref||false; }
 function refTxt(sid){ const L=ltrOf(sid,S.week,S.day); if(!L) return "semana passada"; const r=prevRef(sid); return r? `Treino ${L} anterior (${r.day} ${ddmm(r.date)})` : `Treino ${L} anterior`; }
 const tname=L=> LTR_ALL.includes(L)? `Treino ${L}` : L;
-let ltrEdit=null, cz2Open=null;
+let ltrEdit=null, cz2Open=null; const LTR_HIDE={};
 const CZF=["tipo","met","t","z","v","pse"];
 function cardioN(C){ let n=Math.max(1,+C.n||1); for(let k=2;k<=12;k++) if(CZF.some(f=>C[f+k]!=null&&C[f+k]!=="")) n=Math.max(n,k); return n; }
 /* Treinos com nome próprio (ex.: MMSS na reposição) ficam salvos como botões */
@@ -3754,7 +3760,7 @@ function ltrAddMine(v){ v=String(v||"").trim().slice(0,14); if(!v||LTR_ALL.inclu
 function ltrPickHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const r=L? prevRef(m.id) : null; const p=progOf(m); const pl=p.map[S.day]||""; const bi=blockInfo(m); const custom=L&&!LTR_ALL.includes(L); const w=curWkPlan(m);
   const src= d&&d.ltr!=null&&pl&&d.ltr!==pl? `<span class="ltr-chg">Trocado só neste dia (Programação: Treino ${pl})</span>` : "";
   const blk= bi&&!bi.before? (bi.over? `<p class="blk-over">⚠ As ${bi.N} semanas deste treino terminaram. Monte o treino novo e, na Programação, escolha em <b>a partir de</b> a semana em que ele começa.</p>` : `<span class="blk-n">Semana ${bi.n} de ${bi.N}${w?` · ${planTxt(w)}`:""}</span>`) : "";
-  return `<div class="ltrbox"><span class="ltr-q">Qual treino é hoje?</span>
+  return `<div class="ltrbox"><span class="ltr-q">Qual treino é hoje?</span><button class="ltrx" data-ltrx aria-label="Fechar">✕</button>
     <div class="phmini ltrpick" role="group" aria-label="Treino de ${esc(first(m.name))}">${LTR_ALL.map(x=>`<button style="--pc:var(--accent)" data-setltr="${x}" ${x==="FB"?'title="Full body"':""} aria-pressed="${x===L}">${x}</button>`).join("")}${ltrMine().map(x=>`<span class="ltrmy"><button style="--pc:var(--accent)" data-setltr="${esc(x)}" aria-pressed="${x===L}">${esc(x)}</button><button class="ltrdel" data-ltrdel="${esc(x)}" aria-label="Tirar ${esc(x)} da lista">×</button></span>`).join("")}<input class="inp ltr-txt" data-ltrtxt id="lt-${m.id}" value="${custom&&!ltrMine().includes(L)?esc(L):""}" placeholder="ou digite: ex. MMSS"></div>
     <p class="ltrnote">${blk}${L? (r? `Comparando com o <b>${esc(tname(L))}</b> de ${DAY_N[r.day].toLowerCase()}, ${ddmm(r.date)}.` : `Primeiro <b>${esc(tname(L))}</b> registrado: ele vira a referência do próximo.`) : `Escolha o treino para comparar com o último igual. Sem escolher, compara com o mesmo dia da semana passada.`} ${src}</p></div>`; }
 function prevDayTot(sid){ const r=prevRef(sid); return r? totDay(r.d) : null; }
@@ -4516,11 +4522,11 @@ function colHTML(m,w,ms){
       <label class="ldrule">⚠ Avisar quando a carga subir mais de <input class="inp" type="number" inputmode="numeric" min="1" max="100" data-loadmax value="${loadMax()}"> % de uma semana para a outra</label></div>`)}
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${m===(ms.includes(st)?st:ms[0])&&sesMode==="lancar"? boxW("semana","📅 Semana e dia",SES_WK) : ""}
-    ${(!ltrOf(m.id,w.id,S.day,d)||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
+    ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     ${mvOpen===m.id? mvHTML(m,w,others) : `<button class="btn small ghost mvbtn mvtop" data-mvopen>↔ Mover este treino para outro dia</button>`}
     ${repAskHTML(m,d)}<div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     <div class="sheetx" data-sheet>
-      <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia">${L?`<small>Treino</small><b>${esc(LTR_ALL.includes(L)?L:L.slice(0,4))}</b>`:`<b>?</b>`}</button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
+      <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
       <div class="xband"><span></span><span class="xb-ex xb-ex2"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button><button class="xb-sug xb-tec ${TEC_MODE?"on":""}" data-tecmode title="Escolher método avançado nos exercícios">⚡ Métodos avançados${TEC_MODE?" ✓":""}</button></span></div>${TEC_MODE?`<p class="tecmhint">Toque em <b>+ Método</b> no exercício. Toque em ⚡ Métodos avançados de novo para esconder.</p>`:""}
       ${(()=>{ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : []; const used=new Set();
         const curD=addDays(w.start,DAYS.indexOf(S.day));
@@ -4755,6 +4761,7 @@ function sesClick(e){
   if(b.hasAttribute("data-cz2")){ const d=dayOf(w.id,sid,S.day,true); d.cardio.n=cardioN(d.cardio)+1; save(); renderSessao(); return; }
   if(b.dataset.czrm){ const d=dayOf(w.id,sid,S.day,true), C=d.cardio, k=+b.dataset.czrm, N=cardioN(C);
     for(let j=k;j<N;j++) CZF.forEach(f=>{ const v=C[f+(j+1)]; if(v==null) delete C[f+j]; else C[f+j]=v; }); CZF.forEach(f=>delete C[f+N]); C.n=N-1; save(); renderSessao(); return; }
+  if(b.hasAttribute("data-ltrx")){ LTR_HIDE[sid+"|"+S.week+"|"+S.day]=1; ltrEdit=null; renderSessao(); return; }
   if(b.hasAttribute("data-ltredit")){ ltrEdit= ltrEdit===sid? null : sid; renderSessao(); return; }
   if(b.dataset.ltrdel){ S.brand=Object.assign({},S.brand||{},{ltrMine:ltrMine().filter(x=>x!==b.dataset.ltrdel)}); save(); renderSessao(); toast("Tirado da lista. Os treinos já feitos continuam salvos."); return; }
   if(b.dataset.setltr){ ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const cur=ltrOf(sid,w.id,S.day,d); if(cur===b.dataset.setltr){ renderSessao(); return; } d.ltr= b.dataset.setltr; if(d.ltr===progLtr(sid,S.day)&&!dayHasData(d)) delete d.ltr; const r=fillByLtr(sid,w.id,S.day,true); { const u=LTR_UNDO[w.id+"|"+sid+"|"+S.day]; if(u&&cur) u.ltr=cur; } save(); renderSessao(); toast(r? `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios de ${ddmm(r.date)} carregados` : `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios zerados (primeiro Treino ${b.dataset.setltr})`); return; }
@@ -5397,6 +5404,8 @@ function cardPdf(html,bg){ return (async()=>{ const box=document.createElement('
   try{ const c=await h2cZ(box.firstElementChild,{scale:2,backgroundColor:bg||TH().bg,useCORS:true});
     const W=150,H=W*c.height/c.width; const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:'mm',format:[W,H]});
     const im=c.toDataURL('image/jpeg',0.92); doc.addImage(im,'JPEG',0,0,W,H); doc._img=im; return doc; } finally{ box.remove(); } })(); }
+/* Aulas a mais no mês (5ª semana): a regra geral vale, mas cada aluno pode ter a sua escolha no mês */
+function q5Of(a,ym){ const o=a&&a.q5m&&a.q5m[ym]; return o||BR().q5||'gratis'; }
 function q5Msg(n){ const br=BR(), au=n+' aula'+(n>1?'s':''); return br.q5Txt? esc(br.q5Txt.replace(/\{aulas\}/g,au).replace(/\{n\}/g,n)) : `Este mês você tem ${au} a mais, sem custo. ${n>1?'Elas ajudam':'Ela ajuda'} a compensar os dias de descanso em feriados e viagens.`; }
 function fechCardHTML(a,ym){
   const R0=dadosRel(a,ym), br=BRc(), G=TH().g, RED='#E5534B'; const [y,m]=ym.split('-').map(Number);
@@ -5422,7 +5431,7 @@ function fechCardHTML(a,ym){
     ${fd.length?`<div class="pc-box" style="border-color:${RED}"><b style="color:${RED}">AULAS QUE FALTARAM</b><p>${fd.join(' · ')}. Vamos repor conforme a disponibilidade da agenda.</p></div>`:''}
     ${R0.saldo>0&&!R0.hv?`<p class="pc-p">Saldo para repor: <b style="color:#fff">${R0.saldo} aula${R0.saldo>1?'s':''}</b>.</p>`:''}
     ${(fd.length||R0.saldo>0)&&br.regra?`<p class="pc-red">${esc(br.regra)}</p>`:''}
-    ${!R0.hv&&R0.x&&R0.x.quinta>0&&br.q5!=="cobra"?`<div class="pc-box"><b>AULAS A MAIS, SEM CUSTO</b><p>${q5Msg(R0.x.quinta)}</p></div>`:''}
+    ${!R0.hv&&R0.x&&R0.x.quinta>0&&q5Of(a,ym)!=="cobra"?`<div class="pc-box"><b>AULAS A MAIS, SEM CUSTO</b><p>${q5Msg(R0.x.quinta)}</p></div>`:''}
     <p class="pc-k" style="margin-top:6px">SEU MÊS</p>
     <div class="pc-cal">${['D','S','T','Q','Q','S','S'].map(d=>`<span class="pc-wd">${d}</span>`).join('')}${cal}</div>
     <div class="pc-leg"><span><i style="background:${G}"></i>treino feito</span>${fd.length?`<span><i style="border:1.5px solid ${RED}"></i>falta</span>`:''}${off.size?`<span><i style="border:1.5px dashed ${G}"></i>sem treino</span>`:''}</div>
@@ -5456,7 +5465,7 @@ function planCardHTML(a,ym){
     ${paras(br.pMsg,nome,n)}
     ${br.pGold?`<p class="pc-gold">${esc(fillT(br.pGold,nome,n))}</p>`:''}
     ${nOff?`<div class="pc-box"><b>${nOff>1?'DIAS SEM TREINO NO MÊS':(FERIADOS[R0.offs[0].k]?'FERIADO NO MÊS':'DIA SEM TREINO NO MÊS')}</b><p>${esc(offTxt)}, e não teremos treino.${br.q5!=="cobra"?" Sem preocupação: os meses de 5 semanas trazem aulas extras sem custo, e é assim que esse dia de descanso se compensa.":""}</p></div>`:''}
-    ${x.quinta>0?`<div class="pc-box"><b>MÊS DE 5 SEMANAS</b><p>${br.q5==="cobra"?`Este mês tem ${x.quinta} aula${x.quinta>1?'s':''} a mais, cobrada${x.quinta>1?'s':''} pelo valor da aula.`:q5Msg(x.quinta)}</p></div>`:''}
+    ${x.quinta>0?`<div class="pc-box"><b>MÊS DE 5 SEMANAS</b><p>${q5Of(a,ym)==="cobra"?`Este mês tem ${x.quinta} aula${x.quinta>1?'s':''} a mais, cobrada${x.quinta>1?'s':''} pelo valor da aula.`:q5Msg(x.quinta)}</p></div>`:''}
     ${br.regra?`<p class="pc-red">${esc(br.regra)}</p>`:''}
     <p class="pc-k" style="margin-top:6px">SEU MÊS</p>
     <div class="pc-cal">${['D','S','T','Q','Q','S','S'].map(d=>`<span class="pc-wd">${d}</span>`).join('')}${cal}</div>
@@ -5596,6 +5605,8 @@ main.addEventListener('toggle',e=>{ if(e.target.matches&&e.target.matches('[data
 function confSent(k){ try{ return JSON.parse(localStorage.getItem('rp_conf_'+k)||'{}'); }catch(_){ return {}; } }
 main.addEventListener('click',e=>{ const a=e.target.closest&&e.target.closest('[data-confsend]'); if(!a) return; const k=a.dataset.confk, m=confSent(k); m[a.dataset.confsend]=Date.now(); try{ localStorage.setItem('rp_conf_'+k,JSON.stringify(m)); }catch(_){} setTimeout(()=>{ try{ render(); }catch(_){} },400); });
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&confOpen) try{ render(); }catch(_){} });
+main.addEventListener('change',e=>{ const t=e.target; if(!t.matches||!t.matches('[data-rpmot],[data-rpobs]')) return; const key=t.dataset.key, f=t.hasAttribute('data-rpmot')?'motivo':'obs', v=t.value.trim().slice(0,120);
+  mutDay(t.dataset.k,d=>{ const r=Object.assign(d.registros[key]||{},{status:'f'}); r.destino=r.destino||'rep'; if(v) r[f]=v; else delete r[f]; d.registros[key]=r; }); toast('Motivo guardado'); });
 main.addEventListener('change',e=>{ if(e.target.id!=='confMsg') return; S.brand=Object.assign({},S.brand||{},{confMsg:e.target.value}); save(); render(); toast('Mensagem guardada'); });
 function renderMes(){
   const ym=st.month,[y,m]=ym.split('-').map(Number),ks=diasDoMes(ym);
@@ -5629,18 +5640,19 @@ function renderMes(){
   if(!S.length){main.innerHTML=h+`<div class="empty">Nenhum aluno cadastrado.</div>`;return}
   { const dv=S.filter(x=>(saldo.get(x.a.id)||0)>0).length;
   h+=`<div class="mc-leg"><span><i class="g"></i>veio</span><span><i class="r"></i>faltou</span><span><i class="y"></i>hoje, sem marcar</span><span><i class="c"></i>ainda vai acontecer</span></div>
-  ${dv?`<p class="mc-sum">🔁 <b>${dv} aluno${dv>1?"s":""}</b> com aula para repor</p>`:`<p class="mc-sum ok">✅ Ninguém deve reposição</p>`}
+  ${dv?`<button class="mc-sum mc-sumb" data-repall>🔁 <b>${dv} aluno${dv>1?"s":""}</b> com aula para repor <span class="muted">· ${REP_OPEN==='all'?'fechar ▴':'ver quem ▾'}</span></button>`:`<p class="mc-sum ok">✅ Ninguém deve reposição</p>`}
+  ${REP_OPEN==='all'?`<div class="card reppan"><div class="rp-h"><b>🔁 Quem tem aula para repor</b><button class="iconbtn" data-repx aria-label="Fechar">✕</button></div>${S.map(x=>({x,sr:saldo.get(x.a.id)||0})).filter(o=>o.sr>0).sort((p,q)=>q.sr-p.sr).map(o=>`<button class="rp-al" data-repal="${o.x.a.id}"><span>${esc(o.x.a.nome)}</span><b>Repor ${o.sr} aula${o.sr>1?'s':''} ›</b></button>`).join('')}<p class="note" style="margin:6px 0 0">Toque no aluno para ver os dias que ele faltou e decidir se repõe.</p></div>`:''}
   <div class="mc-list">`;
   for(const x of S){
     const sr=saldo.get(x.a.id)||0, vAg=Math.max(0,x.pres-x.reposFeitas-x.extras-(x.adi||0)), T=Math.max(1,x.agenda);
     const seg=(n,c)=>n?`<i class="${c}" style="flex:${n}"></i>`:"";
-    const chip= sr>0?`<span class="mc-chip dev">Repor ${sr} aula${sr>1?"s":""}</span>`: sr<0?`<span class="mc-chip adi">${-sr} adiantada${sr<-1?"s":""}</span>`:`<span class="mc-chip ok">Em dia</span>`;
+    const chip= sr>0?`<button class="mc-chip dev" data-repal="${x.a.id}">Repor ${sr} aula${sr>1?"s":""} ›</button>`: sr<0?`<span class="mc-chip adi">${-sr} adiantada${sr<-1?"s":""}</span>`:`<span class="mc-chip ok">Em dia</span>`;
     const extra=[x.reposFeitas?`🔁 ${x.reposFeitas} reposição feita${x.reposFeitas>1?"s":""}`:"", x.auto?`⚠ ${x.auto} falta${x.auto>1?"s":""} porque a chamada não foi marcada`:"", x.abt?`💲 ${x.abt} a abater${x.valorAula?" ("+brl(x.desconto)+")":""}`:"", x.nao?`${x.nao} falta${x.nao>1?"s":""} sem repor`:"", x.quinta?`+${x.quinta} da 5ª semana`:"", x.feriado?`${x.feriado} sem aula (feriado/viagem)`:"", x.extras?`+${x.extras} aula extra`:""].filter(Boolean);
     h+=`<div class="mc"><div class="mc-h"><button class="linkbtn mc-n" data-ver="${x.a.id}">${esc(x.a.nome)}</button>${chip}</div>
       <span class="mc-hr">${(x.a.slots||[]).map(s=>DC[s.d]+' '+s.h).join(' · ')}</span>
       ${x.agenda?`<div class="mc-bar">${seg(vAg,"g")}${seg(x.falta,"r")}${seg(x.pend,"y")}${seg(x.fut,"c")}</div>`:""}
       <p class="mc-n2"><b class="g">✅ Veio ${vAg}</b><b class="r">❌ Faltou ${x.falta}</b>${x.pend?`<b class="y">⏳ ${x.pend} hoje</b>`:""}<span>de ${x.agenda} aula${x.agenda!==1?"s":""} no mês${x.fut?` · faltam ${x.fut}`:""}</span></p>
-      ${extra.length?`<p class="mc-x">${extra.join(" · ")}</p>`:""}</div>`;
+      ${extra.length?`<p class="mc-x">${extra.join(" · ")}</p>`:""}</div>${REP_OPEN===x.a.id?repAlHTML(x.a,sr):""}`;
   }
   h+=`</div><details class="mc-tab"><summary>Ver tabela completa</summary>`; }
   h+=`<div class="tablewrap"><table><thead><tr><th>Aluno</th><th>Contrat.</th><th>Agenda</th><th>A mais</th><th>Sem aula</th><th>Presente</th><th>Faltas</th><th>A repor</th><th>Abater</th><th>Saldo repos.</th></tr></thead><tbody>`;
@@ -5783,7 +5795,7 @@ function finCalc(ym){
       const stt=r_perm(a)?'perm':!(valor>0.005)?'na':partes.some(t=>t.venc)?'no':partes.every(t=>pp[t.k])?'ok':'pa';
       if(stt!=='perm'){ prev+=pago; rec+=pago; }
       rows.push({a,bruto:valor||1,desc:0,valor,partes,pp,pago:stt==='perm'?0:pago,stt,pa:true,va}); continue; }
-    const x=S.get(a.id),bruto=(a.tipo==='avulsa'?valorAula(a)*(x?x.extras:0):0)+mensal(a)+(BR().q5==="cobra"&&x&&!isFicha(a)?x.quinta*valorAula(a):0),desc=x?x.desconto:0,pp=P[a.id]||{}; let valor=Math.max(0,bruto-desc);
+    const x=S.get(a.id),bruto=(a.tipo==='avulsa'?valorAula(a)*(x?x.extras:0):0)+mensal(a)+(q5Of(a,ym)==="cobra"&&x&&!isFicha(a)?x.quinta*valorAula(a):0),desc=x?x.desconto:0,pp=P[a.id]||{}; let valor=Math.max(0,bruto-desc);
     const valor0=valor; const aj=pp.aj&&num(pp.aj.v)>=0&&pp.aj.v!==''? pp.aj : null; if(aj) valor=+aj.v;
     const partes=partesDe(a,valor),av=(pp.avulsos||[]);
     const avX=av.filter(t=>AV_EXTRA.includes(t.m)).reduce((s,t)=>s+(+t.v||0),0);
@@ -5856,6 +5868,19 @@ function renderPag(){
   main.innerHTML=h;
 }
 
+const MOTIVOS=['Faltou sem avisar','Não avisou com antecedência','Eu precisei cancelar','Outro'];
+let REP_OPEN=null;
+function faltasDe(a){ const hoje=today(), out=[]; if(a.forma==='poraula') return out;
+  for(let k=INICIO;k<=hoje;k=addDays(k,1)){ if(isOff(k)) continue; const wd=dOf(k).getDay(), recs=dayData(k).registros||{};
+    for(const sl of (a.slots||[])) if(sl.d===wd){ const key=rk(a,sl.h), r=recs[key]||{}; if(r.status==='f'||(!r.status&&k<hoje)) out.push({k,key,hora:r.hora||sl.h,auto:!r.status,destino:r.destino||'rep',motivo:r.motivo||'',obs:r.obs||''}); } }
+  return out.reverse(); }
+function repAlHTML(a,sr){ const F=faltasDe(a); const fe=(()=>{ let n=0; for(const [k,d] of dias) for(const e of (d.extras||[])) if(e.alunoId===a.id&&(e.tipo==='rep'||e.tipo==='adi')&&e.status!=='f') n++; return n; })();
+  return `<div class="card reppan" id="rpp-${a.id}"><div class="rp-h"><b>🔁 ${esc(a.nome)} · ${sr>0?`repor ${sr} aula${sr>1?'s':''}`:'em dia'}</b><button class="iconbtn" data-repx aria-label="Fechar">✕</button></div>
+    <p class="note" style="margin:0 0 6px">Faltas desde o início do controle${fe?` · ${fe} reposição${fe>1?'ões':''} já feita${fe>1?'s':''}`:''}. Escolha em cada falta se vai repor e o motivo.</p>
+    ${F.length?F.map(f=>{ const d=dOf(f.k); return `<div class="rp-f ${f.destino}"><div class="rp-d"><b>${DC[d.getDay()]} ${d.getDate()}/${d.getMonth()+1} · ${f.hora}</b><small>${f.auto?'Falta automática (chamada não marcada)':'Falta'}</small></div>
+      <div class="seg rp-seg">${[['rep','🔁 Repor'],['nao','✖ Não repor'],['abt','💲 Abater']].map(([v,l])=>`<button data-rpdest="${v}" data-k="${f.k}" data-key="${esc(f.key)}" class="${f.destino===v?'on':''}">${l}</button>`).join('')}</div>
+      <div class="rp-m"><select class="rp-sel" data-rpmot data-k="${f.k}" data-key="${esc(f.key)}" aria-label="Motivo"><option value="">Motivo…</option>${MOTIVOS.map(m=>`<option ${f.motivo===m?'selected':''}>${m}</option>`).join('')}</select>
+      <input class="rp-obs" data-rpobs data-k="${f.k}" data-key="${esc(f.key)}" value="${esc(f.obs)}" placeholder="Escreva o motivo (opcional)"></div></div>`; }).join(''):'<div class="empty">Nenhuma falta registrada.</div>'}</div>`; }
 function aulasDoAluno(a,ym){
   const hoje=today(),out=[];
   for(const k of diasDoMes(ym)){
@@ -5864,12 +5889,12 @@ function aulasDoAluno(a,ym){
       const r=recs[rk(a,s.h)]||{},hora=r.hora||s.h;let st2,lbl;
       if(off){st2='off';lbl='Sem aula · '+offReason(k)}
       else if(r.status==='p'){st2='p';lbl='Presente'}
-      else if(r.status==='f'){st2='f';lbl='Faltou · '+DEST[r.destino||'rep']}
+      else if(r.status==='f'){st2='f';lbl='Faltou · '+DEST[r.destino||'rep']+(r.motivo?' · '+r.motivo:'')+(r.obs?' ('+r.obs+')':'')}
       else if(k<INICIO){st2='p';lbl='Dada (antes do controle)'}
       else if(k<hoje){st2='f';lbl='Falta automática'}
       else if(k===hoje){st2='hoje';lbl='Hoje, sem marcar'}
       else {st2='fut';lbl='Agendada'}
-      out.push({k,hora,st:st2,lbl,moved:r.hora&&r.hora!==s.h?s.h:''});
+      out.push({k,hora,st:st2,lbl,moved:r.hora&&r.hora!==s.h?s.h:'',fixo:true});
     }
     for(const e of (dayData(k).extras||[])) if(e.alunoId===a.id){
       const t=e.tipo==='rep'?'Reposição':e.tipo==='adi'?'Adiantamento':'Aula extra';
@@ -5877,6 +5902,7 @@ function aulasDoAluno(a,ym){
       out.push({k,hora:e.hora,st:st2,lbl:t+(e.status==='f'?' · faltou':st2==='fut'?' · agendada':'')});
     }
   }
+  { const F=out.filter(l=>l.fixo); const q=Math.max(0,F.length-contratadas(a)); F.filter(l=>l.st!=='off').slice(-q||F.length).forEach(l=>{ if(q) l.mais=true; }); }
   return out.sort((p,q)=>p.k.localeCompare(q.k)||p.hora.localeCompare(q.hora));
 }
 function histDe(id,ym){const h=hist.get(ym);return h&&h.alunos&&h.alunos[id]||null}
@@ -5924,8 +5950,11 @@ function renderAluno(){
   const rel=dif>0?`<span class="pos">+${dif} aula${dif>1?'s':''} a mais</span> que o contratado`:dif<0?`<span class="neg">${-dif} aula${dif<-1?'s':''} a menos</span> que o contratado`:'exatamente o contratado';
   h+=`<div class="card"><h3>${ym<cur?'Relatório do mês':ym===cur?'Previsão do mês':'Planejado'}</h3>
     <p style="margin:0">${ym<cur?`Fez <b>${x.pres}</b> de ${x.contr} aulas contratadas: ${rel}.`:`Se fizer tudo o que falta: <b>${proj}</b> de ${x.contr} contratadas, ${rel}.`}</p>
-    <p class="note" style="margin-bottom:0">${x.quinta?`5ª semana: +${x.quinta} aula${x.quinta>1?'s':''} ${BR().q5==="cobra"?"cobrada"+(x.quinta>1?"s":""):"sem cobrar"}. `:''}${x.feriado?`${x.feriado} aula${x.feriado>1?'s':''} sem aula (feriado/viagem). `:''}${x.reposFeitas?`${x.reposFeitas} reposição${x.reposFeitas>1?'ões':''} dada${x.reposFeitas>1?'s':''}. `:''}${x.extras?`${x.extras} aula${x.extras>1?'s':''} extra. `:''}Saldo de reposição acumulado: ${saldo>0?`<b class="wrn">deve ${saldo}</b>`:saldo<0?`<b class="pos">${-saldo} adiantada${-saldo>1?'s':''}</b>`:'em dia'}.</p></div>`;
-  h+=`<div class="card" style="padding-block:6px"><h3 style="margin-top:8px">Aulas do mês</h3>`+(lista.length?lista.map(l=>{const d=dOf(l.k);return `<div class="lrow" data-s="${l.st}"><span class="ld">${DC[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</span><span class="lh">${l.hora}${l.moved?` <small>(era ${l.moved})</small>`:''}</span><span class="ls">${esc(l.lbl)}</span></div>`}).join(''):'<div class="empty">Nenhuma aula neste mês.</div>')+`</div>`;
+    <p class="note" style="margin-bottom:0">${x.quinta?`5ª semana: +${x.quinta} aula${x.quinta>1?'s':''} ${q5Of(a,ym)==="cobra"?"cobrada"+(x.quinta>1?"s":""):"sem cobrar"}. `:''}${x.feriado?`${x.feriado} aula${x.feriado>1?'s':''} sem aula (feriado/viagem). `:''}${x.reposFeitas?`${x.reposFeitas} reposição${x.reposFeitas>1?'ões':''} dada${x.reposFeitas>1?'s':''}. `:''}${x.extras?`${x.extras} aula${x.extras>1?'s':''} extra. `:''}Saldo de reposição acumulado: ${saldo>0?`<b class="wrn">deve ${saldo}</b>`:saldo<0?`<b class="pos">${-saldo} adiantada${-saldo>1?'s':''}</b>`:'em dia'}.</p></div>`;
+  if(x.quinta>0&&!isFicha(a)&&a.forma!=='poraula'){ const cob=q5Of(a,ym)==='cobra', va=valorAula(a);
+    h+=`<div class="card q5card"><b>➕ ${x.quinta} aula${x.quinta>1?'s':''} a mais no plano de ${esc(first(a.nome))} em ${mesCurto(ym)}</b><p class="note" style="margin:2px 0 8px">O mês tem mais dias de aula do que as ${x.contr} contratadas. Os dias a mais estão marcados na lista abaixo.</p>
+      <div class="seg q5seg"><span class="lbl">Será cobrado?</span><button data-q5set="cobra" data-id="${a.id}" class="${cob?'on':''}">💲 Sim, cobrar${va?` (+${brl(va*x.quinta)})`:''}</button><button data-q5set="gratis" data-id="${a.id}" class="${!cob?'on':''}">🎁 Não, sem custo</button></div></div>`; }
+  h+=`<div class="card" style="padding-block:6px"><h3 style="margin-top:8px">Aulas do mês</h3>`+(lista.length?lista.map(l=>{const d=dOf(l.k);return `<div class="lrow ${l.mais?'lmais':''}" data-s="${l.st}"><span class="ld">${DC[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</span><span class="lh">${l.hora}${l.moved?` <small>(era ${l.moved})</small>`:''}</span><span class="ls">${esc(l.lbl)}${l.mais?` <b class="maistag">a mais no plano</b>`:''}</span></div>`}).join(''):'<div class="empty">Nenhuma aula neste mês.</div>')+`</div>`;
   h+=`<div class="row-actions" style="margin-top:0"><button class="primary" data-pdf="fech" data-id="${a.id}">📤 Enviar relatório de ${mesCurto(ym)}</button><button class="ghost" data-pdf="plan" data-id="${a.id}">📤 Enviar planejamento de ${mesCurto(ym)}</button></div><p class="note" style="margin-top:0"><button class="chipbtn" data-gobrand>✎ Suas frases, cores e logo</button> ${BR().nome==="Seu nome"?'<b class="neg">Coloque o seu nome antes de enviar.</b>':'Sai com o seu nome e o do aluno.'}</p>`;
   h+=histCard(a);
   main.innerHTML=h;
@@ -5992,6 +6021,11 @@ main.addEventListener('click',e=>{
   if(b.dataset.st!==undefined){const key=b.dataset.k,t=b.dataset.t,v=b.dataset.st;
     mutDay(k,d=>{if(t==='fixo'){const it=agendaDoDia(k).find(i=>i.key===key);const r=d.registros[key]||{};r.status=v;if(v!=='f')delete r.destino;else r.destino=r.destino||'rep';if(it&&!r.hora&&it.hora!==it.orig)r.hora=it.hora;if(!v&&!r.hora)delete d.registros[key];else d.registros[key]=r}
       else{const x=d.extras.find(x=>x.id===key);if(x)x.status=v}});return}
+  if(b.dataset.q5set){const a=alunos.get(b.dataset.id);if(a){const n=Object.assign({},a,{q5m:Object.assign({},a.q5m||{},{[st.month]:b.dataset.q5set})});alunos.set(a.id,n);saveAluno(n);render();toast(b.dataset.q5set==='cobra'?'Aulas a mais: serão cobradas no Financeiro':'Aulas a mais: sem custo');}return}
+  if(b.dataset.repall!==undefined){REP_OPEN=REP_OPEN==='all'?null:'all';render();return}
+  if(b.dataset.repal){REP_OPEN=REP_OPEN===b.dataset.repal?null:b.dataset.repal;render();setTimeout(()=>{const el=document.getElementById('rpp-'+b.dataset.repal);if(el)el.scrollIntoView({block:'start',behavior:'smooth'})},60);return}
+  if(b.dataset.repx!==undefined){REP_OPEN=null;render();return}
+  if(b.dataset.rpdest){const key=b.dataset.key,v=b.dataset.rpdest;mutDay(b.dataset.k,d=>{d.registros[key]=Object.assign(d.registros[key]||{},{status:'f',destino:v})});toast(v==='rep'?'Vai repor':v==='nao'?'Não vai repor':'Vai abater no valor');return}
   if(b.dataset.dest){const key=b.dataset.k;if(b.dataset.t&&b.dataset.t!=='fixo'){mutDay(k,d=>{const x=(d.extras||[]).find(x=>x.id===key);if(x){x.status='f';x.destino=b.dataset.dest}});return}mutDay(k,d=>{d.registros[key]=Object.assign(d.registros[key]||{},{status:'f',destino:b.dataset.dest})});return}
   if(b.hasAttribute('data-finpdf')){finPdf();return}
   if(b.dataset.kpi){st.kpi=st.kpi===b.dataset.kpi?null:b.dataset.kpi;render();return}
