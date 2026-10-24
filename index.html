@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792839698";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792878798";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1481,7 +1481,8 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 #agview .agdelon .agcellb{opacity:.85}#agview .agx{position:absolute;right:1px;top:1px;font-style:normal;background:#111;color:#fff;border-radius:50%;width:15px;height:15px;font-size:9px;line-height:15px}
 .agdelmsg{background:#FDE8E8;color:#9B1C1C;border:1.5px solid #E53935;border-radius:10px;padding:8px 10px;font-weight:700;font-size:14px;margin:0;position:sticky;top:0;z-index:5}
 #agview .agnh{font-size:20px!important;max-width:none;text-align:center}#agview .agpr button.g{background:#2EBD4E;color:#fff;border-color:#2EBD4E}#agview .agpr button.r{background:#E53935;color:#fff;border-color:#E53935}
-#agview .agpok{display:grid;grid-template-columns:1fr auto;gap:6px}#agview .agpop .agpok button.ok{background:#1F4E9A;color:#fff;border-color:#1F4E9A;padding:0 16px;font-size:17px}
+#agview .agok-o{background:#7B3FC4!important;color:#fff!important}
+.agpok{display:grid;grid-template-columns:1fr auto;gap:6px}#agview .agpop .agpok button.ok{background:#1F4E9A;color:#fff;border-color:#1F4E9A;padding:0 16px;font-size:17px}
 #agview .agpl{display:grid;gap:4px;font-size:13px;font-weight:700;color:var(--muted)}#agview .agpl .inp{font-size:16px}
 #agview .agpr{display:grid;grid-template-columns:1fr 1fr;gap:6px}#agview .agpr button{font-size:13px!important}
 .wbell{flex:none;border:1.5px dashed var(--line);background:var(--surface);border-radius:10px;font-size:16px;padding:4px 10px;cursor:pointer}.wbell.on{border-style:solid;border-color:#2EBD4E}
@@ -2337,7 +2338,7 @@ const cloud={col:null,ready:false,last:{},timer:null,writing:false,again:false,r
 function stable(o){ if(Array.isArray(o)) return "["+o.map(stable).join(",")+"]"; if(o&&typeof o==="object") return "{"+Object.keys(o).sort().map(k=>JSON.stringify(k)+":"+stable(o[k])).join(",")+"}"; return JSON.stringify(o===undefined?null:o); }
 function clean(o){ return JSON.parse(JSON.stringify(o)); }
 function docsOf(st){
-  const out={meta:clean({v:2,students:st.students.map(({log,...r})=>r),custom:st.custom||[],active:st.active,scope:st.scope||"me",weeks:st.weeks||[],week:st.week||null,day:st.day||null,grade:st.grade||null,gradeV1:st.gradeV1||0,slot:st.slot||null,exClean:st.exClean||0,brand:st.brand||null,myProg:st.myProg||null,repMus:!!st.repMus})};
+  const out={meta:clean({v:2,students:st.students.map(({log,...r})=>r),custom:st.custom||[],active:st.active,scope:st.scope||"me",weeks:st.weeks||[],week:st.week||null,day:st.day||null,grade:st.grade||null,gradeV1:st.gradeV1||0,slot:st.slot||null,exClean:st.exClean||0,brand:st.brand||null,myProg:st.myProg||null,repMus:!!st.repMus,agenda:st.agenda||null,wkCfg:st.wkCfg||null,tmMine:st.tmMine||null,tecMine:st.tecMine||null,tmr:st.tmr||null,phV2:st.phV2||null,ui:st.ui||null})};
   Object.keys(st.days||{}).forEach(wid=>Object.keys(st.days[wid]).forEach(sid=>{ const P=st.days[wid][sid]; const keep={}; Object.keys(P).forEach(dy=>{ if(dayHasData(P[dy])) keep[dy]=P[dy]; }); if(Object.keys(keep).length) out["ses-"+wid+"-"+sid]={days:clean(keep)}; }));
   st.plans.forEach(p=>out["plan-"+p.id]=clean(p));
   st.students.forEach(x=>out["log-"+x.id]={items:clean(x.log||[])});
@@ -2348,7 +2349,8 @@ function fromDocs(map){
   const plans=Object.keys(map).filter(k=>k.startsWith("plan-")).map(k=>clean(map[k]));
   const students=m.students.map(x=>({...clean(x),ov:clean(x.ov||{}),log:clean((map["log-"+x.id]||{}).items||[])}));
   const days={}; Object.keys(map).filter(k=>k.startsWith("ses-")).forEach(k=>{ const [,wid,sid]=k.split("-"); (days[wid]=days[wid]||{})[sid]=clean(map[k].days||{}); });
-  return {students,plans,custom:clean(m.custom||[]),active:m.active,scope:m.scope||"me",weeks:clean(m.weeks||[]),week:m.week||null,day:m.day||null,days,grade:m.grade?clean(m.grade):null,gradeV1:m.gradeV1||0,slot:m.slot||null,exClean:m.exClean||0,brand:m.brand?clean(m.brand):(S&&S.brand)||null,myProg:m.myProg?clean(m.myProg):(S&&S.myProg)||null,repMus:m.repMus!=null?!!m.repMus:!!(S&&S.repMus)};
+  return {students,plans,custom:clean(m.custom||[]),active:m.active,scope:m.scope||"me",weeks:clean(m.weeks||[]),week:m.week||null,day:m.day||null,days,grade:m.grade?clean(m.grade):null,gradeV1:m.gradeV1||0,slot:m.slot||null,exClean:m.exClean||0,brand:m.brand?clean(m.brand):(S&&S.brand)||null,myProg:m.myProg?clean(m.myProg):(S&&S.myProg)||null,repMus:m.repMus!=null?!!m.repMus:!!(S&&S.repMus),
+    ...Object.fromEntries(["agenda","wkCfg","tmMine","tecMine","tmr","phV2","ui"].map(k=>[k, m[k]!=null? clean(m[k]) : (S&&S[k]!=null? S[k] : undefined)]).filter(x=>x[1]!==undefined))};
 }
 function setCloud(st){
   cloud.status=st;
@@ -2562,7 +2564,10 @@ function agMkApply(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const h=agMk.
   save(); agRender(); toast(`${h} ${agMk.st==="g"?"livre":"ocupado"} em ${agMk.days.join(", ")}`); }
 function agMkCopy(){ const A2=agData(); const T=A2.tabs[agMk.ti]; const src=T.d[agMk.from]||[]; if(!agMk.to.length){ toast("Escolha para quais dias copiar"); return; }
   agMk.to.forEach(k=>{ agAddDay(k); T.d[k]=src.map(r=>({h:r.h,t:r.t,c:r.c})); }); save(); agRender(); toast(`${agMk.from} copiado para ${agMk.to.join(", ")}`); }
-const agCol=r=>{ const C=agCores(); if(r.c==="r") return C.ocup; if(r.c==="g") return C.livre; return AG_COL[r.c]|| (String(r.t||"").trim()? C.ocup : C.livre); };
+/* Marcação sua (Treino, Almoço…): cor automática pelo texto; para o aluno aparece OCUPADO */
+const AG_LBL=["#7B3FC4","#1B6FB8","#0E8C7A","#C2611B","#B83280","#6D4C41","#3949AB","#2E7D32"];
+const agLblCol=t=>{ let h=0; for(const ch of String(t||"").toLowerCase().trim()) h=(h*31+ch.charCodeAt(0))>>>0; return AG_LBL[h%AG_LBL.length]; };
+const agCol=r=>{ const C=agCores(); if(r.c==="o") return agLblCol(r.t); if(r.c==="r") return C.ocup; if(r.c==="g") return C.livre; return AG_COL[r.c]|| (String(r.t||"").trim()? C.ocup : C.livre); };
 function agHTML(){ const A2=agData();
   const C=agCores();
   const tab=agTabHTML;
@@ -2574,6 +2579,7 @@ function agTabHTML(T,ti){ const A2=agData(), C=agCores(); return `<div class="ag
         <button class="g" data-agset="g">✅ Livre</button>
         <label class="agpl" for="agPopTxt">Nome do aluno (opcional)</label><div class="agpok"><input class="inp" id="agPopTxt" value="${esc(String(r.t||"")==="OCUPADO"?"":r.t||"")}" placeholder="ex.: Carol" enterkeyhint="done"><button class="ok" data-agset="r" data-agok>OK</button></div>
         <button class="r" data-agset="r">⛔ Ocupado</button>
+        <label class="agpl" for="agPopLbl">✏️ Outra coisa (só você vê; para o aluno fica ocupado)</label><div class="agpok"><input class="inp" id="agPopLbl" value="${esc(r.c==="o"?r.t||"":"")}" placeholder="ex.: Treino, Almoço" enterkeyhint="done"><button class="ok agok-o" data-agset="o">OK</button></div>
         <div class="agpr"><button data-agedh>✏️ Mudar horário</button><button data-agdelrow>🗑 Apagar</button></div><button class="x" data-agpickx>Fechar</button></div>`:""}`; }).join("")}
       <button class="agadd" data-agadd="${ti}|${k}" aria-label="Novo horário em ${AG_DN[k]}">+</button>${AG_NEW===ti+"|"+k?`<div class="agpop" role="dialog" aria-label="Novo horário"><b>Novo horário · ${AG_DN[k]}</b>
         <label class="agpl" for="agNewH">Horário (só os números, ex.: 0800)</label><input class="inp agwhi agnh" id="agNewH" inputmode="numeric" placeholder="08:00">
@@ -2615,6 +2621,7 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
   if(b.dataset.agset||b.hasAttribute("data-agedh")||b.hasAttribute("data-agdelrow")){ const [ti,k,i]=(AG_PICK||"").split("|"); const r=A2.tabs[+ti]&&A2.tabs[+ti].d[k]&&A2.tabs[+ti].d[k][+i]; if(!r){ AG_PICK=null; agRender(); return; }
     if(b.hasAttribute("data-agedh")){ AG_EDH=AG_PICK; AG_PICK=null; agRender(); const el=document.querySelector(`[data-agf="${AG_EDH}|h"]`); if(el){ el.focus(); el.select&&el.select(); } return; }
     if(b.hasAttribute("data-agdelrow")){ AG_PICK=null; agDelRow(A2,+ti,k,+i); return; }
+    if(b.dataset.agset==="o"){ const pl=document.getElementById("agPopLbl"); const lv=pl? pl.value.trim().slice(0,20) : ""; if(!lv){ toast("Escreva o que é (ex.: Treino)"); if(pl) pl.focus(); return; } if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro).`); return; } r.c="o"; r.t=lv; delete r.auto; delete r.an; AG_PICK=null; agMirror(); save(); agRender(); toast(`✓ Salvo: ${k} ${r.h} · ${lv}`); return; }
     if(b.dataset.agset==="g"){ if(r.an&&r.an.length){ toast(`${r.an.join(" e ")} treina neste horário (Cadastro). Para liberar, mude o horário no Cadastro.`); return; } r.c="g"; r.t=""; delete r.auto; }
     else { const pt=document.getElementById("agPopTxt"); const nv=pt? pt.value.trim() : ""; r.c="r"; if(nv) r.t=nv; else if(String(r.t||"")!=="OCUPADO"&&!(r.an&&r.an.length)) r.t= +ti===1? "OCUPADO" : ""; if(+ti===1&&!String(r.t||"").trim()) r.t="OCUPADO"; delete r.auto; delete r.an; }
     AG_PICK=null; agMirror(); save(); agRender(); toast(b.dataset.agset==="g"? `✓ Salvo: ${k} ${r.h} livre` : `✓ Salvo: ${k} ${r.h} ocupado${r.t&&r.t!=="OCUPADO"?" · "+r.t:""}`); return; }
