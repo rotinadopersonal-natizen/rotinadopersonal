@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792964320";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792965638";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1708,6 +1708,13 @@ button.mc-chip{border:0;cursor:pointer;font:inherit;font-weight:800}.mc-sumb{dis
 <style>
 #rpLogin{position:fixed;inset:0;z-index:99999;background:#0f1115;color:#f3efe6;display:block;padding:16px 16px 40px;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:auto}
 #rpLogin[hidden]{display:none}
+#rpSplash{position:fixed;inset:0;z-index:100000;background:#0f1115;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .25s}
+#rpSplash.off{opacity:0;pointer-events:none}
+#rpSplash .rps-l{font:800 96px/1 Georgia,"Times New Roman",serif;color:#D4A24C;letter-spacing:2px}
+#rpSplash .rps-n{font:700 24px/1.2 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#f3efe6;letter-spacing:.5px}
+#rpSplash .rps-b{width:150px;height:6px;border-radius:6px;background:#2a2e36;overflow:hidden;margin-top:6px}
+#rpSplash .rps-b i{display:block;height:100%;width:40%;background:#D4A24C;border-radius:6px;animation:rpsb 1.1s ease-in-out infinite}
+@keyframes rpsb{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
 .rp-box{width:100%;max-width:360px;margin:0 auto}
 .rp-box.land{max-width:560px}.rp-box.land>#rpForm,.rp-box.land>#rpMsg{max-width:360px;margin-left:auto;margin-right:auto}
 #rpLand[hidden]{display:none}
@@ -1793,6 +1800,8 @@ body.kb #rpSugFab{display:none}
 #rpAcct .rp-hint{font-size:12.5px;color:#777;margin:4px 0 0}
 #rpAcct .rp-sheet{max-height:92vh;overflow:auto;background:#fff;color:#222;width:100%;max-width:460px;border-radius:16px 16px 0 0;padding:18px 16px 24px;font-family:system-ui,sans-serif}
 </style>
+<div id="rpSplash" role="status" aria-label="Abrindo Rotina do Personal"><div class="rps-l">RP</div><div class="rps-n">Rotina do Personal</div><div class="rps-b"><i></i></div></div>
+<script>window.rpSplashOff=function(){ var e=document.getElementById("rpSplash"); if(!e||e.classList.contains("off")) return; e.classList.add("off"); setTimeout(function(){ e.remove(); },300); }; setTimeout(function(){ window.rpSplashOff(); },15000);</script>
 <div id="rpLogin">
   <div class="rp-box">
     <div id="rpLand" hidden>
@@ -1923,7 +1932,7 @@ body.kb #rpSugFab{display:none}
 (function(){
   var cfg=window.RP_FIREBASE; var RP_CONTATO=window.RP_CONTATO||"mailson.contabil@gmail.com"; var RP_SUP_WA=window.RP_SUP_WA||"5531988260268";
   var msg=function(t,ok){ var m=document.getElementById("rpMsg"); m.textContent=t||""; m.className="rp-msg"+(ok?" ok":""); };
-  if(!cfg||!cfg.apiKey||!window.firebase){ msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
+  if(!cfg||!cfg.apiKey||!window.firebase){ window.rpSplashOff&&window.rpSplashOff(); msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
   firebase.initializeApp(cfg);
   var auth=firebase.auth(), fs=firebase.firestore();
   try{ fs.enablePersistence({synchronizeTabs:true}).catch(function(){}); }catch(e){}
@@ -1969,7 +1978,7 @@ body.kb #rpSugFab{display:none}
   var dBR=function(ms){ return new Date(ms).toLocaleDateString("pt-BR"); };
   var acessoValido=function(a){ return !!(a&&a.status==="liberado"&&(tsMs(a.validoAte)==null||tsMs(a.validoAte)>Date.now())); };
   var acKey=function(){ return "rp_acesso_"+ME.uid; };
-  function bloquear(tit,txt,cv){ landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg(""); $("rpBCv").hidden=!cv;
+  function bloquear(tit,txt,cv){ window.rpSplashOff(); landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=true; $("rpBloq").hidden=false; $("rpLogin").hidden=false; msg(""); $("rpBCv").hidden=!cv;
     $("rpBTit").textContent=tit; $("rpBTxt").textContent=txt;
     var t=encodeURIComponent("Olá! Criei minha conta no Rotina do Personal ("+(ME.email||"")+") e quero liberar o acesso.");
     if(RP_SUP_WA){ $("rpBWa").href="https://wa.me/"+RP_SUP_WA+"?text="+t; $("rpBWa").style.display=""; } else $("rpBWa").style.display="none";
@@ -2056,7 +2065,7 @@ body.kb #rpSugFab{display:none}
     try{ var prev=localStorage.getItem("rp_uid"); if(prev!==u.uid){ var keep=localStorage.getItem("fzV"); var pc=PERFIL; localStorage.clear(); if(keep!=null) localStorage.setItem("fzV",keep); localStorage.setItem("rp_uid",u.uid); if(pc) cacheSet(pc); } }catch(e){}
     window.RP_OWNER=(u.uid==="0HtqKqXRaLN9hQ34QlPmG4nB2fi1");
     window.claude={ use:function(n){ if(n==="db") return Promise.resolve(DB); if(n==="user") return Promise.resolve({id:function(){ return Promise.resolve(u.uid); },email:u.email}); if(n==="downloads") return Promise.resolve(DL); return Promise.resolve(null); } };
-    $("rpLogin").hidden=true;
+    $("rpLogin").hidden=true; window.rpSplashOff();
     var code=document.getElementById("appjs").textContent; var s=document.createElement("script"); s.textContent=code; document.body.appendChild(s);
     botaoTopo();
     /* Uso: último acesso e quantos alunos (só o número), para o painel do dono do sistema */
@@ -2147,7 +2156,7 @@ body.kb #rpSugFab{display:none}
     window.rpInvBar=putInv; putInv(); if(w) new MutationObserver(function(){ if(w.firstElementChild&&w.firstElementChild.id!=="rpInvTop") putInv(); }).observe(w,{childList:true});
     fs.doc("publico/vagas").get().then(function(d){ INV.vg=d.exists? d.data() : null; putInv(); }).catch(function(){});
     put(); new MutationObserver(put).observe(v,{childList:true}); }
-  function pedirPerfil(u){ landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
+  function pedirPerfil(u){ window.rpSplashOff(); landOn(false); $("rpForm").hidden=true; $("rpPerfil").hidden=false; $("rpLogin").hidden=false; msg("");
     $("rpPEmail").textContent=u.email||""; $("rpPNome").value=(PERFIL&&PERFIL.nome)||u.displayName||""; $("rpPTel").value=fmtTel((PERFIL&&PERFIL.telefone)||""); $("rpPAceite").checked=!!(PERFIL&&PERFIL.aceiteTermos===TERMOS_V); var rr=(PERFIL&&PERFIL.redes)||{}; $("rpPIg").value=rr.instagram||""; $("rpPSite").value=rr.site||""; }
   $("rpPGo").onclick=function(){ var n=$("rpPNome").value.trim(), t=$("rpPTel").value.trim();
     if(n.length<2){ msg("Digite seu nome."); return; } if(!telOk(t)){ msg("Digite o telefone com DDD."); return; } if(!$("rpPAceite").checked){ msg("Para continuar, aceite os Termos de uso."); return; }
@@ -2158,7 +2167,7 @@ body.kb #rpSugFab{display:none}
   var supCarregado=function(){ fs.doc("config/suporte").get().then(function(d){ if(!d.exists) return; var c=d.data()||{}; if(c.whatsapp) RP_SUP_WA=String(c.whatsapp).replace(/\D/g,""); if(c.email) RP_CONTATO=c.email; }).catch(function(){}); };
   auth.onAuthStateChanged(function(u){
     if(u) supCarregado();
-    if(!u){ $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; landOn(true); return; }
+    if(!u){ window.rpSplashOff(); $("rpForm").hidden=false; $("rpPerfil").hidden=true; $("rpLogin").hidden=false; landOn(true); return; }
     landOn(false);
     if(started) return; ME=u;
     PERFIL=cacheGet();
