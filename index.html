@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792965638";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792966564";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -390,6 +390,7 @@ body.tab-sessao .top{position:static!important}
 #agview{display:grid;gap:10px;padding-bottom:20px}
 .aghead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.aghead b{font-size:16px}
 .agwab{width:100%;border:0;border-radius:12px;background:#25D366;color:#fff;font-weight:800;font-size:15px;padding:10px;cursor:pointer}
+.agwach{display:flex;flex-wrap:wrap;gap:6px;margin-top:-4px}.agwc{border:1.5px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 11px;font-weight:700;font-size:13px;cursor:pointer}.agwc.on{background:#25D366;border-color:#25D366;color:#fff}.agwaimg{width:100%;border:1px solid var(--line);border-radius:10px}
 .agwa{display:grid;gap:8px;border:1.5px solid #25D366;border-radius:12px;padding:10px;background:var(--surface)}.agwa label{display:grid;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}.agwa textarea{font-size:13.5px}
 .agtools{display:flex;flex-wrap:wrap;gap:6px}.agtip{font-size:12px;margin:0}
 .agtab{display:grid;gap:4px}.agtitle{background:var(--surface);border:1px solid var(--line);border-radius:8px;text-align:center}
@@ -2531,16 +2532,44 @@ function agSync(){ const A2=agData(); let ch=false;
     M.d[k].sort((a,b)=>(a.h||"99").localeCompare(b.h||"99")); }); }
   if(agMirror()) ch=true;
   if(ch) save(); return ch; }
-let agWa=false;
-function agFree(){ const A2=agData(), P=A2.tabs[1]; const out=[]; A2.days.forEach(k=>{ const hs=(P.d[k]||[]).filter(r=>String(r.h||"").trim()&&(r.c==="g"||(!r.c&&!String(r.t||"").trim()))).map(r=>r.h); if(hs.length) out.push([k,hs]); }); return out; }
-function agWaText(){ const F=agFree(); const nm=(BR().nome&&BR().nome!=="Seu nome")? BR().nome : "";
-  return `Olá! Seguem meus horários disponíveis nesta semana:\n\n${F.map(([k,hs])=>`*${AG_DN[k]}*: ${hs.join(", ")}`).join("\n")||"(sem horários livres no momento)"}\n\nMe avise qual fica melhor para você. 😊${nm?`\n${nm}`:""}`; }
-function agWaHTML(){ const L=presOn()? PRES.alunos().filter(a=>a.ativo!==false).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")) : [];
+let agWa=false, agWaD=null, agWaF="both";
+const agWaDays=()=>{ const all=agData().days; return agWaD? all.filter(k=>agWaD.includes(k)) : all; };
+const agOcc=r=> r.c==="r" || (r.c!=="g" && !!String(r.t||"").trim() && !/^livre$/i.test(String(r.t).trim()));
+function agFree(){ const A2=agData(), P=A2.tabs[1]; const out=[]; agWaDays().forEach(k=>{ const hs=(P.d[k]||[]).filter(r=>String(r.h||"").trim()&&!agOcc(r)).map(r=>r.h); if(hs.length) out.push([k,hs]); }); return out; }
+function agWaText(){ const F=agFree(); const nm=(BR().nome&&BR().nome!=="Seu nome")? BR().nome : ""; const D=agWaDays(), all=agData().days.length===D.length;
+  const ttl= all? "nesta semana" : D.length===1? "na "+AG_DN[D[0]].toLowerCase() : "nestes dias";
+  return `Olá! Seguem meus horários disponíveis ${ttl}:\n\n${F.map(([k,hs])=>`*${AG_DN[k]}*: ${hs.join(", ")}`).join("\n")||"(sem horários livres no momento)"}\n\nMe avise qual fica melhor para você. 😊${nm?`\n${nm}`:""}`; }
+/* Imagem da tabela de novos alunos: só LIVRE / OCUPADO (sem nomes de alunos) */
+function agWaCanvas(){ const A2=agData(), P=A2.tabs[1], D=agWaDays(), C=agCores(); const hs=[...new Set(D.flatMap(k=>(P.d[k]||[]).map(r=>agNorm(r.h)).filter(h=>/^\d{2}:\d{2}$/.test(h))))].sort();
+  const W=1080, hw=150, cw=Math.floor((W-40-hw)/Math.max(1,D.length)), rh=58, top=190, H=top+60+rh*Math.max(1,hs.length)+70;
+  const cv=document.createElement("canvas"); cv.width=W; cv.height=H; const g=cv.getContext("2d");
+  g.fillStyle="#FFFFFF"; g.fillRect(0,0,W,H); g.textAlign="center"; g.textBaseline="middle";
+  const nm=(BR().nome&&BR().nome!=="Seu nome")? BR().nome : "";
+  g.fillStyle="#111"; g.font="800 46px system-ui,Arial,sans-serif"; g.fillText("Horários disponíveis",W/2,62);
+  g.fillStyle="#555"; g.font="600 28px system-ui,Arial,sans-serif"; g.fillText(nm? nm+" · Personal Trainer" : "Personal Trainer",W/2,112);
+  const lg=[[C.livre,"Livre"],[C.ocup,"Ocupado"]]; let lx=W/2-170; lg.forEach(([c,t])=>{ g.fillStyle=c; g.fillRect(lx,140,34,26); g.strokeStyle="#999"; g.strokeRect(lx,140,34,26); g.fillStyle="#333"; g.textAlign="left"; g.font="600 26px system-ui,Arial,sans-serif"; g.fillText(t,lx+44,154); lx+=200; }); g.textAlign="center";
+  const x0=20; g.fillStyle=C.cab; g.fillRect(x0,top,W-40,60); g.fillStyle=agInk(C.cab); g.font="800 28px system-ui,Arial,sans-serif"; g.fillText("Horário",x0+hw/2,top+30);
+  D.forEach((k,i)=>g.fillText(AG_DN[k],x0+hw+cw*i+cw/2,top+30));
+  hs.forEach((h,ri)=>{ const y=top+60+rh*ri; g.fillStyle=ri%2?"#F3F4F5":"#FFFFFF"; g.fillRect(x0,y,hw,rh); g.fillStyle="#111"; g.font="800 28px system-ui,Arial,sans-serif"; g.fillText(h,x0+hw/2,y+rh/2);
+    D.forEach((k,i)=>{ const r=(P.d[k]||[]).find(x=>agNorm(x.h)===h); const x=x0+hw+cw*i; let bg="#ECEEF0", tx="—";
+      if(r){ if(agOcc(r)){ bg=C.ocup; tx="OCUPADO"; } else { bg=C.livre; tx="LIVRE"; } }
+      g.fillStyle=bg; g.fillRect(x,y,cw,rh); g.fillStyle=r? agInk(bg) : "#9AA0A6"; g.font=`800 ${cw<150?20:25}px system-ui,Arial,sans-serif`; g.fillText(tx,x+cw/2,y+rh/2); }); });
+  g.strokeStyle="#C9CED3"; g.lineWidth=2; const yb=top+60+rh*hs.length; for(let i=0;i<=D.length;i++){ const x=i===0? x0 : x0+hw+cw*(i-1); g.beginPath(); g.moveTo(x,top); g.lineTo(x,yb); g.stroke(); }
+  g.beginPath(); g.moveTo(x0+hw+cw*D.length,top); g.lineTo(x0+hw+cw*D.length,yb); g.stroke();
+  for(let ri=0;ri<=hs.length+1;ri++){ const y= ri===0? top : top+60+rh*(ri-1); g.beginPath(); g.moveTo(x0,y); g.lineTo(x0+hw+cw*D.length,y); g.stroke(); }
+  if(!hs.length){ g.fillStyle="#777"; g.font="600 28px system-ui,Arial,sans-serif"; g.fillText("Sem horários na tabela de novos alunos",W/2,top+60+rh/2); }
+  g.fillStyle="#555"; g.font="600 26px system-ui,Arial,sans-serif"; g.fillText("Me avise qual fica melhor para você!",W/2,H-36);
+  return cv; }
+function agWaHTML(){ const L=presOn()? PRES.alunos().filter(a=>a.ativo!==false).sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR")) : []; const all=agData().days, D=agWaDays(), F=agWaF;
+  let prev=""; if(F!=="txt"){ try{ prev=agWaCanvas().toDataURL("image/png"); }catch(e){} }
   return `<div class="agwa"><b>📲 Enviar horários livres no WhatsApp</b>
-    <label>Para quem<select class="inp" id="agWaTo"><option value="">Escolher o contato no WhatsApp</option>${L.map(a=>`<option value="${a.id}" ${String(a.tel||"").replace(/\D/g,"")?"":"disabled"}>${esc(a.nome)}${String(a.tel||"").replace(/\D/g,"")?"":" (sem telefone)"}</option>`).join("")}</select></label>
-    <label>Mensagem (pode editar)<textarea class="inp" id="agWaTxt" rows="8">${esc(agWaText())}</textarea></label>
-    <small class="muted">Os horários livres vêm da tabela de baixo (novos alunos): linhas vazias ou marcadas como livres.</small>
-    <div class="row"><button class="btn primary" data-agwago>Abrir WhatsApp</button><button class="btn ghost" data-agwa>Fechar</button></div></div>`; }
+    <label>Quais dias</label><div class="agwach"><button class="agwc ${!agWaD?"on":""}" data-agwad="all">Semana inteira</button>${all.map(k=>`<button class="agwc ${agWaD&&agWaD.includes(k)?"on":""}" data-agwad="${k}">${k}</button>`).join("")}</div>
+    <label>O que enviar</label><div class="agwach"><button class="agwc ${F==="both"?"on":""}" data-agwaf="both">🖼️ + ✍️ Imagem e texto</button><button class="agwc ${F==="img"?"on":""}" data-agwaf="img">🖼️ Só imagem</button><button class="agwc ${F==="txt"?"on":""}" data-agwaf="txt">✍️ Só texto</button></div>
+    ${F==="txt"?`<label>Para quem<select class="inp" id="agWaTo"><option value="">Escolher o contato no WhatsApp</option>${L.map(a=>`<option value="${a.id}" ${String(a.tel||"").replace(/\D/g,"")?"":"disabled"}>${esc(a.nome)}${String(a.tel||"").replace(/\D/g,"")?"":" (sem telefone)"}</option>`).join("")}</select></label>`:`<small class="muted">Com imagem, o celular abre a lista para você escolher o <b>WhatsApp</b> e o contato.</small>`}
+    ${F!=="img"?`<label>Mensagem (pode editar)<textarea class="inp" id="agWaTxt" rows="8">${esc(agWaText())}</textarea></label>`:""}
+    ${prev?`<img class="agwaimg" src="${prev}" alt="Imagem da agenda que será enviada">`:""}
+    <small class="muted">Os horários vêm da tabela de baixo (novos alunos). Na imagem aparece só LIVRE ou OCUPADO, sem o nome dos alunos.</small>
+    <div class="row"><button class="btn primary" data-agwago>${F==="txt"?"Abrir WhatsApp":"Enviar"}</button><button class="btn ghost" data-agwa>Fechar</button></div></div>`; }
 
 const AG_COL={r:"#E53935",g:"#2EBD4E",b:"#26D0E6",y:"#FFEB3B",w:"#FFFFFF",k:"#9E9E9E"};
 const AG_PAL=[["#FFFFFF","Branco"],["#2EBD4E","Verde"],["#E53935","Vermelho"],["#26D0E6","Azul"],["#FFEB3B","Amarelo"],["#FF9800","Laranja"],["#9E9E9E","Cinza"],["#111111","Preto"]];
@@ -2647,6 +2676,13 @@ document.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b
     agSync(); agMirror(); save(); AG_WH=false; agRender(); toast(n? `Horários criados de ${de} a ${ate}. Toque no horário para marcar livre ou ocupado.` : "Esses horários já estavam na agenda"); return; }
   if(b.hasAttribute("data-agedit")){ agEdit=!agEdit; agRender(); return; }
   if(b.hasAttribute("data-agwa")){ agWa=!agWa; agRender(); return; }
+  if(b.dataset.agwad){ const k=b.dataset.agwad; if(k==="all") agWaD=null; else { const cur=agWaD? agWaD.slice() : []; agWaD= cur.includes(k)? cur.filter(x=>x!==k) : cur.concat(k); if(!agWaD.length||agWaD.length===agData().days.length) agWaD=null; } agRender(); return; }
+  if(b.dataset.agwaf){ agWaF=b.dataset.agwaf; agRender(); return; }
+  if(b.hasAttribute("data-agwago")&&agWaF!=="txt"){ const te=document.getElementById("agWaTxt"), txt=agWaF==="both"&&te? te.value : "";
+    agWaCanvas().toBlob(async blob=>{ const f=new File([blob],"horarios-disponiveis.png",{type:"image/png"});
+      try{ if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share(txt? {files:[f],text:txt} : {files:[f]}); return; } }catch(e){ if(e&&e.name==="AbortError") return; }
+      if(txt){ copyText(txt); toast("Texto copiado: cole no WhatsApp junto com a imagem"); }
+      offerFile(blob,"horarios-disponiveis.png",{share:false}); },"image/png"); return; }
   if(b.hasAttribute("data-agwago")){ const id=document.getElementById("agWaTo").value, txt=document.getElementById("agWaTxt").value; const a=id&&PRES.alunos().find(x=>x.id===id);
     let tel=String((a&&a.tel)||"").replace(/\D/g,""); if(tel&&tel.length<=11) tel="55"+tel.replace(/^0+/,""); const url="https://wa.me/"+tel+"?text="+encodeURIComponent(txt);
     let w=null; try{ w=window.open(url,"_blank"); }catch(err){} if(!w){ const l=document.createElement("a"); l.href=url; l.target="_blank"; l.rel="noopener"; document.body.appendChild(l); l.click(); l.remove(); } return; }
