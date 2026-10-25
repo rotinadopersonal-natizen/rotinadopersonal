@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792881289";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1792963665";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -1926,6 +1926,7 @@ body.kb #rpSugFab{display:none}
   if(!cfg||!cfg.apiKey||!window.firebase){ msg("Sistema em manutenção. Tente de novo em alguns minutos."); return; }
   firebase.initializeApp(cfg);
   var auth=firebase.auth(), fs=firebase.firestore();
+  try{ fs.enablePersistence({synchronizeTabs:true}).catch(function(){}); }catch(e){}
   auth.languageCode="pt";
   var ERR={"auth/invalid-email":"E-mail inválido.","auth/missing-password":"Digite a senha.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.",
     "auth/email-already-in-use":"Esse e-mail já tem conta. Toque em Entrar.","auth/invalid-credential":"E-mail ou senha incorretos.","auth/wrong-password":"E-mail ou senha incorretos.",
@@ -2323,7 +2324,7 @@ if(!S||!Array.isArray(S.students)||!S.students.length){ S=sample(); hadLocal=fal
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} queueCloud(); }
 /* Quem abre pelo link de fora da conta não consegue gravar na nuvem: testamos uma vez e, se não der, tudo fica salvo neste aparelho. */
 const DBW=(async()=>{ try{ if(!window.claude||!claude.use) return null; const db=await claude.use("db"); const u=await claude.use("user"); const uid=u? await u.id() : null;
-  if(!db||!uid) return null; try{ await db.doc("data/users/"+uid+"/pres/cfg/probe").set({ok:1}); }catch(e){ return null; } return {db,uid}; }catch(e){ return null; } })();
+  if(!db||!uid) return null; try{ await Promise.race([db.doc("data/users/"+uid+"/pres/cfg/probe").set({ok:1}), new Promise(r=>setTimeout(r,navigator.onLine===false?0:5000))]); }catch(e){ return null; } return {db,uid}; }catch(e){ return null; } })();
 function localDB(key){ let store={}; try{ store=JSON.parse(localStorage.getItem(key)||"{}")||{}; }catch(e){ store={}; } const subs=[];
   const persist=()=>{ try{ localStorage.setItem(key,JSON.stringify(store)); }catch(e){} };
   const snapOf=path=>({docs:Object.keys(store).filter(k=>k.startsWith(path+"/")&&!k.slice(path.length+1).includes("/")).map(k=>({id:k.slice(path.length+1),data:()=>clean(store[k])})),metadata:{hasPendingWrites:false}});
@@ -2356,32 +2357,33 @@ function fromDocs(map){
 function setCloud(st){
   cloud.status=st;
   const el=document.getElementById("cloudPill"); if(!el) return;
-  const t={connecting:["Conectando…",""],saving:["Salvando…","info"],saved:["Salvo na nuvem","ok"],local:["Só neste aparelho","warn"],error:["Erro ao salvar","bad"]}[st];
+  const t={connecting:["Conectando…",""],saving:["Salvando…","info"],saved:["Salvo na nuvem","ok"],local:["Só neste aparelho","warn"],error:["Erro ao salvar","bad"],offline:["📴 Sem internet · salvo no aparelho","warn"]}[st];
   el.textContent=t[0]; el.className="pill "+t[1];
 }
-function queueCloud(){ if(!cloud.ready) return; setCloud("saving"); clearTimeout(cloud.timer); cloud.timer=setTimeout(flush,700); }
+function queueCloud(){ if(!cloud.ready) return; setCloud(navigator.onLine===false?"offline":"saving"); clearTimeout(cloud.timer); cloud.timer=setTimeout(flush,700); }
 async function flush(){
   if(!cloud.ready) return;
-  if(cloud.writing){ cloud.again=true; return; }
+  /* Cada mudança entra na fila do aparelho na hora (mesmo sem internet) e sobe sozinha quando a conexão volta. */
+  const docs=docsOf(S), ps=[];
+  for(const k of Object.keys(docs)){
+    const j=stable(docs[k]); if(cloud.last[k]===j) continue;
+    const prev=cloud.last[k]; cloud.last[k]=j;
+    ps.push(cloud.col.doc(k).set(docs[k]).catch(e=>{ if(cloud.last[k]===j) cloud.last[k]=prev; throw e; }));
+  }
+  for(const k of Object.keys(cloud.last)){ if(!(k in docs)){ delete cloud.last[k]; ps.push(cloud.col.doc(k).delete()); } }
+  if(!ps.length){ if(!cloud.writing) setCloud(navigator.onLine===false?"offline":"saved"); else if(navigator.onLine!==false) setCloud("saving"); return; }
+  const gen=cloud.gen=(cloud.gen||0)+1;
+  if(navigator.onLine===false) setCloud("offline");
   cloud.writing=true;
-  try{
-    const docs=docsOf(S);
-    for(const k of Object.keys(docs)){
-      const j=stable(docs[k]); if(cloud.last[k]===j) continue;
-      const prev=cloud.last[k]; cloud.last[k]=j;
-      try{ await cloud.col.doc(k).set(docs[k]); }catch(e){ cloud.last[k]=prev; throw e; }
-    }
-    for(const k of Object.keys(cloud.last)){ if(!(k in docs)){ await cloud.col.doc(k).delete(); delete cloud.last[k]; } }
-    setCloud("saved");
-  }catch(e){
-    setCloud("error");
+  try{ await Promise.all(ps); if(gen===cloud.gen) setCloud("saved"); }
+  catch(e){
+    setCloud(navigator.onLine===false?"offline":"error");
     if(e&&e.code==="quota_exceeded") toast("Espaço da nuvem cheio. Baixe um backup e exclua alunos antigos.");
     else setTimeout(flush,4000);
-  }finally{
-    cloud.writing=false;
-    if(cloud.again){ cloud.again=false; flush(); }
-  }
+  }finally{ if(gen===cloud.gen) cloud.writing=false; }
 }
+window.addEventListener("offline",()=>{ if(cloud.ready) setCloud("offline"); });
+window.addEventListener("online",()=>{ if(cloud.ready){ setCloud("saving"); flush(); } });
 function busyTyping(){ const a=document.activeElement; return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || !document.getElementById("modal").hidden; }
 function applyRemote(map){
   const next=fromDocs(map); if(!next) return;
@@ -2401,10 +2403,10 @@ async function startCloud(){
   if(snap.empty){
     cloud.ready=true;
     if(hadLocal){ await flush(); toast("Seus alunos foram enviados para a nuvem"); }
-    else setCloud("saved");
+    else setCloud(navigator.onLine===false?"offline":"saved");
   } else {
     const map={}; snap.docs.forEach(d=>map[d.id]=d.data());
-    cloud.ready=true; applyRemote(map); setCloud("saved");
+    cloud.ready=true; applyRemote(map); setCloud(navigator.onLine===false?"offline":"saved");
   }
   cloud.col.onSnapshot(qs=>{
     if(qs.metadata.hasPendingWrites || cloud.writing) return;
@@ -3501,7 +3503,7 @@ function hideAlarm(){ ALARM=[]; document.getElementById("alarm").hidden=true; }
 document.getElementById("alarm").addEventListener("click",hideAlarm);
 let WAKE=null; async function keepAwake(){ try{ if(!WAKE&&navigator.wakeLock){ WAKE=await navigator.wakeLock.request("screen"); WAKE.addEventListener("release",()=>WAKE=null); } }catch(e){} }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&Object.keys(REST).length) keepAwake(); });
-try{ if("serviceWorker" in navigator&&location.protocol==="https:") navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
+try{ if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")) navigator.serviceWorker.register("sw.js").catch(()=>{}); }catch(e){}
 let NTF_OPEN=false;
 function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.permission : "nao", ios=/iPhone|iPad/.test(navigator.userAgent), app=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
   return `<div class="ntfbox" role="dialog" aria-label="Alarme no celular"><b>🔔 Alarme do descanso no celular</b>
@@ -5533,7 +5535,7 @@ const main=document.getElementById('pmain');
 function render(){
   setTimeout(()=>window.__presHook&&window.__presHook(),0);
   document.querySelectorAll('#pnav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===st.view));
-  document.getElementById('psync').textContent=db?(loadedA&&loadedD?(localMode?'Salvo neste aparelho':'Salvo na nuvem'):'Carregando…'):(online?'':'Sem conexão — nada será salvo');
+  document.getElementById('psync').textContent=db?(loadedA&&loadedD?(localMode?'Salvo neste aparelho':navigator.onLine===false?'📴 Sem internet · salvo no aparelho, envia quando voltar':'Salvo na nuvem'):'Carregando…'):(online?'':'Sem conexão — nada será salvo');
   if(st.view==='hoje')renderHoje();else if(st.view==='mes')renderMes();else if(st.view==='pag')renderPag();else renderAlunos();
 }
 
@@ -6124,7 +6126,7 @@ main.addEventListener('change',e=>{
 });
 
 /* ---------- conexão ---------- */
-render();
+render(); window.addEventListener('online',()=>render()); window.addEventListener('offline',()=>render());
 (async()=>{
   try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null}catch(e){dl=null}
   online=true;
