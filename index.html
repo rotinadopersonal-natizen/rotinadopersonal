@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793008453";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793008769";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -2356,6 +2356,7 @@ function docsOf(st){
   Object.keys(st.days||{}).forEach(wid=>Object.keys(st.days[wid]).forEach(sid=>{ const P=st.days[wid][sid]; const keep={}; Object.keys(P).forEach(dy=>{ if(dayHasData(P[dy])) keep[dy]=P[dy]; }); if(Object.keys(keep).length) out["ses-"+wid+"-"+sid]={days:clean(keep)}; }));
   st.plans.forEach(p=>out["plan-"+p.id]=clean(p));
   st.students.forEach(x=>out["log-"+x.id]={items:clean(x.log||[])});
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k&&k.startsWith("rp_aud_")){ const v=localStorage.getItem(k); if(v) out["aud-"+k.slice(7)]={v}; } } }catch(_){}
   return out;
 }
 function fromDocs(map){
@@ -2402,6 +2403,8 @@ function applyRemote(map){
   if(!next.students.some(x=>x.id===next.active)) next.active=next.students[0].id;
   if(S && S.active && next.students.some(x=>x.id===S.active)) next.active=S.active;
   S=next; Object.keys(map).forEach(k=>cloud.last[k]=stable(map[k]));
+  try{ const has=new Set(Object.keys(map).filter(k=>k.startsWith("aud-"))); has.forEach(k=>{ const v=map[k]&&map[k].v; if(v) localStorage.setItem("rp_aud_"+k.slice(4),v); });
+    for(let i=localStorage.length-1;i>=0;i--){ const k=localStorage.key(i); if(k&&k.startsWith("rp_aud_")&&!has.has("aud-"+k.slice(7))&&map.meta) localStorage.removeItem(k); } }catch(_){}
   try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
   renderAll(); if(!document.getElementById("people").hidden) renderPeople();
 }
@@ -3522,7 +3525,7 @@ const FIRED={};
 /* Voz no fim do descanso: gravada aqui, guardada neste aparelho (geral ou de cada aluno) */
 const almOff=()=>!!(S.brand||{}).alarmOff;
 function audGet(id){ try{ return localStorage.getItem("rp_aud_"+(id||"geral"))||""; }catch(_){ return ""; } }
-function audSet(id,v){ try{ if(v) localStorage.setItem("rp_aud_"+(id||"geral"),v); else localStorage.removeItem("rp_aud_"+(id||"geral")); return true; }catch(_){ toast("Não coube na memória do aparelho. Grave mais curto."); return false; } }
+function audSet(id,v){ try{ if(v) localStorage.setItem("rp_aud_"+(id||"geral"),v); else localStorage.removeItem("rp_aud_"+(id||"geral")); try{ queueCloud(); }catch(_){} return true; }catch(_){ toast("Não coube na memória do aparelho. Grave mais curto."); return false; } }
 async function audPlay(src){ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") await AC.resume();
   const bin=atob(src.split(",")[1]), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
   const buf=await AC.decodeAudioData(u.buffer); const n=AC.createBufferSource(), g=AC.createGain(); g.gain.value=1.6; n.buffer=buf; n.connect(g); g.connect(AC.destination); n.start(); }
@@ -3570,8 +3573,8 @@ function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.per
     ${sndSel()==="bip"?`<div class="ntfvr bipn"><span>Quantos bipes</span><button class="btn small" data-bipn="-1" aria-label="Menos">−</button><b class="num">${bipN()}</b><button class="btn small" data-bipn="1" aria-label="Mais">+</button><button class="btn small" data-sndtest>▶ Ouvir</button></div>`:sndSel()==="voz"?(audGet("")?"":`<small class="repwarn">Grave sua voz abaixo. Sem gravação, toca o bipe.</small>`):`<button class="btn small" data-sndtest>▶ Ouvir</button>`}
     <small class="muted">Toque numa opção para ouvir. Aluno com voz própria gravada sempre toca a voz dele.</small>
     <div class="ntfvr"><span>🎙 Sua voz (todos os alunos)${audGet("")?" ✓":""}</span><button class="btn small ${audGet("")?"":"primary"}" data-audrec="">${audGet("")?"Regravar":"🎙 Gravar minha voz"}</button>${audGet("")?`<button class="btn small" data-audplay="">▶ Ouvir</button><button class="btn small ghost" data-auddel="">Apagar</button>`:""}</div>
-    ${(()=>{ let M=[]; try{ M=sesMembers(); }catch(_){} return M.length? `<small class="muted">Voz de cada aluno (opcional), ex.: “Ana, bora para a próxima!”</small>`+M.map(m=>`<div class="ntfvr"><span>${esc(first(m.name))}${audGet(m.id)?" · 🎙":""}</span><button class="btn small" data-audrec="${m.id}">${audGet(m.id)?"Regravar":"🎙 Gravar"}</button>${audGet(m.id)?`<button class="btn small" data-audplay="${m.id}">▶</button><button class="btn small ghost" data-auddel="${m.id}">×</button>`:""}</div>`).join("") : ""; })()}
-    <small class="muted">Até 6 segundos. Fica salva neste aparelho. Com a tela bloqueada, o celular toca o som de notificação dele.</small></div>
+    ${(()=>{ let M=[]; try{ M=sesMembers(); }catch(_){} const L2=M.concat(S.students.filter(x=>!M.includes(x)&&audGet(x.id))); return L2.length? `<small class="muted">Voz de cada aluno (opcional), ex.: “Dona Neli, bora!”. Grave na aula dele: fica salva só para ele.</small>`+L2.map(m=>`<div class="ntfvr"><span>${esc(first(m.name))}${audGet(m.id)?" · 🎙 ✓":""}</span><button class="btn small" data-audrec="${m.id}">${audGet(m.id)?"Regravar":"🎙 Gravar"}</button>${audGet(m.id)?`<button class="btn small" data-audplay="${m.id}">▶</button><button class="btn small ghost" data-auddel="${m.id}">×</button>`:""}</div>`).join("") : ""; })()}
+    <small class="muted">Até 6 segundos. Cada aluno fica com a voz dele, salva na nuvem: abre em qualquer aparelho seu. Com a tela bloqueada, o celular toca o som de notificação dele.</small></div>
   <button class="btn ${almOff()?"primary":"ghost"}" data-almtog>${almOff()?"🔔 Ligar o alarme do descanso":"🔕 Desligar o alarme do descanso"}</button>
   ${st==="granted"?`<button class="btn" data-ntftest>Testar agora (bloqueie a tela em 5 s)</button>`:""}
   <ol class="ntfl"><li>Toque em <b>Ativar</b> e escolha <b>Permitir</b>.</li>
