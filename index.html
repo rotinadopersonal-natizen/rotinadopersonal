@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793006431";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793007734";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -331,6 +331,7 @@ input.mini{padding:5px;text-align:center}
 @media (min-width:480px){.xhead,.xband,.xrow,.xtot{grid-template-columns:42px minmax(0,1fr) repeat(3,64px) 62px 58px!important}}
 .xv{font-size:12px!important;padding:0 3px 0 2px!important;letter-spacing:-.02em}
 .xb-sug{white-space:nowrap}.xband .xb-ex2{grid-column:2 / -1;display:flex!important;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}.xb-ex2 .xb-sug{font-size:11px!important;padding:3px 9px!important}.xrepw{display:flex;margin:1px 0 0 4px}.xrepw:empty{display:none}.xrepw .xrep{font-size:10px!important;padding:1px 8px!important}.repask{position:relative;margin:10px 0 14px;padding:14px;border:2.5px solid var(--accent);border-radius:16px;background:var(--accent-soft);display:grid;gap:8px;text-align:center}.repask:after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%);border:10px solid transparent;border-top-color:var(--accent);border-bottom:0}
+#repPop[hidden]{display:none}.repscrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000}.reppop{position:fixed!important;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100vw - 24px));max-height:calc(100vh - 40px);overflow:auto;margin:0!important;z-index:9001;background:var(--surface)!important;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:reppop .22s ease-out}.reppop:after{display:none}@keyframes reppop{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}.repx{position:absolute;right:8px;top:8px}.repwarn{background:var(--warn-soft);color:var(--fg);border-radius:10px;padding:6px 8px;font-size:13.5px}.repmode{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;font-size:13px;font-weight:700;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
 .repask p{margin:0}.repask .rq{font-size:17px;font-weight:800}.repask .rbt{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.repask .rbt .btn{flex:1 1 140px}.repask small{color:var(--muted);font-size:12px}
 .xb-tec.on{background:var(--accent)!important;color:#fff!important}
 .tecmhint{margin:0;padding:4px 8px;font-size:11px;text-align:center;background:var(--accent-soft);color:var(--fg)}.xtec.pick{border-style:solid!important;color:var(--accent)!important;border-color:var(--accent)!important}
@@ -3492,7 +3493,7 @@ function renderTurnbar(){
     + (durOpen&&ms.some(m=>m.id===durOpen)? `<div class="durpop" role="group" aria-label="Escolher descanso"><span>Descanso de ${esc(first(S.students.find(x=>x.id===durOpen).name))}</span><div>${REST_OPTS.map(v=>`<button data-setdur="${v}" aria-pressed="${restSec(S.students.find(x=>x.id===durOpen))===v}">${v}"</button>`).join("")}</div></div>` : "");
   const wt=document.getElementById("weektabs"); const onW= CUR_TAB==="sessao" && S.weeks && S.weeks.length;
   wt.hidden=!onW; document.getElementById("wrap").classList.toggle("withweeks",!!onW);
-  if(onW){ const on=ntfOk()&&!almOff(), voz=!!audGet(""); wt.innerHTML=`<button class="wbell wbig wdark ${on?"on":""}" data-ntf>🔔 Alarme do descanso <small>${on?`✓ ligado${voz?" · sua voz":""} · toque para configurar`:almOff()?"desligado · toque para configurar":"toque para ativar e configurar"}</small></button>`; }
+  if(onW){ const on=ntfOk()&&!almOff(), voz=sndSel()==="voz"&&!!audGet(""), sn=(SND.find(x=>x[0]===sndSel())||SND[0])[1].replace(/^\S+\s/,"").toLowerCase(); wt.innerHTML=`<button class="wbell wbig wdark ${on?"on":""}" data-ntf>🔔 Alarme do descanso <small>${on?`✓ ligado · ${voz?"sua voz":sndSel()==="bip"?bipN()+" bipes":sn} · toque para configurar`:almOff()?"desligado · toque para configurar":"toque para ativar e configurar"}</small></button>`; }
   if(false){ wt.innerHTML=wkSorted().map(w=>`<button data-wtab="${w.id}" aria-selected="${w.id===S.week}" class="${wkDue(w)?"due":""} ${wkNum(w)==null?"old":""}">${wkDue(w)?"🔔 ":""}${wkLbl(w)} <small>${w.nome?esc(w.nome):ddmm(w.start)}</small></button>`).join("")+`<button data-wtab="new" class="wnew" aria-label="Nova semana">+</button><button class="wbell ${ntfOk()?"on":""}" data-ntf aria-label="Alarme no celular">${ntfOk()?"🔔":"🔕"}</button><button data-wtab="cfg" class="wcfg" aria-label="Contagem e lembrete das semanas">⚙</button>`;
     const on=wt.querySelector('[aria-selected="true"]'); if(on) on.scrollIntoView({inline:"nearest",block:"nearest"}); }
   let pop=document.getElementById("wkpop"); if(!pop){ pop=document.createElement("div"); pop.id="wkpop"; document.body.appendChild(pop); }
@@ -3505,8 +3506,17 @@ const restSec=m=> m.rest||60;
 function fmtRest(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
 function restLabel(m){ const e=REST[m.id]; if(!e) return "▶ "+fmtRest(restSec(m)*1000); const left=e-Date.now(); return left>0? fmtRest(left) : "Bora!"; }
 let AC=null;
-function beep(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume();
-  [0,0.3,0.6,0.9,1.2,1.5,1.8].forEach(t=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type="square"; o.frequency.value=t>1.7?1320:880; g.gain.setValueAtTime(0.0001,AC.currentTime+t); g.gain.exponentialRampToValueAtTime(0.35,AC.currentTime+t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,AC.currentTime+t+0.25); o.connect(g); g.connect(AC.destination); o.start(AC.currentTime+t); o.stop(AC.currentTime+t+0.27); }); }catch(e){} }
+const SND=[["bip","📟 Bipe"],["sino","🔔 Sino"],["camp","🛎 Campainha"],["sobe","🎺 Subida"],["voz","🎙 Sua voz"]];
+const sndSel=()=>{ const v=(S.brand||{}).alSnd; return v||(audGet("")?"voz":"bip"); };
+const bipN=()=>Math.max(1,Math.min(10,+((S.brand||{}).alBips)||7));
+function acx(){ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); return AC; }
+function tone(t,f,dur,type,vol){ const c=acx(), o=c.createOscillator(), g=c.createGain(); o.type=type||"sine"; o.frequency.value=f; const t0=c.currentTime+t;
+  g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(vol||0.35,t0+0.015); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); o.connect(g); g.connect(c.destination); o.start(t0); o.stop(t0+dur+0.02); }
+function beep(n){ try{ n=n||bipN(); for(let i=0;i<n;i++) tone(i*0.3,i===n-1&&n>1?1320:880,0.25,"square",0.35); }catch(e){} }
+function playSnd(k){ try{ if(k==="sino"){ [0,0.9].forEach(t=>{ tone(t,880,1.6,"sine",0.5); tone(t,2430,1.0,"sine",0.18); tone(t,1760,1.2,"sine",0.15); }); }
+  else if(k==="camp"){ [0,1.1].forEach(t=>{ tone(t,659,0.9,"triangle",0.5); tone(t+0.45,523,1.0,"triangle",0.5); }); }
+  else if(k==="sobe"){ [[0,523],[0.16,659],[0.32,784]].forEach(([t,f])=>tone(t,f,0.18,"square",0.28)); tone(0.5,1047,0.7,"square",0.3); }
+  else beep(); }catch(e){} }
 const FIRED={};
 /* Voz no fim do descanso: gravada aqui, guardada neste aparelho (geral ou de cada aluno) */
 const almOff=()=>!!(S.brand||{}).alarmOff;
@@ -3515,7 +3525,7 @@ function audSet(id,v){ try{ if(v) localStorage.setItem("rp_aud_"+(id||"geral"),v
 async function audPlay(src){ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") await AC.resume();
   const bin=atob(src.split(",")[1]), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
   const buf=await AC.decodeAudioData(u.buffer); const n=AC.createBufferSource(), g=AC.createGain(); g.gain.value=1.6; n.buffer=buf; n.connect(g); g.connect(AC.destination); n.start(); }
-function restSound(id){ if(almOff()) return; const v=audGet(id)||audGet(""); if(v){ audPlay(v).catch(()=>beep()); } else beep(); }
+function restSound(id){ if(almOff()) return; const k=sndSel(); if(k==="voz"){ const v=audGet(id)||audGet(""); if(v){ audPlay(v).catch(()=>beep()); return; } beep(); return; } if(audGet(id)){ audPlay(audGet(id)).catch(()=>playSnd(k)); return; } playSnd(k); }
 let REC=null;
 async function audRec(id,btn){ if(REC){ try{ REC.stop(); }catch(_){} return; }
   if(!navigator.mediaDevices||!window.MediaRecorder){ toast("Este celular não grava áudio pelo navegador."); return; }
@@ -3555,7 +3565,10 @@ function ntfHTML(){ const sup="Notification" in window, st=sup? Notification.per
   ${sup&&st!=="granted"&&st!=="denied"?`<button class="btn primary" data-ntfgo>Ativar alarme no celular</button>`:""}<label class="ntfml">✏️ Sua mensagem quando o descanso acaba<input class="inp" id="ntfMsg" maxlength="120" value="${esc((S.brand||{}).alarmMsg||"")}" placeholder="${esc(ALM_DEF)}"></label>
   <div class="ntfprev"><small>Vai chegar assim:</small><b>⏰ Acabou o descanso · Ana</b><span id="ntfPrev">${esc(almMsg())}</span></div>
   <div class="ntfsnd"><b>🔊 Som quando o descanso acaba</b>
-    <div class="ntfvr"><span>${audGet("")?"🎙 Sua voz (todos os alunos)":"Apito (padrão)"}</span><button class="btn small ${audGet("")?"":"primary"}" data-audrec="">${audGet("")?"Regravar":"🎙 Gravar minha voz"}</button>${audGet("")?`<button class="btn small" data-audplay="">▶ Ouvir</button><button class="btn small ghost" data-auddel="">Apagar</button>`:""}</div>
+    <div class="agwach sndch">${SND.map(([k,n])=>`<button class="agwc ${sndSel()===k?"on":""}" data-snd="${k}">${n}</button>`).join("")}</div>
+    ${sndSel()==="bip"?`<div class="ntfvr bipn"><span>Quantos bipes</span><button class="btn small" data-bipn="-1" aria-label="Menos">−</button><b class="num">${bipN()}</b><button class="btn small" data-bipn="1" aria-label="Mais">+</button><button class="btn small" data-sndtest>▶ Ouvir</button></div>`:sndSel()==="voz"?(audGet("")?"":`<small class="repwarn">Grave sua voz abaixo. Sem gravação, toca o bipe.</small>`):`<button class="btn small" data-sndtest>▶ Ouvir</button>`}
+    <small class="muted">Toque numa opção para ouvir. Aluno com voz própria gravada sempre toca a voz dele.</small>
+    <div class="ntfvr"><span>🎙 Sua voz (todos os alunos)${audGet("")?" ✓":""}</span><button class="btn small ${audGet("")?"":"primary"}" data-audrec="">${audGet("")?"Regravar":"🎙 Gravar minha voz"}</button>${audGet("")?`<button class="btn small" data-audplay="">▶ Ouvir</button><button class="btn small ghost" data-auddel="">Apagar</button>`:""}</div>
     ${(()=>{ let M=[]; try{ M=sesMembers(); }catch(_){} return M.length? `<small class="muted">Voz de cada aluno (opcional), ex.: “Ana, bora para a próxima!”</small>`+M.map(m=>`<div class="ntfvr"><span>${esc(first(m.name))}${audGet(m.id)?" · 🎙":""}</span><button class="btn small" data-audrec="${m.id}">${audGet(m.id)?"Regravar":"🎙 Gravar"}</button>${audGet(m.id)?`<button class="btn small" data-audplay="${m.id}">▶</button><button class="btn small ghost" data-auddel="${m.id}">×</button>`:""}</div>`).join("") : ""; })()}
     <small class="muted">Até 6 segundos. Fica salva neste aparelho. Com a tela bloqueada, o celular toca o som de notificação dele.</small></div>
   <button class="btn ${almOff()?"primary":"ghost"}" data-almtog>${almOff()?"🔔 Ligar o alarme do descanso":"🔕 Desligar o alarme do descanso"}</button>
@@ -3574,9 +3587,12 @@ document.addEventListener("change",e=>{ if(!e.target.matches||!e.target.matches(
 document.addEventListener("change",e=>{ if(!e.target.matches||!e.target.matches("[data-donesend]")) return; S.brand=Object.assign({},S.brand||{},{doneSend:e.target.value}); save(); toast("Guardado"); });
 document.addEventListener("input",e=>{ if(e.target.id!=="ntfMsg") return; S.brand=Object.assign({},S.brand||{},{alarmMsg:e.target.value}); save(); const pv=document.getElementById("ntfPrev"); if(pv) pv.textContent=almMsg(); });
 function ntfRender(){ let el=document.getElementById("ntfpop"); if(!el){ el=document.createElement("div"); el.id="ntfpop"; document.body.appendChild(el); } el.hidden=!NTF_OPEN; el.innerHTML=NTF_OPEN? ntfHTML() : ""; }
-document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-audrec],[data-audplay],[data-auddel],[data-almtog]"); if(!b) return;
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-audrec],[data-audplay],[data-auddel],[data-almtog],[data-snd],[data-bipn],[data-sndtest]"); if(!b) return;
   if(b.dataset.audrec!=null){ audRec(b.dataset.audrec,b); return; }
   if(b.dataset.audplay!=null){ const v=audGet(b.dataset.audplay); if(v) audPlay(v).catch(()=>toast("Não consegui tocar. Grave de novo.")); return; }
+  if(b.dataset.snd){ S.brand=Object.assign({},S.brand||{},{alSnd:b.dataset.snd}); save(); if(b.dataset.snd==="voz"){ const v=audGet(""); if(v) audPlay(v).catch(()=>{}); } else playSnd(b.dataset.snd); ntfRender(); renderTurnbar(); return; }
+  if(b.dataset.bipn){ S.brand=Object.assign({},S.brand||{},{alBips:Math.max(1,Math.min(10,bipN()+(+b.dataset.bipn)))}); save(); beep(); ntfRender(); return; }
+  if(b.hasAttribute("data-sndtest")){ playSnd(sndSel()); return; }
   if(b.dataset.auddel!=null){ audSet(b.dataset.auddel,""); ntfRender(); renderTurnbar(); toast("Voz apagada. Volta o apito."); return; }
   if(b.hasAttribute("data-almtog")){ S.brand=Object.assign({},S.brand||{},{alarmOff:!almOff()}); save(); ntfRender(); renderTurnbar(); toast(almOff()?"Alarme do descanso desligado":"Alarme do descanso ligado"); }
 });
@@ -4304,11 +4320,33 @@ document.addEventListener("click",e=>{ const x=e.target.closest&&e.target.closes
   const pl=e.target.closest&&e.target.closest("#topPlate.plal"); if(!pl) return; ALR_HIDE={}; try{ renderSessao(); }catch(_){} setTimeout(()=>{ const a=document.querySelector(".salert"); if(a){ a.scrollIntoView({block:"center",behavior:"smooth"}); a.classList.add("salfl"); setTimeout(()=>a.classList.remove("salfl"),1600); } alrBadge(); },60); },true);
 /* Início do treino: pergunta se repete o treino anterior inteiro ou só mostra como referência */
 function repAskOn(m,d){ if(!d||!d.cp||d.ask||d.ini||d.done||d.presOk) return null; const ref=prevRef(m.id); return ref&&ref.d&&dayHasData(ref.d)&&(!ref.d.cp||ref.d.done||ref.d.ini||ref.d.presOk)? ref : null; }
-function repAskHTML(m,d){ const ref=repAskOn(m,d); if(!ref) return "";
-  return `<div class="repask" role="dialog" aria-label="Treino anterior"><p><b>${esc(first(m.name))}</b>, ${ref.ltr?`treino ${esc(ref.ltr)}`:"treino"} de ${ddmm(ref.date)}:</p><p class="rq">Deseja repetir o treino anterior ou apenas visualizar?</p>
-    <div class="rbt"><button class="btn primary" data-repask="rep">↻ Repetir o treino anterior</button><button class="btn" data-repask="ver">👀 Apenas visualizar</button></div>
-    <small>Visualizar: o treino anterior fica em cima de cada exercício, e o ↻ Repetir de cada linha continua valendo.</small></div>`; }
-function repAskDo(sid,v){ const d=dayOf(S.week,sid,S.day); const ref=repAskOn(stById(sid),d); if(!d) return; d.ask=1; if(!ref){ save(); return; }
+const repRefOk=sid=>{ const ref=prevRef(sid); return ref&&ref.d&&dayHasData(ref.d)? ref : null; };
+const repMode=()=> (S.brand||{}).repAskMode==="uma"? "uma" : "sempre";
+let REP_POP=null; const REP_SEEN={};
+function repAskHTML(){ return ""; }
+function repPopHTML(sid){ const m=stById(sid); if(!m) return ""; const d=dayOf(S.week,sid,S.day); const auto=repAskOn(m,d); const ref=auto||repRefOk(sid); if(!ref) return "";
+  const has=!auto&&d&&dayHasData(d)&&(d.ini||d.done||d.presOk||(d.rows||[]).some(r=>!r.cp&&String(r.n1||"").trim()));
+  return `<div class="repscrim" data-repx></div><div class="repask reppop" role="dialog" aria-modal="true" aria-label="Treino anterior"><button class="icon-btn repx" data-repx aria-label="Fechar">✕</button>
+    <p><b>${esc(first(m.name))}</b>, ${ref.ltr?`treino ${esc(ref.ltr)}`:"treino"} de ${ddmm(ref.date)}:</p><p class="rq">Deseja repetir o treino anterior ou apenas visualizar?</p>
+    ${has?`<p class="repwarn">⚠ Hoje já tem treino lançado. Repetir <b>substitui</b> o que está lançado.</p>`:""}
+    <div class="rbt"><button class="btn primary" data-repask="rep" data-repsid="${sid}">↻ ${has?"Substituir pelo treino anterior":"Repetir o treino anterior"}</button><button class="btn" data-repask="ver" data-repsid="${sid}">👀 Apenas visualizar</button></div>
+    <small>Visualizar: o treino anterior fica em cima de cada exercício, e o ↻ Repetir de cada linha continua valendo.</small>
+    <div class="repmode"><span>Mostrar este aviso:</span><button class="agwc ${repMode()==="sempre"?"on":""}" data-repmode="sempre">🔁 Sempre que o treino começar</button><button class="agwc ${repMode()==="uma"?"on":""}" data-repmode="uma">1️⃣ Só desta vez</button></div>
+    <small>${repMode()==="uma"?"Não abre mais sozinho. Para ver de novo, toque em <b>↻ Treino anterior</b>, em cima da tabela.":"Para abrir de novo, toque em <b>↻ Treino anterior</b>, em cima da tabela."}</small></div>`; }
+function repPopRender(){ let el=document.getElementById("repPop"); if(!el){ el=document.createElement("div"); el.id="repPop"; document.body.appendChild(el); }
+  const h= REP_POP&&CUR_TAB==="sessao"? repPopHTML(REP_POP) : ""; if(!h) REP_POP=null; el.hidden=!h; el.innerHTML=h; }
+const repKey=sid=>S.week+"|"+sid+"|"+S.day;
+function repAuto(){ if(CUR_TAB!=="sessao"||REP_POP||repMode()==="uma") return; let ms=[]; try{ ms=sesMembers(); }catch(_){ return; }
+  const st=A(); ms=[st].concat(ms.filter(x=>x!==st)).filter(x=>ms.includes(x));
+  const m=ms.find(x=>!REP_SEEN[repKey(x.id)]&&repAskOn(x,dayOf(S.week,x.id,S.day))); if(!m) return; REP_SEEN[repKey(m.id)]=1; REP_POP=m.id; repPopRender(); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("#repPop [data-repx],#repPop [data-repask],#repPop [data-repmode],[data-repopen]"); if(!b) return;
+  if(b.dataset.repopen){ REP_POP=b.dataset.repopen; repPopRender(); return; }
+  if(b.dataset.repmode){ S.brand=Object.assign({},S.brand||{},{repAskMode:b.dataset.repmode}); save(); repPopRender(); toast(b.dataset.repmode==="uma"?"Não vai abrir sozinho. Use ↻ Treino anterior em cima da tabela.":"Vai abrir sempre que o treino começar."); return; }
+  if(b.dataset.repask){ const sid=b.dataset.repsid; repAskDo(sid,b.dataset.repask,true); REP_POP=null; repPopRender(); renderSessao(); setTimeout(repAuto,50); return; }
+  if(b.hasAttribute("data-repx")){ REP_POP=null; repPopRender(); setTimeout(repAuto,50); } });
+function repAskDo(sid,v,force){ let d=dayOf(S.week,sid,S.day); let ref=repAskOn(stById(sid),d);
+  if(!ref&&force){ ref=repRefOk(sid); if(ref&&v==="ver"&&d&&dayHasData(d)&&!d.cp){ d.ask=1; save(); return; } if(ref&&!d) d=dayOf(S.week,sid,S.day,true); }
+  if(!d) return; d.ask=1; if(!ref){ save(); return; }
   const keep=d.ltr, card=d.cardio; const c= v==="rep"? cloneDay(ref.d,true,true) : cloneDay(ref.d,true,false);
   c.ask=1; if(keep!=null) c.ltr=keep; if(card) c.cardio=card;
   if(v==="rep"){ c.rows.forEach(r=>delete r.cp); delete c.cp; }
@@ -4581,7 +4619,7 @@ function colHTML(m,w,ms){
     ${repAskHTML(m,d)}<div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
-      <div class="xband"><span></span><span class="xb-ex xb-ex2"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button><button class="xb-sug xb-tec ${TEC_MODE?"on":""}" data-tecmode title="Escolher método avançado nos exercícios">⚡ Métodos avançados${TEC_MODE?" ✓":""}</button></span></div>${TEC_MODE?`<p class="tecmhint">Toque em <b>+ Método</b> no exercício. Toque em ⚡ Métodos avançados de novo para esconder.</p>`:""}
+      <div class="xband"><span></span><span class="xb-ex xb-ex2"><button class="xb-sug ${sugOpen===m.id?"on":""}" data-sug>💡 Sugerir exercícios</button><button class="xb-sug xb-tec ${TEC_MODE?"on":""}" data-tecmode title="Escolher método avançado nos exercícios">⚡ Métodos avançados${TEC_MODE?" ✓":""}</button>${repRefOk(m.id)?`<button class="xb-sug" data-repopen="${m.id}" title="Repetir ou visualizar o treino anterior">↻ Treino anterior</button>`:""}</span></div>${TEC_MODE?`<p class="tecmhint">Toque em <b>+ Método</b> no exercício. Toque em ⚡ Métodos avançados de novo para esconder.</p>`:""}
       ${(()=>{ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : []; const used=new Set();
         const curD=addDays(w.start,DAYS.indexOf(S.day));
         const pick=(r,i)=>{ const y=pick0(r,i); if(y||!r.n1.trim()) return y; return lastDone(m.id,r.n1,curD); };
@@ -4643,7 +4681,7 @@ function painelHTML(st,w){
     </div>
   </div>`;
 }
-function renderSessao(){ renderSessao0(); requestAnimationFrame(()=>fitNames()); }
+function renderSessao(){ renderSessao0(); requestAnimationFrame(()=>fitNames()); setTimeout(repAuto,120); }
 let sesProgOpen=null;
 function sesProgHTML(st){ const ms=sesMembers(); if(!ms.length) return "";
   const btns=ms.map(m=>`<button class="btn small ${sesProgOpen===m.id?"primary":""}" data-sesprog="${m.id}" aria-expanded="${sesProgOpen===m.id}">⚙ ${sesProgOpen===m.id?"Fechar programação":"Programação"}${ms.length>1?` de ${esc(first(m.name))}`:""}</button>`).join("");
