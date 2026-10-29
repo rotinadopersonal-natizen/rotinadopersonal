@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793278418";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793279221";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -6224,13 +6224,17 @@ function finCmpHTML(){ const cur=keyOf(new Date()).slice(0,7); const ini=String(
 document.addEventListener('change',e=>{ const t=e.target; if(!t.matches||!t.matches('[data-fcmp]')) return; st[t.dataset.fcmp]=t.value; render(); });
 /* Por que o previsto mudou em relação ao mês anterior */
 function finDiffHTML(ym){ const pv=addMes(ym,-1); if(String(INICIO||"").slice(0,7)>pv) return ""; let F0,F1; try{ F0=finCalc(pv); F1=finCalc(ym); }catch(_){ return ""; }
-  const d=F1.prev-F0.prev; const S0=statsMes(pv), S1=statsMes(ym); const val=r=> r&&r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='na'&&r.stt!=='pac'? r.valor : (r&&r.stt==='pac'? r.valor:0);
+  const d=F1.prev-F0.prev; const S0=statsMes(pv), S1=statsMes(ym); const advIn=(a,m)=>{ const d=a&&a.adiantado; return d&&d.recebidoEm===m&&+d.valor>0? +d.valor : 0; };
+  const val=(r,m)=>{ if(!r) return 0; const ad=advIn(r.a,m); if(r.stt==='perm'||r.stt==='adv') return ad; if(r.pa) return (r.pago||0)+ad; if(r.stt==='pac') return r.pk? r.valor+ad : ad; return r.valor+(r.avX||0)+ad; };
   const it=[];
-  for(const a of [...alunos.values()]){ if(a.ativo===false&&a.inativoDesde&&a.inativoDesde>pv&&a.inativoDesde<=ym){ const r0=F0.rows.find(r=>r.a.id===a.id); const v=r0?val(r0):mensal(a); it.push({v:-v,saiu:1,t:`<b>${esc(first(a.nome))}</b> saiu`}); } }
+  for(const a of [...alunos.values()]){ if(a.ativo===false&&a.inativoDesde&&a.inativoDesde>pv&&a.inativoDesde<=ym){ const r0=F0.rows.find(r=>r.a.id===a.id); const v=r0?val(r0,pv):mensal(a); it.push({v:-v,saiu:1,t:`<b>${esc(first(a.nome))}</b> saiu`}); } }
   const ids=new Set([...F0.rows,...F1.rows].map(r=>r.a.id));
-  for(const id of ids){ const r0=F0.rows.find(r=>r.a.id===id), r1=F1.rows.find(r=>r.a.id===id); const a=(r1||r0).a, nm=esc(first(a.nome)); const v0=val(r0), v1=val(r1); if(Math.abs(v1-v0)<0.005) continue;
+  for(const id of ids){ const r0=F0.rows.find(r=>r.a.id===id), r1=F1.rows.find(r=>r.a.id===id); const a=(r1||r0).a, nm=esc(first(a.nome)); const v0=val(r0,pv), v1=val(r1,ym); if(Math.abs(v1-v0)<0.005) continue;
     const why=[]; const x0=S0.get(id), x1=S1.get(id);
-    if(r1&&r1.stt==='adv') why.push('pago adiantado'); else if(r0&&r0.stt==='adv') why.push('mês anterior estava pago adiantado');
+    if(r1&&r1.stt==='adv') why.push('já pagou este mês adiantado antes: o dinheiro entrou no mês em que pagou, por isso não entra no previsto agora'); else if(r0&&r0.stt==='adv') why.push('no mês anterior estava pago adiantado');
+    if(advIn(a,ym)&&!advIn(a,pv)) why.push(`pagou adiantado neste mês (${brl(advIn(a,ym))} entram agora)`); else if(advIn(a,pv)&&!advIn(a,ym)) why.push(`no mês anterior pagou adiantado (${brl(advIn(a,pv))} entraram lá)`);
+    if(r1&&r1.pa||r0&&r0.pa) why.push('cobra por aula feita: entra só o que foi pago');
+    if(r1&&r1.stt==='perm') why.push('permuta');
     if(r1&&r1.cobraMes) why.push('começa a pagar depois'); else if(r0&&r0.stt==='na'&&r0.cobraMes) why.push('começou a pagar');
     if(r1&&r1.aj) why.push('valor ajustado neste mês'); if(r0&&r0.aj&&!(r1&&r1.aj)) why.push('mês anterior tinha valor ajustado');
     if(x0&&x1&&x0.agenda!==x1.agenda&&((r1&&r1.pa)||(r0&&r0.pa)||!why.length)){ const k=x1.agenda-x0.agenda; why.push(`${Math.abs(k)} ${Math.abs(k)===1?'aula':'aulas'} a ${k>0?'mais':'menos'} no mês (${x0.agenda} → ${x1.agenda})${x1.feriado?`, ${x1.feriado} em feriado`:''}`); }
@@ -6239,7 +6243,7 @@ function finDiffHTML(ym){ const pv=addMes(ym,-1); if(String(INICIO||"").slice(0,
     it.push({v:v1-v0,t:`<b>${nm}</b>: ${brl(v0)} → ${brl(v1)}${why.length?` <small>(${why.join('; ')})</small>`:''}`}); }
   const saiu=it.reduce((t,x)=>t+(x.saiu?-x.v:0),0); const base0=F0.prev+saiu; const d2=F1.prev-base0;
   if(Math.abs(d2)<0.005&&!it.length) return `<p class="note findiff">📊 Previsto igual a ${mesCurto(pv)}: ${brl(F1.prev)}.</p>`;
-  it.sort((p,q)=>p.v-q.v);
+  it.sort((p,q)=>p.v-q.v); const rest=d2-it.reduce((t,x)=>t+x.v,0); if(Math.abs(rest)>=0.5) it.push({v:rest,t:`outros ajustes (adiantamentos e valores lançados a mais no mês)`});
   return `<details class="note findiff" open><summary>${Math.abs(d2)<0.005?`📊 Previsto igual a ${MESES[+pv.slice(5)-1]} (${brl(F1.prev)}), mas teve mudanças:`:`${d2<0?'📉':'📈'} Em relação a ${MESES[+pv.slice(5)-1]}: <b class="${d2<0?'neg':'pos'}">${d2<0?'−':'+'}${brl(Math.abs(d2))}</b> no previsto (${brl(base0)} → ${brl(F1.prev)})`}</summary><ul>${it.map(x=>`<li><span class="${x.v<0?'neg':'pos'}">${x.v<0?'−':'+'}${brl(Math.abs(x.v))}</span> ${x.t}</li>`).join('')}</ul></details>`; }
 function renderPag(){
   const ym=st.month,[y,m]=ym.split('-').map(Number);
@@ -6945,7 +6949,7 @@ function applySiteCor(){ const sm=stuM(); STU_COR_K=stuCor()||""; STU_COR_K+="|"
   if(TT&&!dark) css+=`html:root:root{--bg:${TT.bg};--surface:${TT.sf};--sunk:${TT.sk};--line:${TT.ln};--fg:${TT.fg};--muted:${TT.mu}}body{background:${TT.bg};color:${TT.fg}}`;
   if(bgv&&!dark) css+=`html:root:root{--bg:${bgv}}body{background:${bgv}}`;
   const bxc=String(b.boxCor||"").charAt(0)==="#"? ["x","",opq(b.boxCor)] : BOX_COR.find(x=>x[0]===(b.boxCor||"")); if(bxc&&bxc[0]&&!dark){ const bgc=bgv||"#EEF1F0"; const sf=bxc[2]||`color-mix(in srgb,${bgc} 45%,#fff)`; css+=`html:root:root{--surface:${sf};--sunk:color-mix(in srgb,${sf} 82%,#000 7%);--line:color-mix(in srgb,${sf} 72%,#000 16%)}`; }
-  const tx=String(b.txtCor||"").charAt(0)==="#"? ["x","",b.txtCor] : TXT_COR.find(x=>x[0]===(b.txtCor||"")); if(tx&&tx[0]&&!dark){ css+=`html:root:root{--fgb:${TT&&!dark?TT.fg:"#16201D"};--fg:${tx[2]};--muted:color-mix(in srgb,${tx[2]} 68%,#fff)}body{color:${tx[2]}}`; }
+  const tx=String(b.txtCor||"").charAt(0)==="#"? ["x","",b.txtCor] : TXT_COR.find(x=>x[0]===(b.txtCor||"")); if(tx&&tx[0]){ css+=`html:root:root{--fgb:${dark?"#E9EEF0":TT?TT.fg:"#16201D"};--fg:${tx[2]};--muted:color-mix(in srgb,${tx[2]} 72%,${dark?"#000":"#fff"})}body{color:${tx[2]}}body *:not(#cpPop *):not(#abaCorPop *):not(.cpprev *):not(i){color:${tx[2]}!important}body input,body select,body textarea{color:${tx[2]}!important}`; }
   if(c&&c[2]!=null){ const h=c[2], sat=tsat!=null?tsat:(c[0]==="cinza"?8:55); const SS=Math.min(40,sat), SA=Math.min(45,sat); const H=(l,s2)=>`hsl(${h},${s2==null?sat:s2}%,${l}%)`; const L=(lt,dk)=>dark?dk:lt;
     css+=`html:root:root,html:root:root[data-theme]{--accent:${H(L(32,68))};--accent-soft:${H(L(92,20),SA)};--ok:${H(L(28,62))};--ok-soft:${H(L(90,18),SS)};--warn:${H(L(38,64))};--warn-soft:${H(L(92,18),SS)};--p0:${H(L(45,60),30)};--p1:${H(L(30,58))};--p2:${H(L(42,66))};--p3:${H(L(22,50))};--p4:${H(L(55,70),20)}}
   body.mono .qtip{background:${H(32)}!important}body.mono .wkrow button[aria-selected="true"]{background:${H(30)}!important;border-color:${H(30)}!important}body.mono .xcpn{color:${H(L(32,70))};border-color:${H(L(32,60))};background:${H(L(95,18),SS)}}
@@ -7003,7 +7007,8 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
   if(k==="alarmCor"){ try{ if(CUR_TAB==="perso"){ COR_OPEN=true; COR_FINO=true; renderCadastro(); } }catch(_){} try{ ntfRender(); }catch(_){} const a=document.getElementById("alarm"); if(a){ a.hidden=false; setTimeout(()=>{ a.hidden=true; },900); } } });
 /* Lupa e botão CORES: dá para arrastar e deixar onde quiser */
 function posGet(k){ try{ return JSON.parse(localStorage.getItem(k)||"null"); }catch(_){ return null; } }
-function posApply(el,p){ if(!el||!p) return; const z=parseFloat(document.body.style.zoom)||1; const w=el.offsetWidth||40, h=el.offsetHeight||40; el.style.left=Math.max(0,Math.min(innerWidth/z-w,p.x))+"px"; el.style.top=Math.max(0,Math.min(innerHeight/z-h,p.y))+"px"; el.style.right="auto"; el.classList.add("moved"); }
+function posApply(el,p){ if(!el||!p) return; const z=parseFloat(document.body.style.zoom)||1, ez=parseFloat(el.style.zoom)||1; const k=z*ez; const w=el.offsetWidth||40, h=el.offsetHeight||40; el.style.left=Math.max(0,Math.min(innerWidth/k-w,p.x*z/k))+"px"; el.style.top=Math.max(0,Math.min(innerHeight/k-h,p.y*z/k))+"px"; el.style.right="auto"; el.classList.add("moved"); }
+function posRescue(){ ["sidectl","sideopen","corBtn"].forEach(id=>{ const el=document.getElementById(id); if(!el||el.hidden) return; const r=el.getBoundingClientRect(); if(r.width&&(r.right<20||r.bottom<20||r.left>innerWidth-20||r.top>innerHeight-20)){ el.style.left=""; el.style.top=""; el.style.right=""; el.classList.remove("moved"); try{ localStorage.removeItem(id==="corBtn"?"rp_pos_cor":"rp_pos_side"); }catch(_){} } }); }
 let MV=null, MV_EAT=false;
 document.addEventListener("pointerdown",e=>{ const el=e.target.closest&&e.target.closest("#sidectl,#sideopen,#corBtn"); if(!el) return; if(el.id==="sidectl"&&e.target.closest("button")&&!e.target.closest(".sdl")) { /* deixa os botões funcionarem; arrasta pelo nome */ }
   const r=el.getBoundingClientRect(); MV={el,sx:e.clientX,sy:e.clientY,dx:e.clientX-r.left,dy:e.clientY-r.top,go:false,btn:!!e.target.closest("button")&&el.id==="sidectl"}; },true);
@@ -7032,7 +7037,7 @@ function abaCorRender(){ let p=document.getElementById("abaCorPop"); if(!p){ p=d
       const tb=e.target.closest("[data-actema]"); if(tb){ S.brand=Object.assign({},S.brand||{}); const AC=S.brand.abaCor=Object.assign({},S.brand.abaCor||{}); AC[ABA_COR]={tema:tb.dataset.actema,siteCor:"",siteCorX:"",siteBg:"",boxCor:"",txtCor:"",sesTr:"",sesCd:""}; if(!tb.dataset.actema&&!(S.brand.tema)) delete AC[ABA_COR]; save(); applySiteCor(); abaCorRender(); try{ if(CUR_TAB==="perso"||CUR_TAB==="perfil"||CUR_TAB==="cadastro") renderCadastro(); }catch(_){} toast("Pronto! Esta aba ficou nos tons dessa cor."); return; }
       if(e.target.closest("[data-acreset]")){ S.brand=Object.assign({},S.brand||{}); const AC=Object.assign({},S.brand.abaCor||{}); delete AC[ABA_COR]; S.brand.abaCor=AC; save(); applySiteCor(); abaCorRender(); toast("Esta aba voltou às cores do site."); } }); }
   if(!ABA_COR){ p.hidden=true; return; } p.innerHTML=abaCorHTML(); p.hidden=false; }
-setInterval(()=>{ try{ corBtnPlace(); }catch(_){} },800);
+setInterval(()=>{ try{ posRescue(); corBtnPlace(); const p=posGet("rp_pos_side"); if(p){ ["sidectl","sideopen"].forEach(id=>{ const el=document.getElementById(id); if(el&&!el.hidden&&!el.classList.contains("moved")) posApply(el,p); }); } }catch(_){} },800);
 let COR_OPEN=false;
 /* Seletor de cor padrão do site: grade de tons, outra cor e opacidade */
 const hsl2hex=(h,s2,l)=>{ s2/=100; l/=100; const k=n=>(n+h/30)%12, a=s2*Math.min(l,1-l), f=n=>l-a*Math.max(-1,Math.min(k(n)-3,Math.min(9-k(n),1))); return "#"+[f(0),f(8),f(4)].map(x=>Math.round(x*255).toString(16).padStart(2,"0")).join("").toUpperCase(); };
