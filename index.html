@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793396132";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793400227";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -414,6 +414,19 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .novobox h3{margin:0 0 8px;font-size:19px}
 .novobox ul{margin:0 0 12px;padding-left:18px;display:grid;gap:6px;font-size:14px;line-height:1.35}
 .novobox .btn{width:100%}
+.ctlgrid{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:6px 10px;align-items:start}
+.ctlgrid .rgrp{gap:3px!important;padding-top:4px!important;min-width:0}
+.ctlgrid .ebar{gap:1px!important}
+.ctlgrid .ebar-top{font-size:11px!important;gap:3px;flex-wrap:wrap}
+.ctlgrid .ebar-top b{font-size:11.5px}
+.ctlgrid .ebar-top small{display:block;font-size:9px;font-weight:600;color:var(--muted)}
+.ctlgrid .etrack{height:5px!important;border-radius:3px}
+.ctlgrid .rtag{font-size:10px}
+.ctlgrid .rtag svg,.ctlgrid .rtag img{width:14px;height:14px}
+.ctlgrid>.rgrp{grid-row:1/span 2}
+.ctlgrid>.rgrp:nth-last-child(2){grid-row:1}
+.ctlgrid .ctl-foot{grid-row:2;align-self:start;grid-column:-2/-1;display:grid;gap:2px;font-size:11px;margin:0;padding:6px 0 0;border-top:1px solid var(--line)}
+.ctlgrid .ctl-foot b{font-size:12px}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -4096,23 +4109,23 @@ function ctlHTML(m,T){ const v=ctlView(); if(v==="bar") return ctlBarsHTML(m,T);
   return `${divDayHTML(m)}${ctlHeadHTML(m)}${ctlSumHTML(T)}${v==="col"? colChartHTML(T) : pieChartHTML(m,T)}<div class="ctl-foot"><span>Tonelagem total do treino: <b class="num">${nf(T.t)} kg</b></span>${T.cmin?`<span>Cardio <b class="num">${T.cmin} min</b></span>`:""}</div>`; }
 function ctlBarsHTML(m,T){
   const g=tg(m); const P=prevDayTot(m.id); const uph=usesPh(m)||!!m.tgCustom;
-  const ks=REG.filter(k=>T.reg[k].s>0||T.reg[k].r>0);
+  const ks=["MMSS","MMII","Core"].filter(k=>T.reg[k].s>0||T.reg[k].r>0);
   if(!uph) return `${divDayHTML(m)}${ctlSumHTML(T)}<div class="ctl-h"><span class="label">Controle da sessão · ${DAY_N[S.day]}${ltrOf(m.id,S.week,S.day)?` · ${tname(ltrOf(m.id,S.week,S.day))}`:""}</span><button class="linkbtn" data-metas>${metasOpen===m.id?"✕ Fechar metas":"🎯 Editar metas"}</button></div>
-  ${ks.length? ks.map(k=>{ const t=T.reg[k]; const pr=P?P.reg[k]:{s:0,r:0,t:0}; const cmp=(v,b,lab,cls)=>{ const f=x=>lab==="Tonelagem"?nf(x)+" kg":nf(x); return ebar(lab,v,Math.max(v,b||0)||1,`${f(v)}${b?` <small>último: ${f(b)}</small>`:""}`,cls,false); };
+  <div class="ctlgrid" style="--n:${Math.max(1,ks.length)}">${ks.length? ks.map(k=>{ const t=T.reg[k]; const pr=P?P.reg[k]:{s:0,r:0,t:0}; const cmp=(v,b,lab,cls)=>{ const f=x=>lab==="Tonelagem"?nf(x)+" kg":nf(x); return ebar(lab,v,Math.max(v,b||0)||1,`${f(v)}${b?` <small>último: ${f(b)}</small>`:""}`,cls,false); };
     return `<div class="rgrp"><span class="rtag r-${k}" title="${REG_LABEL[k]}">${regIcon(k)}<span>${REG_LABEL[k]}</span></span>${cmp(t.e,0,"Exercícios","e-x")}${cmp(t.s,pr.s,"Séries","e-s")}${cmp(t.r,pr.r,"Reps","e-r")}${cmp(t.t,pr.t,"Tonelagem","e-t")}</div>`; }).join("")
     : `<p class="muted" style="font-size:13px">As barras aparecem quando você lançar o primeiro exercício. Elas comparam com o último treino igual.</p>`}
-  ${num(g.cardioDia)?`<div class="rgrp"><span class="rtag" style="color:var(--ok)">♥<span>Cardio do dia</span></span>${ebar("Minutos",T.cmin||0,g.cardioDia,`${T.cmin||0}/${g.cardioDia} min`,"e-c",false)}</div>`:""}
-  <div class="ctl-foot"><span>Tonelagem total do treino: <b class="num">${nf(T.t)} kg</b></span>${tonSplitHTML(T)}${T.cmin?`<span>Cardio <b class="num">${T.cmin} min</b></span>`:""}</div>`;
+  <div class="ctl-foot"><span>Tonelagem total do treino: <b class="num">${nf(T.t)} kg</b></span>${tonSplitHTML(T)}${T.cmin?`<span>Cardio <b class="num">${T.cmin} min</b></span>`:""}</div></div>
+  ${num(g.cardioDia)?`<div class="rgrp"><span class="rtag" style="color:var(--ok)">♥<span>Cardio do dia</span></span>${ebar("Minutos",T.cmin||0,g.cardioDia,`${T.cmin||0}/${g.cardioDia} min`,"e-c",false)}</div>`:""}`;
   return `${divDayHTML(m)}${ctlSumHTML(T)}<div class="ctl-h"><span class="label">Controle da sessão · ${DAY_N[S.day]}${ltrOf(m.id,S.week,S.day)?` · Treino ${ltrOf(m.id,S.week,S.day)}`:""}</span><button class="linkbtn" data-metas>${metasOpen===m.id?"✕ Fechar metas":"🎯 Editar metas"}</button></div>
-  ${ks.length? ks.map(k=>{ const t=T.reg[k]; const pt=P?P.reg[k].t:0; return `<div class="rgrp">${ks.length>1||k!=="MMSS"||true?`<span class="rtag r-${k}" title="${REG_LABEL[k]}">${regIcon(k)}<span>${REG_LABEL[k]}</span></span>`:""}
+  <div class="ctlgrid" style="--n:${Math.max(1,ks.length)}">${ks.length? ks.map(k=>{ const t=T.reg[k]; const pt=P?P.reg[k].t:0; return `<div class="rgrp">${ks.length>1||k!=="MMSS"||true?`<span class="rtag r-${k}" title="${REG_LABEL[k]}">${regIcon(k)}<span>${REG_LABEL[k]}</span></span>`:""}
     ${(()=>{ const X=exGoal(m); const gg=tg(m); if(k==="Core"&&!(X.use&&m.tgCustom&&gg.ex&&gg.ex.Core)) return ""; const [a,b]=X.get(k); return X.use? ebar("Exercícios",t.e,b,`${t.e}/${a}–${b}`,"e-x",t.e>b) : ebar("Exercícios",t.e,t.e,String(t.e),"e-x",false); })()}
     ${ebar("Séries",t.s,g[k].s[1],`${t.s}/${g[k].s[0]}–${g[k].s[1]}`,"e-s",t.s>g[k].s[1])}
     ${(m.tgCustom? !!g.useR : true)? ebar("Reps",t.r,g[k].r[1],`${nf(t.r)}/${g[k].r[1]}`,"e-r",t.r>g[k].r[1]) : ebar("Reps",t.r,t.r,nf(t.r),"e-r",false)}
     ${ebar("Tonelagem",t.t,t.t,`${nf(t.t)} kg`,"e-t",false)}</div>`; }).join("")
     : `<p class="muted" style="font-size:13px">As barras aparecem quando você lançar o primeiro exercício.</p>`}
+  <div class="ctl-foot"><span>Tonelagem total do treino: <b class="num">${nf(T.t)} kg</b></span>${tonSplitHTML(T)}${T.cmin?`<span>Cardio <b class="num">${T.cmin} min</b>${T.cv?` · ${String(T.cv).replace(".",",")} km/h`:""}</span>`:""}${T.wmin?`<span>WOD <b class="num">${T.wmin} min</b></span>`:""}</div></div>
   ${szBarsHTML(m)}
-  ${num(g.cardioDia)?`<div class="rgrp"><span class="rtag" style="color:var(--ok)">♥<span>Cardio do dia</span></span>${ebar("Minutos",T.cmin||0,g.cardioDia,`${T.cmin||0}/${g.cardioDia} min`,"e-c",false)}</div>`:""}
-  <div class="ctl-foot"><span>Tonelagem total do treino: <b class="num">${nf(T.t)} kg</b></span>${tonSplitHTML(T)}${T.cmin?`<span>Cardio <b class="num">${T.cmin} min</b>${T.cv?` · ${String(T.cv).replace(".",",")} km/h`:""}</span>`:""}${T.wmin?`<span>WOD <b class="num">${T.wmin} min</b></span>`:""}</div>`;
+  ${num(g.cardioDia)?`<div class="rgrp"><span class="rtag" style="color:var(--ok)">♥<span>Cardio do dia</span></span>${ebar("Minutos",T.cmin||0,g.cardioDia,`${T.cmin||0}/${g.cardioDia} min`,"e-c",false)}</div>`:""}`;
 }
 /* ---------- Relatório para o aluno ---------- */
 
@@ -5052,8 +5065,8 @@ document.addEventListener("click",e=>{ const t=e.target.closest&&e.target.closes
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-progpg]"); if(!b) return; S.active=b.dataset.progpg; save(); show("semana"); });
 /* Sessão em cartões: um jeito mais simples de ver e lançar o treino do dia (por enquanto só para o dono) */
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30c";
-const APP_NOVO=["<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-30d";
+const APP_NOVO=["<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
