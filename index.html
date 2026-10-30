@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793402334";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793403800";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -447,6 +447,14 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .impg select{display:inline-block;width:auto;padding:3px 6px;font-size:14px}
 .impmode{display:grid;gap:4px;font-size:14px;margin-bottom:6px}
 .impgo{width:100%;margin-top:8px}
+.ltrbar{display:flex;align-items:center;gap:10px;width:100%;margin:10px 0 4px;border:2px solid var(--accent);background:var(--surface);color:var(--fg);border-radius:14px;padding:8px 14px;cursor:pointer;text-align:left}
+.ltrbar span{font-family:var(--f-display);font-size:20px;font-weight:700}
+.ltrbar b{font-family:var(--f-display);font-size:30px;line-height:1;color:#fff;background:var(--accent);border-radius:10px;min-width:44px;padding:4px 10px;text-align:center}
+.ltrbar small{margin-left:auto;color:var(--muted);font-weight:700;font-size:12px}
+.ltrbar.on{background:var(--accent-soft)}
+.ltrnewrow{display:grid;gap:6px;margin-top:8px;font-size:13px;font-weight:700}
+.ltrnewrow>div{display:flex;flex-wrap:wrap;gap:6px}
+.ltrnewrow button{border:1.5px dashed var(--accent);background:var(--surface);color:var(--accent);font-weight:800;border-radius:999px;padding:5px 11px;cursor:pointer}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -3519,7 +3527,7 @@ function totWeek(wid,sid){
   o.wod=o.wod||0; o.eq=o.mod+2*o.int+o.wod; return o;
 }
 function prevWeekId(wid){ const i=S.weeks.findIndex(w=>w.id===wid); return i>0? S.weeks[i-1].id : null; }
-function cloneDay(d,keepLoads,full){ const c=clean(normDay(d)); delete c.presOk; delete c.ini; delete c.fim; delete c.done; delete c.ltr; c.cp=1; c.rows.forEach(r=>{ r.id=nid();
+function cloneDay(d,keepLoads,full){ const c=clean(normDay(d)); delete c.ltrNew; delete c.presOk; delete c.ini; delete c.fim; delete c.done; delete c.ltr; c.cp=1; c.rows.forEach(r=>{ r.id=nid();
     if(!full){ r.n1=""; r.n2=""; const im=r.a&&r.a.isoM; r.a=sub(); r.b=sub(); if(im) r.a.isoM=im; delete r.sub; delete r.cp; return; }
     if(r.n1&&r.n1.trim()) r.cp=1; if(!keepLoads){ r.a.c=""; r.b.c=""; } }); c.cardio={t:"",z:"",tipo:"",pse:"",v:""}; c.wod={tipo:"",t:"",desc:""}; return c; }
 /* Cardio não vem copiado: aparece em cima como "Sem. Pass." com o botão Repetir */
@@ -4068,6 +4076,7 @@ function ltrPickHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const r=L? prevRe
   const blk= bi&&!bi.before? (bi.over? `<p class="blk-over">⚠ As ${bi.N} semanas deste treino terminaram. Monte o treino novo e, na Programação, escolha em <b>a partir de</b> a semana em que ele começa.</p>` : `<span class="blk-n">Semana ${bi.n} de ${bi.N}${w?` · ${planTxt(w)}`:""}</span>`) : "";
   return `<div class="ltrbox"><span class="ltr-q">Qual treino é hoje?</span><button class="ltrx" data-ltrx aria-label="Fechar">✕</button>
     <div class="phmini ltrpick" role="group" aria-label="Treino de ${esc(first(m.name))}">${LTR_ALL.map(x=>`<button style="--pc:var(--accent)" data-setltr="${x}" ${x==="FB"?'title="Full body"':""} aria-pressed="${x===L}">${x}</button>`).join("")}${ltrMine().map(x=>`<span class="ltrmy"><button style="--pc:var(--accent)" data-setltr="${esc(x)}" aria-pressed="${x===L}">${esc(x)}</button><button class="ltrdel" data-ltrdel="${esc(x)}" aria-label="Tirar ${esc(x)} da lista">×</button></span>`).join("")}<input class="inp ltr-txt" data-ltrtxt id="lt-${m.id}" value="${custom&&!ltrMine().includes(L)?esc(L):""}" placeholder="ou digite: ex. MMSS"></div>
+    <div class="ltrnewrow"><span>Ou comece um treino novo (o antigo fica no Histórico):</span><div>${["A","B","C","D","E"].map(x=>`<button data-ltrnew="${x}">＋ Novo ${x}</button>`).join("")}</div></div>
     <p class="ltrnote">${blk}${L? (r? `Comparando com o <b>${esc(tname(L))}</b> de ${DAY_N[r.day].toLowerCase()}, ${ddmm(r.date)}.` : `Primeiro <b>${esc(tname(L))}</b> registrado: ele vira a referência do próximo.`) : `Escolha o treino para comparar com o último igual. Sem escolher, compara com o mesmo dia da semana passada.`} ${src}</p></div>`; }
 function prevDayTot(sid){ const r=prevRef(sid); return r? totDay(r.d) : null; }
 function deltaTxt(a,b){ if(!b) return ""; const p=Math.round((a-b)/b*100); return `${p>0?"+":""}${p}%`; }
@@ -4882,10 +4891,11 @@ function colHTML(m,w,ms){
     ${LTR_UNDO[w.id+"|"+m.id+"|"+S.day]?`<div class="ltrundo"><span>Os exercícios foram trocados pela nova letra.</span><button class="btn small" data-ltrundo>↩ Desfazer e voltar os anteriores</button><button class="icon-btn" data-ltrundox aria-label="Ok">✓</button></div>`:""}
     ${sugOpen===m.id&&!SUG_ROW? sugHTML(m,d) : ""}
     ${m===(ms.includes(st)?st:ms[0])&&sesMode==="lancar"? boxW("semana","📅 Semana e dia",SES_WK.replace("%%CTL%%","")) : ""}
-    ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     ${repAskHTML(m,d)}<div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     <div class="sesctlw">${CTLB}</div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
+    ${sesMode==="lancar"? (()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="ltrbar ${ltrEdit===m.id?"on":""}" data-ltredit><span>Treino</span><b>${L? esc(LTR_ALL.includes(L)? L : L) : "?"}</b><small>${ltrEdit===m.id? "fechar" : L? (d&&d.ltrNew? "treino novo · toque para trocar" : "toque para trocar") : "toque para escolher A, B, C…"}</small></button>`; })() : ""}
+    ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div class="mvvw"><button class="btn mvbig ${mvOpen===m.id?"on":""}" data-mvopen>↔ Mover este treino para outro dia</button><button class="btn vwbig" data-vwopen="${m.id}">👁 Visualizar treino do dia ou da semana</button></div>
     ${mvOpen===m.id? mvHTML(m,w,others) : ""}
     ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF ou Excel)") : ""}
@@ -5233,8 +5243,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30e";
-const APP_NOVO=["<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-30f";
+const APP_NOVO=["<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -5289,7 +5299,7 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
   const rEl=b.closest("[data-row]"), cEl=b.closest("[data-col]"); if(!rEl||!cEl) return; const d=dayOf(S.week,cEl.dataset.col,S.day,true); const r=d.rows.find(x=>x.id===rEl.dataset.row); if(!r) return;
   r.n1=b.dataset.cvpick; const df=phaseDefaults(stById(cEl.dataset.col)); if(r.a.s==="") r.a.s=df.s; if(r.a.r==="") r.a.r=df.r; CV_REG=null; save(); renderSessao(); try{ markStart(cEl.dataset.col); }catch(_){} });
 const cvMode=()=>"card";
-function cvHTML(m,d,others){ const ref=prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : [];
+function cvHTML(m,d,others){ const ref= d&&d.ltrNew? null : prevRef(m.id); const pr=ref&&ref.d? ref.d.rows : [];
   const rows=(d&&d.rows)||[]; const nm=others.map(o=>first(o.name)).join(" e ");
   const cmp=(cur,old)=>{ const a=num(cur), b=num(old); if(!a||!b) return '<i class="cvsp">&nbsp;</i>'; return a>b?'<i class="cvup">▲</i>':a<b?'<i class="cvdn">▼</i>':'<i class="cveq">=</i>'; };
   const fmt=v=>String(Math.round(v*10)/10).replace(".",",");
@@ -5541,6 +5551,8 @@ function sesClick(e){
   if(b.hasAttribute("data-ltrx")){ LTR_HIDE[sid+"|"+S.week+"|"+S.day]=1; ltrEdit=null; renderSessao(); return; }
   if(b.hasAttribute("data-ltredit")){ ltrEdit= ltrEdit===sid? null : sid; renderSessao(); return; }
   if(b.dataset.ltrdel){ S.brand=Object.assign({},S.brand||{},{ltrMine:ltrMine().filter(x=>x!==b.dataset.ltrdel)}); save(); renderSessao(); toast("Tirado da lista. Os treinos já feitos continuam salvos."); return; }
+  if(b.dataset.ltrnew){ ltrEdit=null; const X=b.dataset.ltrnew; const W=S.days[w.id]=S.days[w.id]||{}, P=W[sid]=W[sid]||{}; const d0=P[S.day]; if(d0&&dayHasData(d0)) LTR_UNDO[w.id+"|"+sid+"|"+S.day]=JSON.parse(JSON.stringify(d0));
+    const c=emptyDay(); c.ltr=X; c.ltrNew=1; P[S.day]=c; save(); renderSessao(); toast(`${first(m.name)}: Treino ${X} novo, em branco. O Treino ${X} antigo continua no Histórico.`); return; }
   if(b.dataset.setltr){ ltrEdit=null; const d=dayOf(w.id,sid,S.day,true); const cur=ltrOf(sid,w.id,S.day,d); if(cur===b.dataset.setltr){ renderSessao(); return; } d.ltr= b.dataset.setltr; if(d.ltr===progLtr(sid,S.day)&&!dayHasData(d)) delete d.ltr; const r=fillByLtr(sid,w.id,S.day,true); { const u=LTR_UNDO[w.id+"|"+sid+"|"+S.day]; if(u&&cur) u.ltr=cur; } save(); renderSessao(); toast(r? `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios de ${ddmm(r.date)} carregados` : `${first(m.name)}: Treino ${b.dataset.setltr} · exercícios zerados (primeiro Treino ${b.dataset.setltr})`); return; }
   if(b.dataset.setph!=null){ if(+b.dataset.setph===m.phase) return; m.phase=+b.dataset.setph; save(); renderAll(); toast(`${first(m.name)}: ${phT(m)} · ${phaseOf(m).n}`); return; }
   if(b.hasAttribute("data-done")){ const d=dayOf(w.id,sid,S.day); if(!d) return; d.done=1; if(d.ini&&sesDateOf()===isoD(new Date())) d.fim=hmNow(); delete REST[sid]; save(); renderSessao(); renderTurnbar(); toast(`Treino de ${first(m.name)} concluído 💪 Envie o relatório quando quiser.`); return; }
