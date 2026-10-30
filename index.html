@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793400227";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793402334";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -427,6 +427,26 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .ctlgrid>.rgrp:nth-last-child(2){grid-row:1}
 .ctlgrid .ctl-foot{grid-row:2;align-self:start;grid-column:-2/-1;display:grid;gap:2px;font-size:11px;margin:0;padding:6px 0 0;border-top:1px solid var(--line)}
 .ctlgrid .ctl-foot b{font-size:12px}
+#impPop,#rdPop,#tecAskPop,#novoPop{z-index:100000!important}
+.impbtn{display:block;width:100%;margin:8px 0;border:2px dashed var(--accent);background:var(--surface);color:var(--accent);font-weight:800;font-size:14px;border-radius:12px;padding:10px;cursor:pointer}
+.impbox{max-width:560px;margin:4vh auto;max-height:92vh;overflow:auto;padding:16px;display:grid;gap:10px}
+.impbox h3{margin:0;font-size:18px}
+.impwho{margin:0;font-size:14px}
+.impfile{display:grid;gap:2px;justify-items:center;border:2px dashed var(--accent);border-radius:14px;padding:16px;cursor:pointer;text-align:center;color:var(--accent);position:relative}
+.impfile input{position:absolute;opacity:0;width:1px;height:1px}
+.impfile small{color:var(--muted);font-weight:600}
+.impbusy{margin:0;font-weight:700}
+.imptxt textarea{width:100%;font-size:13px;font-family:inherit}
+.imptab{width:100%;border-collapse:collapse;font-size:13px}
+.imptab th{text-align:left;font-size:11px;color:var(--muted);padding:4px}
+.imptab td{border-top:1px solid var(--line);padding:5px 4px;vertical-align:middle}
+.imptab tr.off td{opacity:.4}
+.imptab select{font-size:13px;padding:3px;max-width:150px}
+.impg{display:grid;gap:4px;margin-bottom:8px}
+.impgh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.impg select{display:inline-block;width:auto;padding:3px 6px;font-size:14px}
+.impmode{display:grid;gap:4px;font-size:14px;margin-bottom:6px}
+.impgo{width:100%;margin-top:8px}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -4868,6 +4888,7 @@ function colHTML(m,w,ms){
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     <div class="mvvw"><button class="btn mvbig ${mvOpen===m.id?"on":""}" data-mvopen>↔ Mover este treino para outro dia</button><button class="btn vwbig" data-vwopen="${m.id}">👁 Visualizar treino do dia ou da semana</button></div>
     ${mvOpen===m.id? mvHTML(m,w,others) : ""}
+    ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF ou Excel)") : ""}
     ${cvOn? cvHTML(m,d,others) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
@@ -5064,9 +5085,156 @@ document.addEventListener("click",e=>{ const t=e.target.closest&&e.target.closes
   vwRender(); });
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-progpg]"); if(!b) return; S.active=b.dataset.progpg; save(); show("semana"); });
 /* Sessão em cartões: um jeito mais simples de ver e lançar o treino do dia (por enquanto só para o dono) */
+/* ---------- Importar de foto, print, PDF ou Excel (lido no próprio aparelho, sem custo) ---------- */
+const IMP_LIB={xlsx:"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",pdfw:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",tess:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
+  tw:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",tc:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1",tl:"https://cdn.jsdelivr.net/npm/@tesseract.js-data/por/4.0.0_best_int"};
+const impLoaded={};
+function impScript(u){ if(impLoaded[u]) return impLoaded[u]; return impLoaded[u]=new Promise((ok,no)=>{ const s=document.createElement("script"); s.src=u; s.onload=ok; s.onerror=()=>{ delete impLoaded[u]; no(new Error("Não consegui abrir o leitor. Confira a internet e tente de novo.")); }; document.head.appendChild(s); }); }
+const IMP={area:null,lines:[],busy:"",err:"",sid:null,off:new Set(),opt:{}};
+const IMP_T={sessao:"treino do dia",prog:"ficha (Treino A, B, C…)",cad:"alunos",av:"avaliação física",fin:"pagamentos"};
+function impBtn(area,lab){ return `<button type="button" class="btn impbtn" data-impopen="${area}">📎 ${lab}</button>`; }
+async function impRead(file,onp){ const n=(file.name||"").toLowerCase(), ty=file.type||"";
+  if(/\.(xlsx|xlsm|xls|ods|csv)$/.test(n)||/spreadsheet|excel|csv/.test(ty)){ await impScript(IMP_LIB.xlsx); const wb=XLSX.read(await file.arrayBuffer(),{type:"array"}); const out=[];
+    wb.SheetNames.forEach(sn=>{ XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:""}).forEach(r=>{ const c=r.map(x=>String(x).trim()); while(c.length&&!c[c.length-1]) c.pop(); if(c.some(Boolean)) out.push(c.join(" | ")); }); }); return out; }
+  if(/\.pdf$/.test(n)||ty==="application/pdf"){ await impScript(IMP_LIB.pdf); pdfjsLib.GlobalWorkerOptions.workerSrc=IMP_LIB.pdfw; const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise; const out=[]; let txt=0;
+    for(let p=1;p<=pdf.numPages;p++){ const pg=await pdf.getPage(p); const tc=await pg.getTextContent(); const it=tc.items.filter(i=>String(i.str||"").trim()); txt+=it.length; const rows={};
+      it.forEach(i=>{ const y=Math.round(i.transform[5]/4)*4; (rows[y]=rows[y]||[]).push(i); });
+      Object.keys(rows).map(Number).sort((a,b)=>b-a).forEach(y=>{ let s="", lx=null; rows[y].sort((a,b)=>a.transform[4]-b.transform[4]).forEach(i=>{ const x=i.transform[4]; if(lx!=null) s+= x-lx>10? " | " : " "; s+=String(i.str).trim(); lx=x+(i.width||0); }); out.push(s.trim()); }); }
+    if(txt) return out;
+    let all=[]; for(let p=1;p<=Math.min(pdf.numPages,3);p++){ const pg=await pdf.getPage(p); const vp=pg.getViewport({scale:2}); const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height; await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; all=all.concat(await impOcr(cv,onp)); } return all; }
+  if(/^image\//.test(ty)||/\.(png|jpe?g|webp|gif|bmp)$/.test(n)) return impOcr(await impImg(file),onp);
+  throw new Error("Esse tipo de arquivo não dá para ler. Use foto, print, PDF ou Excel."); }
+async function impImg(file){ const url=URL.createObjectURL(file); const im=new Image(); await new Promise((ok,no)=>{ im.onload=ok; im.onerror=()=>no(new Error("Não consegui abrir a imagem. Tente um print ou foto em JPG.")); im.src=url; });
+  const mx=Math.max(im.width,im.height), sc= mx<1400? 1400/mx : Math.min(1,2600/mx); const cv=document.createElement("canvas"); cv.width=Math.round(im.width*sc); cv.height=Math.round(im.height*sc); const g=cv.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,cv.width,cv.height); g.filter="grayscale(1) contrast(1.35)"; g.drawImage(im,0,0,cv.width,cv.height); URL.revokeObjectURL(url); return cv; }
+async function impOcr(cv,onp){ await impScript(IMP_LIB.tess); if(onp) onp(0);
+  const w=await Tesseract.createWorker("por",1,{workerPath:IMP_LIB.tw,corePath:IMP_LIB.tc,langPath:IMP_LIB.tl,logger:m=>{ if(onp&&m.status==="recognizing text") onp(Math.round((m.progress||0)*100)); }});
+  try{ await w.setParameters({tessedit_pageseg_mode:"3",preserve_interword_spaces:"1"}); const r=await w.recognize(cv); return String(r.data.text||"").split(/\n/).map(x=>x.replace(/\s{3,}/g," | ").replace(/\s+/g," ").trim()).filter(x=>x.length>1); } finally{ try{ await w.terminate(); }catch(_){} } }
+/* ---- leitura das linhas ---- */
+const impCells=l=>String(l).split(/\s*\|\s*|\t/).map(x=>x.trim());
+const impNum=s=>{ const m=String(s||"").match(/\d+(?:[.,]\d+)?/); return m? m[0].replace(".",",") : ""; };
+const impInt=s=>{ const m=String(s||"").match(/\d+/); return m? m[0] : ""; };
+const IMP_SKIP=/^(exerc[ií]cios?|s[ée]ries?|reps?|repeti[çc][õo]es|carga|kg|peso|descanso|intervalo|obs|observa|m[ée]todo|nome|aluno|data|total|valor)\b/i;
+function impHdr(cells){ const f=re=>cells.findIndex(c=>re.test(noAcc(c).toLowerCase())); const m={s:f(/^s[e]?ries?|^ser\b|^sets?/),r:f(/^rep|^repeti/),c:f(/^kg|carga|^peso/)}; return (m.s>=0||m.r>=0)&&cells.some(c=>/exerc|nome/i.test(noAcc(c)))? m : null; }
+function impEx(line,map){ const cells=impCells(line); let ni=cells.findIndex(c=>/[a-zà-ú]{3,}/i.test(c)&&!/^\d+\s*(x|kg|s[ée]ries?|reps?)/i.test(c)); if(ni<0) return null;
+  let name=cells[ni], tail=cells.filter((_,i)=>i!==ni).join(" ");
+  const cut=name.search(/\s(\d+\s*(x|×|de\s+\d|s[ée]ries?)|\d+\s*kg|\d+\s*\/)/i); if(cut>0){ tail=name.slice(cut)+" "+tail; name=name.slice(0,cut); }
+  name=name.replace(/^[\d\s.\-–)•*º°]+/,"").replace(/[\s:–\-|]+$/,"").trim(); if(name.length<3||IMP_SKIP.test(noAcc(name))) return null;
+  const o={n:name.charAt(0).toUpperCase()+name.slice(1),s:"",r:"",c:""};
+  if(map&&cells.length>1){ if(map.s>=0) o.s=impInt(cells[map.s]); if(map.r>=0) o.r=impInt(cells[map.r]); if(map.c>=0) o.c=impNum(cells[map.c]); }
+  if(!o.s&&!o.r&&!o.c){ const v=vozParse(tail.replace(/×/g,"x")); o.s=impInt(v.s); o.r=impInt(v.r); o.c=v.c? impNum(v.c) : ""; }
+  return o; }
+const IMP_LTR=/^\s*(?:treino|ficha|dia|sess[aã]o)?\s*[:\-–]?\s*([A-E]|[1-5])\s*(?:$|[:\-–).]|\s+[-–:]?\s*[a-zà-ú])/i;
+const IMP_DAYS=[["Seg",/^seg/],["Ter",/^ter/],["Qua",/^qua/],["Qui",/^qui/],["Sex",/^sex/],["Sáb",/^s[aá]b/],["Dom",/^dom/]];
+function impDayOf(t){ const x=noAcc(String(t||"")).toLowerCase().trim(); const d=IMP_DAYS.find(([,re])=>re.test(x)); return d? d[0] : ""; }
+function impGroups(lines){ const G=[]; let cur=null, map=null;
+  lines.forEach(l=>{ const cells=impCells(l); const h=impHdr(cells); if(h){ map=h; return; }
+    const first=noAcc(cells[0]||"").toLowerCase(); const dy=/^(segunda|terca|quarta|quinta|sexta|sabado|domingo)\b/.test(first)&&cells.filter(Boolean).length<=2? impDayOf(first) : "";
+    const lm= !dy&&cells.filter(Boolean).length<=2? String(l).match(IMP_LTR) : null;
+    if(dy||(lm&&!impEx(l.replace(IMP_LTR,""),null)?.s)){ const L= lm? (/\d/.test(lm[1])? "ABCDE"[+lm[1]-1] : lm[1].toUpperCase()) : ""; cur={L,day:dy,items:[]}; G.push(cur); return; }
+    const e=impEx(l,map); if(e){ if(!cur){ cur={L:"",day:"",items:[]}; G.push(cur); } cur.items.push(e); } });
+  return G.filter(g=>g.items.length); }
+/* ---- alunos ---- */
+function impSlots(t){ const x=noAcc(String(t)).toLowerCase(); const ds=[]; const DN={seg:1,ter:2,qua:3,qui:4,sex:5,sab:6,dom:0,"2a":1,"3a":2,"4a":3,"5a":4,"6a":5};
+  (x.match(/\b(seg|ter|qua|qui|sex|sab|dom)[a-z-]*|\b[2-6][aª]/g)||[]).forEach(w=>{ const k=w.slice(0,3).replace("ª","a"); const d=DN[k]!=null? DN[k] : DN[w.replace("ª","a").slice(0,2)]; if(d!=null&&!ds.includes(d)) ds.push(d); });
+  const hs=[]; (x.match(/\b([01]?\d|2[0-3])\s*(?::|h)\s*([0-5]\d)?\b/g)||[]).forEach(h=>{ const m=h.match(/(\d+)\s*(?::|h)\s*(\d+)?/); hs.push(String(m[1]).padStart(2,"0")+":"+(m[2]||"00")); });
+  return ds.map((d,i)=>({d,h:hs[i]||hs[0]||"07:00"})); }
+function impAluno(line){ const cells=impCells(line); const all=cells.join(" ");
+  if(/^(nome|aluno)\b/i.test(noAcc(cells[0]||""))) return null;
+  const nm=(cells.find(c=>/[a-zà-ú]{2,}/i.test(c)&&!/^(seg|ter|qua|qui|sex|s[áa]b|dom)\b/i.test(noAcc(c).toLowerCase())&&!/r\$/i.test(c))||"").replace(/\s*\(?\d.*$/,"").trim(); if(nm.length<3) return null;
+  const tm=all.match(/\(?\b\d{2}\)?\s?9?\s?\d{4}[-\s]?\d{4}\b/); const tel= tm? tm[0].trim() : "";
+  const rest=all.replace(tm?tm[0]:"",""); const slots=impSlots(rest);
+  let val=""; const rv=rest.match(/r\$\s*([\d.]+(?:,\d{1,2})?)/i)||cells.map(c=>c.match(/^\s*([\d.]+,\d{2}|\d{2,4})\s*$/)).find(Boolean); if(rv) val=rv[1].replace(/\.(?=\d{3})/g,"").replace(",",".");
+  return {nome:nm.replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Da|De|Do|Dos|Das|E)\b/g,s=>s.toLowerCase()),tel,slots,val:+val||0}; }
+/* ---- avaliação ---- */
+const IMP_AV=[[/peso (da |de )?gordura|massa gorda/,"gord"],[/(%|perc|percentual).*gord|gordura corporal|\bbf\b|^gordura\s*%?$|^% ?gord/,"pg"],[/visceral/,"vis"],[/massa magra.*%|% ?massa magra/,"pmm"],[/massa magra|\blbm\b/,"lbm"],[/musculo esq|massa muscular esq|\bsmm\b/,"mme"],[/musculo|massa muscular/,"mus"],[/idade metab/,"idmet"],[/metabolismo|\btmb\b|taxa metab/,"tmb"],[/agua.*kg|peso da agua/,"aguakg"],[/agua/,"agua"],[/osso/,"ossos"],[/proteina/,"prot"],[/\bimc\b/,"imc"],[/altura|estatura/,"alt"],[/^idade/,"idade"],[/^peso/,"peso"]];
+const IMP_PER=[[/pesco/,"p_pesc"],[/ombro/,"p_omb"],[/peito|torax/,"p_peito"],[/cintura/,"p_cint"],[/abd.*sup/,"p_abs"],[/abd.*inf|abdomen|abdominal/,"p_abi"],[/quadril/,"p_quad"],[/antebra.*(esq|\be\b)/,"p_antE"],[/antebra/,"p_antD"],[/bra.*(esq|\be\b)/,"p_bracoE"],[/bra/,"p_bracoD"],[/coxa.*(esq|\be\b)/,"p_coxaE"],[/coxa/,"p_coxaD"],[/pantu.*(esq|\be\b)/,"p_pantE"],[/pantu/,"p_pantD"]];
+const IMP_DC=[[/tric/,"tri"],[/bic/,"bic"],[/subesc/,"subesc"],[/peit/,"peit"],[/axil/,"axm"],[/supra/,"supra"],[/abd/,"abd"],[/coxa/,"coxa"],[/pantu/,"pant"]];
+const impDates=l=>(String(l).match(/\b\d{1,2}\/\d{1,2}(?:\/\d{2,4})?\b/g)||[]).map(x=>{ const [d,m,y]=x.split("/"); const yy= y? (y.length===2? "20"+y : y) : String(new Date().getFullYear()); return `${yy}-${m.padStart(2,"0")}-${d.padStart(2,"0")}`; });
+function impAv(lines){ let dates=[], mode=""; const rows=[];
+  lines.forEach(l=>{ const t=noAcc(l).toLowerCase(); const ds=impDates(l); if(ds.length&&!/[a-z]{4,}.*\d+[.,]\d/.test(t.replace(/\d{1,2}\/\d{1,2}(\/\d{2,4})?/g,""))){ dates=ds; return; }
+    if(/dobra/.test(t)&&!/\d/.test(t)){ mode="dc"; return; } if(/(perimetr|circunfer|medidas)/.test(t)&&!/\d/.test(t)){ mode="per"; return; }
+    const cells=impCells(l); const lab=noAcc(cells[0]&&/[a-z]/i.test(cells[0])? cells[0] : l.replace(/[\d.,]+.*$/,"")).toLowerCase().replace(/\(.*?\)/g,"").trim(); if(!/[a-z]{3}/.test(lab)) return;
+    const vals=(cells.length>1? cells.slice(1).join(" ") : l.slice(l.search(/\d/)>=0? l.search(/\d/) : l.length)).replace(/\d{1,2}\/\d{1,2}(\/\d{2,4})?/g,"").match(/\d+(?:[.,]\d+)?/g)||[];
+    if(!vals.length) return; let k="";
+    const dcMode= mode==="dc"||/dobra/.test(lab);
+    if(dcMode){ const f=IMP_DC.find(([re])=>re.test(lab)); if(f) k="d_"+f[1]; }
+    if(!k&&mode!=="dc"){ const p= (mode==="per"||/perim|circ|braco|coxa|cintura|quadril|panturr|antebr|ombro|peito|pescoc|abdomen/.test(lab))? IMP_PER.find(([re])=>re.test(lab)) : null; if(p&&!/(gord|massa|agua|imc|peso)/.test(lab)) k=p[1]; }
+    if(!k){ const a=IMP_AV.find(([re])=>re.test(lab)); if(a) k=a[1]; }
+    if(k) rows.push({k,lab:cells[0]||lab,vals:vals.map(v=>v.replace(",","."))}); });
+  if(!dates.length){ const d=impDates(lines.join(" ")); dates=[d[0]||isoD(new Date())]; }
+  return {dates,rows}; }
+const impAvLab=k=>{ const all=[...AV_F,...BIO_F,...PER_F.map(x=>[x[0],x[1],"cm"]),...DC_S.map(([a,b])=>["d_"+a,"Dobra "+b,"mm"])]; const f=all.find(x=>x[0]===k); return f? f[1]+(f[2]?` (${f[2]})`:"") : k; };
+/* ---- pagamentos ---- */
+function impPag(line){ const cells=impCells(line); const all=cells.join(" "); if(/^(nome|aluno)\b/i.test(noAcc(cells[0]||""))) return null;
+  const nm=(cells.find(c=>/[a-zà-ú]{3,}/i.test(c))||all).replace(/r\$.*$/i,"").replace(/\d.*$/,"").replace(/[\s\-–:,.;]+$/,"").trim(); if(nm.length<3) return null;
+  const d=impDates(all)[0]||""; const sem=all.replace(/\b\d{1,2}\/\d{1,2}(\/\d{2,4})?\b/g,"");
+  const rv=sem.match(/r\$\s*([\d.]+(?:,\d{1,2})?)/i)||sem.match(/\b(\d{1,3}(?:\.\d{3})*,\d{2}|\d{2,5})\b/); const v= rv? +rv[1].replace(/\.(?=\d{3})/g,"").replace(",",".") : 0;
+  const al=impMatch(nm); return {nome:nm,v,d,id:al?al.id:"",an:al?al.nome:""}; }
+function impMatch(nm){ const q=noAcc(nm).toLowerCase().split(/\s+/).filter(x=>x.length>1); if(!q.length) return null; let best=null, sc=0;
+  (presOn()? PRES.alunos() : []).forEach(a=>{ const t=noAcc(a.nome||"").toLowerCase().split(/\s+/); if(t[0]!==q[0]) return; const s=q.filter(w=>t.includes(w)).length+(a.ativo===false?0:0.5); if(s>sc){ sc=s; best=a; } });
+  return best; }
+/* ---- montar a prévia ---- */
+function impParse(area,lines){ const m=stById(IMP.sid)||A(); const on=i=>!IMP.off.has(i); const ck=i=>`<input type="checkbox" data-impck="${i}" ${on(i)?"checked":""} aria-label="Lançar esta linha">`;
+  const exT=L=>`<table class="imptab"><tr><th></th><th>Exercício</th><th>Sér</th><th>Reps</th><th>Kg</th></tr>${L.map(([e,i])=>`<tr class="${on(i)?"":"off"}"><td>${ck(i)}</td><td>${esc(e.n)}</td><td>${esc(e.s||"–")}</td><td>${esc(e.r||"–")}</td><td>${esc(e.c||"–")}</td></tr>`).join("")}</table>`;
+  if(area==="sessao"){ let i=0; const L=impGroups(lines).flatMap(g=>g.items).map(e=>[e,i++]); const d=dayOf(S.week,m.id,S.day); const has=d&&dayHasData(d); const n=L.filter(([,j])=>on(j)).length;
+    return {n,unit:n===1?"exercício":"exercícios",items:L,html:`${has?`<div class="impmode"><label><input type="radio" name="impm" data-impmode="add" ${IMP.opt.mode!=="rep"?"checked":""}> Acrescentar ao treino de hoje</label><label><input type="radio" name="impm" data-impmode="rep" ${IMP.opt.mode==="rep"?"checked":""}> Substituir o treino de hoje</label></div>`:""}${exT(L)}`}; }
+  if(area==="prog"){ let i=0; const G=impGroups(lines).map((g,gi)=>({...g,gi,items:g.items.map(e=>[e,i++])})); const days=(m.days&&m.days.length? m.days : ["Seg","Qua","Sex"]); const pm=progOf(m).map||{};
+    G.forEach((g,gi)=>{ const L=g.L||"ABCDE"[gi]; g.L=L; const def= g.day || Object.keys(pm).find(dy=>pm[dy]===L) || days[gi%days.length] || "Seg"; g.dd= (IMP.opt["d"+gi])||def; });
+    const n=G.reduce((t,g)=>t+g.items.filter(([,j])=>on(j)).length,0);
+    return {n,unit:`exercício${n===1?"":"s"} em ${G.length} treino${G.length===1?"":"s"}`,groups:G,html:G.map(g=>{ const d=dayOf(S.week,m.id,g.dd); return `<div class="impg"><div class="impgh"><b>Treino ${esc(g.L)}</b><span>→</span><select class="inp" data-impday="${g.gi}">${DAYS.map(dy=>`<option ${dy===g.dd?"selected":""}>${dy}</option>`).join("")}</select>${d&&dayHasData(d)?`<small class="neg">substitui o que está em ${esc(g.dd)}</small>`:""}</div>${exT(g.items)}</div>`; }).join("")+`<p class="muted" style="font-size:12px">Entra na semana aberta na Sessão. Nas próximas semanas, cada letra puxa este treino.</p>`}; }
+  if(area==="cad"){ const ex=new Set((presOn()? PRES.alunos().map(a=>a.nome) : []).concat(S.students.map(s=>s.name)).map(x=>noAcc(x).toLowerCase().trim()));
+    const L=lines.map(impAluno).map((a,i)=>[a,i]).filter(([a])=>a); const n=L.filter(([a,i])=>on(i)&&!ex.has(noAcc(a.nome).toLowerCase())).length;
+    return {n,unit:n===1?"aluno":"alunos",items:L,ex,html:`<table class="imptab"><tr><th></th><th>Nome</th><th>Telefone</th><th>Dias</th><th>Valor</th></tr>${L.map(([a,i])=>{ const dup=ex.has(noAcc(a.nome).toLowerCase()); return `<tr class="${on(i)&&!dup?"":"off"}"><td>${dup?"":ck(i)}</td><td>${esc(a.nome)}${dup?` <small class="neg">já cadastrado</small>`:""}</td><td>${esc(a.tel||"–")}</td><td>${a.slots.map(s=>CAD_DN[s.d]+" "+s.h).join(", ")||"–"}</td><td>${a.val?brlS(a.val):"–"}</td></tr>`; }).join("")}</table><p class="muted" style="font-size:12px">Valor acima de R$ 200 com dias marcados entra como mensalidade (dividida pelas aulas do mês). Depois confira cada aluno no Cadastro.</p>`}; }
+  if(area==="av"){ const A2=impAv(lines); const L=A2.rows.map((r,i)=>[r,i]); const n=L.filter(([,i])=>on(i)).length;
+    return {n,unit:`medida${n===1?"":"s"} em ${A2.dates.length} avaliaç${A2.dates.length===1?"ão":"ões"}`,av:A2,html:`<table class="imptab"><tr><th></th><th>Medida</th>${A2.dates.map(d=>`<th>${ddmm(d)}</th>`).join("")}</tr>${L.map(([r,i])=>`<tr class="${on(i)?"":"off"}"><td>${ck(i)}</td><td>${esc(impAvLab(r.k))}</td>${A2.dates.map((_,j)=>`<td>${esc((r.vals[j]||"–").replace(".",","))}</td>`).join("")}</tr>`).join("")}</table>`}; }
+  if(area==="fin"){ const L=lines.map(impPag).map((p,i)=>[p,i]).filter(([p])=>p&&(p.v||p.id)); const al=presOn()? PRES.alunos().filter(a=>a.ativo!==false).sort((a,b)=>a.nome.localeCompare(b.nome)) : [];
+    L.forEach(([p,i])=>{ if(IMP.opt["a"+i]!=null){ p.id=IMP.opt["a"+i]; const a=al.find(x=>x.id===p.id); p.an=a?a.nome:""; } });
+    const n=L.filter(([p,i])=>on(i)&&p.id).length; const ym=PRES.finMonth();
+    return {n,unit:`pagamento${n===1?"":"s"} em ${IMP_MES[+ym.slice(5)-1]}`,items:L,html:`<table class="imptab"><tr><th></th><th>Na foto</th><th>Aluno</th><th>Valor</th><th>Data</th></tr>${L.map(([p,i])=>`<tr class="${on(i)&&p.id?"":"off"}"><td>${ck(i)}</td><td>${esc(p.nome)}</td><td><select class="inp" data-impal="${i}"><option value="">não achei</option>${al.map(a=>`<option value="${a.id}" ${a.id===p.id?"selected":""}>${esc(a.nome)}</option>`).join("")}</select></td><td>${p.v?brlS(p.v):"tudo"}</td><td>${p.d?ddmm(p.d):"hoje"}</td></tr>`).join("")}</table><p class="muted" style="font-size:12px">Marca como pago no mês aberto no Financeiro (${IMP_MES[+ym.slice(5)-1]}). Sem valor: marca o mês todo.</p>`}; }
+  return {n:0,html:""}; }
+const IMP_MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const brlS=v=>"R$ "+Number(v).toFixed(2).replace(".",",");
+/* ---- lançar ---- */
+function impApply(){ const P=impParse(IMP.area,IMP.lines); const m=stById(IMP.sid)||A(); const on=i=>!IMP.off.has(i); let msg="";
+  const mk=e=>{ const r=newRow(); r.n1=e.n; r.a=sub(e.s||"",e.r||"",e.c||""); return r; };
+  if(IMP.area==="sessao"){ const d=dayOf(S.week,m.id,S.day,true); const nr=P.items.filter(([,i])=>on(i)).map(([e])=>mk(e)); if(IMP.opt.mode==="rep") d.rows=nr; else d.rows=d.rows.filter(r=>r.n1.trim()||subUsed(r.a)).concat(nr); delete d.cp; msg=`${nr.length} exercício${nr.length===1?"":"s"} lançado${nr.length===1?"":"s"} no treino de hoje`; }
+  else if(IMP.area==="prog"){ let k=0; P.groups.forEach(g=>{ const nr=g.items.filter(([,i])=>on(i)).map(([e])=>mk(e)); if(!nr.length) return; const d=dayOf(S.week,m.id,g.dd,true); d.rows=nr; d.ltr=g.L; delete d.cp; k+=nr.length; }); msg=`Ficha lançada: ${k} exercícios em ${P.groups.length} treino${P.groups.length===1?"":"s"}`; }
+  else if(IMP.area==="cad"){ const keep=cadPull; let k=0; try{ cadPull=()=>{}; P.items.forEach(([a,i])=>{ if(!on(i)||P.ex.has(noAcc(a.nome).toLowerCase())) return; cadOpen(null,null); const nA=a.slots.length*4; const va= a.val>=200&&nA? Math.round(a.val/nA*100)/100 : a.val;
+        Object.assign(cadDraft,{nome:a.nome,tel:a.tel,slots:a.slots,valorAula:va?String(va):"",contratadas:nA?String(nA):""}); cadSave(); k++; }); } finally{ cadPull=keep; } msg=`${k} aluno${k===1?"":"s"} cadastrado${k===1?"":"s"}`; }
+  else if(IMP.area==="av"){ const {dates,rows}=P.av; let k=0; dates.forEach((dt,j)=>{ const a={id:nid(),date:dt}; rows.forEach((r,i)=>{ if(on(i)&&num(r.vals[j])) a[r.k]=r.vals[j]; }); if(Object.keys(a).length<=2) return;
+      const ds=Object.keys(a).filter(x=>x.startsWith("d_")); if(ds.length){ a.dc_p="livre"; a.dc_sum=String(Math.round(ds.reduce((t,x)=>t+num(a[x]),0)*10)/10); }
+      const f=avFill(a); if(!a.gord&&f.gord) a.gord=String(f.gord); if(f.mm) a.mm=String(f.mm); m.av=[...(m.av||[]),a]; k++; if(num(a.alt)) m.alt=String(a.alt).replace(".",","); });
+    const last=avList(m).slice(-1)[0]; if(last&&num(last.peso)) m.peso=String(last.peso).replace(".",","); msg=`${k} avaliaç${k===1?"ão lançada":"ões lançadas"} para ${first(m.name)}`; }
+  else if(IMP.area==="fin"){ const L=P.items.filter(([p,i])=>on(i)&&p.id).map(([p])=>({id:p.id,v:p.v,d:p.d})); PRES.importPag(L); msg=`${L.length} pagamento${L.length===1?"":"s"} marcado${L.length===1?"":"s"}`; }
+  save(); IMP.area=null; impRender(); renderAll(); try{ if(CUR_TAB==="corpo") renderCorpo(); }catch(_){} toast("✓ "+msg); }
+function impOpen(area){ Object.assign(IMP,{area,lines:[],busy:"",err:"",sid:S.active,off:new Set(),opt:{}}); impRender(); }
+function impPrev(){ const box=document.querySelector("#impPop .impres"); if(!box) return; const P=impParse(IMP.area,IMP.lines); box.innerHTML=impResHTML(P); }
+const impResHTML=P=>`<div class="impprev">${P.html}</div>${P.n?`<button class="btn primary impgo" data-impgo>✓ Lançar ${P.n} ${P.unit}</button>`:`<p class="muted">Não achei nada para lançar. Confira o texto lido acima e corrija se precisar.</p>`}`;
+function impRender(){ let o=document.getElementById("impPop"); if(!IMP.area){ if(o) o.hidden=true; return; }
+  if(!o){ o=document.createElement("div"); o.id="impPop"; o.className="scrim"; document.body.appendChild(o); }
+  const m=stById(IMP.sid)||A();
+  o.innerHTML=`<div class="sheet impbox" role="dialog" aria-modal="true" aria-label="Importar"><div class="sheet-head"><h3>📎 Importar ${IMP_T[IMP.area]}</h3><button class="btn small" data-impx>Fechar</button></div>
+    ${["sessao","prog","av"].includes(IMP.area)?`<p class="impwho">Aluno: <b>${esc(m.name)}</b>${IMP.area==="sessao"?` · ${DAY_N[S.day]}`:""}</p>`:""}
+    <label class="impfile"><input type="file" accept="image/*,.pdf,.xlsx,.xls,.csv,.ods" data-impfile><b>📷 Tirar foto ou escolher arquivo</b><small>Foto, print, PDF ou Excel</small></label>
+    <p class="impbusy" ${IMP.busy?"":"hidden"}>⏳ <span>${esc(IMP.busy)}</span></p>${IMP.err?`<p class="neg">${esc(IMP.err)}</p>`:""}
+    ${IMP.lines.length?`<details class="imptxt"><summary>Texto lido (toque para corrigir)</summary><textarea class="inp" rows="8" data-imptxt>${esc(IMP.lines.join("\n"))}</textarea></details><div class="impres">${impResHTML(impParse(IMP.area,IMP.lines))}</div>`
+      :`<p class="muted impdica">Dica: foto reta, com boa luz e a tabela inteira. Excel, PDF e print saem mais certos que foto de papel. Letra à mão pode sair errada: confira antes de lançar.</p>`}</div>`;
+  o.hidden=false; }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-impopen],[data-impx],[data-impgo]"); if(!b){ if(e.target&&e.target.id==="impPop"){ IMP.area=null; impRender(); } return; } e.stopPropagation();
+  if(b.dataset.impopen) impOpen(b.dataset.impopen); else if(b.hasAttribute("data-impx")){ IMP.area=null; impRender(); } else impApply(); },true);
+document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!t.closest("#impPop")) return;
+  if(t.matches("[data-impck]")){ const i=+t.dataset.impck; if(t.checked) IMP.off.delete(i); else IMP.off.add(i); impPrev(); return; }
+  if(t.matches("[data-impmode]")){ IMP.opt.mode=t.dataset.impmode; impPrev(); return; }
+  if(t.matches("[data-impday]")){ IMP.opt["d"+t.dataset.impday]=t.value; impPrev(); return; }
+  if(t.matches("[data-impal]")){ IMP.opt["a"+t.dataset.impal]=t.value; impPrev(); return; }
+  if(t.matches("[data-impfile]")&&t.files&&t.files[0]){ const f=t.files[0]; IMP.err=""; IMP.lines=[]; IMP.off=new Set(); IMP.opt={}; IMP.busy=/image/.test(f.type)? "Lendo a foto… (a primeira vez demora um pouco)" : "Lendo o arquivo…"; impRender();
+    try{ const L=await impRead(f,p=>{ const s=document.querySelector("#impPop .impbusy span"); if(s) s.textContent=`Lendo a foto… ${p}%`; }); IMP.lines=L; if(!L.length) IMP.err="Não consegui ler nada. Tente uma foto mais reta e com mais luz, ou o arquivo em Excel/PDF."; }
+    catch(err){ IMP.err=(err&&err.message)||"Não consegui ler o arquivo."; }
+    IMP.busy=""; impRender(); } });
+document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30d";
-const APP_NOVO=["<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-30e";
+const APP_NOVO=["<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -5702,6 +5870,7 @@ function renderCorpo(){
   const val=(a,k)=> num(a[k])? n1(num(a[k])) : "—";
   document.getElementById("view-corpo").innerHTML=`${helpBtn("corpo")}
   <div class="card"><span class="label">Composição corporal</span><h2>${esc(m.name)}</h2>
+    ${impBtn("av","Importar avaliação (foto, PDF ou Excel)")}
     <div class="row" style="align-items:end;gap:10px">
       <div class="field" style="width:110px"><label class="label" for="cp-alt">Altura (cm)</label><input class="inp" id="cp-alt" inputmode="numeric" value="${esc(m.alt||"")}" placeholder="ex.: 165"></div>
       <div class="field" style="width:96px"><label class="label" for="cp-sx">Sexo</label><select class="inp" id="cp-sx"><option value="">–</option><option value="F" ${m.sexo==="F"?"selected":""}>Feminino</option><option value="M" ${m.sexo==="M"?"selected":""}>Masculino</option></select></div>
@@ -6461,7 +6630,7 @@ function finCmpHTML(){ const cur=keyOf(new Date()).slice(0,7); const ini=String(
   const bars=`<div class="fcbars">${M.map(x=>`<div class="fcb ${x.ym===st.cmpA||x.ym===st.cmpB?'sel':''}"><span class="fcv">${x.rec>=1000?(Math.round(x.rec/100)/10).toString().replace('.',',')+' mil':Math.round(x.rec)}</span><div class="fcbt"><i class="fcp" style="height:${x.prev/mx*100}%"></i><i class="fcr" style="height:${x.rec/mx*100}%"></i></div><small>${mesCurto(x.ym)}</small></div>`).join('')}</div><p class="fclg"><i class="fcr"></i> recebido <i class="fcp"></i> previsto</p>`;
   const ids=[...new Set([...B.rows,...A.rows].map(r=>r.a.id))]; const vA=id=>{ const r=A.rows.find(x=>x.a.id===id); return r&&r.stt!=='perm'?r.valor:0; }, vB=id=>{ const r=B.rows.find(x=>x.a.id===id); return r&&r.stt!=='perm'?r.valor:0; };
   const al=ids.map(id=>({a:(B.rows.find(x=>x.a.id===id)||A.rows.find(x=>x.a.id===id)).a,x:vA(id),y:vB(id)})).filter(o=>Math.abs(o.y-o.x)>0.005).sort((p,q)=>Math.abs(q.y-q.x)-Math.abs(p.y-p.x));
-  const sel=(k,v)=>`<select data-fcmp="${k}">${L.map(ym=>`<option value="${ym}" ${ym===v?'selected':''}>${MESES[+ym.slice(5)-1]} ${ym.slice(0,4)}</option>`).join('')}</select>`;
+  const sel=(k,v)=>`<select data-fcmp="${k}">${L.map(ym=>`<option value="${ym}" ${ym===v?'selected':''}>${IMP_MES[+ym.slice(5)-1]} ${ym.slice(0,4)}</option>`).join('')}</select>`;
   return `<div class="card fcmp"><div class="fch"><h3>📊 Comparar meses</h3><button class="iconbtn" data-fcmpopen aria-label="Fechar">✕</button></div>
   <div class="fcsel"><label>Mês 1 ${sel('cmpA',st.cmpA)}</label><label>Mês 2 ${sel('cmpB',st.cmpB)}</label></div>
   ${bars}
@@ -6497,7 +6666,7 @@ function renderPag(){
   const ym=st.month,[y,m]=ym.split('-').map(Number);
   let h=`<div class="daybar"><button class="iconbtn" data-act="mprev" aria-label="Mês anterior">‹</button>
     <div class="t"><h2>Pagamentos · ${MESES[m-1]} ${y} ${qtip("fin")}</h2><small>Toque na parcela paga ou lance o valor que o aluno pagou</small></div>
-    <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>`;
+    <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>${impBtn("fin","Importar pagamentos (foto, PDF ou Excel)")}`;
   if(!loadedA){main.innerHTML=h+`<div class="empty">Carregando…</div>`;return}
   const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend,mais,excesso}=F;
   st._fin={ym,prev,rec,rows,advNovo,pend,excesso};
@@ -6824,7 +6993,11 @@ function getAula(k,id){ return ((dayData(k).extras)||[]).find(x=>x.id===id)||nul
 function updAula(k,id,o){ const x=getAula(k,id); if(!x) return;
   if(o.k&&o.k!==k){ const nx=Object.assign({},x,o.hora?{hora:o.hora}:{},o.tipo?{tipo:o.tipo}:{}); delete nx.k; if(o.k<today()) nx.status=nx.status||'p'; rmAula(k,id); mutDay(o.k,d=>d.extras.push(nx)); return; }
   mutDay(k,d=>{ const y=d.extras.find(z=>z.id===id); if(y){ if(o.hora) y.hora=o.hora; if(o.tipo) y.tipo=o.tipo; } }); }
-return {vencidos, CICLOS, goPag:(id,ym)=>{ if(ym) st.month=ym; st.kpi=null; setMode('fin'); setTimeout(()=>{ const el=document.getElementById('pc-'+id); if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1600); } },120); }, pacSched, addAula, rmAula, updAula, getAula, saldo:pid=>saldoRepos().get(pid)||0, tipoAluno:pid=>{ const a=alunos.get(pid); return a? a.tipo||'aula' : ''; }, finCard:()=>st._fin? finCardHTML(st._fin):'', planCard:(id,ym)=>{ const a=alunos.get(id); return a? planCardHTML(a,ym) : ""; }, fechCard:(id,ym)=>{ const a=alunos.get(id); return a? fechCardHTML(a,ym) : ""; }, pacUso:id=>{ const a=alunos.get(id); return a? pacUso(a) : null; }, remove:id=>{ alunos.delete(id); if(db) db.doc(PB+'alunos/'+id).delete().catch(()=>toast('Não excluiu.')); render(); }, upsert:a=>{ if(!a.id) a.id=slug(a.nome); alunos.set(a.id,a); saveAluno(a); render(); return a.id; }, aluno:id=>{ const a=alunos.get(id); return a? JSON.parse(JSON.stringify(a)) : null; }, dump:()=>{ const cl=v=>JSON.parse(JSON.stringify(v)); const o={v:2,inicio:INICIO,alunos:{},dias:{},pagamentos:{},historico:{}};
+function importPag(L){ const ym=st.month||today().slice(0,7); const F=finCalc(ym);
+  mutPag(ym,d=>{ L.forEach(p=>{ const r=F.rows.find(x=>x.a.id===p.id); if(!r) return; d[p.id]=d[p.id]||{}; const x=d[p.id]; const dt=p.d||today(); let left=+p.v||0; const all=!left;
+    let part=false; (r.partes||[]).forEach(t=>{ if(x[t.k]||part) return; if(all||left>=t.v-0.01){ x[t.k]=dt; left-=t.v; } else part=true; });
+    if(!all&&part&&left>0.009){ x.avulsos=(x.avulsos||[]).concat([{id:rid(),v:Math.round(left*100)/100,m:'Diferença / ajuste',dt,d:'Importado'}]); } }); }); }
+return {importPag, finMonth:()=>st.month||today().slice(0,7), vencidos, CICLOS, goPag:(id,ym)=>{ if(ym) st.month=ym; st.kpi=null; setMode('fin'); setTimeout(()=>{ const el=document.getElementById('pc-'+id); if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1600); } },120); }, pacSched, addAula, rmAula, updAula, getAula, saldo:pid=>saldoRepos().get(pid)||0, tipoAluno:pid=>{ const a=alunos.get(pid); return a? a.tipo||'aula' : ''; }, finCard:()=>st._fin? finCardHTML(st._fin):'', planCard:(id,ym)=>{ const a=alunos.get(id); return a? planCardHTML(a,ym) : ""; }, fechCard:(id,ym)=>{ const a=alunos.get(id); return a? fechCardHTML(a,ym) : ""; }, pacUso:id=>{ const a=alunos.get(id); return a? pacUso(a) : null; }, remove:id=>{ alunos.delete(id); if(db) db.doc(PB+'alunos/'+id).delete().catch(()=>toast('Não excluiu.')); render(); }, upsert:a=>{ if(!a.id) a.id=slug(a.nome); alunos.set(a.id,a); saveAluno(a); render(); return a.id; }, aluno:id=>{ const a=alunos.get(id); return a? JSON.parse(JSON.stringify(a)) : null; }, dump:()=>{ const cl=v=>JSON.parse(JSON.stringify(v)); const o={v:2,inicio:INICIO,alunos:{},dias:{},pagamentos:{},historico:{}};
     alunos.forEach((v,k)=>{ const x=cl(v); delete x.id; o.alunos[k]=x; }); dias.forEach((v,k)=>o.dias[k]=cl(v)); pags.forEach((v,k)=>o.pagamentos[k]=cl(v)); hist.forEach((v,k)=>o.historico[k]=cl(v)); return o; },
   load:o=>{ if(!o||!db) return; const W=[];
     if(o.v===2){ if(o.inicio){ INICIO=o.inicio; W.push(db.doc(PB+'cfg/geral').set({inicio:o.inicio})); }
@@ -7086,7 +7259,7 @@ function renderSemana(){
   const pend=all.filter(x=>progOf(x).auto||(blockInfo(x)||{}).over);
   const list= semFilter==="pend"? pend : all;
   const op=k=> semOpen[k]? "open" : "";
-  el.innerHTML=`${helpBtn("semana")}
+  el.innerHTML=`${helpBtn("semana")}${impBtn("prog","Importar ficha de "+esc(first(A().name))+" (foto, PDF ou Excel)")}
     <div class="semfrase"><span class="rep-m">${LETRA()}</span><p>${SEM_FRASE}</p></div>
 
     <div class="seg" role="group" aria-label="Filtro"><button data-pgf="todos" aria-pressed="${semFilter==="todos"}">Todos (${all.length})</button><button data-pgf="pend" aria-pressed="${semFilter==="pend"}">Para conferir (${pend.length})</button></div>
@@ -7607,7 +7780,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
     const want=d.pacVal||""; setTimeout(()=>{ const a=PRES.aluno(pid); if(a&&a.pacote&&(a.pacote.validade||"")!==want) toast("⚠ O prazo do pacote não ficou salvo. Abra o aluno e toque em Salvar de novo."); },2500); }
   else toast(`${first(nome)} salvo`); }
 /* Apresentação do sistema: fica fixada no topo do Cadastro para quem está começando */
-const APR_N=50; let APR_I=0;
+const APR_N=51; let APR_I=0;
 function aprSrc(i){ return "apresentacao/"+String(i+1).padStart(2,"0")+".jpg"; }
 function aprHTML(){ return `<div class="aprbox"><div class="aprimg" id="aprImg"><img src="${aprSrc(APR_I)}" alt="Slide ${APR_I+1} da apresentação" draggable="false"><button class="aprnav l" data-apr="-1" aria-label="Anterior">‹</button><button class="aprnav r" data-apr="1" aria-label="Próximo">›</button></div>
   <div class="aprbar"><button class="btn small" data-apr="-1">◀</button><b id="aprNum">${APR_I+1} de ${APR_N}</b><button class="btn small" data-apr="1">▶</button><button class="btn small" data-aprfull>⛶ Tela cheia</button></div></div>`; }
@@ -7641,6 +7814,7 @@ function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(
     <div class="card"><span class="label">Cadastro do aluno</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
+      ${impBtn("cad","Importar alunos (foto, PDF ou Excel)")}
       <button class="btn small ghost" data-gobrand style="justify-self:start">✎ Seu nome, logo, cores e frases dos relatórios (em Meu perfil)</button>
       ${BR().nome==="Seu nome"?`<p class="pend" style="margin:0">⚠ Coloque o seu nome: ele aparece nos relatórios e no planejamento que o aluno recebe.</p>`:""}
       ${presOn()?"":`<p class="note" style="margin:0">Carregando a Presença… Se demorar, os dias e horários ficam só no treino até ela abrir.</p>`}</div>
