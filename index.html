@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793413959";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793442282";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -459,6 +459,22 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .ftgd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
 .ftgd .inp{width:auto}
 .ftbtng{white-space:nowrap}
+.avbox{border:2px solid #E0913F;background:#FFF6EC;border-radius:14px;padding:12px;margin:10px 0;display:grid;gap:8px}
+.avbox-h{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:16px}
+.avbox-h b{font-size:22px;color:#B4560F}
+.avln{display:grid;gap:4px;border-top:1px solid #F1D3B3;padding-top:6px}
+.avit{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;font-size:13px}
+.avit.venc{color:#B42318}
+.avbt{grid-column:1/-1;display:flex!important;flex-direction:row!important;gap:6px;flex-wrap:wrap;justify-content:flex-start!important;border:0!important;padding:0!important;background:none!important}
+.avbt .btn{width:auto!important;margin:0!important}
+.partrow.mvd{opacity:.6;cursor:default}
+.partrow.antp{border-color:#E0913F}
+.mvbtn2{font-size:12px}
+.slbox{margin:8px 0}
+.slbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:2px solid var(--accent);background:var(--surface);color:var(--accent);font-weight:800;font-size:14px;border-radius:12px;padding:9px;cursor:pointer}
+.slbtn small{color:var(--muted);font-weight:700}
+.slbtn.on{background:var(--accent-soft)}
+.slbox .aprbox{margin-top:8px}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -4902,7 +4918,7 @@ function colHTML(m,w,ms){
     ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
     <div class="mvvw"><button class="btn mvbig ${mvOpen===m.id?"on":""}" data-mvopen>↔ Mover este treino para outro dia</button><button class="btn vwbig" data-vwopen="${m.id}">👁 Visualizar treino do dia ou da semana</button></div>
     ${mvOpen===m.id? mvHTML(m,w,others) : ""}
-    ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF ou Excel)") : ""}
+    ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF, Excel ou Word)") : ""}
     ${cvOn? cvHTML(m,d,others) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
@@ -5120,7 +5136,7 @@ function erroPT(e){ const raw=String((e&&(e.code||e.name))||"")+" "+String((e&&e
 let ERR_T=0;
 window.addEventListener("unhandledrejection",ev=>{ const r=ev.reason; const t=String((r&&r.message)||r||""); if(!t||/resizeobserver|script error|extension|chrome-extension/i.test(t)) return; if(Date.now()-ERR_T<8000) return; ERR_T=Date.now(); try{ toast("⚠ Algo deu errado: "+erroPT(r)+". Se repetir, mande um print."); }catch(_){} });
 /* ---------- Importar de foto, print, PDF ou Excel (lido no próprio aparelho, sem custo) ---------- */
-const IMP_LIB={xlsx:"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",pdfw:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",tess:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
+const IMP_LIB={docx:"https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js",xlsx:"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",pdfw:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",tess:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
   tw:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",tc:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1",tl:"https://cdn.jsdelivr.net/npm/@tesseract.js-data/por/4.0.0_best_int"};
 const impLoaded={};
 function impScript(u){ if(impLoaded[u]) return impLoaded[u]; return impLoaded[u]=new Promise((ok,no)=>{ const s=document.createElement("script"); s.src=u; s.onload=ok; s.onerror=()=>{ delete impLoaded[u]; no(new Error("Não consegui abrir o leitor. Confira a internet e tente de novo.")); }; document.head.appendChild(s); }); }
@@ -5130,6 +5146,9 @@ function impBtn(area,lab){ return `<button type="button" class="btn impbtn" data
 async function impRead(file,onp){ const n=(file.name||"").toLowerCase(), ty=file.type||"";
   if(/\.(xlsx|xlsm|xls|ods|csv)$/.test(n)||/spreadsheet|excel|csv/.test(ty)){ await impScript(IMP_LIB.xlsx); const wb=XLSX.read(await file.arrayBuffer(),{type:"array"}); const out=[];
     wb.SheetNames.forEach(sn=>{ XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:""}).forEach(r=>{ const c=r.map(x=>String(x).trim()); while(c.length&&!c[c.length-1]) c.pop(); if(c.some(Boolean)) out.push(c.join(" | ")); }); }); return out; }
+  if(/\.docx$/.test(n)||/wordprocessingml/.test(ty)){ await impScript(IMP_LIB.docx); const r=await mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()}); const doc=new DOMParser().parseFromString(r.value,"text/html"); const out=[];
+    doc.body.querySelectorAll("p,h1,h2,h3,h4,li,tr").forEach(el=>{ if(el.closest("tr")&&el.tagName!=="TR") return; const t= el.tagName==="TR"? [...el.children].map(c=>c.textContent.trim()).join(" | ") : el.textContent.trim(); if(t.replace(/[|\s]/g,"")) out.push(t); }); return out; }
+  if(/\.doc$/.test(n)) throw new Error("Esse Word é do formato antigo (.doc). No Word, salve como .docx ou PDF e tente de novo.");
   if(/\.pdf$/.test(n)||ty==="application/pdf"){ await impScript(IMP_LIB.pdf); pdfjsLib.GlobalWorkerOptions.workerSrc=IMP_LIB.pdfw; const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise; const out=[]; let txt=0;
     for(let p=1;p<=pdf.numPages;p++){ const pg=await pdf.getPage(p); const tc=await pg.getTextContent(); const it=tc.items.filter(i=>String(i.str||"").trim()); txt+=it.length; const rows={};
       it.forEach(i=>{ const y=Math.round(i.transform[5]/4)*4; (rows[y]=rows[y]||[]).push(i); });
@@ -5137,7 +5156,7 @@ async function impRead(file,onp){ const n=(file.name||"").toLowerCase(), ty=file
     if(txt) return out;
     let all=[]; for(let p=1;p<=Math.min(pdf.numPages,3);p++){ const pg=await pdf.getPage(p); const vp=pg.getViewport({scale:2}); const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height; await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; all=all.concat(await impOcr(cv,onp)); } return all; }
   if(/^image\//.test(ty)||/\.(png|jpe?g|webp|gif|bmp)$/.test(n)) return impOcr(await impImg(file),onp);
-  throw new Error("Esse tipo de arquivo não dá para ler. Use foto, print, PDF ou Excel."); }
+  throw new Error("Esse tipo de arquivo não dá para ler. Use foto, print, PDF, Excel ou Word."); }
 async function impImg(file){ const url=URL.createObjectURL(file); const im=new Image(); await new Promise((ok,no)=>{ im.onload=ok; im.onerror=()=>no(new Error("Não consegui abrir a imagem. Tente um print ou foto em JPG.")); im.src=url; });
   const mx=Math.max(im.width,im.height), sc= mx<1400? 1400/mx : Math.min(1,2600/mx); const cv=document.createElement("canvas"); cv.width=Math.round(im.width*sc); cv.height=Math.round(im.height*sc); const g=cv.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,cv.width,cv.height); g.filter="grayscale(1) contrast(1.35)"; g.drawImage(im,0,0,cv.width,cv.height); URL.revokeObjectURL(url); return cv; }
 async function impOcr(cv,onp){ await impScript(IMP_LIB.tess); if(onp) onp(0);
@@ -5249,7 +5268,7 @@ function impRender(){ let o=document.getElementById("impPop"); if(!IMP.area){ if
   const m=stById(IMP.sid)||A();
   o.innerHTML=`<div class="sheet impbox" role="dialog" aria-modal="true" aria-label="Importar"><div class="sheet-head"><h3>📎 Importar ${IMP_T[IMP.area]}</h3><button class="btn small" data-impx>Fechar</button></div>
     ${["sessao","prog","av"].includes(IMP.area)?`<p class="impwho">Aluno: <b>${esc(m.name)}</b>${IMP.area==="sessao"?` · ${DAY_N[S.day]}`:""}</p>`:""}
-    <label class="impfile"><input type="file" accept="image/*,.pdf,.xlsx,.xls,.csv,.ods" data-impfile><b>📷 Tirar foto ou escolher arquivo</b><small>Foto, print, PDF ou Excel</small></label>
+    <label class="impfile"><input type="file" accept="image/*,.pdf,.xlsx,.xls,.csv,.ods,.docx,.doc" data-impfile><b>📷 Tirar foto ou escolher arquivo</b><small>Foto, print, PDF, Excel ou Word</small></label>
     <p class="impbusy" ${IMP.busy?"":"hidden"}>⏳ <span>${esc(IMP.busy)}</span></p>${IMP.err?`<p class="neg">${esc(IMP.err)}</p>`:""}
     ${IMP.lines.length?`<details class="imptxt"><summary>Texto lido (toque para corrigir)</summary><textarea class="inp" rows="8" data-imptxt>${esc(IMP.lines.join("\n"))}</textarea></details><div class="impres">${impResHTML(impParse(IMP.area,IMP.lines))}</div>`
       :`<p class="muted impdica">Dica: foto reta, com boa luz e a tabela inteira. Excel, PDF e print saem mais certos que foto de papel. Letra à mão pode sair errada: confira antes de lançar.</p>`}</div>`;
@@ -5267,8 +5286,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30h";
-const APP_NOVO=["<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-31a";
+const APP_NOVO=["<b>Explicação em slides dentro de cada aba</b>: toque em 📽 e veja só os slides daquela aba. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -5425,7 +5444,7 @@ function renderSessao0(){
     %%CTL%%
     <button class="btn histbtn" data-histopen>📈 Histórico de treino ${st&&!st.own?"de "+esc(first(st.name)):"do aluno"}</button>
   </div>`;
-  document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}
+  document.getElementById("view-sessao").innerHTML=`${helpBtn("sessao")}${slidesBox("sessao")}
   <datalist id="exlist">${names.map(n=>`<option value="${esc(n)}">`).join("")}</datalist>
   <datalist id="cardiolist">${["Caminhada na esteira","Trote na esteira","Corrida na esteira","Caminhada na rua","Trote na rua","Corrida na rua","Escada","Esteira","Bike","Spinning","Elíptico","Remo","Caminhada","Natação"].map(n=>`<option value="${n}">`).join("")}</datalist>
   ${wkCfgHTML("banner")}
@@ -5904,9 +5923,9 @@ function renderCorpo(){
   const m=A(); const L=avList(m).map(avFill); const last=L[L.length-1], prev=L[L.length-2], firstAv=L[0];
   const today=isoD(new Date()); const imc=imcOf(m, last&&num(last.peso)?last.peso:m.peso);
   const val=(a,k)=> num(a[k])? n1(num(a[k])) : "—";
-  document.getElementById("view-corpo").innerHTML=`${helpBtn("corpo")}
+  document.getElementById("view-corpo").innerHTML=`${helpBtn("corpo")}${slidesBox("corpo")}
   <div class="card"><span class="label">Composição corporal</span><h2>${esc(m.name)}</h2>
-    ${impBtn("av","Importar avaliação (foto, PDF ou Excel)")}
+    ${impBtn("av","Importar avaliação (foto, PDF, Excel ou Word)")}
     <div class="row" style="align-items:end;gap:10px">
       <div class="field" style="width:110px"><label class="label" for="cp-alt">Altura (cm)</label><input class="inp" id="cp-alt" inputmode="numeric" value="${esc(m.alt||"")}" placeholder="ex.: 165"></div>
       <div class="field" style="width:96px"><label class="label" for="cp-sx">Sexo</label><select class="inp" id="cp-sx"><option value="">–</option><option value="F" ${m.sexo==="F"?"selected":""}>Feminino</option><option value="M" ${m.sexo==="M"?"selected":""}>Masculino</option></select></div>
@@ -6524,14 +6543,16 @@ function ciclosDe(a,ym){ const [y,m]=ym.split('-').map(Number), last=new Date(y,
     let i=1; ds.forEach(d=>{ if(d>=i){ fx(i,d,pad2(i)+' a '+pad2(d)); i=d+1; } }); if(i<=last) fx(i,last,pad2(i)+' a '+pad2(last)+' (fim do mês)'); }
   else { fx(1,Math.min(15,last),'1ª quinzena (01 a 15)'); fx(16,last,'2ª quinzena (16 a '+pad2(last)+')'); }
   return out; }
+function aulasDias(a,ini,fim){ const hoje=today(), out=[]; for(let k=ini;k<=fim&&k<=hoje;k=addDia(k)) for(const i of agendaDoDia(k)) if(i.a.id===a.id&&(i.status==='p'||i.status==='x')) out.push(k); return out; }
 function aulasFeitas(a,ini,fim){ const hoje=today(); let n=0; for(let k=ini;k<=fim&&k<=hoje;k=addDia(k)) for(const i of agendaDoDia(k)) if(i.a.id===a.id&&(i.status==='p'||i.status==='x')) n++; return n; }
 function addDia(k){ const d=dOf(k); d.setDate(d.getDate()+1); return isoD2(d); }
 function isoD2(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+function diasTxt(L){ L=(L||[]).map(k=>k.slice(8,10)); if(!L.length) return ""; return L.length>1? L.slice(0,-1).join(", ")+" e "+L[L.length-1] : L[0]; }
 function diaVenc(a){ return Math.min(31,Math.max(1,+a.diaVenc||10)); }
 function prazoDe(a,ym,pp){ pp=pp||{}; if(pp.ate) return pp.ate; if(pp.venc) return pp.venc; const [y,m]=ym.split('-').map(Number); const last=new Date(y,m,0).getDate(); return ym+'-'+pad2(Math.min(diaVenc(a),last)); }
 /* cada parte com sua data de vencimento; o que já foi pago cobre as partes em ordem */
 function dueParts(r,ym){ const pp=r.pp||{}, last=new Date(+ym.slice(0,4),+ym.slice(5,7),0).getDate();
-  if(r.pa) return (r.partes.length?r.partes:[{v:0,l:'',k:'',due:ym+'-'+pad2(last)}]).map(t=>({v:t.v,l:t.l,k:t.k,due:t.due,cob:pp[t.k]?t.v:0,resta:pp[t.k]?0:t.v}));
+  if(r.pa) return (r.partes.length?r.partes:[{v:0,l:'',k:'',due:ym+'-'+pad2(last)}]).map(t=>({v:t.v,l:t.l,k:t.k,due:t.due,cob:pp[t.k]?t.v:0,resta:(pp[t.k]||t.mv)?0:t.v}));
   const L=(r.a.forma==='parcelas'&&r.partes&&r.partes.length>1&&r.partes[0].dia)? r.partes.map(t=>({v:t.v,l:t.l,k:t.k,due:ym+'-'+pad2(Math.min(t.dia,last))})) : [{v:r.valor,l:'',k:'',due:prazoDe(r.a,ym,{})}];
   if(pp.ate||pp.venc){ const d=pp.ate||pp.venc; L.forEach(t=>{ if(t.due<d) t.due=d; }); }
   let cob=r.pago; return L.map(t=>{ const c=Math.min(t.v,Math.max(0,cob)); cob-=c; return {...t,cob:c,resta:Math.max(0,t.v-c)}; }); }
@@ -6627,11 +6648,17 @@ function finCalc(ym){
       if(stt==='perm'){rows.push({a,bruto:v,desc:0,valor:v,partes,pp,pago:0,stt,pk,u});continue}
       prev+=v;rec+=pago;rows.push({a,bruto:v,desc:0,valor:v,partes,pp,pago,stt,pk,u});continue}
     if((a.forma==='poraula'||a.tipo==='avulsa')&&!isFicha(a)){ const pp=P[a.id]||{}, va=valorAula(a), hoje=today(), av=(pp.avulsos||[]);
-      const partes=ciclosDe(a,ym).map(c=>{ const n=aulasFeitas(a,c.ini,c.fim); return {k:c.k,l:c.l,v:n*va,aulas:n,due:c.fim,venc:hoje>c.fim&&n>0&&!pp[c.k],aberto:hoje<=c.fim}; }).filter(t=>t.aulas>0||pp[t.k]);
-      const valor=partes.reduce((t,x)=>t+x.v,0), pago=partes.filter(t=>pp[t.k]).reduce((t,x)=>t+x.v,0)+av.reduce((t,x)=>t+(+x.v||0),0);
-      const stt=r_perm(a)?'perm':!(valor>0.005)?'na':partes.some(t=>t.venc)?'no':partes.every(t=>pp[t.k])?'ok':'pa';
-      if(stt!=='perm'){ prev+=pago; rec+=pago; }
-      rows.push({a,bruto:valor||1,desc:0,valor,partes,pp,pago:stt==='perm'?0:pago,stt,pa:true,va}); continue; }
+      const mv=pp.mv||{};
+      const partes=ciclosDe(a,ym).map(c=>{ const n=aulasFeitas(a,c.ini,c.fim); const m2=!pp[c.k]&&mv[c.k]; return {k:c.k,l:c.l,v:n*va,aulas:n,due:c.fim,dias:aulasDias(a,c.ini,c.fim),mv:m2||"",venc:!m2&&hoje>c.fim&&n>0&&!pp[c.k],aberto:hoje<=c.fim}; }).filter(t=>t.aulas>0||pp[t.k]);
+      /* aulas não pagas do mês anterior que foram passadas para este mês */
+      { const pym=addMes(ym,-1), PP=(pags.get(pym)||{})[a.id]||{}; const M=PP.mv||{}; Object.keys(M).filter(k=>M[k]===ym&&!PP[k]).forEach(k=>{ const c=ciclosDe(a,pym).find(x=>x.k===k); if(!c) return; const n=aulasFeitas(a,c.ini,c.fim); if(!n) return; const key='ant_'+pym+'_'+k, due=ym+'-'+pad2(Math.min(diaVenc(a),28));
+        partes.unshift({k:key,l:`Mês anterior (${mesCurto(pym)})`,v:n*va,aulas:n,due,dias:aulasDias(a,c.ini,c.fim),dm:pym,ant:true,venc:hoje>due&&!pp[key],aberto:hoje<=due}); }); }
+      const vivas=partes.filter(t=>!t.mv);
+      const valor=vivas.reduce((t,x)=>t+x.v,0), pago=vivas.filter(t=>pp[t.k]).reduce((t,x)=>t+x.v,0)+av.reduce((t,x)=>t+(+x.v||0),0);
+      const antAb=partes.filter(t=>t.ant&&!pp[t.k]).reduce((t,x)=>t+x.v,0);
+      const stt=r_perm(a)?'perm':!(valor>0.005)?(partes.some(t=>t.mv)?'ok':'na'):vivas.some(t=>t.venc)?'no':vivas.every(t=>pp[t.k])?'ok':'pa';
+      if(stt!=='perm'){ prev+=pago+antAb; rec+=pago; }
+      rows.push({a,bruto:valor||1,desc:0,valor,partes,pp,pago:stt==='perm'?0:pago,stt,pa:true,va,antAb:stt==='perm'?0:antAb}); continue; }
     const x=S.get(a.id),bruto=(a.tipo==='avulsa'?valorAula(a)*(x?x.extras:0):0)+mensal(a)+(q5Of(a,ym)==="cobra"&&x&&!isFicha(a)?x.quinta*valorAula(a):0),desc=x?x.desconto:0,pp=P[a.id]||{}; let valor=Math.max(0,bruto-desc);
     const valor0=valor; const aj=pp.aj&&num(pp.aj.v)>=0&&pp.aj.v!==''? pp.aj : null; if(aj) valor=+aj.v;
     const partes=partesDe(a,valor),av=(pp.avulsos||[]);
@@ -6647,7 +6674,7 @@ function finCalc(ym){
   // adiantamentos recebidos neste mês entram como dinheiro recebido agora
   for(const a of ativos()){const d=a.adiantado;if(d&&d.recebidoEm===ym&&+d.valor>0){prev+= +d.valor;rec+= +d.valor;advNovo+= +d.valor}}
   /* a receber = soma do que cada aluno ainda deve (quem pagou a mais não abate a dívida dos outros) */
-  const pend=rows.filter(r=>!r.pa&&(r.stt==='no'||r.stt==='part')).reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0);
+  const pend=rows.filter(r=>!r.pa&&(r.stt==='no'||r.stt==='part')).reduce((t,r)=>t+Math.max(0,r.valor-r.pago),0)+rows.filter(r=>r.pa).reduce((t,r)=>t+(r.antAb||0),0);
   /* quem pagou mais que o valor do mês: o excesso não entra no recebido (senão previsto ≠ recebido + a receber) e aparece em aviso */
   const mais=rows.filter(r=>!r.pa&&r.stt!=='adv'&&r.stt!=='perm'&&r.pago>r.valor+0.005).map(r=>({a:r.a,v:r.pago-r.valor}));
   const excesso=mais.reduce((t,x)=>t+x.v,0); rec-=excesso;
@@ -6702,7 +6729,7 @@ function renderPag(){
   const ym=st.month,[y,m]=ym.split('-').map(Number);
   let h=`<div class="daybar"><button class="iconbtn" data-act="mprev" aria-label="Mês anterior">‹</button>
     <div class="t"><h2>Pagamentos · ${MESES[m-1]} ${y} ${qtip("fin")}</h2><small>Toque na parcela paga ou lance o valor que o aluno pagou</small></div>
-    <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>${impBtn("fin","Importar pagamentos (foto, PDF ou Excel)")}`;
+    <button class="iconbtn" data-act="mnext" aria-label="Próximo mês">›</button></div>${impBtn("fin","Importar pagamentos (foto, PDF, Excel ou Word)")}`;
   if(!loadedA){main.innerHTML=h+`<div class="empty">Carregando…</div>`;return}
   const F=finCalc(ym); const {prev,rec,rows,advNovo,advCob,pend,mais,excesso}=F;
   st._fin={ym,prev,rec,rows,advNovo,pend,excesso};
@@ -6719,7 +6746,11 @@ function renderPag(){
   ${advCob||advNovo?`<p class="note">${advCob?`${advCob} aluno${advCob>1?'s':''} com mês pago adiantado: aparece${advCob>1?'m':''} como quitado${advCob>1?'s':''}, mas não soma${advCob>1?'m':''} no previsto nem no recebido.`:''}${advNovo?` O recebido inclui ${brl(advNovo)} de adiantamentos recebidos neste mês.`:''}</p>`:''}${finDiffHTML(ym)}`;
   const lbl={pac:'Pacote',adv:'Adiantado',ok:'Pago',part:'Parcial',no:'Pendente',na:'Sem valor',perm:'Permuta',pa:'Em aberto'};
   const paR=rows.filter(r=>r.pa&&r.stt!=='perm'), paRec=paR.reduce((t,r)=>t+r.pago,0), paVenc=paR.reduce((t,r)=>t+r.partes.filter(x=>x.venc).reduce((s2,x)=>s2+x.v,0),0);
-  if(paR.length) h+=`<p class="note pa-note">💵 <b>Por aula feita</b> (${paR.length} aluno${paR.length>1?'s':''}): entra só o que foi pago, como extra. Recebido <b class="pos">${brl(paRec)}</b>${paVenc>0.005?` · vencido <b class="neg">${brl(paVenc)}</b>`:''}. Não soma no previsto.</p>`;
+  if(paR.length){ const L=paR.map(r=>({r,ab:r.partes.filter(t=>!t.mv&&!r.pp[t.k]&&t.aulas>0)})).filter(x=>x.ab.length); const tot=L.reduce((t,x)=>t+x.ab.reduce((s2,y)=>s2+y.v,0),0);
+    h+= tot>0.005? `<div class="avbox"><div class="avbox-h"><span>💵 Aulas avulsas não pagas</span><b>${brl(tot)}</b></div>
+      ${L.map(({r,ab})=>`<div class="avln"><button class="kname" data-goto="${r.a.id}">${esc(r.a.nome)}</button>${ab.map(t=>`<div class="avit ${t.venc?'venc':''}"><span>${t.l}${t.dias&&t.dias.length?` · dias ${diasTxt(t.dias)}`:''}${t.venc?' · <b>⚠ vencido</b>':''}</span><b>${brl(t.v)}</b><span class="avbt"><button class="btn small primary" data-pay="${t.k}" data-id="${r.a.id}">✓ Pagou</button>${!t.ant&&!t.aberto?`<button class="btn small" data-mvnext="${t.k}" data-id="${r.a.id}">➡ Passar para ${mesCurto(addMes(st.month,1))}</button>`:''}</span></div>`).join('')}</div>`).join('')}
+      <small>Passou para o mês seguinte? Lá aparece como “Mês anterior”, com os dias das aulas, e soma no previsto e no a receber. Só avisa como vencido depois do dia ${'do vencimento'}.</small></div>`
+      : `<p class="note pa-note">💵 <b>Por aula feita</b> (${paR.length} aluno${paR.length>1?'s':''}): tudo pago. Recebido <b class="pos">${brl(paRec)}</b>.</p>`; }
   h+=`<div class="alist">`+rows.map(r=>`<div class="paycard" id="pc-${r.a.id}" data-st="${r.stt}"><div class="paytop"><b>${esc(r.a.nome)}</b>
     <span class="chip ${r.stt}">${r.cobraMes?"Começa depois":lbl[r.stt]}</span><span class="payval">${r.stt==='adv'||r.stt==='pac'?'—':r.bruto?brl(r.valor):'—'}</span>${r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='pac'?`<span class="ovbs"><button class="chipbtn ovb ${st.ajOpen===r.a.id?'on':''}" data-ajopen="${r.a.id}">✎ ajustar valor</button><button class="chipbtn ovb ${st.avOpen===r.a.id?'on':''}" data-avopen2="${r.a.id}">+ outro valor</button></span>`:''}</div>
     ${r.aj?`<div class="ajnote">Valor ajustado neste mês: <b>${brl(r.valor)}</b> <s>${brl(r.valor0)}</s> · ${esc(r.aj.m||'Ajuste')}${r.aj.d?` <small>(${esc(r.aj.d)})</small>`:''} <button class="iconbtn" data-ajrm="${r.a.id}" aria-label="Desfazer ajuste">×</button></div>`:''}
@@ -6733,7 +6764,7 @@ function renderPag(){
     ${prazoHTML(r)}
     ${r.bruto&&r.stt!=='perm'&&r.stt!=='adv'&&r.stt!=='pac'?`<div class="paygrid">${r.pk?'':`<select data-forma="${r.a.id}" aria-label="Forma de pagamento de ${esc(r.a.nome)}">${Object.entries(FORMAS).map(([v,l])=>`<option value="${v}" ${(r.a.forma||'mensal')===v?'selected':''}>${l}</option>`).join('')}</select>`}
       ${r.pa?`<div class="partlist"><p class="partsum">Cobra <b>por aula feita</b> · ${brl(r.va)} por aula · <select data-ciclo="${r.a.id}" aria-label="Quando cobra">${Object.entries(CICLOS).map(([v,l])=>`<option value="${v}" ${(r.a.ciclo||'quinzenal')===v?'selected':''}>${l}</option>`).join('')}</select></p>
-        ${r.partes.length?r.partes.map(t=>`<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''} ${t.venc?'venc':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l} <small>· ${t.aulas} aula${t.aulas!==1?'s':''}</small></span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':t.venc?'⚠ vencido':t.aberto?'em andamento':'a pagar'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}</div>`).join(''):`<p class="partsum">Nenhuma aula feita ainda neste mês.</p>`}
+        ${r.partes.length?r.partes.map(t=>t.mv? `<div class="partwrap"><div class="partrow mvd"><span>${t.l} <small>· ${t.aulas} aula${t.aulas!==1?'s':''} · dias ${diasTxt(t.dias)}</small></span><b>${brl(t.v)}</b><em>➡ passado para ${mesCurto(t.mv)}</em></div><button class="lk" data-mvundo="${t.k}" data-id="${r.a.id}">↩ desfazer</button></div>` : `<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''} ${t.venc?'venc':''} ${t.ant?'antp':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l} <small>· ${t.aulas} aula${t.aulas!==1?'s':''}${t.dias&&t.dias.length?` · dias ${diasTxt(t.dias)}`:''}</small></span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':t.venc?'⚠ vencido':t.ant?'a receber':t.aberto?'em andamento':'toque se pagou'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):(!t.ant&&!t.aberto?`<button class="lk mvbtn2" data-mvnext="${t.k}" data-id="${r.a.id}">➡ Passar para ${mesCurto(addMes(st.month,1))}</button>`:'')}</div>`).join(''):`<p class="partsum">Nenhuma aula feita ainda neste mês.</p>`}
         ${r.partes.length?`<p class="partsum">Aulas no mês: <b>${r.partes.reduce((s2,t)=>s2+t.aulas,0)}</b> · pagas: <b class="pos">${r.partes.filter(t=>r.pp[t.k]).reduce((s2,t)=>s2+t.aulas,0)}</b></p>`:''}</div>`
       :r.partes.length>1?`<div class="partlist"><p class="partsum">${(r.a.forma==='parcelas')?`Paga em <b>${r.partes.length} vezes</b>: ${r.partes.map(t=>brl(t.v)).join(' + ')}`:`Paga <b>por semana</b>: ${r.partes.length} pagamentos${r.partes[0].aulas?` de ${r.partes[0].aulas} aula${r.partes[0].aulas>1?'s':''}`:''}`}</p>
         ${r.partes.map(t=>`<div class="partwrap"><button class="partrow ${r.pp[t.k]?'on':''}" data-pay="${t.k}" data-id="${r.a.id}" aria-pressed="${!!r.pp[t.k]}"><span>${t.l}${t.aulas?` <small>· ${t.aulas} aula${t.aulas>1?'s':''}</small>`:''}</span><b>${brl(t.v)}</b><em>${r.pp[t.k]?'✓ pago':'toque se pagou'}</em></button>${r.pp[t.k]?payDateHTML(r.a.id,t.k,r.pp[t.k]):''}</div>`).join('')}
@@ -6923,6 +6954,8 @@ main.addEventListener('click',e=>{
     if(!(v>0)){toast('Digite o valor pago');return}
     st.avOpen=null;mutPag(st.month,d=>{d[id]=d[id]||{};d[id].avulsos=(d[id].avulsos||[]).concat([Object.assign({id:rid(),v,m:mm,dt},dd?{d:dd}:{})])});toast(brl(v)+' lançado · '+mm);return}
   if(b.dataset.avrm){const id=b.dataset.id;mutPag(st.month,d=>{d[id]=d[id]||{};d[id].avulsos=(d[id].avulsos||[]).filter(t=>t.id!==b.dataset.avrm)});return}
+  if(b.dataset.mvnext){const id=b.dataset.id,kk=b.dataset.mvnext,to=addMes(st.month,1);mutPag(st.month,d=>{d[id]=d[id]||{};d[id].mv=Object.assign({},d[id].mv||{},{[kk]:to})});toast('Passado para '+mesCurto(to)+'. Lá soma no previsto e no a receber.');return}
+  if(b.dataset.mvundo){const id=b.dataset.id,kk=b.dataset.mvundo;mutPag(st.month,d=>{d[id]=d[id]||{};const m=Object.assign({},d[id].mv||{});delete m[kk];d[id].mv=m});toast('Voltou para este mês');return}
   if(b.dataset.pay){const id=b.dataset.id,kk=b.dataset.pay;mutPag(st.month,d=>{d[id]=d[id]||{};const x=d[id];
     if(kk==='pac'){const leg=Object.keys(x).filter(z=>/^pac\d{8}$/.test(z));const cur=x.pac!=null?x.pac:(leg.map(z=>x[z]).find(Boolean)||false);leg.forEach(z=>delete x[z]);x.pac=cur?false:today();return}
     x[kk]=x[kk]?false:today()});return}
@@ -7295,7 +7328,7 @@ function renderSemana(){
   const pend=all.filter(x=>progOf(x).auto||(blockInfo(x)||{}).over);
   const list= semFilter==="pend"? pend : all;
   const op=k=> semOpen[k]? "open" : "";
-  el.innerHTML=`${helpBtn("semana")}${impBtn("prog","Importar ficha de "+esc(first(A().name))+" (foto, PDF ou Excel)")}
+  el.innerHTML=`${helpBtn("semana")}${slidesBox("semana")}${impBtn("prog","Importar ficha de "+esc(first(A().name))+" (foto, PDF, Excel ou Word)")}
     <div class="semfrase"><span class="rep-m">${LETRA()}</span><p>${SEM_FRASE}</p></div>
 
     <div class="seg" role="group" aria-label="Filtro"><button data-pgf="todos" aria-pressed="${semFilter==="todos"}">Todos (${all.length})</button><button data-pgf="pend" aria-pressed="${semFilter==="pend"}">Para conferir (${pend.length})</button></div>
@@ -7816,7 +7849,7 @@ function cadSave(){ cadPull(); const d=cadDraft; const nome=d.nome.trim(); if(!n
     const want=d.pacVal||""; setTimeout(()=>{ const a=PRES.aluno(pid); if(a&&a.pacote&&(a.pacote.validade||"")!==want) toast("⚠ O prazo do pacote não ficou salvo. Abra o aluno e toque em Salvar de novo."); },2500); }
   else toast(`${first(nome)} salvo`); }
 /* Apresentação do sistema: fica fixada no topo do Cadastro para quem está começando */
-const APR_N=51; let APR_I=0;
+const APR_N=52; let APR_I=0;
 function aprSrc(i){ return "apresentacao/"+String(i+1).padStart(2,"0")+".jpg"; }
 function aprHTML(){ return `<div class="aprbox"><div class="aprimg" id="aprImg"><img src="${aprSrc(APR_I)}" alt="Slide ${APR_I+1} da apresentação" draggable="false"><button class="aprnav l" data-apr="-1" aria-label="Anterior">‹</button><button class="aprnav r" data-apr="1" aria-label="Próximo">›</button></div>
   <div class="aprbar"><button class="btn small" data-apr="-1">◀</button><b id="aprNum">${APR_I+1} de ${APR_N}</b><button class="btn small" data-apr="1">▶</button><button class="btn small" data-aprfull>⛶ Tela cheia</button></div></div>`; }
@@ -7831,6 +7864,34 @@ document.addEventListener("touchend",e=>{ if(APR_X===null) return; const dx=e.ch
 document.addEventListener("keydown",e=>{ if(!document.getElementById("aprFull")) return; if(e.key==="ArrowRight") aprGo(1); else if(e.key==="ArrowLeft") aprGo(-1); else if(e.key==="Escape") document.getElementById("aprFull").remove(); });
 /* Aviso para os colegas: o envio automático ainda vai chegar (o administrador não vê, porque está testando) */
 function soonHTML(){ return `<div class="rp-soon">🔜 <b>Em breve:</b> o próprio sistema vai mandar as mensagens no WhatsApp dos seus alunos, sozinho: <b>confirmação e lembrete da aula</b>, planejamento e relatório do mês.</div>`; }
+/* Slides de explicação: cada aba mostra só os dela */
+const SL_G={geral:["capa","tela-inicial","offline","abas8","login","fz","importar","abas","cores","extras","convite","sugestao","ajuda-site","fim"],
+  cadastro:["cadastro","importar"],
+  sessao:["sessao","ses-lancar","importar","ses-repetir","letra","setas","conj","semanas","ses-dia","ses-novo","tela","visualizar","descanso","timers","cardio","ses-graf","ses-rel","historico","programacao","fases","medo","ajuda","minha","nenhuma"],
+  semana:["programacao","fases","medo","ajuda","minha","nenhuma","letra","semanas"],
+  presenca:["presenca","pres-auto","pres-mes","rel-aluno","frases"],
+  agenda:["agenda","agenda2"],
+  financeiro:["financeiro","fin-avulsas","importar","fin-cmp","quinta"],
+  corpo:["avaliacao","aval-det","fotos","importar"],
+  perso:["abas","cores"]};
+const SL_I={}, SL_OPEN={geral:true}; let SLF=null, SL_X=null;
+const slSrc=id=>"apresentacao/"+id+".jpg";
+function slNav(g){ const L=SL_G[g], i=SL_I[g]||0; return `<button class="aprnav l" data-sl="-1" data-slg="${g}" aria-label="Anterior">‹</button><button class="aprnav r" data-sl="1" data-slg="${g}" aria-label="Próximo">›</button>`; }
+function slidesBox(g){ const L=SL_G[g]; if(!L) return ""; const i=SL_I[g]||0, open=!!SL_OPEN[g];
+  return `<div class="slbox" data-slbox="${g}"><button class="slbtn ${open?"on":""}" data-slopen="${g}">📽 ${open?"Fechar a explicação":"Ver a explicação desta aba em slides"} <small>${L.length} slides</small></button>${open?`<div class="aprbox"><div class="aprimg slimg" data-slg="${g}"><img src="${slSrc(L[i])}" alt="Slide ${i+1} de ${L.length}" draggable="false">${slNav(g)}</div>
+    <div class="aprbar"><button class="btn small" data-sl="-1" data-slg="${g}">◀</button><b>${i+1} de ${L.length}</b><button class="btn small" data-sl="1" data-slg="${g}">▶</button><button class="btn small" data-slfull="${g}">⛶ Tela cheia</button></div></div>`:""}</div>`; }
+function slRefresh(g){ document.querySelectorAll(`[data-slbox="${g}"]`).forEach(el=>{ el.outerHTML=slidesBox(g); }); const f=document.getElementById("aprFull"); if(f&&SLF===g){ const L=SL_G[g], i=SL_I[g]||0; f.querySelector("img").src=slSrc(L[i]); const n=f.querySelector("#aprFullNum"); if(n) n.textContent=(i+1)+" de "+L.length; }
+  const L=SL_G[g], i=SL_I[g]||0; if(L[i+1]){ const pre=new Image(); pre.src=slSrc(L[i+1]); } }
+function slGo(g,d){ const L=SL_G[g]; if(!L) return; SL_I[g]=Math.max(0,Math.min(L.length-1,(SL_I[g]||0)+d)); slRefresh(g); }
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-slopen],[data-sl],[data-slfull],[data-slx]"); if(!b) return; e.stopPropagation();
+  if(b.dataset.slopen){ const g=b.dataset.slopen; SL_OPEN[g]=!SL_OPEN[g]; slRefresh(g); return; }
+  if(b.dataset.sl){ slGo(b.dataset.slg||SLF,+b.dataset.sl); return; }
+  if(b.hasAttribute("data-slx")){ const f=document.getElementById("aprFull"); if(f) f.remove(); SLF=null; return; }
+  const g=b.dataset.slfull, L=SL_G[g], i=SL_I[g]||0; SLF=g; const old=document.getElementById("aprFull"); if(old) old.remove();
+  const f=document.createElement("div"); f.id="aprFull"; f.innerHTML=`<img src="${slSrc(L[i])}" alt="Slide">${slNav(g)}<div class="aprfb"><b id="aprFullNum">${i+1} de ${L.length}</b><button class="btn small" data-slx>✕ Fechar</button></div>`; document.body.appendChild(f); },true);
+document.addEventListener("touchstart",e=>{ const t=e.target.closest&&e.target.closest(".slimg,#aprFull"); if(t&&(t.classList.contains("slimg")||SLF)) SL_X={x:e.touches[0].clientX,g:t.dataset.slg||SLF}; else SL_X=null; },{passive:true});
+document.addEventListener("touchend",e=>{ if(!SL_X) return; const dx=e.changedTouches[0].clientX-SL_X.x; if(Math.abs(dx)>40) slGo(SL_X.g,dx<0?1:-1); SL_X=null; },{passive:true});
+document.addEventListener("keydown",e=>{ if(!SLF||!document.getElementById("aprFull")) return; if(e.key==="ArrowRight") slGo(SLF,1); else if(e.key==="ArrowLeft") slGo(SLF,-1); else if(e.key==="Escape"){ document.getElementById("aprFull").remove(); SLF=null; } });
 function aprBlock(){ return `<div class="boxw apresw" data-box="apres"><div class="boxh"><span>📽 Conheça o sistema · passe para o lado</span></div>${aprHTML()}</div>`; }
 /* Instalar como aplicativo: some quando o site já está aberto pelo ícone */
 let APP_EVT=null; window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); APP_EVT=e; try{ if(CUR_TAB==="cadastro") renderCadastro(); }catch(_){} });
@@ -7844,13 +7905,13 @@ function appHTML(){ if(isApp()) return ""; const ios=/iPhone|iPad|iPod/.test(nav
 function renderCadastro(){ const v=document.getElementById("view-cadastro"); if(!v) return;
   if(cadDraft&&CUR_TAB==="cadastro"){ v.innerHTML=cadTopHTML()+cadFormHTML(); return; }
   const L=cadList();
-  if(CUR_TAB==="perfil"){ v.innerHTML=`${cadTopHTML(1)}<h2 class="perso">👤 Meu perfil e conta</h2>${appHTML()}${aprBlock()}${soonHTML()}<div id="cad-extra" style="display:grid;gap:16px"></div>`; renderAjuda(); return; }
-  if(CUR_TAB==="perso"){ COR_OPEN=true; v.innerHTML=`${cadTopHTML(1)}${abasHTML()}<div class="abanim" aria-hidden="true"><div class="abv">${["👤","🎨","📝","🏋️","✅","📅","💰","🧍"].map((x,i)=>`<i class="${i===5||i===7?"go":""}">${x}</i>`).join("")}</div><span>Esconda as abas que não usa: elas somem da barra de baixo.</span></div><h2 class="perso persog">Personalize a página do seu jeito!</h2>${corHTML()}${stuCorHTML()}`; return; }
-  v.innerHTML=`${cadTopHTML(1)}<div class="cadhelp">${helpBtn("cadastro")}</div>
+  if(CUR_TAB==="perfil"){ v.innerHTML=`${cadTopHTML(1)}<h2 class="perso">👤 Meu perfil e conta</h2>${appHTML()}${slidesBox("geral")}${soonHTML()}<div id="cad-extra" style="display:grid;gap:16px"></div>`; renderAjuda(); return; }
+  if(CUR_TAB==="perso"){ COR_OPEN=true; v.innerHTML=`${cadTopHTML(1)}${abasHTML()}<div class="abanim" aria-hidden="true"><div class="abv">${["👤","🎨","📝","🏋️","✅","📅","💰","🧍"].map((x,i)=>`<i class="${i===5||i===7?"go":""}">${x}</i>`).join("")}</div><span>Esconda as abas que não usa: elas somem da barra de baixo.</span></div><h2 class="perso persog">Personalize a página do seu jeito!</h2>${slidesBox("perso")}${corHTML()}${stuCorHTML()}`; return; }
+  v.innerHTML=`${cadTopHTML(1)}<div class="cadhelp">${helpBtn("cadastro")}</div>${slidesBox("cadastro")}
     <div class="card"><span class="label">Cadastro do aluno</span><h2>Seus alunos</h2>
       <p class="muted" style="font-size:14px">Dias, horários, valores e dados do treino num lugar só. Vai direto para a Presença, o Financeiro e a Sessão.</p>
       <button class="btn primary" data-cadnew style="justify-self:start">+ Novo aluno</button>
-      ${impBtn("cad","Importar alunos (foto, PDF ou Excel)")}
+      ${impBtn("cad","Importar alunos (foto, PDF, Excel ou Word)")}
       <button class="btn small ghost" data-gobrand style="justify-self:start">✎ Seu nome, logo, cores e frases dos relatórios (em Meu perfil)</button>
       ${BR().nome==="Seu nome"?`<p class="pend" style="margin:0">⚠ Coloque o seu nome: ele aparece nos relatórios e no planejamento que o aluno recebe.</p>`:""}
       ${presOn()?"":`<p class="note" style="margin:0">Carregando a Presença… Se demorar, os dias e horários ficam só no treino até ela abrir.</p>`}</div>
@@ -8083,7 +8144,7 @@ function show(tab,force){
   document.getElementById("top").hidden = view==="pres" || view==="cadastro";
   document.querySelectorAll("section.view").forEach(s=>s.hidden = s.dataset.view!==view);
   agSet(tab==="agenda"); document.getElementById("agOpen").hidden=true;
-  if(view==="pres"){ PRES.setMode(tab==="financeiro"?"fin":"pres"); const hb=document.getElementById("presHelp"); hb.dataset.help=tab==="agenda"?"presenca":tab; hb.textContent="ⓘ Entenda "+TAB_N[tab]; hb.hidden=tab==="agenda"; }
+  if(view==="pres"){ PRES.setMode(tab==="financeiro"?"fin":"pres"); const hb=document.getElementById("presHelp"); hb.dataset.help=tab==="agenda"?"presenca":tab; hb.textContent="ⓘ Entenda "+TAB_N[tab]; hb.hidden=tab==="agenda"; let sb=document.getElementById("presSl"); if(!sb){ sb=document.createElement("div"); sb.id="presSl"; const top=document.querySelector("#pres .phead2"); if(top) top.insertAdjacentElement("afterend",sb); } if(sb) sb.innerHTML=slidesBox(tab==="financeiro"?"financeiro":tab==="agenda"?"agenda":"presenca"); }
   if(view==="cadastro") renderCadastro();
   document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-selected", b.dataset.tab===(tab==="semana"?"sessao":tab)));
   try{ progTop(); }catch(_){} try{ applyStuCor(); }catch(_){} setTimeout(()=>{ try{ scRender(); }catch(_){} },0);
