@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793411099";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793413959";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -4203,7 +4203,7 @@ async function offerFile(blob,name,o){ o=o||{}; let why="";
     if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share({files:[f],title:name,text:o.text||""}); return "shared"; } }catch(e){ if(e&&e.name==="AbortError") return "aborted"; why="compartilhar bloqueado"; } }
   let dlx=null; try{ dlx=(window.claude&&claude.use)? await claude.use("downloads") : null; }catch(e){ dlx=null; }
   if(dlx){ try{ await dlx.save({filename:name,data:blob}); toast("Arquivo salvo ✓ "+name); return "saved"; }
-    catch(e){ const c=(e&&e.code)||"erro"; if(c==="declined"){ toast("Download cancelado."); return "declined"; } if(c==="rate_limited"){ toast("Já tem um download esperando confirmação. Confirme ou cancele e toque de novo."); return "busy"; } why=c; } }
+    catch(e){ const c=(e&&e.code)||"erro"; if(c==="declined"){ toast("Download cancelado."); return "declined"; } if(c==="rate_limited"){ toast("Já tem um download esperando confirmação. Confirme ou cancele e toque de novo."); return "busy"; } why=erroPT(e); } }
   else why=why||"download não liberado neste acesso";
   const imgs=o.imgs||(blob.type&&blob.type.startsWith("image/")? [{src:await blobToUrl(blob),name}] : null);
   if(imgs&&imgs.length){ showImgs(imgs,(imgs.length>1?"Salvar as imagens":"Salvar a imagem"),why); return "shown"; }
@@ -4470,7 +4470,7 @@ async function reportPdf(){
     const W=150,H=W*c.height/c.width; const {jsPDF}=window.jspdf; const doc=new jsPDF({unit:"mm",format:[W,H]}); const im=c.toDataURL("image/jpeg",0.92); doc.addImage(im,"JPEG",0,0,W,H);
     const nm=`${repKind==="week"?"semana":"treino"}-${noAcc(first(st.name)).replace(/[^a-z0-9]/g,"")}-${repKind==="week"?"s"+(S.weeks.find(x=>x.id===S.week)||{}).n:S.day}.pdf`;
     await offerFile(doc.output("blob"),nm,{imgs:[{src:im,name:nm.replace(/\.pdf$/,".jpg")}],text:`${repKind==="week"?"Semana":"Treino"} de ${first(st.name)} 💪 — ${BR().ass}`});
-  }catch(e){ toast("Não consegui gerar o PDF ("+((e&&(e.code||e.message))||"erro")+")."); }
+  }catch(e){ toast("Não consegui gerar o PDF ("+erroPT(e)+")."); }
 }
 async function reportImage(){
   const card=document.getElementById("repcard"); const st=A();
@@ -4485,7 +4485,7 @@ async function reportImage(){
     const dl=(window.claude&&claude.use)? await claude.use("downloads") : null;
     if(!dl){ showImgs([{src:await blobToUrl(blob),name:fname}],"Salvar a imagem"); return; }
     await dl.save({filename:`${repKind==="week"?"semana":"treino"}-${noAcc(first(st.name)).replace(/[^a-z0-9]/g,"")}-${repKind==="week"?"s"+(S.weeks.find(x=>x.id===S.week)||{}).n:S.day}.png`,data:blob}); toast("Imagem salva");
-  }catch(e){ if(!(e&&e.code==="declined")) toast("Não consegui gerar a imagem ("+((e&&(e.code||e.message))||"erro")+")."); }
+  }catch(e){ if(!(e&&e.code==="declined")) toast("Não consegui gerar a imagem ("+erroPT(e)+")."); }
 }
 document.addEventListener("change",e=>{ if(e.target.matches&&e.target.matches("#report [data-repmus]")){ S.repMus=e.target.checked; save(); renderReport(); } });
 document.addEventListener("click",e=>{
@@ -5099,6 +5099,26 @@ document.addEventListener("click",e=>{ const t=e.target.closest&&e.target.closes
   vwRender(); });
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-progpg]"); if(!b) return; S.active=b.dataset.progpg; save(); show("semana"); });
 /* Sessão em cartões: um jeito mais simples de ver e lançar o treino do dia (por enquanto só para o dono) */
+/* Erros sempre em português, com o que fazer */
+function erroPT(e){ const raw=String((e&&(e.code||e.name))||"")+" "+String((e&&e.message)||e||""); const t=raw.toLowerCase();
+  if(/abort|assertion|out of memory|memory access|runtimeerror|wasm/.test(t)) return "o leitor travou por falta de memória do celular. Feche outros apps e tente de novo (foto menor ajuda)";
+  if(/permission-denied|missing or insufficient permissions/.test(t)) return "sem permissão na nuvem. Saia e entre de novo na conta";
+  if(/unauthenticated/.test(t)) return "você saiu da conta. Entre de novo";
+  if(/quota|resource-exhausted/.test(t)) return "o espaço está cheio. Apague fotos ou arquivos antigos e tente de novo";
+  if(/unavailable|network|failed to fetch|load failed|offline|internet|err_/.test(t)) return "sem internet ou internet fraca. Confira a conexão e tente de novo";
+  if(/deadline|timeout|timed out/.test(t)) return "demorou demais para responder. Tente de novo";
+  if(/notallowederror|not allowed|denied/.test(t)) return "o celular não deu permissão (câmera, Bluetooth ou arquivo). Toque em Permitir quando pedir";
+  if(/notsupported|not supported|não é compatível/.test(t)) return "este celular ou navegador não tem esse recurso. Use o Chrome atualizado";
+  if(/securityerror/.test(t)) return "o navegador bloqueou por segurança";
+  if(/notfounderror|no device/.test(t)) return "nenhum aparelho encontrado (ou a busca foi cancelada)";
+  if(/aborterror|cancel/.test(t)) return "cancelado";
+  if(/not-found/.test(t)) return "não encontrei esse registro";
+  if(/invalid-argument|invalid/.test(t)) return "algum dado está em formato errado";
+  if(/failed-precondition/.test(t)) return "falta configurar algo na nuvem";
+  const msg=String((e&&e.message)||e||"").trim(); if(/[ãçõáéíóúâê]|\bnão\b|\bnao\b/i.test(msg)) return msg.replace(/[.\s]+$/,"");
+  return "erro inesperado"+(e&&e.code? " (código "+e.code+")" : ""); }
+let ERR_T=0;
+window.addEventListener("unhandledrejection",ev=>{ const r=ev.reason; const t=String((r&&r.message)||r||""); if(!t||/resizeobserver|script error|extension|chrome-extension/i.test(t)) return; if(Date.now()-ERR_T<8000) return; ERR_T=Date.now(); try{ toast("⚠ Algo deu errado: "+erroPT(r)+". Se repetir, mande um print."); }catch(_){} });
 /* ---------- Importar de foto, print, PDF ou Excel (lido no próprio aparelho, sem custo) ---------- */
 const IMP_LIB={xlsx:"https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js",pdf:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js",pdfw:"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",tess:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",
   tw:"https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js",tc:"https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1",tl:"https://cdn.jsdelivr.net/npm/@tesseract.js-data/por/4.0.0_best_int"};
@@ -5243,12 +5263,12 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
   if(t.matches("[data-impal]")){ IMP.opt["a"+t.dataset.impal]=t.value; impPrev(); return; }
   if(t.matches("[data-impfile]")&&t.files&&t.files[0]){ const f=t.files[0]; IMP.err=""; IMP.lines=[]; IMP.off=new Set(); IMP.opt={}; IMP.busy=/image/.test(f.type)? "Lendo a foto… (a primeira vez demora um pouco)" : "Lendo o arquivo…"; impRender();
     try{ const L=await impRead(f,p=>{ const s=document.querySelector("#impPop .impbusy span"); if(s) s.textContent=`Lendo a foto… ${p}%`; }); IMP.lines=L; if(!L.length) IMP.err="Não consegui ler nada. Tente uma foto mais reta e com mais luz, ou o arquivo em Excel/PDF."; }
-    catch(err){ IMP.err=(err&&err.message)||"Não consegui ler o arquivo."; }
+    catch(err){ IMP.err="Não consegui ler o arquivo: "+erroPT(err)+"."; }
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30g";
-const APP_NOVO=["<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-30h";
+const APP_NOVO=["<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -5360,7 +5380,7 @@ async function scaleRead(){ const box=document.getElementById("scaleBox"); const
   if(!navigator.bluetooth){ say("Este navegador não tem Bluetooth para sites. Use o <b>Chrome no Android</b>."); return; }
   const ids=[OK_V20,OK_V11,OK_VF0]; for(let i=0;i<256;i++) ids.push((i<<8)|0xC0);
   say("1. Suba na balança para ela acender. 2. Escolha ela na lista que vai abrir (pode aparecer como <b>Chipsea-BLE</b>, <b>ADV</b>, <b>Yoda</b> ou sem nome).");
-  let dev; try{ dev=await navigator.bluetooth.requestDevice({acceptAllDevices:true, optionalManufacturerData:ids}); }catch(e){ say(e&&e.name==="NotFoundError"? "Nenhuma balança escolhida. Suba na balança e toque de novo." : "Não deu para abrir o Bluetooth: "+esc((e&&e.message)||"erro")+". Confira se o Bluetooth e a localização estão ligados."); return; }
+  let dev; try{ dev=await navigator.bluetooth.requestDevice({acceptAllDevices:true, optionalManufacturerData:ids}); }catch(e){ say(e&&e.name==="NotFoundError"? "Nenhuma balança escolhida. Suba na balança e toque de novo." : "Não deu para abrir o Bluetooth: "+esc(erroPT(e))+". Confira se o Bluetooth e a localização estão ligados."); return; }
   if(typeof dev.watchAdvertisements!=="function"){ say(`Achei <b>${esc(dev.name||"a balança")}</b>, mas este Chrome ainda não deixa o site ouvir a balança.<br>Para liberar: abra uma aba e digite <b>chrome://flags</b> → procure <b>Experimental Web Platform features</b> → <b>Enabled</b> → reinicie o Chrome e tente de novo.`); return; }
   try{ if(SCALE_AB) SCALE_AB.abort(); }catch(_){} SCALE_AB=new AbortController(); let done=false, last="", seen=0;
   const stop=()=>{ try{ SCALE_AB.abort(); }catch(_){} };
@@ -5370,7 +5390,7 @@ async function scaleRead(){ const box=document.getElementById("scaleBox"); const
     if(!r.ok){ say(`⚖️ <b style="font-size:22px">${String(kg).replace(".",",")} kg</b> · fique parado…`); return; }
     done=true; stop(); const i=document.getElementById("av-peso"); if(i){ i.value=String(kg).replace(".",","); i.dispatchEvent(new Event("input",{bubbles:true})); }
     say(`✅ Peso lido: <b style="font-size:22px">${String(kg).replace(".",",")} kg</b>. Já está no campo Peso.${r.imp?` <small>(a balança mandou também a medida elétrica: ${Math.round(r.imp)} Ω)</small>`:""}`); toast("Peso lido da balança"); });
-  try{ await dev.watchAdvertisements({signal:SCALE_AB.signal}); say("🔵 Ouvindo a balança… suba e fique parado até o número parar de mudar."); }catch(e){ say("Não consegui ouvir a balança: "+esc((e&&e.message)||"erro")+". Se pedir, ative a localização do celular."); return; }
+  try{ await dev.watchAdvertisements({signal:SCALE_AB.signal}); say("🔵 Ouvindo a balança… suba e fique parado até o número parar de mudar."); }catch(e){ say("Não consegui ouvir a balança: "+esc(erroPT(e))+". Se pedir, ative a localização do celular."); return; }
   setTimeout(()=>{ if(!done){ stop(); say(seen? `Ouvi a balança, mas não chegou o peso final.${last?`<br><small>Mande um print disto: ${esc(last)}</small>`:""}` : "Não chegou sinal em 60 s. Suba na balança, deixe ela acender e toque de novo."); } },60000); }
 document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-scale]"); if(!b) return; scaleRead(); });
 function renderSessao(){ try{ applyStuCor(); }catch(_){} setTimeout(()=>{ try{ scRender(); rwRender(); }catch(_){} },0); renderSessao0(); requestAnimationFrame(()=>fitNames()); setTimeout(repAuto,120); }
@@ -6296,7 +6316,7 @@ function arq(a,tipo,ym){return (tipo==='fech'?'Relatorio':'Planejamento')+'-'+ym
 async function salvarArquivo(nome,blob,imgs){
   if(!window.jspdf){toast('O gerador de PDF não carregou. Recarregue a página.');return}
   if(!dl){ if(imgs&&imgs.length){ showImgs(imgs, imgs.length>1?'Salvar as imagens':'Salvar a imagem'); return; } toast('Baixar arquivo não está disponível aqui.');return}
-  try{await dl.save({filename:nome,data:blob});toast('Arquivo pronto')}catch(e){if(e&&e.code!=='declined')toast('Não deu para baixar ('+(e&&e.code||'erro')+').')}
+  try{await dl.save({filename:nome,data:blob});toast('Arquivo pronto')}catch(e){if(e&&e.code!=='declined')toast('Não deu para baixar ('+erroPT(e)+').')}
 }
 async function gerarPdf(id,tipo,ym){const a=alunos.get(id);if(!a)return;
   if(!window.jspdf){toast('O gerador de PDF não carregou. Recarregue a página.');return}
@@ -6304,7 +6324,7 @@ async function gerarPdf(id,tipo,ym){const a=alunos.get(id);if(!a)return;
   toast('Gerando o PDF…');
   try{ const doc=tipo==='fech'?await pdfFechamento(a,ym):await pdfPlanejamento(a,ym);const nome=arq(a,tipo,ym)+'.pdf';
     await offerFile(doc.output('blob'),nome,{imgs:[{src:doc._img,name:nome.replace(/\.pdf$/,'.jpg')}],text:(tipo==='fech'?'Relatório':'Planejamento')+' de '+mesCurto(ym)+' · '+a.nome.replace(/\s*\(.*\)\s*$/,'')});
-  }catch(e){ toast('Não consegui gerar o PDF ('+((e&&(e.code||e.message))||'erro')+').'); }}
+  }catch(e){ toast('Não consegui gerar o PDF ('+erroPT(e)+').'); }}
 async function gerarTodos(tipo,ym){
   if(!window.JSZip){toast('O compactador não carregou. Recarregue a página.');return}
   const zip=new JSZip();let n=0;
@@ -6315,7 +6335,7 @@ async function gerarTodos(tipo,ym){
   try{ for(const a of lista){const doc=tipo==='fech'?await pdfFechamento(a,ym):await pdfPlanejamento(a,ym);zip.file(arq(a,tipo,ym)+'.pdf',doc.output('arraybuffer'));imgs.push({src:doc._img,name:arq(a,tipo,ym)+'.jpg'});n++}
     const blob=await zip.generateAsync({type:'blob'});
     await offerFile(blob,(tipo==='fech'?'Relatorios-':'Planejamentos-')+ym+'.zip',{share:false,imgs});
-  }catch(e){ toast('Não consegui gerar os PDFs ('+((e&&(e.code||e.message))||'erro')+').'); }
+  }catch(e){ toast('Não consegui gerar os PDFs ('+erroPT(e)+').'); }
 }
 
 /* ---------- gravação ---------- */
@@ -6323,17 +6343,17 @@ const q={};
 function saveDay(k){
   if(!db){toast('Sem conexão: abra pelo Claude para salvar.');return}
   const data=JSON.parse(JSON.stringify(dayData(k)));
-  q[k]=(q[k]||Promise.resolve()).then(()=>db.doc(PB+'dias/'+k).set(data)).catch(e=>toast('Não salvou ('+(e&&e.code||'erro')+'). Tente de novo.'));
+  q[k]=(q[k]||Promise.resolve()).then(()=>db.doc(PB+'dias/'+k).set(data)).catch(e=>toast('Não salvou ('+erroPT(e)+'). Tente de novo.'));
 }
 function saveAluno(a){
   if(!db){toast('Sem conexão: abra pelo Claude para salvar.');return Promise.resolve()}
   const {id,...d0}=a;let data;try{data=JSON.parse(JSON.stringify(d0))}catch(e){data=d0}
-  try{return db.doc(PB+'alunos/'+id).set(data).catch(e=>toast('Não salvou o aluno ('+(e&&(e.code||e.message)||'erro')+'). Mande um print.'))}catch(e){toast('Não salvou o aluno ('+(e&&e.message||'erro')+'). Mande um print.');return Promise.resolve()}
+  try{return db.doc(PB+'alunos/'+id).set(data).catch(e=>toast('Não salvou o aluno ('+erroPT(e)+'). Mande um print.'))}catch(e){toast('Não salvou o aluno ('+erroPT(e)+'). Mande um print.');return Promise.resolve()}
 }
 const pq={};
 function mutPag(ym,fn){const d=JSON.parse(JSON.stringify(pags.get(ym)||{}));fn(d);pags.set(ym,d);render();
   if(!db){toast('Sem conexão: abra pelo Claude para salvar.');return}
-  pq[ym]=(pq[ym]||Promise.resolve()).then(()=>db.doc(PB+'pagamentos/'+ym).set(d)).catch(e=>toast('Não salvou o pagamento ('+(e&&e.code||'erro')+').'));}
+  pq[ym]=(pq[ym]||Promise.resolve()).then(()=>db.doc(PB+'pagamentos/'+ym).set(d)).catch(e=>toast('Não salvou o pagamento ('+erroPT(e)+').'));}
 function mutDay(k,fn){const d=JSON.parse(JSON.stringify(dayData(k)));d.registros=d.registros||{};d.extras=d.extras||[];fn(d);dias.set(k,d);render();saveDay(k)}
 
 /* ---------- render ---------- */
@@ -6591,7 +6611,7 @@ async function finPdf(){ const f=st._fin; if(!f){toast('Abra o Financeiro de nov
   toast('Gerando o PDF…');
   try{ const doc=await cardPdf(finCardHTML(f)); const nome='Financeiro-'+f.ym+'.pdf';
     await offerFile(doc.output('blob'),nome,{share:false,imgs:[{src:doc._img,name:nome.replace(/\.pdf$/,'.jpg')}]}); }
-  catch(e){ toast('Não consegui gerar o PDF ('+((e&&(e.code||e.message))||'erro')+').'); } }
+  catch(e){ toast('Não consegui gerar o PDF ('+erroPT(e)+').'); } }
 function finCalc(ym){
   const S=statsMes(ym),P=pags.get(ym)||{};
   let prev=0,rec=0,advNovo=0,advCob=0;const rows=[];
@@ -7020,7 +7040,7 @@ return {importPag, finMonth:()=>st.month||today().slice(0,7), vencidos, CICLOS, 
       [["alunos",alunos],["dias",dias],["pagamentos",pags],["historico",hist]].forEach(([c,M])=>[...M.keys()].forEach(k=>{ if(!(o[c]&&k in o[c])) W.push(db.doc(PB+c+'/'+k).delete()); }));
       ["alunos","dias","pagamentos","historico"].forEach(c=>Object.entries(o[c]||{}).forEach(([k,v])=>W.push(db.doc(PB+c+'/'+k).set(v)))); }
     else Object.entries(o).forEach(([k,v])=>{ if(!/^(alunos|dias|pagamentos|historico|cfg)\//.test(k)) return; if(k==='cfg/geral'&&v&&v.inicio) INICIO=v.inicio; W.push(db.doc(PB+k).set(v)); });
-    Promise.all(W).then(()=>toast('Presença e financeiro restaurados')).catch(e=>toast('Parte da presença não restaurou ('+(e&&e.code||'erro')+'). Tente de novo.')); }, isLocal:()=>localMode, fin:ym=>finCalc(ym), curMonth:()=>st.month, setMode, markPresent, isReady:()=>loadedA&&loadedD, agenda:k=>agendaDoDia(k), alunos:()=>[...alunos.values()], isOff, offReason, render};
+    Promise.all(W).then(()=>toast('Presença e financeiro restaurados')).catch(e=>toast('Parte da presença não restaurou ('+erroPT(e)+'). Tente de novo.')); }, isLocal:()=>localMode, fin:ym=>finCalc(ym), curMonth:()=>st.month, setMode, markPresent, isReady:()=>loadedA&&loadedD, agenda:k=>agendaDoDia(k), alunos:()=>[...alunos.values()], isOff, offReason, render};
 })();
 
 const NAME_MAP={};
@@ -7856,7 +7876,7 @@ document.getElementById("view-cadastro").addEventListener("click",e=>{ const b=e
   if(b.hasAttribute("data-cadnew")){ cadOpen(null,null); return; }
   if(b.dataset.cadopen){ const [t,id]=b.dataset.cadopen.split(":"); if(t==="p"){ const a=PRES.aluno(id); cadOpen(a,byPid(id)); } else cadOpen(null,stById(id)); return; }
   if(b.hasAttribute("data-cadx")){ cadDraft=null; renderCadastro(); return; }
-  if(b.hasAttribute("data-cadsave")){ try{ cadSave(); }catch(err){ toast("Não salvou: "+(err&&err.message||"erro")+". Mande um print."); } return; }
+  if(b.hasAttribute("data-cadsave")){ try{ cadSave(); }catch(err){ toast("Não salvou: "+erroPT(err)+". Mande um print."); } return; }
   if(b.dataset.pkext||b.hasAttribute("data-pklost")||b.hasAttribute("data-pklostundo")){ cadPull(); const a=PRES.aluno(cadDraft.pid); if(!a||!a.pacote) return; const u=PRES.pacUso(a.id);
     if(b.dataset.pkext){ const x=new Date(); x.setDate(x.getDate()+(+b.dataset.pkext)); a.pacote.validade=isoD(x); delete a.pacote.perdidas; cadDraft.pacVal=a.pacote.validade; toast(`Prazo estendido até ${ddmm(a.pacote.validade)}: as ${u.rest} aulas podem ser reagendadas`); }
     else if(b.hasAttribute("data-pklost")){ a.pacote.perdidas=(+a.pacote.perdidas||0)+u.rest; toast(`${u.rest} aula${u.rest>1?"s":""} considerada${u.rest>1?"s":""} perdida${u.rest>1?"s":""}. Pacote encerrado.`); }
@@ -7963,7 +7983,7 @@ async function ftLoad(sid){ try{ const c=await ftCol(sid); let L;
 async function ftSave(f){ const c=await ftCol(f.sid); if(c){ await c.doc(f.id).set(f); return; } const o=ftLocal(); o[f.id]=f; try{ localStorage.setItem("rp_fotos",JSON.stringify(o)); }catch(e){ throw new Error("Sem espaço no aparelho para guardar a foto"); } }
 async function ftDel(f){ const c=await ftCol(f.sid); if(c){ await c.doc(f.id).delete(); return; } const o=ftLocal(); delete o[f.id]; try{ localStorage.setItem("rp_fotos",JSON.stringify(o)); }catch(e){} }
 function ftImg(file){ return new Promise((ok,no)=>{ const rd=new FileReader(); rd.onload=()=>{ const im=new Image(); im.onload=()=>ok(im); im.onerror=()=>no(new Error("Não consegui abrir a foto")); im.src=rd.result; }; rd.onerror=()=>no(new Error("Não consegui ler a foto")); rd.readAsDataURL(file); }); }
-function ftCanvas(im){ const H=Math.min(1100,im.naturalHeight), sc=H/im.naturalHeight; const c=document.createElement("canvas"); c.width=Math.round(im.naturalWidth*sc); c.height=Math.round(im.naturalHeight*sc); c.getContext("2d").drawImage(im,0,0,c.width,c.height); return c; }
+function ftCanvas(im,mx){ mx=mx||1024; const sc=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)); const c=document.createElement("canvas"); c.width=Math.round(im.naturalWidth*sc); c.height=Math.round(im.naturalHeight*sc); c.getContext("2d").drawImage(im,0,0,c.width,c.height); return c; }
 /* largura do pedaço contínuo do corpo que passa por x, na linha y */
 function ftSpan(M,W,H,y,x){ y=Math.max(0,Math.min(H-1,Math.round(y))); x=Math.max(0,Math.min(W-1,Math.round(x))); const row=y*W;
   if(M[row+x]<0.5){ let best=-1,d=1e9; for(let i=0;i<W;i++) if(M[row+i]>=0.5&&Math.abs(i-x)<d){ d=Math.abs(i-x); best=i; } if(best<0||d>W*0.08) return null; x=best; }
@@ -7987,12 +8007,15 @@ function ftMeasure(res,W,H,pos){ const lm=res.landmarks&&res.landmarks[0]; if(!l
   if(mk.close) mk.close();
   return {r,lines,tilt,alt:alt/H,ar:Math.round(W/H*1000)/1000}; }
 async function ftAdd(file,pos,dt){ const m=A(); FT.busy=`Lendo a foto de ${pos}…`; FT.err=""; fotoRender();
-  try{ const im=await ftImg(file); const c=ftCanvas(im); const pose=await mpPose(); const res=pose.detect(c);
-    const meas=ftMeasure(res,c.width,c.height,pos); const img=c.toDataURL("image/jpeg",0.72);
+  try{ const im=await ftImg(file);
+    const run=async mx=>{ const c=ftCanvas(im,mx); const pose=await mpPose(); return {c,res:pose.detect(c)}; };
+    let c,res; try{ ({c,res}=await run(1024)); } catch(e1){ if(!/abort|memory|wasm|runtime|assert/i.test(String((e1&&e1.message)||e1))) throw e1; MP=null; FT.busy="Tentando de novo com a foto menor…"; fotoRender(); ({c,res}=await run(720)); }
+    let meas; try{ meas=ftMeasure(res,c.width,c.height,pos); } finally{ try{ (res.segmentationMasks||[]).forEach(k=>{ try{ k.close&&k.close(); }catch(_){} }); }catch(_){} }
+    const img=c.toDataURL("image/jpeg",0.72);
     const data=dt||isoD(new Date()); const old=(FT.list||[]).find(x=>x.data===data&&x.pos===pos);
     const f={id:old?old.id:nid(),sid:m.id,data,pos,img,meas}; await ftSave(f);
     FT.list=(FT.list||[]).filter(x=>x.id!==f.id).concat(f).sort((a,b)=>(a.data+a.pos).localeCompare(b.data+b.pos)); FT.busy=""; FT.cmpB=data; FT.pos=pos; fotoRender(); toast("Foto lida e guardada ✓"); }
-  catch(e){ FT.busy=""; FT.err=(e&&e.message)||"Não deu certo"; fotoRender(); } }
+  catch(e){ FT.busy=""; FT.err="Não consegui ler a foto: "+erroPT(e); fotoRender(); } }
 /* circunferência aproximada pela elipse: largura (frente) × profundidade (lado) */
 function ftCirc(fr,ld,altCm,k){ if(!fr||!ld||!altCm||!fr.meas.r[k]||!ld.meas.r[k]) return null; const a=fr.meas.r[k]*altCm/200, b=ld.meas.r[k]*altCm/200; return Math.round(Math.PI*(3*(a+b)-Math.sqrt((3*a+b)*(a+3*b)))); }
 function ftDates(){ return [...new Set((FT.list||[]).map(x=>x.data))].sort(); }
