@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793403800";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793411099";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -455,6 +455,10 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .ltrnewrow{display:grid;gap:6px;margin-top:8px;font-size:13px;font-weight:700}
 .ltrnewrow>div{display:flex;flex-wrap:wrap;gap:6px}
 .ltrnewrow button{border:1.5px dashed var(--accent);background:var(--surface);color:var(--accent);font-weight:800;border-radius:999px;padding:5px 11px;cursor:pointer}
+.ftgal{display:grid;gap:6px;margin-top:8px;padding:10px;border:1.5px dashed var(--line);border-radius:12px}
+.ftgd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.ftgd .inp{width:auto}
+.ftbtng{white-space:nowrap}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -5243,8 +5247,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-30f";
-const APP_NOVO=["<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-30g";
+const APP_NOVO=["<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -7982,10 +7986,10 @@ function ftMeasure(res,W,H,pos){ const lm=res.landmarks&&res.landmarks[0]; if(!l
   const tilt= pos==="lado"? null : {ombro:ang(sh[1],sh[0]),quadril:ang(hp[1],hp[0])};
   if(mk.close) mk.close();
   return {r,lines,tilt,alt:alt/H,ar:Math.round(W/H*1000)/1000}; }
-async function ftAdd(file,pos){ const m=A(); FT.busy=`Lendo a foto de ${pos}…`; FT.err=""; fotoRender();
+async function ftAdd(file,pos,dt){ const m=A(); FT.busy=`Lendo a foto de ${pos}…`; FT.err=""; fotoRender();
   try{ const im=await ftImg(file); const c=ftCanvas(im); const pose=await mpPose(); const res=pose.detect(c);
     const meas=ftMeasure(res,c.width,c.height,pos); const img=c.toDataURL("image/jpeg",0.72);
-    const data=isoD(new Date()); const old=(FT.list||[]).find(x=>x.data===data&&x.pos===pos);
+    const data=dt||isoD(new Date()); const old=(FT.list||[]).find(x=>x.data===data&&x.pos===pos);
     const f={id:old?old.id:nid(),sid:m.id,data,pos,img,meas}; await ftSave(f);
     FT.list=(FT.list||[]).filter(x=>x.id!==f.id).concat(f).sort((a,b)=>(a.data+a.pos).localeCompare(b.data+b.pos)); FT.busy=""; FT.cmpB=data; FT.pos=pos; fotoRender(); toast("Foto lida e guardada ✓"); }
   catch(e){ FT.busy=""; FT.err=(e&&e.message)||"Não deu certo"; fotoRender(); } }
@@ -8016,6 +8020,8 @@ function fotoHTML(){ const m=A(); if(FT.sid!==m.id) return `<div class="card"><p
       <li>Boa luz, de frente para a pessoa, sem sombra forte.</li>
       <li>Para os cm: tire <b>frente e lado no mesmo dia</b> e preencha a altura lá em cima.</li></ol></details>
     <div class="ftadd">${FT_POS.map(([k,n])=>`<label class="btn ftbtn">📷 ${n}<input type="file" accept="image/*" capture="environment" data-ftadd="${k}" hidden></label>`).join("")}</div>
+    <div class="ftgal"><b>🖼 Anexar foto que já está no celular</b><label class="ftgd">Data da foto <input class="inp" type="date" data-ftgdt value="${esc(FT.gdate||isoD(new Date()))}"></label>
+      <div class="ftadd">${FT_POS.map(([k,n])=>`<label class="btn ftbtn ftbtng">🖼 ${n}<input type="file" accept="image/*" data-ftadd="${k}" data-ftgal hidden></label>`).join("")}</div></div>
     ${FT.busy?`<p class="ftbusy">⏳ ${FT.busy} <small>(a primeira vez demora mais)</small></p>`:""}${FT.err?`<p class="fterr">⚠ ${esc(FT.err)}</p>`:""}
     ${D.length?`<div class="ftcmp">
       <div class="ftpos" role="group" aria-label="Posição">${FT_POS.map(([k,n])=>`<button data-ftpos="${k}" aria-pressed="${FT.pos===k}">${n}</button>`).join("")}</div>
@@ -8034,7 +8040,8 @@ async function fotoMount(){ const v=document.getElementById("view-corpo"); if(!v
   const m=A(); if(FT.sid!==m.id){ FT.sid=m.id; FT.list=null; FT.cmpA=""; FT.cmpB=""; fotoRender(); FT.list=await ftLoad(m.id); FT.sid=m.id; }
   fotoRender(); }
 document.addEventListener("change",e=>{ const t=e.target; if(!t.closest||!t.closest("#fotoBox")) return;
-  if(t.dataset.ftadd&&t.files&&t.files[0]){ ftAdd(t.files[0],t.dataset.ftadd); t.value=""; return; }
+  if(t.hasAttribute("data-ftgdt")){ FT.gdate=t.value; return; }
+  if(t.dataset.ftadd&&t.files&&t.files[0]){ ftAdd(t.files[0],t.dataset.ftadd, t.hasAttribute("data-ftgal")? (FT.gdate||"") : ""); t.value=""; return; }
   if(t.dataset.ftsel){ if(t.dataset.ftsel==="A") FT.cmpA=t.value; else FT.cmpB=t.value; fotoRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("[data-ftslide]")) return; FT.slide=+t.value; const w=t.closest(".ftslide"); if(w) w.style.setProperty("--p",FT.slide+"%"); });
 document.addEventListener("click",async e=>{ const b=e.target.closest&&e.target.closest("#fotoBox [data-ftpos],#fotoBox [data-ftdel]"); if(!b) return;
