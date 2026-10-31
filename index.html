@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793450935";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793451612";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -506,6 +506,7 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .cvpop{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.45);display:flex;align-items:flex-start;justify-content:center;padding:5vh 8px;overflow:auto}
 .cvpopbox{background:var(--bg);border-radius:16px;padding:10px;width:100%;max-width:560px;display:grid;gap:8px}
 .cvpoph{display:flex;justify-content:space-between;align-items:center;font-size:17px}
+.pgclose{display:block;width:100%;margin:8px 0;background:var(--fgb,var(--fg));color:var(--bg);border:0;border-radius:12px;padding:11px;font-weight:800;font-size:15px;cursor:pointer}
 .cvact.cvact6{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
 .cvact.cvact6 button:nth-child(3){border-right:0}
 .cvact.cvact6 button:nth-child(n+4){border-top:1px solid var(--line)}
@@ -5324,8 +5325,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-31d";
-const APP_NOVO=["<b>Dupla ou trio lado a lado</b> na Sessão (👥). Toque num exercício e ele abre completo para lançar.","Barra <b>Treino</b> logo acima dos exercícios, com <b>👁 Ver os treinos A, B, C…</b> e a escolha <b>Letra</b> ou <b>Dia da semana</b>. <b>Histórico de treino</b> em destaque.","Cada aba mostra só os slides dela.","<b>Slides atualizados</b> com as telas e as abas de agora. O slide <b>📤 Relatório e planejamento do mês</b> aparece também na Sessão, no Financeiro e no Meu perfil.","<b>Explicação em slides dentro de cada aba</b>, já aberta. Fechou, fica fechada; para ver de novo, toque em 📽. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-31e";
+const APP_NOVO=["<b>Programação</b> abre só do aluno escolhido, com o botão <b>✕ Fechar a programação</b>.","<b>Dupla ou trio lado a lado</b> na Sessão (👥). Toque num exercício e ele abre completo para lançar.","Barra <b>Treino</b> logo acima dos exercícios, com <b>👁 Ver os treinos A, B, C…</b> e a escolha <b>Letra</b> ou <b>Dia da semana</b>. <b>Histórico de treino</b> em destaque.","Cada aba mostra só os slides dela.","<b>Slides atualizados</b> com as telas e as abas de agora. O slide <b>📤 Relatório e planejamento do mês</b> aparece também na Sessão, no Financeiro e no Meu perfil.","<b>Explicação em slides dentro de cada aba</b>, já aberta. Fechou, fica fechada; para ver de novo, toque em 📽. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -5335,6 +5336,7 @@ function novoCheck(){ let v=""; try{ v=localStorage.getItem("rp_ver")||""; }catc
   o.innerHTML=`<div class="sheet novobox" role="dialog" aria-modal="true" aria-label="Site atualizado"><h3>✨ O site foi atualizado</h3><ul>${APP_NOVO.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn primary" data-novox>Entendi</button></div>`; o.hidden=false; }
 setTimeout(()=>{ try{ novoCheck(); }catch(_){} },2500);
 let CV_EDIT=null, CV_REG=null, CV_IN=null, CV_POP=null;
+document.addEventListener("click",e=>{ if(e.target.closest&&e.target.closest("[data-pgclose]")){ show("sessao"); window.scrollTo(0,0); } });
 /* Dupla ou trio lado a lado: cartões simplificados; tocar abre o cartão completo numa janela */
 function sideOn(){ try{ return localStorage.getItem("rp_side")==="1"; }catch(_){ return false; } }
 function cvPopHTML(w,ms){ const m=stById(CV_POP.sid); const d=m&&dayOf(w.id,m.id,S.day); if(!m||!d||!(d.rows||[]).some(r=>r.id===CV_POP.rid)){ CV_POP=null; return ""; } const others=ms.filter(o=>o!==m);
@@ -7302,7 +7304,7 @@ function wkRowsHTML(st,rows,cw,pref,N){ const pid=st?st.id:"mp"; const z= st&&li
     <label>Carga<select class="inp" ${pref}="${i}|c" id="${pid}-w${i}-c"><option value="">–</option>${Object.entries(CARGA_L).map(([k,l])=>`<option value="${k}" ${r.c===k?"selected":""}>${l}</option>`).join("")}</select></label></div>
     <div class="fz-2"><label>Método 1${tecSel(r.t,`${pref}="${i}|t"`,`${pid}-w${i}-t`)}</label><label>Método 2${tecSel(r.t2,`${pref}="${i}|t2"`,`${pid}-w${i}-t2`)}</label></div>
     <input class="inp fz-note" ${pref}="${i}|note" id="${pid}-w${i}-n" value="${esc(r.note)}" placeholder="Objetivo da semana"></div>`).join("")}</div>
-    <p class="fz-rec">Técnicas: recomendamos de 1 a 2 por treino. Você escolhe quantas usar, ou nenhuma.</p>`; }
+    <p class="fz-rec">Métodos avançados: recomendamos de 1 a 2 por treino. Você escolhe quantas usar, ou nenhuma.</p>`; }
 
 const pgInfo={};
 const CONF_HELP=`<p class="tio-dir">É uma <b>sugestão</b> para o aluno que trava quando ouve "vamos aumentar o peso". Você decide se e quando usar.</p>
@@ -7319,7 +7321,7 @@ function sugNote(ln){ if(ln==="minha") return `<p class="fz-sug">Mesmo sendo a s
 function pgInfoHTML(st){ const ln=lineOf(progOf(st)); const o=pgInfo[st.id]||"";
   const ent= ln==="conf"? CONF_HELP : ln==="tio"? tioHelpHTML() : ln==="minha"? `<p>As semanas são suas: preencha séries, repetições, carga e métodos aqui embaixo. Na Sessão elas viram a sugestão de cada semana, e você ajusta à vontade.</p>` : `<p>Sem programação: você lança tudo direto na Sessão. A letra do dia e a comparação com o último treino igual continuam funcionando.</p>`;
   const b=(k,t)=>`<button class="pgi-b ${o===k?"on":""}" data-pgi="${k}" aria-expanded="${o===k}">${t}</button>`;
-  return `<div class="pgi">${b("ent","ⓘ Entenda")}${b("tec","Técnicas")}${b("div","Divisão")}</div>
+  return `<div class="pgi">${b("ent","ⓘ Entenda")}${b("tec","Métodos")}${b("div","Divisão")}</div>
     ${o?`<div class="pgi-p">${o==="ent"?ent:o==="tec"?tecHelpHTML(ln):splitHTML(st)}</div>`:""}`; }
 function lineHTML(st){ const p=progOf(st); const ln=lineOf(p); if(!ln) return "";
   const rows=wkRows(st); const N=wkN(st); const cw=curWkPlan(st);
@@ -7379,11 +7381,11 @@ function renderSemana(){
   const pend=all.filter(x=>progOf(x).auto||(blockInfo(x)||{}).over);
   const list= semFilter==="pend"? pend : all;
   const op=k=> semOpen[k]? "open" : "";
-  el.innerHTML=`${helpBtn("semana")}${slidesBox("semana")}${impBtn("prog","Importar ficha de "+esc(first(A().name))+" (foto, PDF, Excel ou Word)")}
+  el.innerHTML=`<button class="btn pgclose pgclose1" data-pgclose>✕ Fechar a programação</button>${helpBtn("semana")}${slidesBox("semana")}${impBtn("prog","Importar ficha de "+esc(first(A().name))+" (foto, PDF, Excel ou Word)")}
     <div class="semfrase"><span class="rep-m">${LETRA()}</span><p>${SEM_FRASE}</p></div>
 
-    <div class="seg" role="group" aria-label="Filtro"><button data-pgf="todos" aria-pressed="${semFilter==="todos"}">Todos (${all.length})</button><button data-pgf="pend" aria-pressed="${semFilter==="pend"}">Para conferir (${pend.length})</button></div>
-    ${list.length? list.map(semCardHTML).join("") : `<div class="card"><p class="muted">Tudo programado. Nenhum aluno para conferir.</p></div>`}`;
+    ${(()=>{ const st=A(); if(semOpen[st.id+"|card"]==null) semOpen[st.id+"|card"]=true; return semCardHTML(st); })()}
+    <button class="btn pgclose" data-pgclose>✕ Fechar a programação e voltar para a Sessão</button>`;
 }
 function pgMat(st){ const p=progOf(st);
   if(p.auto) st.prog={map:{...p.map},weeks:+p.weeks||4,start:wkStart(S.week)||mondayOf(new Date())};
