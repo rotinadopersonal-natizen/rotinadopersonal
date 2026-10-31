@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793442991";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793443939";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -3914,45 +3914,49 @@ document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closes
   const ni=(+sideGet("sideSz2","2")+1)%SIDE_SZ.length; sideSet("sideSz2",String(ni)); sideApply(); toast("Tamanho do zoom: "+Math.round(SIDE_SZ[ni]*100)+"%"); });
 /* ---------- Robô de ajuda (só sobre o uso do site) ---------- */
 const BOT=[
- {k:"cadastr cadastro novo adicionar incluir",a:"Na aba 📝 Cadastro, toque em “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro."},
- {k:"inativ inativar excluir apagar parou saiu",a:"Cadastro → toque no aluno → “Inativar aluno” (guarda o histórico) ou “Excluir aluno” (apaga tudo de vez)."},
- {k:"horario horarios grade",a:"Cadastro → toque no aluno → ajuste os dias e horários → Salvar. Vale daqui pra frente. Para mudar só um dia, ajuste na Chamada da Presença."},
- {k:"vencimento parcela parcelado duas vezes metade data pagar",a:"Cadastro → aluno → em Vencimento escolha “Paga em 2, 3… vezes” e coloque o dia (e o valor, se quiser) de cada parcela."},
- {k:"pagou pagamento marcar recebi receber baixa",a:"Aba 💰 Financeiro → no cartão do aluno toque na parcela paga. Pagou valor diferente? Use “+ outro valor”."},
- {k:"vencido alerta vermelho atrasado devendo",a:"O alerta vermelho no topo mostra quem passou do vencimento. Toque no nome para ir ao pagamento. Prometeu pagar depois? Use “Pendente até” no cartão do aluno."},
+ {k:"cadastr cadastro novo adicionar incluir",a:"Aba 📝 Cadastro do aluno → “+ Novo aluno”. Coloque nome, WhatsApp, dias, horários, valor e vencimento e toque em Salvar. Ele entra sozinho na Presença, Agenda e Financeiro. Tem uma lista em foto, Excel ou Word? Use “📎 Importar alunos”."},
+ {k:"importar importacao foto print pdf excel word planilha anexar arquivo digitar",a:"Toque em “📎 Importar” (Sessão, Programação, Cadastro, Avaliação física ou Financeiro). Mande foto, print, PDF, Excel ou Word: o site lê, você confere e toca em Lançar."},
+ {k:"inativ inativar excluir parou saiu",a:"Cadastro do aluno → toque no aluno → “Inativar aluno” (guarda o histórico) ou “Excluir aluno” (apaga tudo de vez)."},
+ {k:"horario horarios grade",a:"Cadastro do aluno → toque no aluno → ajuste os dias e horários → Salvar. Vale daqui pra frente. Para mudar só um dia, ajuste na Chamada da Presença."},
+ {k:"vencimento parcela parcelado duas vezes metade data pagar",a:"Cadastro do aluno → aluno → em Vencimento escolha “Paga em 2, 3… vezes” e coloque o dia (e o valor, se quiser) de cada parcela."},
+ {k:"pagou pagamento marcar recebi receber baixa",a:"Aba 💰 Financeiro → no cartão do aluno toque em “✓ Pagou” (ou na parcela, “toque se pagou”). Pagou valor diferente? Use “+ outro valor”."},
+ {k:"avulsa avulsas aula feita nao pagou proximo mes passar",a:"Financeiro → caixa laranja “💵 Aulas avulsas não pagas”: ✓ Pagou ou ➡ Passar para o próximo mês. Lá aparece como “Mês anterior”, com os dias, no previsto e no a receber."},
+ {k:"vencido alerta vermelho atrasado devendo",a:"O alerta vermelho “Pagamento vencido” leva direto ao aluno no Financeiro. Prometeu pagar depois? Use “Pendente até” no cartão do aluno."},
  {k:"previsto recebido soma total bate",a:"Previsto = recebido + a receber. Se alguém pagou a mais, aparece um aviso amarelo no Financeiro para você conferir."},
  {k:"adiantado trimestral varios meses",a:"Financeiro → cartão do aluno → “Pagou adiantado”. Escolha o mês em que recebeu e os meses que cobre."},
  {k:"relatorio financeiro pdf",a:"Financeiro → “📄 Relatório financeiro (PDF)”, no topo da aba."},
- {k:"presenca chamada falta faltou presente",a:"Aba ✅ Presença → Chamada: os alunos do dia aparecem sozinhos. Toque em Presente ou Faltou. Ao iniciar o treino na Sessão, a presença é marcada sozinha."},
- {k:"reposicao extra aula avulsa",a:"Presença → “+ Reposição ou aula extra”."},
+ {k:"relatorio mes mensal planejamento planejar enviar mes aluno",a:"Presença do dia → Alunos → toque no aluno → “📤 Enviar relatório” (o que ele fez no mês) ou “📤 Enviar planejamento” (as aulas do mês). Frases: Meu perfil/conta → sua marca e frases."},
+ {k:"presenca chamada falta faltou presente",a:"Aba ✅ Presença do dia → Chamada: os alunos do dia aparecem sozinhos. Toque em Presente ou Faltou. Ao iniciar o treino na Sessão, a presença é marcada sozinha."},
+ {k:"reposicao extra aula fora grade",a:"Sessão do dia → Alunos do dia → “+ Marcar reposição ou aula fora da grade”. Ou na Presença: “+ Reposição ou aula extra”."},
  {k:"agenda horarios livres whatsapp ocupado",a:"Aba 📅 Agenda. Em “🕐 Meu horário de trabalho” crie todos os horários (ex.: 05:00 às 20:00). Toque no horário para marcar livre ou ocupado, ou escreva o nome. A tabela de novos alunos se atualiza sozinha. Dá para enviar os livres pelo WhatsApp."},
  {k:"cor cores agenda",a:"Agenda da semana → “🎨 Cores da agenda”."},
- {k:"programacao fases medo peso minha nenhuma programar",a:"Aba 📊 Programação → no cartão do aluno escolha: Por fases, Medo de peso, Minha programação ou Nenhuma. Toque no ? ao lado de “Programação das semanas” para um resumo."},
- {k:"letra letras repetir",a:"Programação → cartão do aluno → coloque a letra em cada dia e escolha repetir por Letra ou por Dia da semana."},
- {k:"semana s1 s2 contagem lembrete recomecar",a:"Na Sessão, a barra de baixo mostra S1, S2… Toque no ⚙ para escolher o lembrete de semanas e recomeçar a contagem."},
- {k:"nova semana criar semana",a:"Na Sessão, toque no “+” da barra de semanas. A semana nova já vem com o último treino de cada letra."},
- {k:"sessao lancar treino exercicio serie repeticao carga peso",a:"Aba 🏋️ Sessão → escreva o exercício, séries, repetições e carga. Ou toque no 🎤 e fale, ex.: “supino 3 de 10 com 20 kg”."},
- {k:"audio voz falar microfone",a:"Na Sessão, toque no 🎤 verde ao lado do exercício e fale: “agachamento 3 de 12 com 30 kg”. Se não funcionar, confira se o navegador tem permissão de microfone."},
- {k:"semana passada sem pass anterior",a:"A linha “Sem. Pass.” em cima do exercício mostra o que o aluno fez na semana anterior, por letra ou por dia."},
- {k:"descanso timer intervalo",a:"Na Sessão, a barra de baixo tem o descanso de cada aluno: toque para contar. O ⏱ na coluna Desc muda o descanso só daquele exercício."},
- {k:"cronometro amrap emom tabata mix por tempo",a:"Na Sessão, em Cronômetro, toque no tipo e depois em ▶ Iniciar. Toque no ? ao lado de Cronômetro para ver o que é cada um. Em ＋ CRIAR você monta o seu."},
- {k:"cardio esteira zona pse velocidade",a:"Na Sessão, em Cardio: tipo, método, tempo, zona, velocidade e PSE. Toque no ? de cada campo para a explicação."},
- {k:"conjugado conjugar conj biset bi-set triset tri-set junto juntos mais dois exercicio exercicios",a:"Para conjugar (bi-set): na Sessão toque em “Conj” no exercício. Abre outra linha na mesma caixa: escreva o 2º exercício com séries, reps e carga. Quer mais um (tri-set)? Toque em “+ex.” ao lado."},
- {k:"dupla trio copiar",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “📋 copiar” no exercício ou “Copiar treino todo” para o outro aluno."},
- {k:"apagar excluir tirar remover exercicio caixa lixeira",a:"Na Sessão, toque em “🗑 apagar” no alto da caixa do exercício e toque de novo para confirmar. A caixa toda sai."},
- {k:"metodo avancado dropset piramide rest pause tecnica criar",a:"Na Sessão, toque em “Met. Avan.” no exercício e escolha. Em “＋ Criar método” você cria o seu com séries/rodadas e descanso."},
- {k:"isometria iso unilateral uni",a:"Na Sessão: “Iso” marca isometria (escolha os segundos). “Uni” marca unilateral; na isometria aparece 30\"/30\"."},
- {k:"grafico pizza barra controle",a:"Na Sessão: “Controle: 📊 Sessão” mostra o treino do dia em barras, gráfico ou pizza. “📅 Semanal” mostra a semana e compara semanas."},
- {k:"relatorio aluno whatsapp imagem enviar mandar",a:"Na Sessão: “Relatório do treino” ou “Relatório dos treinos da semana” → escolha Imagem, Texto ou os dois para mandar pelo WhatsApp."},
- {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia",a:"Aba 🧍 Avaliação Física: escolha Bioimpedância, Medidas (fita métrica) ou Dobras (adipômetro) e toque em Salvar avaliação."},
- {k:"abas esconder aparecer sumir mostrar menu so presenca so financeiro so sessao escolher",a:"Cadastro → “🧩 Abas que aparecem”. Marque só as abas que você usa; as outras ficam escondidas, sem perder nada. “Mostrar todas” volta tudo."},
- {k:"alarme notificacao celular apitar vibrar bloqueada descanso mensagem sino",a:"Na Sessão, toque no quadro “🔔 Use o timer como alarme no celular” e em Ativar → Permitir. Ali também você escreve a sua mensagem do fim do descanso. Deixe o volume de mídia alto."},
- {k:"consultoria online aluno online distancia tipo",a:"Cadastro → aluno → Tipo → “Consultoria online”. Tem valor mensal e não entra na chamada nem na agenda."},
- {k:"logo marca nome relatorios cores frases",a:"Cadastro → “✎ Seu nome, logo, cores e frases dos relatórios”."},
- {k:"senha esqueci trocar email conta sair",a:"Cadastro → botão verde “Minha conta”: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
- {k:"backup copia seguranca dados salvar",a:"Os dados ficam salvos na nuvem sozinhos. Para guardar uma cópia, use o Backup no fim da aba Cadastro."},
- {k:"letra tamanho grande pequena zoom enxergar ler",a:"Use A+ e A− na lateral direita da tela: aumenta ou diminui a letra do site todo."},
- {k:"sugestao ideia melhorar",a:"Toque em “💡 Sugestão”: escreva ou fale a sua ideia. Chega direto para o desenvolvedor."}
+ {k:"programacao fases medo peso minha nenhuma programar",a:"Na Sessão do dia, toque em “📊 Programação do treino de…” → no cartão do aluno escolha: Por fases, Medo de peso, Minha programação ou Nenhuma."},
+ {k:"letra letras treino a b c novo treino",a:"Na Sessão, a barra “Treino A” fica em cima do treino: toque e troque a letra (puxa o último treino dela). “＋ Novo A” começa em branco e o A antigo fica no Histórico."},
+ {k:"semana s1 s2 contagem lembrete recomecar",a:"Na Sessão, no quadro “📅 Semana e dia”: S1, S2… A S1 é a semana em que o aluno começa. “Repetir esta programação por X semanas” avisa; “Zerar contagem” recomeça."},
+ {k:"sessao lancar treino exercicio serie repeticao carga peso",a:"Aba 🏋️ Sessão do dia → toque no cartão e escreva o exercício, ou toque no 🎤 e fale: “supino 3 de 10 com 20 kg”. Já escrito? Toque no número para corrigir ali mesmo."},
+ {k:"audio voz falar microfone",a:"Na Sessão, abra o cartão e toque no 🎤 (“Fale o exercício”). Fale: “agachamento 3 de 12 com 30 kg”. Se não funcionar, confira se o navegador tem permissão de microfone."},
+ {k:"semana passada sem pass anterior repetir",a:"“Sem. Pass.” em cima do cartão mostra o que o aluno fez da última vez. O botão “↻ Repetir” logo embaixo traz séries, reps e kg."},
+ {k:"descanso timer intervalo",a:"Na Sessão, a barra de baixo tem o descanso de cada aluno: toque no ▶ para contar. O número ao lado muda o tempo."},
+ {k:"cronometro tabata timer criar",a:"Na Sessão, em ⏱ Timers: Cronômetro, Tabata (8 × 20\" com 10\" de descanso) ou ＋ Criar o seu. Toque no ? para ver cada um."},
+ {k:"cardio esteira zona pse velocidade meta",a:"Na Sessão, em 🏃 Cardio: tipo, método, tempo, zona, velocidade e PSE. Em “🎯 Metas de cardio para a semana” você põe vezes, tempo, distância e zonas."},
+ {k:"conjugado conjugar conj biset bi-set triset tri-set junto juntos mais dois exercicio exercicios",a:"Na Sessão, toque em “Conjugar” embaixo do cartão: junta com o exercício de baixo num bloco. “+ Conjugar” põe mais um (tri-set) e “Desmembrar” separa."},
+ {k:"dupla trio copiar colega",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “Repetir p/ colega” no cartão ou “Copiar treino todo” para o outro aluno."},
+ {k:"apagar excluir tirar remover exercicio cartao lixeira",a:"Na Sessão, toque no 🗑 na coluna da direita do cartão. Aparece “Confirma apagar exercício X?”: toque em Apagar."},
+ {k:"metodo avancado dropset piramide rest pause cluster tecnica",a:"Na Sessão, toque em “Métodos avançados” embaixo do cartão e escolha. O site pergunta se quer usar e monta as linhas (ex.: Dropset com −20% em cada drop). “Entenda os métodos avançados” explica todos."},
+ {k:"isometria iso unilateral uni tempo execucao",a:"Abra o cartão: “Unilateral” mostra 12/12 ou 30\"/30\"; “Isometria” pede onde e os segundos; “Tempo de execução” abre TEMPO e ZONA e conta no cardio."},
+ {k:"sugestao sugestoes exercicio",a:"Na Sessão, toque em “Sugestões de exercícios” embaixo do cartão: aparecem os exercícios por região e músculo."},
+ {k:"grafico pizza barra controle metas",a:"Na Sessão, toque em “🎯 Metas e controle de séries e repetições da sessão”: os gráficos já abrem (barras, gráfico ou pizza). “⚙ Ajustar metas” fica em cima."},
+ {k:"relatorio treino aluno whatsapp imagem enviar mandar",a:"Na Sessão, ao terminar o treino aparecem “📲 Enviar relatório”, “Ver relatório” e “Relatório da semana”: imagem, texto ou os dois pelo WhatsApp."},
+ {k:"avaliacao fisica dobras medidas circunferencia bioimpedancia foto",a:"Aba 🧍 Avaliação física: Bioimpedância, Medidas (fita) ou Dobras (adipômetro) → Salvar. Fotos: tire na hora ou anexe da galeria com a data."},
+ {k:"abas esconder aparecer sumir mostrar menu escolher",a:"Aba 🎨 Personalizar site → “Abas que aparecem”. Marque só as abas que você usa; as outras ficam escondidas, sem perder nada."},
+ {k:"slides explicacao entender aprender apresentacao",a:"Cada aba tem os slides dela, já abertos em cima (📽). Fechou? Toque em “📽 Ver a explicação desta aba em slides”."},
+ {k:"alarme notificacao celular apitar vibrar bloqueada descanso mensagem sino",a:"Na Sessão, toque em “🔔 Alarme do descanso” (barra escura embaixo) → Ativar → Permitir. Ali você escolhe o som ou a sua voz e a mensagem. Deixe o volume de mídia alto."},
+ {k:"consultoria online aluno online distancia tipo",a:"Cadastro do aluno → aluno → Tipo → “Consultoria online”. Tem valor mensal e não entra na chamada nem na agenda."},
+ {k:"logo marca nome relatorios cores frases",a:"Meu perfil/conta → “✎ Seu nome, logo, cores e frases dos relatórios”."},
+ {k:"senha esqueci trocar email conta sair",a:"Meu perfil/conta: dados, e-mail, senha e Sair. Esqueceu a senha? Na tela de login toque em “Esqueci a senha”."},
+ {k:"backup copia seguranca dados salvar",a:"Os dados ficam salvos na nuvem sozinhos. Para guardar uma cópia, use o Backup em Meu perfil/conta."},
+ {k:"letra tamanho grande pequena zoom enxergar ler",a:"Use A+ e A− no painel ZOOM, na lateral direita da tela: aumenta ou diminui a letra do site todo."},
+ {k:"sugestao ideia melhorar",a:"Toque em “💡 Sugestão ou ideia”: escreva ou fale a sua ideia. Chega direto para o desenvolvedor."}
 ];
 const BOT_FORA="hipertrofia fisiologia biomecanica musculo musculos dieta nutricao suplemento whey creatina lesao lesoes emagrecer emagrecimento caloria calorias proteina carboidrato hormonio vo2 alongamento postura joelho ombro coluna lombar periodizar periodizacao";
 const BOT_PROG="programacao fases medo peso progressao periodizacao montar treino divisao";
@@ -5286,8 +5290,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-31b";
-const APP_NOVO=["<b>Explicação em slides dentro de cada aba</b>, já aberta. Fechou, fica fechada; para ver de novo, toque em 📽. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
+const APP_VER="2026-10-31c";
+const APP_NOVO=["<b>Slides atualizados</b> com as telas e as abas de agora. O slide <b>📤 Relatório e planejamento do mês</b> aparece também na Sessão, no Financeiro e no Meu perfil.","<b>Explicação em slides dentro de cada aba</b>, já aberta. Fechou, fica fechada; para ver de novo, toque em 📽. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
  "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
  "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
  "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
@@ -7865,13 +7869,13 @@ document.addEventListener("keydown",e=>{ if(!document.getElementById("aprFull"))
 /* Aviso para os colegas: o envio automático ainda vai chegar (o administrador não vê, porque está testando) */
 function soonHTML(){ return `<div class="rp-soon">🔜 <b>Em breve:</b> o próprio sistema vai mandar as mensagens no WhatsApp dos seus alunos, sozinho: <b>confirmação e lembrete da aula</b>, planejamento e relatório do mês.</div>`; }
 /* Slides de explicação: cada aba mostra só os dela */
-const SL_G={geral:["capa","tela-inicial","offline","abas8","login","fz","importar","abas","cores","extras","convite","sugestao","ajuda-site","fim"],
+const SL_G={geral:["capa","tela-inicial","offline","abas8","login","fz","importar","rel-aluno","abas","cores","extras","convite","sugestao","ajuda-site","fim"],
   cadastro:["cadastro","importar"],
-  sessao:["sessao","ses-lancar","importar","ses-repetir","letra","setas","conj","semanas","ses-dia","ses-novo","tela","visualizar","descanso","timers","cardio","ses-graf","ses-rel","historico","programacao","fases","medo","ajuda","minha","nenhuma"],
+  sessao:["sessao","ses-lancar","importar","ses-repetir","letra","setas","conj","semanas","ses-dia","ses-novo","tela","visualizar","descanso","timers","cardio","ses-graf","ses-rel","rel-aluno","frases","historico","programacao","fases","medo","ajuda","minha","nenhuma"],
   semana:["programacao","fases","medo","ajuda","minha","nenhuma","letra","semanas"],
   presenca:["presenca","pres-auto","pres-mes","rel-aluno","frases"],
   agenda:["agenda","agenda2"],
-  financeiro:["financeiro","fin-avulsas","importar","fin-cmp","quinta"],
+  financeiro:["financeiro","fin-avulsas","importar","fin-cmp","quinta","rel-aluno","frases"],
   corpo:["avaliacao","aval-det","fotos","importar"],
   perso:["abas","cores"]};
 const SL_I={}, SL_OPEN={}; Object.keys(SL_G).forEach(g=>{ let v=null; try{ v=localStorage.getItem("rp_sl_"+g); }catch(_){} SL_OPEN[g]= v!=="0"; }); let SLF=null, SL_X=null;
