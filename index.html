@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793458887";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793461240";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -340,7 +340,7 @@ input.mini{padding:5px;text-align:center}
 .rep-day .rep-box h3{font-size:17px}.rep-day .rep-head h2{font-size:28px}.rep-day .rep-head p{font-size:13px}.rep-day .rep-phrase p{font-size:14px}.rep-day .rep-rg-h b{font-size:14px}.rep-day .rep-reg{width:24px;height:24px}.rep-day .rep-reg .emo{font-size:14px}
 .rep-day .ebar-top{font-size:12.5px!important}.rep-day .ebar-top b{font-size:15px!important}.rep-day .rep-total span{font-size:12.5px}.rep-day .rep-total b{font-size:18px}.rep-day .rep-kcal b{font-size:17px}.rep-day .rep-kcal p,.rep-day .kc-note{font-size:11px}.rep-day .rep-sub{font-size:12px}
 .rep-day .rep-exm b{font-size:13.5px}.rep-day .rep-exm span{font-size:11.5px}.rep-day .rep-exv b{font-size:14px}.rep-day .rep-int .ri-tag{font-size:12px}.rep-day .rep-int p{font-size:12px}.rep-day .etrack{height:9px!important}.rep-day .ebar{gap:3px!important}.rep-day .rep-rg{gap:7px;padding-top:9px}.rep-day .rep-box{gap:10px;padding:13px}.rep-ctxt{font-size:12.5px;color:#141414;margin:6px 0 0}.rep-day .rep-motto{font-size:16px}
-.progtop{display:flex;align-items:center;gap:10px;width:100%;margin:8px 0 6px;padding:12px 14px;border-radius:14px;border:0;background:var(--fgb,var(--fg));color:var(--bg);text-align:left;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.18)}.progtop[hidden]{display:none}.sesprog .row{display:grid!important;gap:6px}.sesprog .progtop{margin:4px 0}.progtop b{display:block;font-size:16px}.progtop small{display:block;font-size:12px;opacity:.85;font-weight:600}.progtop .pt-ic{font-size:22px}.progtop .pt-ar{margin-left:auto;font-size:22px}.progtop.back{background:var(--accent);color:#fff}
+.progtop{display:flex;align-items:center;gap:10px;width:100%;margin:8px 0 6px;padding:12px 14px;border-radius:14px;border:0;background:var(--fgb,var(--fg));color:var(--bg);text-align:left;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.18)}.progtop[hidden]{display:none}.sesprog .row{display:grid!important;gap:6px}.sesprog .progtop{margin:4px 0}.progtop b{display:block;font-size:16px}.sesprog .progtop{justify-content:center;text-align:center;padding:16px 14px;min-height:72px}.sesprog .progtop b{font-size:20px}.sesprog .progtop small{font-size:13px}.sesprog .progtop .pt-ar{margin-left:0}.progtop small{display:block;font-size:12px;opacity:.85;font-weight:600}.progtop .pt-ic{font-size:22px}.progtop .pt-ar{margin-left:auto;font-size:22px}.progtop.back{background:var(--accent);color:#fff}
 .sbclock{font-family:var(--f-display);font-size:34px;font-weight:800;line-height:1;color:var(--fg);background:var(--sunk);border-radius:10px;padding:6px 12px}.sbgo,.sbstop{font-size:16px!important;padding:10px 16px!important}.sbstop{background:#C62828!important;border-color:#C62828!important;color:#fff!important}
 .slrep{font-style:normal;font-size:11px;font-weight:800;background:#E8710A;color:#fff;border-radius:999px;padding:1px 6px;white-space:nowrap}.sesadd{border:2px solid var(--accent)!important;color:var(--accent)!important;font-weight:800!important;background:var(--surface)!important}
 #serWin{right:22px;bottom:330px}#serWin .scr{gap:8px}#serWin .sctot{display:inline-flex;align-items:center;gap:3px;margin-left:6px;vertical-align:middle;text-transform:none}#serWin .sctot button{width:22px;height:22px;border-radius:50%!important;border:1.5px solid currentColor!important;font-size:14px!important;font-weight:900;display:inline-flex;align-items:center;justify-content:center;padding:0}#serWin .sctot input{width:34px;height:22px;text-align:center;font:inherit;font-size:13px;font-weight:800;border-radius:6px;border:1.5px solid currentColor;background:transparent;color:inherit;padding:0;-moz-appearance:textfield}#serWin .sctot input::-webkit-inner-spin-button{-webkit-appearance:none}#serWin .scnm{display:flex!important;flex-direction:column;gap:3px;white-space:normal!important}#serWin .scchips{display:flex;gap:3px;flex-wrap:nowrap}#serWin .scchip{width:calc(20px*var(--rwk));height:calc(20px*var(--rwk));border-radius:5px!important;border:1.5px solid currentColor!important;font-size:calc(11px*var(--rwk))!important;font-weight:800;padding:0;display:inline-flex;align-items:center;justify-content:center;opacity:.9}#serWin .scchip.x{text-decoration:line-through;text-decoration-thickness:2px;opacity:.45;background:rgba(127,127,127,.25)!important}#serWin .scb{font-size:calc(26px*var(--rwk));font-weight:900;width:calc(40px*var(--rwk));height:calc(40px*var(--rwk));border-radius:50%!important;border:2px solid currentColor!important;display:flex;align-items:center;justify-content:center;line-height:1}#serWin .scn{min-width:calc(56px*var(--rwk));text-align:center}#serWin .rwh button{font-size:16px;padding:2px 4px}.sbzero{font-weight:800!important}.sbcnt{border:2px solid var(--accent)!important;color:var(--accent)!important;font-weight:800!important}
@@ -476,11 +476,11 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .slbtn small{color:var(--muted);font-weight:700}
 .slbtn.on{background:var(--accent-soft)}
 .slbox .aprbox{margin-top:8px}
-.histbtn{display:block;width:100%;font-size:19px!important;font-weight:800!important;padding:14px!important;background:#1A1C22!important;background-image:none!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:1!important;margin:6px 0}
+.histbtn{display:block;width:100%;min-height:76px;font-size:25px!important;line-height:1.15!important;font-weight:900!important;padding:18px 12px!important;text-align:center;background:#1A1C22!important;background-image:none!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:1!important;margin:6px 0}
 .seswk2{padding:10px 12px!important;gap:8px!important}
-.seswk2 .wkhead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start}
-.seswk2 .wkl{display:grid;gap:2px}
-.seswk2 .wkl .label{font-size:10.5px;letter-spacing:.06em}
+.ltrwk{display:grid;gap:3px;margin:8px 0 4px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:12px}.ltrwk .wkrep{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0}.ltrwk label{font-weight:700;font-size:14px}.ltrwk .inp{width:56px;text-align:center;padding:4px}.ltrwk small{font-size:12px}
+.seswk2 .wkgrid{display:grid;grid-template-columns:minmax(0,max-content) minmax(150px,1fr);column-gap:14px;row-gap:4px;align-items:start}.seswk2 .wkcli{align-self:end}.seswk2 .wkrp{align-self:end}.seswk2 .wkch,.seswk2 .wkzr{align-self:center;min-width:0}.seswk2 .wkch .wkrow{flex-wrap:wrap;overflow:visible}.seswk2 .wkzr .wkred{white-space:normal;text-align:left;line-height:1.2}.seswk2 .wkrp .wkrep{display:block!important;margin:0;line-height:1.8}.seswk2 .wkrp label{display:inline!important;font-size:12.5px;font-weight:700}.seswk2 .wkrp .btn{display:inline-block;margin-left:4px;vertical-align:middle}.seswk2 .wkrp .inp{width:46px;padding:3px 4px;font-size:14px;text-align:center}.seswk2 .wktx .wkreph{font-size:11px;margin:0}.seswk2 .wkrp .btn,.seswk2 .wkzr .btn{font-size:12px;padding:4px 9px}
+.seswk2 .wkcli{font-size:10.5px;letter-spacing:.06em}
 .wknav2{display:flex;align-items:center;gap:4px}
 .wknav2 strong{font-family:var(--f-display);font-size:18px;white-space:nowrap}
 .wknav2 .icon-btn{width:28px;height:28px;min-width:28px;padding:0;font-size:14px}
@@ -490,6 +490,7 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .seswk2 .wkr .btn{font-size:11.5px;padding:4px 8px}
 .seswk2 .wkr .wkreph{font-size:11px;display:block;margin-top:3px}
 .seswk2 .wkrow button{padding:5px 9px;font-size:13px}
+@media (max-width:480px){.seswk2 .wkrow{gap:4px}.seswk2 .wkrow button{padding:4px 6px;font-size:12px}.seswk2 .wkrow .wcfg{padding:4px 7px}.seswk2 .wkgrid{column-gap:10px;grid-template-columns:minmax(0,max-content) minmax(140px,1fr)}}
 .seswk2 .daychips button{padding:5px 2px}
 .ltrmv{border:1.5px solid var(--accent)!important}
 .ltrmv.on{background:var(--accent)!important;color:#fff!important}
@@ -1739,7 +1740,7 @@ body .wrap.withweeks{padding-bottom:150px}body .wrap.withweeks.withturn{padding-
 .bxpic{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;aspect-ratio:4/3;border-radius:10px;padding:8px;box-sizing:border-box}.bxpic i{border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.15)}.bxpic i.s{grid-column:span 2}
 .ldrule{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14px;font-weight:700;margin-top:8px;justify-content:center;text-align:center}.ldrule .inp{width:64px;text-align:center;padding:5px}
 body[data-tab="cadastro"] #rpSugA{display:none!important}
-.sesprog .row{justify-content:center}.sesadd{justify-self:center!important;margin-inline:auto;display:block}.copybar{justify-content:center}
+.sesprog .row{justify-content:center}.sesprog>.row{grid-template-columns:1fr;justify-content:stretch!important}.sesadd{justify-self:center!important;margin-inline:auto;display:block}.copybar{justify-content:center}
 .rp-sug-top,.rp-sug-any{background:var(--accent-soft)!important;color:var(--fg)!important}.seg{position:relative}.seg>.qtip{background:var(--accent)!important;color:#fff!important;padding:0!important;min-width:0!important;position:absolute!important;top:-8px;right:-4px;margin:0!important}
 .corg{display:flex;flex-wrap:wrap;gap:8px}.corb{display:flex;align-items:center;gap:6px;border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px 5px 5px;font-weight:700;font-size:14px;cursor:pointer;color:var(--fg)}.corb i{width:24px;height:24px;border-radius:50%;background:var(--cc)}.corb.on{border-color:var(--fg)}
 .donesend{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;font-weight:700}.donesend .inp{width:auto;font-size:13px;padding:4px 6px}
@@ -3990,7 +3991,8 @@ const BOT=[
  {k:"cardio esteira zona pse velocidade meta",a:"Na Sessão, em 🏃 Cardio: tipo, método, tempo, zona, velocidade e PSE. Em “🎯 Metas de cardio para a semana” você põe vezes, tempo, distância e zonas."},
  {k:"conjugado conjugar conj biset bi-set triset tri-set junto juntos mais dois exercicio exercicios",a:"Na Sessão, toque em “Conjugar” embaixo do cartão: junta com o exercício de baixo num bloco. “+ Conjugar” põe mais um (tri-set) e “Desmembrar” separa."},
  {k:"dupla trio copiar colega",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “Repetir p/ colega” no cartão ou “Copiar treino todo” para o outro aluno."},
- {k:"historico evolucao grafico comparar visualizar ver treino dia semana",a:"Na Sessão, botão escuro “📈 Histórico de treino”, logo acima da barra Treino. Dentro dele fica “Visualizar treino do dia ou da semana”."},
+ {k:"historico evolucao grafico comparar visualizar ver treino dia semana",a:"Na Sessão, botão escuro “📈 Histórico de treino”, logo abaixo do Importar treino. Dentro dele fica “Visualizar treino do dia ou da semana”."},
+ {k:"repetir semana inteira programacao sexta",a:"Para repetir a semana toda, use “Repetir esta programação por X semanas” (no quadro Semana e dia ou dentro da barra Treino). “Repetir por: Letra” repete só a letra."},
  {k:"mover trocar dia treino outro dia",a:"Na Sessão, toque na barra Treino (ex.: Treino A). Lá dentro: “↔ Mover este treino para outro dia”."},
  {k:"apagar excluir tirar remover exercicio cartao lixeira",a:"Na Sessão, toque no 🗑 na coluna da direita do cartão. Aparece “Confirma apagar exercício X?”: toque em Apagar."},
  {k:"metodo avancado dropset piramide rest pause cluster tecnica",a:"Na Sessão, toque em “Métodos avançados” embaixo do cartão e escolha. O site pergunta se quer usar e monta as linhas (ex.: Dropset com −20% em cada drop). “Entenda os métodos avançados” explica todos."},
@@ -4046,6 +4048,9 @@ function wkChipsHTML(){ return `<div class="wkrow" role="tablist" aria-label="Se
 function wkRepHTML(){ const c=wkCfg();
   return `<div class="wkrep"><label>Repetir esta programação por <input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="4"> semanas</label><button class="btn small" data-wkok>OK</button><button class="btn small wkred" data-wkreset>Zerar contagem só de ${esc(first(A().name))}</button></div>
   ${+c.alerta?`<small class="muted wkreph">Ao chegar na S${c.alerta}, a semana fica laranja com 🔔 para você decidir se muda o treino.</small>`:""}`; }
+function wkRepOnly(cls){ const c=wkCfg(); return `<div class="wkrep ${cls||""}"><label>Repetir esta programação por <input class="inp" type="number" inputmode="numeric" min="0" max="99" data-wkalert value="${+c.alerta||""}" placeholder="4"> semanas</label><button class="btn small" data-wkok>OK</button></div>`; }
+function wkRepTxt(){ const c=wkCfg(); return `<small class="muted wkreph">${+c.alerta?`Ao chegar na S${c.alerta}, a semana fica laranja com 🔔 para você decidir se muda o treino.`:`Ao chegar na semana escolhida, ela fica laranja com 🔔 para você decidir se muda o treino.`}</small>`; }
+function wkZerarBtn(){ return `<button class="btn small wkred" data-wkreset>Zerar contagem de semanas só de ${esc(first(A().name))}</button>`; }
 function wkRowHTML(){ return wkChipsHTML()+wkRepHTML(); }
 function wkSorted(){ return (S.weeks||[]).slice().sort((a,b)=>a.start<b.start?-1:1); }
 /* Contagem das semanas é de cada aluno: a semana em que ele zerou vira S1; as anteriores mantêm o número antigo */
@@ -4152,6 +4157,7 @@ function ltrPickHTML(m,d){ const L=ltrOf(m.id,S.week,S.day,d); const r=L? prevRe
   const blk= bi&&!bi.before? (bi.over? `<p class="blk-over">⚠ As ${bi.N} semanas deste treino terminaram. Monte o treino novo e, na Programação, escolha em <b>a partir de</b> a semana em que ele começa.</p>` : `<span class="blk-n">Semana ${bi.n} de ${bi.N}${w?` · ${planTxt(w)}`:""}</span>`) : "";
   return `<div class="ltrbox"><span class="ltr-q">Qual treino é hoje?</span><button class="ltrx" data-ltrx aria-label="Fechar">✕</button>
     <div class="phmini ltrpick" role="group" aria-label="Treino de ${esc(first(m.name))}">${LTR_ALL.map(x=>`<button style="--pc:var(--accent)" data-setltr="${x}" ${x==="FB"?'title="Full body"':""} aria-pressed="${x===L}">${x}</button>`).join("")}${ltrMine().map(x=>`<span class="ltrmy"><button style="--pc:var(--accent)" data-setltr="${esc(x)}" aria-pressed="${x===L}">${esc(x)}</button><button class="ltrdel" data-ltrdel="${esc(x)}" aria-label="Tirar ${esc(x)} da lista">×</button></span>`).join("")}<input class="inp ltr-txt" data-ltrtxt id="lt-${m.id}" value="${custom&&!ltrMine().includes(L)?esc(L):""}" placeholder="ou digite: ex. MMSS"></div>
+    <div class="ltrwk">${wkRepOnly("ltrwkr")}<small class="muted">Repete a <b>semana inteira</b> (todos os dias). Para repetir só esta letra, use <b>Repetir por: Letra</b>.</small></div>
     <div class="ltrtools"><button class="btn small" data-vwltrs="${m.id}">Ver os treinos A, B, C…</button><span class="ltrby">Repetir por: <button data-ltrby="letra" aria-pressed="${!byDia(m.id)}">Letra</button><button data-ltrby="dia" aria-pressed="${byDia(m.id)}">Dia da semana</button></span><button class="btn small ltrmv ${mvOpen===m.id?"on":""}" data-mvopen>↔ Mover este treino para outro dia</button></div>
     ${mvOpen===m.id? mvHTML(m,S.weeks.find(x=>x.id===S.week),sesMembers().filter(o=>o!==m)) : ""}
     <div class="ltrnewrow"><span>Ou comece um treino novo (o antigo fica no Histórico):</span><div>${["A","B","C","D","E",...ltrMine()].map(x=>`<button data-ltrnew="${esc(x)}">＋ Novo ${esc(x)}</button>`).join("")}</div></div>
@@ -4963,19 +4969,19 @@ function colHTML(m,w,ms){
     ${usesPh(m)?`<div class="phmini" role="group" aria-label="Fase de ${esc(first(m.name))}"><span>Fase${phAlert(m)?` · <b class="tw ${phAlert(m)}">${phWeeks(m)} sem ⚠️</b>`:""}</span>${Object.keys(PHASES).map(k=>`<button style="--pc:var(--p${k})" data-setph="${k}" aria-pressed="${+k===m.phase}" title="${PHASES[k].t} · ${PHASES[k].n}">${PHASES[k].k}</button>`).join("")}</div>`:""}
     ${tecSugHTML(m)}
     <div class="sbar" id="sb-${m.id}">${sbarInner(m)}</div>
-    ${others.length? `<div class="row copybar">
-      ${has||!others.some(o=>dayHasData(dayOf(w.id,o.id,S.day)))? `<button class="btn small primary" data-copyto>${arm("copyto")?"Já tem treino lá. Toque de novo para substituir":`📋 Copiar treino todo para ${others.map(o=>esc(first(o.name))).join(" e ")}`}</button>`
-        : others.filter(o=>dayHasData(dayOf(w.id,o.id,S.day))).map(o=>`<button class="btn small primary" data-copyfrom="${o.id}">📋 Copiar treino de ${esc(first(o.name))}</button>`).join("")}</div>`:""}
     ${LTR_UNDO[w.id+"|"+m.id+"|"+S.day]?`<div class="ltrundo"><span>Os exercícios foram trocados pela nova letra.</span><button class="btn small" data-ltrundo>↩ Desfazer e voltar os anteriores</button><button class="icon-btn" data-ltrundox aria-label="Ok">✓</button></div>`:""}
     ${sugOpen===m.id&&!SUG_ROW? sugHTML(m,d) : ""}
+    ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF, Excel ou Word)") : ""}
+    ${m===st? `<button class="btn histbtn" data-histopen>📈 Histórico de treino ${!m.own?"de "+esc(first(m.name)):"do professor"}</button>` : ""}
     ${m===(ms.includes(st)?st:ms[0])&&sesMode==="lancar"? boxW("semana","📅 Semana e dia",SES_WK.replace("%%CTL%%","")) : ""}
     ${repAskHTML(m,d)}<div id="alr-${m.id}">${alertsHTML(m,d)}</div>
     <div class="sesctlw">${CTLB}</div>
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
-    ${m===st? impBtn("sessao","Importar treino do dia (foto, PDF, Excel ou Word)") : ""}
-    ${m===st? `<button class="btn histbtn" data-histopen>📈 Histórico de treino ${!m.own?"de "+esc(first(m.name)):"do professor"}</button>` : ""}
     ${sesMode==="lancar"? (()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="ltrbar ${ltrEdit===m.id?"on":""}" data-ltredit><span>Treino</span><b>${L? esc(LTR_ALL.includes(L)? L : L) : "?"}</b><small>${ltrEdit===m.id? "fechar" : L? (d&&d.ltrNew? "treino novo · toque para trocar" : "toque para trocar") : "toque para escolher A, B, C…"}</small></button>`; })() : ""}
     ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
+    ${others.length? `<div class="row copybar">
+      ${has||!others.some(o=>dayHasData(dayOf(w.id,o.id,S.day)))? `<button class="btn small primary" data-copyto>${arm("copyto")?"Já tem treino lá. Toque de novo para substituir":`📋 Copiar treino todo para ${others.map(o=>esc(first(o.name))).join(" e ")}`}</button>`
+        : others.filter(o=>dayHasData(dayOf(w.id,o.id,S.day))).map(o=>`<button class="btn small primary" data-copyfrom="${o.id}">📋 Copiar treino de ${esc(first(o.name))}</button>`).join("")}</div>`:""}
     ${cvOn? cvHTML(m,d,others) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
@@ -5347,12 +5353,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-31f";
-const APP_NOVO=["<b>Semana e dia</b> mais compacto. <b>Histórico de treino</b> em destaque, logo acima da barra Treino; o <b>Visualizar treino</b> agora fica dentro do Histórico.","<b>Mover este treino</b> fica dentro da barra Treino. Treino com nome seu (ex.: Push) também ganha o <b>＋ Novo</b>.","<b>Programação</b> abre só do aluno escolhido, com o botão <b>✕ Fechar a programação</b>.","<b>Dupla ou trio lado a lado</b> na Sessão (👥). Toque num exercício e ele abre completo para lançar.","Barra <b>Treino</b> logo acima dos exercícios, com <b>👁 Ver os treinos A, B, C…</b> e a escolha <b>Letra</b> ou <b>Dia da semana</b>. <b>Histórico de treino</b> em destaque.","Cada aba mostra só os slides dela.","<b>Slides atualizados</b> com as telas e as abas de agora. O slide <b>📤 Relatório e planejamento do mês</b> aparece também na Sessão, no Financeiro e no Meu perfil.","<b>Explicação em slides dentro de cada aba</b>, já aberta. Fechou, fica fechada; para ver de novo, toque em 📽. Na Sessão começa por lançar o treino.","<b>Importar</b> agora lê também <b>Word</b> (.docx).","<b>Financeiro:</b> aulas avulsas não pagas em destaque, com ✓ Pagou ou ➡ Passar para o próximo mês (lá soma no previsto e no a receber, com os dias das aulas).","<b>Fotos da avaliação:</b> corrigido o erro “Aborted()” ao anexar foto grande. Agora a foto é reduzida antes de ler e, se travar, tenta de novo sozinha.","<b>Mensagens de erro em português</b>, dizendo o que fazer.","<b>Avaliação física:</b> agora dá para <b>anexar foto que já está no celular</b> (frente, lado e costas), escolhendo a data da foto.","<b>Treino A, B, C…</b> de volta na Sessão, numa barra comprida em cima do treino. Tocou numa letra, puxa o último treino dela. <b>＋ Novo A</b> começa em branco e o antigo fica no Histórico.","<b>📎 Importar de foto, print, PDF ou Excel</b>: o site lê e lança sozinho o treino do dia, a ficha (Treino A, B, C), os alunos, a avaliação física e os pagamentos. Você confere antes de lançar.","<b>Controle da sessão</b> mais compacto: MMSS, MMII e Core lado a lado, com a tonelagem embaixo do Core.","<b>Métodos avançados:</b> pergunta antes de usar. Cada método monta as linhas no cartão: Dropset com 2 drops de −20% de carga, Rest entre os blocos no Cluster e no Rest-pause, e <b>+ série</b> para lançar à mão.",
- "<b>Unilateral</b> aparece 12/12 ou 30\"/30\". <b>Tempo de execução</b> (depois de Isometria) abre TEMPO e ZONA e conta no cardio.",
- "<b>Metas e controle da sessão</b> acima de Mover e Visualizar, já com os gráficos e o ⚙ Ajustar metas.",
- "<b>Metas de cardio da semana</b> no Cardio. Tabata sempre abre em 8 × 20\" com 10\" de descanso.",
- "Relatório do treino e da semana aparecem quando termina o treino."];
+const APP_VER="2026-10-31g";
+const APP_NOVO=["Nova ordem na Sessão: <b>Importar treino</b>, <b>Histórico de treino</b> (botão grande), <b>Semana e dia</b>, <b>Metas</b> e a barra <b>Treino</b>.","<b>Semana e dia</b>: à esquerda a contagem, a data e as semanas; à direita <b>Repetir esta programação</b> e, na linha das semanas, <b>Zerar contagem</b>.","Dentro da barra Treino, embaixo das letras: <b>Repetir esta programação por X semanas</b> (repete a semana inteira).","Antes de criar ou repetir algo, aparece <b>Confirma…?</b>.","<b>▶ Iniciar treino</b> volta a aparecer em qualquer dia. <b>Programação</b> ocupa a largura toda, centralizada."];
 function novoCheck(){ let v=""; try{ v=localStorage.getItem("rp_ver")||""; }catch(_){} if(v===APP_VER) return; try{ localStorage.setItem("rp_ver",APP_VER); }catch(_){}
   let o=document.getElementById("novoPop"); if(!o){ o=document.createElement("div"); o.id="novoPop"; o.className="scrim"; document.body.appendChild(o); o.addEventListener("click",ev=>{ if(ev.target===o||ev.target.closest("[data-novox]")) o.hidden=true; }); }
   o.innerHTML=`<div class="sheet novobox" role="dialog" aria-modal="true" aria-label="Site atualizado"><h3>✨ O site foi atualizado</h3><ul>${APP_NOVO.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn primary" data-novox>Entendi</button></div>`; o.hidden=false; }
@@ -5504,14 +5506,16 @@ function renderSessao0(){
   PICK_OPTS=Object.entries(grp).map(([g,l])=>`<optgroup label="${esc(g)}">${l.map(n=>`<option>${esc(n)}</option>`).join("")}</optgroup>`).join("");
   const DAYCH=`<div class="daychips" role="group" aria-label="Dia">${DAYS.map(dy=>{ const kk=addDays(w.start,DAYS.indexOf(dy)); const off=presOn()&&PRES.isOff(kk); const nr=presOn()? sesExtras(dy).filter(x=>x.i.tipo==="rep").length : 0; return `<button data-dy="${dy}" aria-pressed="${dy===S.day}" class="${off?"dyoff":""}">${off?`<i class="dyfer">${(()=>{ const r=String(PRES.offReason(kk)||""); return /^(Viagem|Folga)/.test(r)? r.split(/[ (]/)[0] : "Feriado"; })()}</i>`:""}${nr?`<i class="dyrep" title="Reposição">🔁${nr>1?nr:""}</i>`:""}${dy}<small>${ddmm(addDays(w.start,DAYS.indexOf(dy)))}</small>${used.has(dy)?(()=>{ const L=[...new Set(ms.filter(m=>dayHasData(dayOf(w.id,m.id,dy))&&(progOf(m).by||"letra")!=="dia").map(m=>ltrOf(m.id,w.id,dy)).filter(Boolean))]; return L.length? `<span class="dyltr">${esc(L.join("/"))}</span>` : '<span class="dot"></span>'; })():""}</button>`; }).join("")}</div>`;
   SES_WK=`  <div class="card seswk seswk2">
-    <div class="wkhead">
-      <div class="wkl"><span class="label wkcli">${cliWkLbl(st,w)||("Semana "+(wkNum(w)==null?w.n:wkNum(w)))}${w.nome?` · ${esc(w.nome)}`:""}</span>
-        <div class="wknav2"><button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong><button class="icon-btn" data-wk="1" ${wi===S.weeks.length-1?"disabled":""} aria-label="Próxima semana">›</button></div></div>
-      <div class="wkr">${armNewWeek? "" : wkRepHTML()}</div>
+    <div class="wkgrid">
+      <span class="label wkcli">${cliWkLbl(st,w)||("Semana "+(wkNum(w)==null?w.n:wkNum(w)))}${w.nome?` · ${esc(w.nome)}`:""}</span>
+      <div class="wkrp">${armNewWeek? "" : wkRepOnly()}</div>
+      <div class="wknav2"><button class="icon-btn" data-wk="-1" ${wi===0?"disabled":""} aria-label="Semana anterior">‹</button><strong>${ddmm(w.start)} a ${ddmm(addDays(w.start,6))}</strong><button class="icon-btn" data-wk="1" ${wi===S.weeks.length-1?"disabled":""} aria-label="Próxima semana">›</button></div>
+      <div class="wktx">${armNewWeek? "" : wkRepTxt()}</div>
+      <div class="wkch">${armNewWeek? "" : wkChipsHTML()}</div>
+      <div class="wkzr">${armNewWeek? "" : wkZerarBtn()}</div>
     </div>
     ${armNewWeek? `<div class="note" style="display:grid;gap:8px"><span>Criar a semana ${last.n+1} (${ddmm(addDays(last.start,7))})</span>
-      <div class="row"><button class="btn primary small" data-nw="copy">Usar a semana ${last.n} como referência (↻ Repetir)</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>`
-      : wkChipsHTML()}
+      <div class="row"><button class="btn primary small" data-nw="copy">Usar a semana ${last.n} como referência (↻ Repetir)</button><button class="btn small" data-nw="blank">Em branco</button><button class="btn small ghost" data-nw="cancel">Cancelar</button></div></div>` : ""}
     ${DAYCH}
     %%CTL%%
   </div>`;
@@ -5806,12 +5810,12 @@ function sbarInner(m){
   const hoje=sesDateOf()===isoD(new Date());
   const envB=dayHasData(d||{})&&!m.own? `<button class="btn small sbsend" data-sendboth>📲 Enviar relatório para ${nm}</button>` : "";
   if(d&&d.pz&&!d.done&&!d.ini) return `<span class="sb-t muted">⏸ Tempo zerado</span><span class="sbclock num">0:00</span><button class="btn primary sbgo" data-sesini>▶ Iniciar treino</button>${dayHasData(d)?`<button class="btn primary sbstop" data-done>■ Terminar treino</button>`:""}${envB}`;
-  if(!d||(!dayHasData(d)&&!d.ini)) return `<span class="sb-t muted">O treino começa sozinho quando você lançar o primeiro exercício, ou toque em iniciar.</span>${hoje?`<button class="btn primary sbgo" data-sesini>▶ Iniciar treino</button>`:""}`;
+  if(!d||(!dayHasData(d)&&!d.ini)) return `<span class="sb-t muted">O treino começa sozinho quando você lançar o primeiro exercício, ou toque em iniciar.</span><button class="btn primary sbgo" data-sesini>▶ Iniciar treino</button>`;
   if(d.done) return `<span class="sb-t ok">✔ Treino concluído${sesTimes(d)?` · ${sesTimes(d)}`:""}</span>
     ${m.own?"":`<button class="btn small primary sbsend" data-sendboth>📲 Enviar relatório para ${nm} (imagem + texto)</button>
     <button class="btn small" data-sendwa>Só texto</button>`}
     <button class="btn small" data-report="day">Ver relatório</button><button class="btn small" data-report="week">Relatório da semana</button><button class="btn small ghost" data-reopen>Reabrir</button>`;
-  const t0=sesT0(d); if(!d.ini) return `<span class="sb-t muted">Treino lançado, tempo não iniciado.</span>${hoje?`<button class="btn primary sbgo" data-sesini>▶ Iniciar treino</button>`:""}<button class="btn primary sbstop" data-done>■ Terminar treino</button>${envB}`;
+  const t0=sesT0(d); if(!d.ini) return `<span class="sb-t muted">Treino lançado, tempo não iniciado.</span><button class="btn primary sbgo" data-sesini>▶ Iniciar treino</button><button class="btn primary sbstop" data-done>■ Terminar treino</button>${envB}`;
   return `<span class="sb-t run">▶ Em andamento${d.ini?` desde ${d.ini}`:""}</span>${t0&&hoje?`<span class="sbclock num" data-t0="${t0}">${fmtClk(Date.now()-t0)}</span>`:""}<button class="btn small sbzero" data-seszero title="Zerar e esperar você iniciar de novo">↺ Zerar tempo</button><button class="btn primary sbstop" data-done>■ Terminar treino</button>${envB}`;
 }
 function autoPres(sid){
@@ -8081,6 +8085,34 @@ function cpyPickHTML(m){ const ativo=x=>{ try{ const a=x.pid&&PRES.aluno(x.pid);
   const O=S.students.filter(x=>x.id!==m.id&&!x.own&&!hoje.includes(x.id)&&ativo(x)).sort((a,b)=>a.name.localeCompare(b.name));
   const ch=L=>L.map(x=>`<button class="chip" data-cpyto="${x.id}">${esc(x.name)}</button>`).join("");
   return `<div class="cvcpy"><b>Copiar este exercício para:</b>${H.length?`<small>Alunos de ${esc(S.day)}</small><div>${ch(H)}</div>`:""}${O.length?`<small>Outros alunos</small><div>${ch(O)}</div>`:""}${H.length||O.length?"":`<span class="muted">Nenhum outro aluno cadastrado.</span>`}<small class="muted">Entra no treino de ${esc(S.day)} desta semana.</small></div>`; }
+
+/* Confirmação antes de criar ou repetir qualquer coisa na Sessão */
+let CONF_OK=false, CONF_T=0;
+const CONF_SEL="[data-ltrnew],[data-setltr],[data-rowrep],[data-copyrow],[data-copyto],[data-copyfrom],[data-cpyto],[data-wkok],[data-repcardio],[data-copycardio],[data-mvto],[data-nw],[data-repask]";
+function confMsg(b){ const t=x=>esc(String(x||"").replace(/\s+/g," ").trim()); const lc=x=>x.charAt(0).toLowerCase()+x.slice(1); const D=b.dataset;
+  const ex=()=>{ try{ const re=b.closest("[data-row]"), c=b.closest("[data-col]"); const d=dayOf(S.week,c.dataset.col,S.day); const r=d.rows.find(x=>x.id===re.dataset.row); return r&&r.n1.trim()? `<b>${t(r.n1)}</b>` : "este exercício"; }catch(_){ return "este exercício"; } };
+  if(D.ltrnew!=null) return `Confirma começar um <b>Treino ${t(D.ltrnew)}</b> novo? O antigo fica no Histórico.`;
+  if(D.setltr!=null) return b.getAttribute("aria-pressed")==="true"? null : `Confirma usar o <b>Treino ${t(D.setltr)}</b> neste dia?`;
+  if(b.hasAttribute("data-rowrep")) return `Confirma repetir ${ex()} igual à semana passada?`;
+  if(D.copyrow!=null) return `Confirma repetir ${ex()} para <b>${t(b.textContent.replace(/^Repetir p\/\s*/,""))}</b>?`;
+  if(D.cpyto!=null) return `Confirma copiar ${ex()} para <b>${t(b.textContent)}</b>?`;
+  if(b.hasAttribute("data-copyto")||D.copyfrom!=null){ const x=t(b.textContent.replace(/^📋\s*/,"")); return /toque de novo/i.test(x)? null : `Confirma ${lc(x)}?`; }
+  if(b.hasAttribute("data-wkok")){ const i=b.parentNode&&b.parentNode.querySelector("[data-wkalert]"); const v=parseInt(i&&i.value,10)||0; return v? `Confirma repetir esta programação por <b>${v} semanas</b>?` : `Confirma tirar o lembrete de semanas?`; }
+  if(b.hasAttribute("data-repcardio")) return `Confirma repetir o <b>cardio da semana passada</b>?`;
+  if(b.hasAttribute("data-copycardio")) return `Confirma ${lc(t(b.textContent.replace(/^📋\s*/,"")))}?`;
+  if(D.mvto!=null) return `Confirma mover o treino para <b>${t(b.innerText)}</b>?`;
+  if(D.nw==="copy") return `Confirma criar a semana nova usando a anterior como referência?`;
+  if(D.nw==="blank") return `Confirma criar a semana nova em branco?`;
+  if(D.repask==="rep") return `Confirma repetir o <b>treino anterior</b>?`;
+  return null; }
+function confAsk(msg,b){ const attrs=[...b.attributes].filter(a=>a.name.startsWith("data-")).map(a=>a.value===""?`[${a.name}]`:`[${a.name}="${CSS.escape(a.value)}"]`).join("");
+  let o=document.getElementById("cfPop"); if(!o){ o=document.createElement("div"); o.id="cfPop"; o.className="scrim"; document.body.appendChild(o);
+    o.addEventListener("click",ev=>{ if(Date.now()-CONF_T<400) return; if(ev.target===o||ev.target.closest("[data-cfno]")){ o.hidden=true; o._b=null; return; } if(!ev.target.closest("[data-cfok]")) return; o.hidden=true;
+      let el=o._b; o._b=null; if(el&&!el.isConnected) el=o._sel? document.querySelector(o._sel) : null; if(!el){ toast("A tela mudou. Toque de novo."); return; }
+      CONF_OK=true; try{ el.click(); } finally{ CONF_OK=false; } }); }
+  o._b=b; o._sel=attrs||null; CONF_T=Date.now();
+  o.innerHTML=`<div class="sheet rdbox" role="dialog" aria-modal="true"><p class="rdq">${msg}</p><div class="rdbt"><button class="btn" data-cfno>Cancelar</button><button class="btn primary" data-cfok>Confirmar</button></div></div>`; o.hidden=false; }
+window.addEventListener("click",e=>{ if(CONF_OK) return; const b=e.target.closest&&e.target.closest(CONF_SEL); if(!b||b.closest("#cfPop")) return; if(b.dataset.repask!=null&&b.dataset.repask!=="rep") return; const msg=confMsg(b); if(!msg) return; e.preventDefault(); e.stopImmediatePropagation(); confAsk(msg,b); },true);
 /* Apagar exercício: pergunta numa janela antes de apagar */
 function rowDelAsk(sid,wid,rid){ const d=dayOf(wid,sid,S.day); const r=d&&d.rows.find(x=>x.id===rid); if(!r) return; const nm=r.n1.trim()||"exercício sem nome";
   let o=document.getElementById("rdPop"); if(!o){ o=document.createElement("div"); o.id="rdPop"; o.className="scrim"; document.body.appendChild(o);
