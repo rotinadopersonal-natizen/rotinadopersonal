@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793463394";
+<!doctype html><html><head><meta charset=utf8><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0f1115"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Rotina do Personal"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script>window.RP_BUILD="1793464708";
 (function(){ var K="rp_upd_try";
   var T0=Date.now(); function chk(){ try{ fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){ return r.text(); }).then(function(t){ var m=t.match(/window\.RP_BUILD="(\d+)"/); if(!m||m[1]===window.RP_BUILD) return;
       var tried=sessionStorage.getItem(K); if(Date.now()-T0<15000&&tried!==m[1]){ sessionStorage.setItem(K,m[1]); go(m[1]); return; } showUpd(m[1]); }).catch(function(){}); }catch(e){} }
@@ -427,7 +427,7 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .ctlgrid>.rgrp:nth-last-child(2){grid-row:1}
 .ctlgrid .ctl-foot{grid-row:2;align-self:start;grid-column:-2/-1;display:grid;gap:2px;font-size:11px;margin:0;padding:6px 0 0;border-top:1px solid var(--line)}
 .ctlgrid .ctl-foot b{font-size:12px}
-#impPop,#rdPop,#tecAskPop,#novoPop{z-index:100000!important}
+#impPop,#rdPop,#tecAskPop,#novoPop,#cfPop{z-index:100000!important}
 .impbtn{display:block;width:100%;margin:8px 0;border:2px dashed var(--accent);background:var(--surface);color:var(--accent);font-weight:800;font-size:14px;border-radius:12px;padding:10px;cursor:pointer}
 .impbox{max-width:560px;margin:4vh auto;max-height:92vh;overflow:auto;padding:16px;display:grid;gap:10px}
 .impbox h3{margin:0;font-size:18px}
@@ -472,12 +472,13 @@ body.mono .alarm{background:var(--accent);animation-name:alarmblinkc}@keyframes 
 .partrow.antp{border-color:#E0913F}
 .mvbtn2{font-size:12px}
 .slbox{margin:8px 0}
-.slbtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:2px solid var(--accent);background:var(--surface);color:var(--accent);font-weight:800;font-size:14px;border-radius:12px;padding:9px;cursor:pointer}
+.slbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:62px;border:2.5px solid var(--accent);background:var(--surface);color:var(--accent);font-weight:900;font-size:19px;border-radius:14px;padding:14px;cursor:pointer}.slbtn small{font-size:14px}
 .slbtn small{color:var(--muted);font-weight:700}
 .slbtn.on{background:var(--accent-soft)}
 .slbox .aprbox{margin-top:8px}
 .histbtn{display:block;width:100%;min-height:76px;font-size:25px!important;line-height:1.15!important;font-weight:900!important;padding:18px 12px!important;text-align:center;background:#1A1C22!important;background-image:none!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:0 4px 12px rgba(0,0,0,.25);opacity:1!important;margin:6px 0}
 .seswk2{padding:10px 12px!important;gap:8px!important}
+.rdbt3{display:grid!important;gap:8px}.rdbt3 .btn{width:100%;font-weight:800;padding:12px}.rdbt3 small{display:block;font-size:12px;font-weight:600;opacity:.9}.mirbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;text-align:center;background:var(--accent-soft);border:1.5px solid var(--accent);border-radius:12px;padding:8px 10px;margin:6px 0;font-weight:700;font-size:14px}
 .ltrwk{display:grid;gap:3px;margin:8px 0 4px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:12px}.ltrwk .wkrep{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0}.ltrwk label{font-weight:700;font-size:14px}.ltrwk .inp{width:56px;text-align:center;padding:4px}.ltrwk small{font-size:12px}
 .seswk2 .wkgrid{display:grid;grid-template-columns:minmax(0,max-content) minmax(150px,1fr);column-gap:14px;row-gap:4px;align-items:start}.seswk2 .wkl{align-self:center}.seswk2 .wkl .wkcli{display:block;font-size:12px;letter-spacing:.06em}.seswk2 .wkrp{align-self:center;padding-left:14px}.seswk2 .wkzr{padding-left:14px}.seswk2 .wkrp .wkreph{display:block;margin-top:2px}.seswk2 .wkch,.seswk2 .wkzr{align-self:center;min-width:0}.seswk2 .wkch .wkrow{flex-wrap:wrap;overflow:visible}.seswk2 .wkzr .wkred{white-space:normal;text-align:left;line-height:1.2}.seswk2 .wkrp .wkrep{display:block!important;margin:0;line-height:1.8}.seswk2 .wkrp label{display:inline!important;font-size:12.5px;font-weight:700}.seswk2 .wkrp .btn{display:inline-block;margin-left:4px;vertical-align:middle}.seswk2 .wkrp .inp{width:46px;padding:3px 4px;font-size:14px;text-align:center}.seswk2 .wktx .wkreph{font-size:11px;margin:0}.seswk2 .wkrp .btn,.seswk2 .wkzr .btn{font-size:12px;padding:4px 9px}
 .seswk2 .wkcli{font-size:10.5px;letter-spacing:.06em}
@@ -3990,7 +3991,7 @@ const BOT=[
  {k:"cronometro tabata timer criar",a:"Na Sessão, em ⏱ Timers: Cronômetro, Tabata (8 × 20\" com 10\" de descanso) ou ＋ Criar o seu. Toque no ? para ver cada um."},
  {k:"cardio esteira zona pse velocidade meta",a:"Na Sessão, em 🏃 Cardio: tipo, método, tempo, zona, velocidade e PSE. Em “🎯 Metas de cardio para a semana” você põe vezes, tempo, distância e zonas."},
  {k:"conjugado conjugar conj biset bi-set triset tri-set junto juntos mais dois exercicio exercicios",a:"Na Sessão, toque em “Conjugar” embaixo do cartão: junta com o exercício de baixo num bloco. “+ Conjugar” põe mais um (tri-set) e “Desmembrar” separa."},
- {k:"dupla trio copiar colega",a:"Alunos no mesmo horário aparecem juntos na Sessão. Use “Repetir p/ colega” no cartão ou “Copiar treino todo” para o outro aluno."},
+ {k:"dupla trio copiar colega",a:"Alunos no mesmo horário aparecem juntos na Sessão. Toque em “Repetir p/ colega” no cartão: escolha “Só este exercício” ou “Repetir sempre” (tudo o que lançar repete para o colega; “Parar” desliga). “Dividir a tela” mostra os dois lado a lado."},
  {k:"historico evolucao grafico comparar visualizar ver treino dia semana",a:"Na Sessão, botão escuro “📈 Histórico de treino”, logo abaixo do Importar treino. Dentro dele fica “Visualizar treino do dia ou da semana”."},
  {k:"repetir semana inteira programacao sexta",a:"Para repetir a semana toda, use “Repetir esta programação por X semanas” (no quadro Semana e dia ou dentro da barra Treino). “Repetir por: Letra” repete só a letra."},
  {k:"mover trocar dia treino outro dia",a:"Na Sessão, toque na barra Treino (ex.: Treino A). Lá dentro: “↔ Mover este treino para outro dia”."},
@@ -4979,9 +4980,8 @@ function colHTML(m,w,ms){
     ${ctlOv&&ctlOv.sid===m.id? ctlOvHTML(m,T) : ""}
     ${sesMode==="lancar"? (()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="ltrbar ${ltrEdit===m.id?"on":""}" data-ltredit><span>Treino</span><b>${L? esc(LTR_ALL.includes(L)? L : L) : "?"}</b><small>${ltrEdit===m.id? "fechar" : L? (d&&d.ltrNew? "treino novo · toque para trocar" : "toque para trocar") : "toque para escolher A, B, C…"}</small></button>`; })() : ""}
     ${((!ltrOf(m.id,w.id,S.day,d)&&!LTR_HIDE[m.id+"|"+S.week+"|"+S.day])||ltrEdit===m.id)? ltrPickHTML(m,d) : ""}
-    ${others.length? `<div class="row copybar">
-      ${has||!others.some(o=>dayHasData(dayOf(w.id,o.id,S.day)))? `<button class="btn small primary" data-copyto>${arm("copyto")?"Já tem treino lá. Toque de novo para substituir":`📋 Copiar treino todo para ${others.map(o=>esc(first(o.name))).join(" e ")}`}</button>`
-        : others.filter(o=>dayHasData(dayOf(w.id,o.id,S.day))).map(o=>`<button class="btn small primary" data-copyfrom="${o.id}">📋 Copiar treino de ${esc(first(o.name))}</button>`).join("")}</div>`:""}
+    ${others.length&&sesMode==="lancar"&&!sideOn()&&m===(ms.includes(st)?st:ms[0])? `<button class="sidetog" data-sidetog>👥 Dividir a tela: ${ms.map(x=>esc(first(x.name))).join(" e ")} lado a lado</button>` : ""}
+    ${dRaw&&dRaw.mir&&others.length? `<div class="mirbar">🔁 Tudo o que você lançar para ${esc(first(m.name))} repete para ${others.map(o=>esc(first(o.name))).join(" e ")}.<button class="btn small" data-mirstop>Parar</button></div>` : ""}
     ${cvOn? cvHTML(m,d,others) : ""}
     <div class="sheetx" data-sheet>
       <div class="xhead"><span class="xh-l">${(()=>{ const L=ltrOf(m.id,w.id,S.day,d); return `<button class="xh-ltr" data-ltredit aria-label="Trocar o treino do dia"><small>Treino</small><b>${L?esc(LTR_ALL.includes(L)?L:L.slice(0,4)):"?"}</b></button>`; })()}</span><span class="xh-ex">Exercício${qtip("ex")}</span><span><i class="s">Sér</i><i class="l">Séries</i></span><span><i class="s">Reps</i><i class="l">Repetições</i></span><span><i class="s">Kg</i><i class="l">Carga (kg)</i></span><span><i class="s">Vol</i><i class="l">Volume</i></span><span><i class="s">Desc</i><i class="l">Descanso</i></span></div>
@@ -5353,8 +5353,8 @@ document.addEventListener("change",async e=>{ const t=e.target; if(!t.closest||!
     IMP.busy=""; impRender(); } });
 document.addEventListener("input",e=>{ const t=e.target; if(!t.matches||!t.matches("#impPop [data-imptxt]")) return; IMP.lines=t.value.split(/\n/).map(x=>x.trim()).filter(Boolean); IMP.off=new Set(); clearTimeout(IMP._t); IMP._t=setTimeout(impPrev,300); });
 /* Aviso de atualização: aparece uma vez a cada versão nova, com o resumo do que mudou */
-const APP_VER="2026-10-31h";
-const APP_NOVO=["<b>Semana e dia</b>: a data e a contagem centralizadas em cima das semanas; à direita <b>Repetir esta programação</b> e, embaixo, <b>Zerar contagem</b>.","Nova ordem na Sessão: <b>Importar treino</b>, <b>Histórico de treino</b> (botão grande), <b>Semana e dia</b>, <b>Metas</b> e a barra <b>Treino</b>.","<b>Semana e dia</b>: à esquerda a contagem, a data e as semanas; à direita <b>Repetir esta programação</b> e, na linha das semanas, <b>Zerar contagem</b>.","Dentro da barra Treino, embaixo das letras: <b>Repetir esta programação por X semanas</b> (repete a semana inteira).","Antes de criar ou repetir algo, aparece <b>Confirma…?</b>.","<b>▶ Iniciar treino</b> volta a aparecer em qualquer dia. <b>Programação</b> ocupa a largura toda, centralizada."];
+const APP_VER="2026-10-31i";
+const APP_NOVO=["Dupla ou trio: <b>Repetir p/ colega</b> pergunta <b>só este exercício</b> ou <b>repetir sempre</b> (tudo o que lançar vai para o colega; <b>Parar</b> desliga).","<b>👥 Dividir a tela</b> agora fica logo abaixo da barra Treino, no lugar do Copiar treino. Botão dos slides maior.","<b>Semana e dia</b>: a data e a contagem centralizadas em cima das semanas; à direita <b>Repetir esta programação</b> e, embaixo, <b>Zerar contagem</b>.","Nova ordem na Sessão: <b>Importar treino</b>, <b>Histórico de treino</b> (botão grande), <b>Semana e dia</b>, <b>Metas</b> e a barra <b>Treino</b>.","<b>Semana e dia</b>: à esquerda a contagem, a data e as semanas; à direita <b>Repetir esta programação</b> e, na linha das semanas, <b>Zerar contagem</b>.","Dentro da barra Treino, embaixo das letras: <b>Repetir esta programação por X semanas</b> (repete a semana inteira).","Antes de criar ou repetir algo, aparece <b>Confirma…?</b>.","<b>▶ Iniciar treino</b> volta a aparecer em qualquer dia. <b>Programação</b> ocupa a largura toda, centralizada."];
 function novoCheck(){ let v=""; try{ v=localStorage.getItem("rp_ver")||""; }catch(_){} if(v===APP_VER) return; try{ localStorage.setItem("rp_ver",APP_VER); }catch(_){}
   let o=document.getElementById("novoPop"); if(!o){ o=document.createElement("div"); o.id="novoPop"; o.className="scrim"; document.body.appendChild(o); o.addEventListener("click",ev=>{ if(ev.target===o||ev.target.closest("[data-novox]")) o.hidden=true; }); }
   o.innerHTML=`<div class="sheet novobox" role="dialog" aria-modal="true" aria-label="Site atualizado"><h3>✨ O site foi atualizado</h3><ul>${APP_NOVO.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn primary" data-novox>Entendi</button></div>`; o.hidden=false; }
@@ -5496,7 +5496,7 @@ let SES_WK="";
 function cliWk(m,w){ const L=wkSorted(); const i=L.indexOf(w); const fw=wkFirst(m); const f=fw? L.indexOf(fw) : -1; if(f<0||i<f) return null; return i-f+1; }
 function cliWkLbl(m,w){ const n=cliWk(m,w); if(!n) return ""; const mo=Math.floor(n/4); return `${n}ª semana ${m.own?"do seu treino":"com "+esc(first(m.name))}${mo?` · <b class="wkmo">${mo} ${mo>1?"meses":"mês"}</b>`:""}`; }
 function renderSessao0(){
-  ensureWeeks();
+  ensureWeeks(); try{ if(mirSync()) save(); }catch(_){}
   const st=A(); const ms=sesMembers(); const w=S.weeks.find(x=>x.id===S.week); const wi=S.weeks.indexOf(w);
   const last=S.weeks[S.weeks.length-1];
   { let ch=false; ms.forEach(m=>{ const dd=dayOf(w.id,m.id,S.day); if(dd&&dd.cp===1&&!dd.cdOk&&!dd.ini&&!dd.done&&!dd.presOk&&(hasCardio(dd.cardio)||String((dd.wod||{}).desc||"").trim())){ dd.cardio={t:"",z:"",tipo:"",pse:"",v:""}; dd.wod={tipo:"",t:"",desc:""}; ch=true; } }); if(ch) save(); }
@@ -5527,7 +5527,7 @@ function renderSessao0(){
   ${boxW("alunos","👥 Alunos do dia",(gradeEdit?"":`<div class="tdays">${DAYCH}</div>`)+todayHTML(st))}
   ${sesMode==="lancar"? "" : boxW("semana","📅 Semana e dia",SES_WK.replace("%%CTL%%",""))}
   ${sesProgHTML(st)}
-  ${sesMode==="lancar"&&ms.length>1? `<button class="sidetog ${sideOn()?"on":""}" data-sidetog>${sideOn()? "👤 Ver um aluno de cada vez" : `👥 Ver ${ms.map(x=>esc(first(x.name))).join(" e ")} lado a lado`}</button>` : ""}
+  ${sesMode==="lancar"&&ms.length>1&&sideOn()? `<button class="sidetog on" data-sidetog>👤 Ver um aluno de cada vez</button>` : ""}
   ${sesMode==="lancar"? `<div class="cols ${sideOn()&&ms.length>1?"side":""}" style="--n:${ms.length}">${ms.map(m=>colHTML(m,w,ms)).join("")}</div>` : painelHTML(st,w)}
   ${CV_POP&&sesMode==="lancar"? cvPopHTML(w,ms) : ""}`;
   ms.forEach(m=>paintAlerts(m,dayOf(w.id,m.id,S.day)));
@@ -5584,6 +5584,11 @@ function copyRow(fromId,row,toId){
   const fm=stById(fromId), tm=stById(toId);
   if(fm&&tm&&fm.phase!==tm.phase&&usesPh(tm)){ const df=phaseDefaults(tm); ["a","b"].forEach(w2=>{ if(subUsed(t[w2])){ t[w2].s=df.s; t[w2].r=df.r; } }); }
 }
+/* Repetir sempre para o colega: cada exercício lançado ou mudado neste treino vai para a dupla/trio */
+function mirSync(){ const w=S.weeks.find(x=>x.id===S.week); if(!w) return false; let ch=false; const ms=sesMembers();
+  ms.forEach(m=>{ const d=dayOf(w.id,m.id,S.day); if(!d||!d.mir) return; const others=ms.filter(o=>o!==m); if(!others.length) return;
+    d.rows.forEach(r=>{ if(!String(r.n1||"").trim()) return; const c=clean(r); delete c.mh; delete c.id; const h=JSON.stringify(c); if(r.mh===h) return; r.mh=h; others.forEach(o=>{ copyRow(m.id,r,o.id); const t=dayOf(w.id,o.id,S.day); (t.rows||[]).forEach(x=>{ if(x.mh&&!t.mir) delete x.mh; }); }); ch=true; }); });
+  return ch; }
 function copyDay(fromId,toId){
   const w=S.weeks.find(x=>x.id===S.week); const src=dayOf(w.id,fromId,S.day); if(!src) return;
   const c=cloneDay(src,true,true); delete c.cp; c.rows.forEach((r,i)=>{ if(!(src.rows[i]&&src.rows[i].cp)) delete r.cp; }); c.cardio=Object.assign(JSON.parse(JSON.stringify(src.cardio||{})),{pse:""}); if(src.wod) c.wod=JSON.parse(JSON.stringify(src.wod));
@@ -5827,6 +5832,7 @@ function autoPres(sid){
   else if(r==="noslot") toast(`${first(m.name)} não tem horário neste dia. Use “+ Aluno fora da grade” no topo para contar a aula.`);
   else if(r==="off") toast(`Dia marcado como sem aula na Presença.`);
 }
+document.getElementById("view-sessao").addEventListener("change",()=>{ setTimeout(()=>{ try{ if(mirSync()) save(); }catch(_){} },0); });
 ["input","change"].forEach(ev=>document.getElementById("view-sessao").addEventListener(ev,e=>{ if(e.target.closest(".ltrbox,.seswk,.ldrule,.repask,[data-box=semana],[data-box=controle]")) return; const c=e.target.closest("[data-col]"); if(c){ const dd=dayOf(S.week,c.dataset.col,S.day); if(dd&&dd.cp) delete dd.cp; const re=e.target.closest("[data-row]"); if(dd&&re&&!e.target.closest("[data-rowrep]")){ const rr=dd.rows.find(x=>x.id===re.dataset.row); if(rr&&rr.cp&&e.target.matches("input,textarea,select")){ delete rr.cp; re.classList.remove("xr-cp"); const rb=re.querySelector("[data-rowrep]"); if(rb) rb.remove(); } } if(dd&&dd.ltr==null){ const pl=progLtr(c.dataset.col,S.day); if(pl) dd.ltr=pl; } } if(c) setTimeout(()=>{ markStart(c.dataset.col); autoPres(c.dataset.col); },0); }));
 document.getElementById("view-sessao").addEventListener("click",e=>{ if(e.target.classList&&e.target.classList.contains("ctlov")){ ctlOv=null; metasOpen=null; renderSessao(); } },true);
 document.getElementById("view-sessao").addEventListener("click",sesClick);
@@ -8086,6 +8092,7 @@ function cpyPickHTML(m){ const ativo=x=>{ try{ const a=x.pid&&PRES.aluno(x.pid);
   const ch=L=>L.map(x=>`<button class="chip" data-cpyto="${x.id}">${esc(x.name)}</button>`).join("");
   return `<div class="cvcpy"><b>Copiar este exercício para:</b>${H.length?`<small>Alunos de ${esc(S.day)}</small><div>${ch(H)}</div>`:""}${O.length?`<small>Outros alunos</small><div>${ch(O)}</div>`:""}${H.length||O.length?"":`<span class="muted">Nenhum outro aluno cadastrado.</span>`}<small class="muted">Entra no treino de ${esc(S.day)} desta semana.</small></div>`; }
 
+document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest("[data-mirstop]"); if(!b) return; const c=b.closest("[data-col]"); const d=c&&dayOf(S.week,c.dataset.col,S.day); if(!d) return; delete d.mir; d.rows.forEach(r=>delete r.mh); save(); renderSessao(); toast("Parou de repetir para o colega. O que já foi repetido continua lá."); });
 /* Confirmação antes de criar ou repetir qualquer coisa na Sessão */
 let CONF_OK=false, CONF_T=0;
 const CONF_SEL="[data-ltrnew],[data-setltr],[data-rowrep],[data-copyrow],[data-copyto],[data-copyfrom],[data-cpyto],[data-wkok],[data-repcardio],[data-copycardio],[data-mvto],[data-nw],[data-repask]";
@@ -8094,7 +8101,7 @@ function confMsg(b){ const t=x=>esc(String(x||"").replace(/\s+/g," ").trim()); c
   if(D.ltrnew!=null) return `Confirma começar um <b>Treino ${t(D.ltrnew)}</b> novo? O antigo fica no Histórico.`;
   if(D.setltr!=null) return b.getAttribute("aria-pressed")==="true"? null : `Confirma usar o <b>Treino ${t(D.setltr)}</b> neste dia?`;
   if(b.hasAttribute("data-rowrep")) return `Confirma repetir ${ex()} igual à semana passada?`;
-  if(D.copyrow!=null) return `Confirma repetir ${ex()} para <b>${t(b.textContent.replace(/^Repetir p\/\s*/,""))}</b>?`;
+  if(D.copyrow!=null) return {who:t(b.textContent.replace(/^(Repetir p\/|📋 copiar p\/|📋 copiar)\s*/,"")), ex:ex()};
   if(D.cpyto!=null) return `Confirma copiar ${ex()} para <b>${t(b.textContent)}</b>?`;
   if(b.hasAttribute("data-copyto")||D.copyfrom!=null){ const x=t(b.textContent.replace(/^📋\s*/,"")); return /toque de novo/i.test(x)? null : `Confirma ${lc(x)}?`; }
   if(b.hasAttribute("data-wkok")){ const i=b.parentNode&&b.parentNode.querySelector("[data-wkalert]"); const v=parseInt(i&&i.value,10)||0; return v? `Confirma repetir esta programação por <b>${v} semanas</b>?` : `Confirma tirar o lembrete de semanas?`; }
@@ -8107,12 +8114,15 @@ function confMsg(b){ const t=x=>esc(String(x||"").replace(/\s+/g," ").trim()); c
   return null; }
 function confAsk(msg,b){ const attrs=[...b.attributes].filter(a=>a.name.startsWith("data-")).map(a=>a.value===""?`[${a.name}]`:`[${a.name}="${CSS.escape(a.value)}"]`).join("");
   let o=document.getElementById("cfPop"); if(!o){ o=document.createElement("div"); o.id="cfPop"; o.className="scrim"; document.body.appendChild(o);
-    o.addEventListener("click",ev=>{ if(Date.now()-CONF_T<400) return; if(ev.target===o||ev.target.closest("[data-cfno]")){ o.hidden=true; o._b=null; return; } if(!ev.target.closest("[data-cfok]")) return; o.hidden=true;
+    o.addEventListener("click",ev=>{ if(Date.now()-CONF_T<400) return; if(ev.target===o||ev.target.closest("[data-cfno]")){ o.hidden=true; o._b=null; return; }
+      if(ev.target.closest("[data-cfmir]")){ o.hidden=true; const b0=o._b; o._b=null; const c=b0&&b0.closest("[data-col]"); const sid=c&&c.dataset.col; const d=sid&&dayOf(S.week,sid,S.day,true); if(!d) return; d.mir=1; mirSync(); save(); renderSessao(); toast(`Pronto: o treino de ${first(stById(sid).name)} repete sempre para ${sesMembers().filter(x=>x.id!==sid).map(x=>first(x.name)).join(" e ")}`); return; }
+      if(!ev.target.closest("[data-cfok]")) return; o.hidden=true;
       let el=o._b; o._b=null; if(el&&!el.isConnected) el=o._sel? document.querySelector(o._sel) : null; if(!el){ toast("A tela mudou. Toque de novo."); return; }
       CONF_OK=true; try{ el.click(); } finally{ CONF_OK=false; } }); }
   o._b=b; o._sel=attrs||null; CONF_T=Date.now();
-  o.innerHTML=`<div class="sheet rdbox" role="dialog" aria-modal="true"><p class="rdq">${msg}</p><div class="rdbt"><button class="btn" data-cfno>Cancelar</button><button class="btn primary" data-cfok>Confirmar</button></div></div>`; o.hidden=false; }
-window.addEventListener("click",e=>{ if(CONF_OK) return; const b=e.target.closest&&e.target.closest(CONF_SEL); if(!b||b.closest("#cfPop")) return; if(b.dataset.repask!=null&&b.dataset.repask!=="rep") return; const msg=confMsg(b); if(!msg) return; e.preventDefault(); e.stopImmediatePropagation(); confAsk(msg,b); },true);
+  o.innerHTML= typeof msg==="object"? `<div class="sheet rdbox" role="dialog" aria-modal="true"><p class="rdq">Repetir ${msg.ex} para <b>${msg.who}</b>:</p><div class="rdbt rdbt3"><button class="btn primary" data-cfok>Só este exercício</button><button class="btn primary" data-cfmir>Repetir sempre para ${msg.who}<small>todos os exercícios deste treino</small></button><button class="btn" data-cfno>Cancelar</button></div></div>`
+    : `<div class="sheet rdbox" role="dialog" aria-modal="true"><p class="rdq">${msg}</p><div class="rdbt"><button class="btn" data-cfno>Cancelar</button><button class="btn primary" data-cfok>Confirmar</button></div></div>`; o.hidden=false; }
+window.addEventListener("click",e=>{ if(CONF_OK) return; const b=e.target.closest&&e.target.closest(CONF_SEL); if(!b||b.closest("#cfPop")) return; if(b.dataset.repask!=null&&b.dataset.repask!=="rep") return; if(b.dataset.copyrow!=null){ const c=b.closest("[data-col]"); const d=c&&dayOf(S.week,c.dataset.col,S.day); if(d&&d.mir) return; } const msg=confMsg(b); if(!msg) return; e.preventDefault(); e.stopImmediatePropagation(); confAsk(msg,b); },true);
 /* Apagar exercício: pergunta numa janela antes de apagar */
 function rowDelAsk(sid,wid,rid){ const d=dayOf(wid,sid,S.day); const r=d&&d.rows.find(x=>x.id===rid); if(!r) return; const nm=r.n1.trim()||"exercício sem nome";
   let o=document.getElementById("rdPop"); if(!o){ o=document.createElement("div"); o.id="rdPop"; o.className="scrim"; document.body.appendChild(o);
