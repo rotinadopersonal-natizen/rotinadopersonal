@@ -1,0 +1,102 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-10-19T10:13:50Z"
+ },
+ "lists": "css",
+ "title": "Rotina do Personal – Apresentação",
+ "cover": "capa",
+ "order": [
+  "capa",
+  "tela-inicial",
+  "offline",
+  "abas8",
+  "login",
+  "fz",
+  "cadastro",
+  "importar",
+  "abas",
+  "cores",
+  "programacao",
+  "fases",
+  "medo",
+  "ajuda",
+  "minha",
+  "nenhuma",
+  "letra",
+  "semanas",
+  "cardio",
+  "sessao",
+  "ses-repetir",
+  "ses-novo",
+  "tela",
+  "ses-dia",
+  "ses-lado",
+  "ses-lancar",
+  "visualizar",
+  "setas",
+  "conj",
+  "descanso",
+  "timers",
+  "ses-graf",
+  "ses-rel",
+  "historico",
+  "presenca",
+  "pres-auto",
+  "pres-mes",
+  "rel-aluno",
+  "frases",
+  "quinta",
+  "avaliacao",
+  "aval-det",
+  "fotos",
+  "agenda",
+  "agenda2",
+  "financeiro",
+  "fin-avulsas",
+  "fin-cmp",
+  "extras",
+  "convite",
+  "sugestao",
+  "ajuda-site",
+  "fim"
+ ],
+ "sections": {
+  "s1": {
+   "description": "O que é e como entrar",
+   "start": "capa"
+  },
+  "s2": {
+   "description": "Cadastro",
+   "start": "cadastro"
+  },
+  "s4": {
+   "description": "Programação: as 4 formas de programar, letra, dia e cardio",
+   "start": "programacao"
+  },
+  "s5": {
+   "description": "Sessão: o treino do dia, gráficos, relatórios e controle da semana",
+   "start": "sessao"
+  },
+  "s6": {
+   "description": "Presença, Avaliação, Agenda e Financeiro",
+   "start": "presenca"
+  },
+  "s3": {
+   "description": "Como acessar",
+   "start": "fim"
+  }
+ },
+ "faces": {
+  "oswald": {
+   "family": "Oswald",
+   "href": "https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap"
+  },
+  "dm-sans": {
+   "family": "DM Sans",
+   "href": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+  }
+ },
+ "designSystems": []
+}
