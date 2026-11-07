@@ -14,7 +14,7 @@ self.addEventListener("fetch",e=>{ const r=e.request; if(r.method!=="GET") retur
   const u=new URL(r.url);
   // Página: tenta a internet primeiro (pega a versão nova); sem internet, abre a guardada.
   if(r.mode==="navigate"||(u.origin===location.origin&&/(\/|index\.html)$/.test(u.pathname))){
-    e.respondWith(fetch(r).then(res=>{ if(res.ok&&!u.search) put("index.html",res.clone()); return res; })
+    e.respondWith(fetch(r).then(res=>{ if(res.ok&&!u.search&&/(^\/$|\/index\.html$)/.test(u.pathname)) put("index.html",res.clone()); return res; })
       .catch(()=>caches.match(r,{ignoreSearch:true}).then(m=>m||caches.match("index.html")).then(m=>m||caches.match("./")))); return; }
   // Bibliotecas e fontes: usa a guardada (são fixas) e busca se não tiver.
   if(LIBS.test(r.url)){ e.respondWith(caches.match(r).then(m=>m||fetch(r).then(res=>put(r,res)))); return; }

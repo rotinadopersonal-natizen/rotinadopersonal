@@ -88,5 +88,19 @@ service cloud.firestore {
         && request.resource.data.usado == true
         && request.resource.data.usadoPor == request.auth.uid;
     }
+    // Finanças da Casa (casa.html): só o dono e os e-mails que ele liberar (confirmados)
+    function membroCasa(casaId) {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/casa/$(casaId))
+        && request.auth.token.email.lower() in get(/databases/$(database)/documents/casa/$(casaId)).data.membros;
+    }
+    match /casa/{casaId} {
+      allow read: if isAdmin() || membroCasa(casaId);
+      allow write: if isAdmin();
+    }
+    match /casa/{casaId}/{col}/{docId} {
+      allow read, write: if isAdmin() || membroCasa(casaId);
+    }
   }
 }
