@@ -47,10 +47,10 @@ try:
   pg.evaluate("()=>document.querySelector('#turnbar .tlab').click()"); pg.wait_for_timeout(300)
   # dupla Ana + Bruno
   pg.evaluate("()=>{ const st=S.students.find(x=>x.name==='Ana Paula'); S.active=st.id; S.day='Seg'; save(); renderAll(); window.scrollTo(0,0); }"); pg.wait_for_timeout(800)
-  print("membros", pg.evaluate("()=>sesMembers().map(m=>m.name)"), "ltrbar", pg.locator(".col.active .ltrbar").count(), "chnew", pg.locator(".chnew").count())
+  print("membros", pg.evaluate("()=>sesMembers().map(m=>m.name)"), "ltrbar", pg.locator(".col.active .ltrbar").count(), "chadj", pg.locator(".chadj").count())
   pg.evaluate("()=>{ const e=document.querySelector('.chsts'); window.scrollTo(0,e.getBoundingClientRect().top+scrollY-200); }"); pg.wait_for_timeout(300); pg.screenshot(path="/tmp/s_duo.png")
-  pg.locator(".chnew").nth(1).click(); pg.wait_for_timeout(500); pg.screenshot(path="/tmp/s_duo2.png")
-  pg.locator(".chnewrow [data-ltrnew=B]").click(); pg.wait_for_timeout(500)
+  pg.locator(".chadj").nth(1).click(); pg.wait_for_timeout(500); pg.screenshot(path="/tmp/s_duo2.png")
+  pg.locator("[data-ltrnewo]").first.click(); pg.wait_for_timeout(400); pg.locator(".lnbox [data-ltrpick=B]").click(); pg.wait_for_timeout(400); pg.locator("[data-ltrnewok]").click(); pg.wait_for_timeout(500)
   ok=pg.locator("#confPop [data-confok], .confok, [data-cfok]").count(); print("confirm btns", ok)
   pg.screenshot(path="/tmp/s_duo3.png")
   # duo rest label

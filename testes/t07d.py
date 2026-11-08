@@ -12,25 +12,7 @@ try:
   hide="()=>{ const o=document.querySelector('#restWin'); if(o) o.style.display='none'; }"
   print("membros", pg.evaluate("()=>sesMembers().map(m=>m.name)"))
   print("evo label", pg.evaluate("()=>[...document.querySelectorAll('[data-histopen]')].map(x=>x.textContent)"))
-  # letra: abrir Qual treino é hoje
-  pg.evaluate(hide); pg.locator(".chl").first.click(); pg.wait_for_timeout(500)
-  pg.evaluate("()=>{ const e=document.querySelector('.ltrbox'); window.scrollTo(0,e.getBoundingClientRect().top+scrollY-120); }"); pg.wait_for_timeout(300); pg.evaluate(hide); pg.screenshot(path=P+"ltr1.png")
-  print("hint gone", pg.locator("text=Repete a").count()==0, "novo rows", pg.locator(".ltrnewrow").count())
-  pg.locator("[data-ltrnewo]").click(); pg.wait_for_timeout(500); pg.evaluate(hide); pg.screenshot(path=P+"ltr2.png")
-  print("novo rows", pg.locator(".ltrnewrow button").count(), pg.locator("[data-ltrnewtxt]").get_attribute("placeholder"))
-  pg.locator("[data-mvopen]").first.click(); pg.wait_for_timeout(500); pg.evaluate(hide); pg.screenshot(path=P+"mv.png")
-  print("mv chips", pg.evaluate("()=>[...document.querySelectorAll('.mvpop .daychips button')].map(x=>x.textContent)"))
-  pg.locator(".mvpop .daychips [data-mvto=Ter]").click(); pg.wait_for_timeout(600); pg.screenshot(path=P+"mv2.png"); print("cf", pg.evaluate("()=>{const c=document.getElementById('cfPop'); return c&&!c.hidden&&c.innerText.slice(0,60)}")); pg.evaluate("()=>{ const b=[...document.querySelectorAll('#cfPop button')].find(x=>/Confirmar/.test(x.textContent)); b&&b.click(); }"); pg.wait_for_timeout(600)
-  print("after mv day", pg.evaluate("()=>S.day"), pg.evaluate("()=>{const t=document.querySelector('.toast,#toast'); return t&&t.textContent}"))
-  pg.evaluate("()=>{ S.day='Ter'; save(); renderAll(); }"); pg.wait_for_timeout(400)
-  # move back
-  pg.evaluate("()=>{ const st=S.students.find(x=>x.name==='Ana Paula'); const W=S.days[S.week][st.id]; W.Seg=W.Ter; delete W.Ter; S.day='Seg'; save(); renderAll(); }"); pg.wait_for_timeout(500)
-  # custom new workout name
-  pg.evaluate("()=>{ ltrEdit=A().id; LTR_NEWO=null; renderSessao(); }"); pg.wait_for_timeout(400); print("ltrbox", pg.locator(".ltrbox").count())
-  pg.locator("[data-ltrnewo]").first.click(); pg.wait_for_timeout(300)
-  pg.locator("[data-ltrnewtxt]").fill("Push"); pg.locator("[data-ltrnewtxt]").press("Enter"); pg.wait_for_timeout(500)
-  print("push", pg.evaluate("()=>{ const d=dayOf(S.week,A().id,'Seg'); return [d.ltr,d.ltrNew,(d.rows||[]).length, (S.brand||{}).ltrMine]; }"))
-  pg.evaluate("()=>{ const k=S.week+'|'+A().id+'|Seg'; if(LTR_UNDO[k]){ S.days[S.week][A().id].Seg=LTR_UNDO[k]; } save(); renderAll(); }"); pg.wait_for_timeout(400)
+  # (letra, criar treino novo e mover: ver t07e.py)
   # concluir todos
   pg.evaluate("()=>{ const ms=sesMembers(); const r0=dayOf(S.week,ms[0].id,'Seg').rows; ms.forEach(m=>{ const d=dayOf(S.week,m.id,'Seg',true); if(!d.rows||!d.rows.length||!dayHasData(d)) d.rows=r0.map(r=>JSON.parse(JSON.stringify(r))); d.ini='06:00'; d.done=1; d.fim='06:56'; }); save(); renderAll(); }"); pg.wait_for_timeout(800)
   pg.evaluate("()=>{ const e=document.querySelector('.sesl-nm'); window.scrollTo(0,e.getBoundingClientRect().top+scrollY-100)}"); pg.evaluate(hide); pg.wait_for_timeout(300); pg.screenshot(path=P+"rel1.png")
