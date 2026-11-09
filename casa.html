@@ -324,9 +324,9 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
         <div class="field"><label for="acEmail">E-mail da pessoa</label><input id="acEmail" type="email" inputmode="email" autocomplete="off" placeholder="email@exemplo.com"></div>
         <div class="row ac-row"><button class="btn" type="button" id="acAdd">Liberar acesso</button></div>
         <p style="font-weight:700;margin:18px 0 6px">Trazer dados do site antigo</p>
-        <p class="note">Escolha o arquivo <b>dados-financas-da-casa.json</b>. Pode repetir sem duplicar nada.</p>
+        <p class="note">Escolha o arquivo <b>dados-financas-da-casa.json</b> (fica em Downloads). Pode repetir sem duplicar nada.</p>
         <div class="row ac-row"><button class="btn sec" type="button" id="impBtn">Importar dados</button></div>
-        <input type="file" id="impIn" accept=".json,application/json" hidden>
+        <input type="file" id="impIn" hidden>
       </div>
       <div class="row ac-row" style="margin-top:14px"><button class="btn ghost" type="button" id="acOut">Sair da conta</button></div>
     </div>
@@ -929,6 +929,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
   $("#impBtn").onclick=()=>$("#impIn").click();
   $("#impIn").addEventListener("change",async ev=>{const f=ev.target.files[0];ev.target.value="";if(!f)return;
     let o;try{o=JSON.parse(await f.text())}catch(_){toast("Arquivo inválido");return}
+    importar(o)});
+  async function importar(o){
     const C=o&&o.colecoes;const OK=["contas","lancamentos","pagamentos","dividas","passos","perguntas","config","agenda","anexos","direcao"];
     if(!C||typeof C!=="object"){toast("Esse arquivo não é do Finanças da Casa");return}
     const itens=[];Object.keys(C).forEach(k=>{if(OK.includes(k)&&Array.isArray(C[k]))C[k].forEach(d=>{if(d&&d.id&&d.data&&/^[\w-]+$/.test(d.id))itens.push([k,d.id,d.data])})});
@@ -936,7 +938,7 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
     if(!confirm("Confirma importar "+itens.length+" itens? O que tiver o mesmo nome é substituído, nada é duplicado."))return;
     $("#impBtn").disabled=true;
     try{for(let i=0;i<itens.length;i+=400){const b=fs.batch();itens.slice(i,i+400).forEach(([k,id,d])=>b.set(fs.doc(CASA+"/"+k+"/"+id),d));await b.commit()}
-      toast(itens.length+" itens importados")}catch(err){handleWriteErr(err)}finally{$("#impBtn").disabled=false}});
+      toast(itens.length+" itens importados")}catch(err){handleWriteErr(err)}finally{$("#impBtn").disabled=false}}
 
   function start(){if(started)return;started=true;
     const base=fs.doc(CASA);
