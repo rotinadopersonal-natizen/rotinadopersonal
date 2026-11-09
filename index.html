@@ -2700,9 +2700,14 @@ function rpInflate(src){ // raw DEFLATE (RFC 1951) -> Uint8Array
     PERFIL=cacheGet();
     if(perfilOk(PERFIL)){ startApp(u); perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } else salvarPerfil({}); }).catch(function(){}); return; }
     msg("Aguarde…",true);
+    var seguir=function(){
     var done=false; var fim=function(){ if(done) return; done=true; msg(""); if(perfilOk(PERFIL)) startApp(u); else pedirPerfil(u); };
     setTimeout(fim,6000);
-    perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } fim(); }).catch(fim);
+    perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } fim(); }).catch(fim); };
+    /* Quem só tem acesso ao Finanças da Casa (liberado pelo dono) vai direto para lá */
+    if(u.uid===OWNER){ seguir(); return; }
+    var foi=false; var tc=setTimeout(function(){ if(!foi){ foi=true; seguir(); } },4000);
+    fs.doc("casa/familia").get().then(function(){ if(foi) return; foi=true; clearTimeout(tc); location.replace("casa.html"); }).catch(function(){ if(foi) return; foi=true; clearTimeout(tc); seguir(); });
   });
   $("rpASave").onclick=function(){ var n=$("rpANome").value.trim(), t=$("rpATel").value.trim(), m=$("rpAMsg"), c=$("rpAContato").value.trim();
     if(n.length<2){ m.className="rp-amsg bad"; m.textContent="Digite seu nome."; return; } if(!telOk(t)){ m.className="rp-amsg bad"; m.textContent="Digite o WhatsApp com DDD."; return; }
