@@ -2708,7 +2708,7 @@ function rpInflate(src){ // raw DEFLATE (RFC 1951) -> Uint8Array
     landOn(false);
     if(started) return; ME=u;
     PERFIL=cacheGet();
-    if(perfilOk(PERFIL)){ startApp(u); perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } else salvarPerfil({}); }).catch(function(){}); return; }
+    if(perfilOk(PERFIL)){ if(u.uid!==OWNER) fs.doc("casa/familia").get().then(function(){ location.replace("casa.html"); }).catch(function(){}); startApp(u); perfilRef().get().then(function(s){ if(s.exists){ PERFIL=s.data(); cacheSet(PERFIL); } else salvarPerfil({}); }).catch(function(){}); return; }
     msg("Aguarde…",true);
     var seguir=function(){
     var done=false; var fim=function(){ if(done) return; done=true; msg(""); if(perfilOk(PERFIL)) startApp(u); else pedirPerfil(u); };
