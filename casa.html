@@ -551,7 +551,7 @@ function renderContas(k){
     return `<tr><td class="num">${c.dia||"—"}${c.diaConfirmado===false?`<span class="sub">confirmar</span>`:""}</td>
     <td><button class="btn ghost" style="padding:0;color:var(--fg);text-align:left;font-weight:600" data-editconta="${esc(c.id)}">${esc(c.nome)}</button><span class="sub">${c.soma===false?"Fatura: já contada nos lançamentos":grupoTxt(c)}${esc(fimTxt)}</span></td>
     <td class="v">${c.soma===false?"—":brl(valorConta(c))}</td>
-    <td class="v">${chip}${S.readOnly?"":`<br><button class="btn ghost" data-pagar="${esc(c.id)}">${pago?"Desfazer":"Paguei"}</button>${pago&&mesesAbertos(c,S.mes).length?`<br><button class="btn ghost" data-mover="${esc(c.id)}">Era de mês atrasado?</button>`:""}`}</td></tr>`+anxRow(c)}).join("")}
+    <td class="v">${chip}${!pago&&mesesAbertos(c,S.mes).length?`<br><span class="chip bad" style="margin-top:4px">+${mesesAbertos(c,S.mes).length} mês em aberto</span>`:""}${S.readOnly?"":`<br><button class="btn ghost" data-pagar="${esc(c.id)}">${pago?"Desfazer":"Paguei"}</button>${pago&&mesesAbertos(c,S.mes).length?`<br><button class="btn ghost" data-mover="${esc(c.id)}">Era de mês atrasado?</button>`:""}`}</td></tr>`+anxRow(c)}).join("")}
     <tr class="sum"><td></td><td>Total (pagas ${brl0(k.pagasTot)})</td><td class="v">${brl(k.contasTot)}</td><td></td></tr></tbody></table>`;
 }
 function renderDividas(){
@@ -803,10 +803,19 @@ $("#lPara").addEventListener("click",e=>{const b=e.target.closest("button");if(!
 /* ---------- alertas clicáveis ---------- */
 async function setPago(id,pago,pagoEm,mes){if(!S.db){toast("Entre na sua conta para salvar");return null}
   const c=S.contas.find(x=>x.id===id);if(!c)return null;
-  if(pago&&!mes){const ab=mesesAbertos(c,S.mes);if(ab.length){mes=await escolherMes(c,[...ab,S.mes]);if(!mes)return null}}
-  mes=mes||S.mes;const ref=S.db.doc("pagamentos/"+mes+"_"+c.id);
-  try{if(!pago){await ref.delete();toast("Pagamento desfeito")}else{await ref.set({mes,contaId:c.id,valor:c.valor??null,em:Date.now(),pagoEm:pagoEm||todayStr});toast(c.nome+" de "+monthLabel(mes).toLowerCase()+" marcada como paga")}}catch(err){handleWriteErr(err);return null}
-  return mes}
+  let meses=[mes||S.mes];
+  if(pago&&!mes){const ab=mesesAbertos(c,S.mes);if(ab.length){const sel=await escolherMeses(c,S.pags[c.id]?ab:[...ab,S.mes]);if(!sel)return null;meses=sel}}
+  try{for(const m of meses){const ref=S.db.doc("pagamentos/"+m+"_"+c.id);if(!pago)await ref.delete();else await ref.set({mes:m,contaId:c.id,valor:c.valor??null,em:Date.now(),pagoEm:pagoEm||todayStr})}
+    toast(pago?c.nome+": "+meses.map(m=>monthLabel(m).toLowerCase()).join(" e ")+(meses.length>1?" marcados como pagos":" marcada como paga"):"Pagamento desfeito")}catch(err){handleWriteErr(err);return null}
+  return meses.includes(S.mes)?S.mes:meses[0]}
+function escolherMeses(c,meses){return new Promise(res=>{
+  $("#mdTit").textContent="Quais meses vocês pagaram?";
+  $("#mdBody").innerHTML=`<p style="margin:0 0 10px"><b>${esc(c.nome)}</b> tem ${meses.length} meses em aberto. Marque o que foi pago:</p><div class="form">${meses.map(m=>{const d=c.dia?diasAtraso(m,c.dia):0;return `<label class="pg-r" style="border:1px solid var(--line);border-radius:10px;cursor:pointer"><input type="checkbox" data-escmm="${m}"><div class="pg-n"><b>${monthLabel(m)}</b><span class="sub ${d?"neg":""}">${d?"atrasada há "+d+" dia"+(d>1?"s":""):(c.dia?"vence dia "+c.dia:"")}</span></div><span>${brl(+c.valor||0)}</span></label>`}).join("")}<button type="button" class="btn" data-escok>Confirmar pagamento</button><button type="button" class="btn ghost" data-esccan>Cancelar</button></div>`;
+  const md=$("#modal");md.classList.add("on");
+  const fim=v=>{md.removeEventListener("click",h,true);md.classList.remove("on");res(v)};
+  const h=e=>{if(e.target.closest("[data-escok]")){const sel=[...md.querySelectorAll("[data-escmm]:checked")].map(x=>x.dataset.escmm);if(!sel.length){toast("Marque pelo menos um mês");return}fim(sel);return}
+    if(e.target.closest("[data-esccan]")||e.target.id==="modal"||e.target.id==="mdClose")fim(null)};
+  md.addEventListener("click",h,true)})}
 
 /* ---------- contas atrasadas de meses anteriores ---------- */
 function mesesAbertos(c,ate){const out=[];if(!c||!c.dia)return out;let m=c.inicio&&c.inicio>"2026-10"?c.inicio:"2026-10";let n=0;
@@ -1126,8 +1135,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12d";
-window.CASA_NOV=["Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-12e";
+window.CASA_NOV=["Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
