@@ -1138,7 +1138,7 @@ window.CASA_NOV=["Nova aba Renda: lancem cada valor que receberem (alunos, salá
   function chk(){try{fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/window\.CASA_VER="([^"]+)"/);if(!m||m[1]===window.CASA_VER||document.getElementById("casaUpd"))return;
     var b=document.createElement("button");b.id="casaUpd";b.type="button";b.innerHTML='<span>🔔 Nova atualização!<small>Toque para ver o que mudou</small></span><span class="bt">Atualizar</span>';
     b.onclick=function(){var u=new URL(location.href);u.searchParams.set("v",m[1]);location.replace(u.toString())};document.body.appendChild(b)}).catch(function(){})}catch(_){}}
-  setInterval(chk,10*60*1000);document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});
+  setTimeout(chk,3000);setInterval(chk,5*60*1000);window.addEventListener("pageshow",function(e){if(e.persisted)chk()});document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});
 })();
 </script>
 </body></html>
