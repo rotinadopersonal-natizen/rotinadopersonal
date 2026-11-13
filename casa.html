@@ -252,25 +252,8 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
     <h2>Contas do mês</h2>
     <div id="atrList"></div>
     <div class="sheet" id="cList"></div>
-    <p class="note">Toque em “Paguei” quando pagar. Dias marcados com “confirmar” foram estimados pelo extrato. Toque no nome da conta para corrigir.</p>
+    <p class="note">Toque em “Paguei” quando pagar. Dias marcados com “confirmar” foram estimados pelo extrato. Toque no nome da conta para ajustar valor, datas ou pagamento.</p>
     <div class="row" style="margin-top:10px"><button class="btn sec" id="cAddBtn">+ Nova conta</button></div>
-    <form class="form card edit-box" id="fConta" autocomplete="off">
-      <input type="hidden" id="ctId">
-      <div class="field"><label for="ctNome">Nome</label><input id="ctNome" required></div>
-      <div class="grid2">
-        <div class="field"><label for="ctValor">Valor (R$)</label><input id="ctValor" inputmode="decimal"></div>
-        <div class="field"><label for="ctDia">Dia do vencimento</label><input id="ctDia" inputmode="numeric" placeholder="1 a 31"></div>
-      </div>
-      <div class="grid2">
-        <div class="field"><label for="ctFim">Última parcela (mês)</label><input id="ctFim" type="month"></div>
-        <div class="field"><label for="ctSoma">Entra na soma?</label><select id="ctSoma"><option value="1">Sim</option><option value="0">Não (fatura de cartão)</option></select></div>
-      </div>
-      <div class="grid2">
-        <div class="field"><label for="ctGrupo">Tipo</label><select id="ctGrupo"><option value="casa">Custos de casa</option><option value="educacao">Educação</option><option value="investimento">Investimento</option></select></div>
-        <div class="field" id="ctPesBox"><label for="ctPes">Para quem</label><select id="ctPes"><option value="">—</option><option>Pâmala</option><option>Sophia</option><option>Mailson</option><option>Baby</option></select></div>
-      </div>
-      <div class="row"><button class="btn" type="submit">Salvar conta</button><button class="btn sec" type="button" id="ctCancel">Cancelar</button><button class="btn ghost" type="button" id="ctDel" hidden>Excluir conta</button></div>
-    </form>
   </section>
 
   <!-- DÍVIDAS -->
@@ -314,6 +297,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
       <div class="field"><label for="rDesc">Descrição (opcional)</label><input id="rDesc" placeholder="Ex.: Aulas da semana, extra de sábado"></div>
       <button class="btn" type="submit" id="rSave">Salvar recebimento</button>
     </form>
+    <div id="rQuinz"></div>
     <h3>Recebidos do mês</h3>
     <div class="sheet" id="rList"></div>
     <h3>Renda prevista do mês</h3>
@@ -321,6 +305,17 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
       <div class="grid2">
         <div class="field"><label for="rpM">Mailson (R$)</label><input id="rpM" inputmode="decimal"></div>
         <div class="field"><label for="rpP">Pâmala, líquida (R$)</label><input id="rpP" inputmode="decimal"></div>
+      </div>
+      <label class="row" style="gap:8px;font-weight:600;flex-wrap:nowrap"><input type="checkbox" id="rpQ" style="width:auto"> Pâmala recebe em 2 vezes (quinzenal)</label>
+      <div id="rpQBox" hidden>
+        <div class="grid2">
+          <div class="field"><label for="rpQd1">1ª parte: dia</label><input id="rpQd1" inputmode="numeric" placeholder="Ex.: 15"></div>
+          <div class="field"><label for="rpQv1">1ª parte: valor (R$)</label><input id="rpQv1" inputmode="decimal"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="rpQd2">2ª parte: dia</label><input id="rpQd2" inputmode="numeric" placeholder="Ex.: 30"></div>
+          <div class="field"><label for="rpQv2">2ª parte: valor (R$)</label><input id="rpQv2" inputmode="decimal"></div>
+        </div>
       </div>
       <p class="note" style="margin:0">É só a base para a “sobra prevista”. O caixa usa o que vocês lançarem como recebido.</p>
       <button class="btn sec" type="submit">Salvar renda prevista</button>
@@ -391,6 +386,34 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
   </div>
 </nav>
 <input type="file" id="fileIn" accept="image/*,application/pdf" hidden>
+<div class="modal" id="mConta" role="dialog" aria-modal="true"><div class="box">
+    <form class="form" id="fConta" autocomplete="off">
+      <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><b id="ctTit">Conta</b><button class="btn sec" type="button" id="ctX">Fechar</button></div>
+      <input type="hidden" id="ctId">
+      <div class="field"><label for="ctNome">Nome</label><input id="ctNome" required></div>
+      <div class="grid2">
+        <div class="field"><label for="ctValor">Valor (R$)</label><input id="ctValor" inputmode="decimal"></div>
+        <div class="field"><label for="ctDia">Dia do vencimento</label><input id="ctDia" inputmode="numeric" placeholder="1 a 31"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="ctFim">Última parcela (mês)</label><input id="ctFim" type="month"></div>
+        <div class="field"><label for="ctSoma">Entra na soma?</label><select id="ctSoma"><option value="1">Sim</option><option value="0">Não (fatura de cartão)</option></select></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="ctGrupo">Tipo</label><select id="ctGrupo"><option value="casa">Custos de casa</option><option value="educacao">Educação</option><option value="investimento">Investimento</option></select></div>
+        <div class="field" id="ctPesBox"><label for="ctPes">Para quem</label><select id="ctPes"><option value="">—</option><option>Pâmala</option><option>Sophia</option><option>Mailson</option><option>Baby</option></select></div>
+      </div>
+      <div id="ctPagBox">
+        <div class="field"><label>Pagamento de <span id="ctMesTxt"></span></label><div class="seg" id="ctSit"><button type="button" data-v="0">Não paga</button><button type="button" data-v="1">Paga</button></div></div>
+        <div class="grid2" id="ctPagCampos">
+          <div class="field"><label for="ctPagoEm">Data do pagamento</label><input id="ctPagoEm" type="date"></div>
+          <div class="field"><label for="ctValPago">Valor pago (R$)</label><input id="ctValPago" inputmode="decimal" placeholder="Com desconto, se tiver"></div>
+        </div>
+        <p class="sub" id="ctPagInfo" style="margin:0"></p>
+      </div>
+      <div class="row"><button class="btn" type="submit">Salvar conta</button><button class="btn sec" type="button" id="ctCancel">Cancelar</button><button class="btn ghost" type="button" id="ctDel" hidden>Excluir conta</button></div>
+    </form>
+</div></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box"><div class="row" style="justify-content:space-between;margin-bottom:8px;flex-wrap:nowrap"><b id="mdTit" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></b><button class="btn sec" id="mdClose">Fechar</button></div><div id="mdBody"></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="lg" id="lg">
@@ -452,7 +475,7 @@ function calc(){
   const contasSoma=contas.filter(c=>c.soma!==false);
   const contasTot=contasSoma.reduce((a,c)=>a+(+valorConta(c)||0),0);
   const pagasTot=contasSoma.filter(c=>S.pags[c.id]).reduce((a,c)=>a+(+valorConta(c)||0),0);
-  const renda=(+cfg.rendaMailson||0)+(+cfg.rendaPamala||0);
+  const renda=(+cfg.rendaMailson||0)+rendaPam(cfg);
   const meta=+cfg.metaDividas||0;
   const livre=renda-contasTot-meta-gastos;
   /* Caixa: o que sobra de verdade — diminui a cada conta paga e a cada gasto lançado */
@@ -611,19 +634,38 @@ $("#cList").addEventListener("click",async e=>{const t=e.target.closest("button"
   if(t.dataset.copy){navigator.clipboard.writeText(t.dataset.copy).then(()=>toast("Código copiado"),()=>toast("Não copiou. Segure no código e copie."))}
   if(t.dataset.editconta)openConta(S.contas.find(x=>x.id===t.dataset.editconta));
 });
-function openConta(c){if(S.readOnly)return;const f=$("#fConta");f.classList.add("on");
+function openConta(c){if(S.readOnly)return;
   $("#ctId").value=c?c.id:"";$("#ctNome").value=c?c.nome:"";$("#ctValor").value=c?fmtIn(c.valor):"";$("#ctDia").value=c&&c.dia?c.dia:"";$("#ctFim").value=c&&c.fim?c.fim:"";$("#ctSoma").value=c&&c.soma===false?"0":"1";$("#ctGrupo").value=c?grupoConta(c):"casa";$("#ctPes").value=c?pessoaConta(c):"";togglePes();
-  $("#ctDel").hidden=!c;$("#ctDel").textContent="Excluir conta";$("#ctDel").dataset.armed="";f.scrollIntoView({behavior:"smooth",block:"center"})}
+  $("#ctTit").textContent=c?c.nome:"Nova conta";
+  $("#ctPagBox").hidden=!c;if(c){const p=S.pags[c.id];$("#ctMesTxt").textContent=monthLabel(S.mes).toLowerCase();S.ctSit=!!p;$("#ctPagoEm").value=p&&p.pagoEm?p.pagoEm:todayStr;$("#ctValPago").value=fmtIn(valorConta(c));drawCtSit()}
+  $("#ctDel").hidden=!c;$("#ctDel").textContent="Excluir conta";$("#ctDel").dataset.armed="";$("#mConta").classList.add("on");$("#mConta .box").scrollTop=0}
+function drawCtSit(){[...$("#ctSit").children].forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===S.ctSit));$("#ctPagCampos").hidden=!S.ctSit;ctInfo()}
+function ctInfo(){const el=$("#ctPagInfo");if(!S.ctSit){el.textContent="";return}
+  const d=parseInt($("#ctDia").value,10),pe=$("#ctPagoEm").value,base=parseVal($("#ctValor").value),vp=parseVal($("#ctValPago").value);const t=[];
+  if(d>=1&&pe){const v=new Date(+S.mes.slice(0,4),+S.mes.slice(5)-1,Math.min(d,daysInMonth(S.mes))),q=new Date(+pe.slice(0,4),+pe.slice(5,7)-1,+pe.slice(8,10)),n=Math.round((v-q)/864e5);
+    t.push(n>0?"Adiantada: paga "+n+" dia"+(n>1?"s":"")+" antes do vencimento":n<0?"Paga com "+(-n)+" dia"+(n<-1?"s":"")+" de atraso":"Paga no dia do vencimento")}
+  if(!isNaN(base)&&!isNaN(vp)&&vp<base)t.push("Desconto de "+brl(base-vp));
+  el.textContent=t.join(" · ")}
+$("#ctSit").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const on=b.dataset.v==="1";if(on&&!S.ctSit)$("#ctPagoEm").value=todayStr;S.ctSit=on;drawCtSit()});
+["#ctPagoEm","#ctValPago","#ctValor","#ctDia"].forEach(q=>$(q).addEventListener("input",ctInfo));
+$("#ctX").addEventListener("click",()=>$("#mConta").classList.remove("on"));
+$("#mConta").addEventListener("click",e=>{if(e.target.id==="mConta")$("#mConta").classList.remove("on")});
 $("#cAddBtn").addEventListener("click",()=>openConta(null));
-$("#ctCancel").addEventListener("click",()=>$("#fConta").classList.remove("on"));
+$("#ctCancel").addEventListener("click",()=>$("#mConta").classList.remove("on"));
 $("#ctDel").addEventListener("click",async e=>{const b=e.currentTarget;if(!b.dataset.armed){b.dataset.armed="1";b.textContent="Toque de novo para excluir";return}
-  try{await S.db.doc("contas/"+$("#ctId").value).delete();$("#fConta").classList.remove("on");toast("Conta excluída")}catch(err){handleWriteErr(err)}});
+  try{await S.db.doc("contas/"+$("#ctId").value).delete();$("#mConta").classList.remove("on");toast("Conta excluída")}catch(err){handleWriteErr(err)}});
 $("#fConta").addEventListener("submit",async e=>{e.preventDefault();if(!S.db)return;
   const id=$("#ctId").value||("c"+Date.now().toString(36));const old=S.contas.find(x=>x.id===id)||{};
   const dia=parseInt($("#ctDia").value,10);const val=parseVal($("#ctValor").value);
   const doc=Object.assign({},old,{nome:$("#ctNome").value.trim(),valor:isNaN(val)?0:val,dia:dia>=1&&dia<=31?dia:null,diaConfirmado:true,fim:$("#ctFim").value||null,soma:$("#ctSoma").value==="1",grupo:$("#ctGrupo").value,pessoa:$("#ctGrupo").value==="educacao"?$("#ctPes").value:"",ativa:true});
   delete doc.id;if(!old.inicio)doc.inicio=old.inicio||S.mes;
-  try{await S.db.doc("contas/"+id).set(doc);$("#fConta").classList.remove("on");toast("Conta salva")}catch(err){handleWriteErr(err)}});
+  try{await S.db.doc("contas/"+id).set(doc);
+    if(old.nome!==undefined){const ref=S.db.doc("pagamentos/"+S.mes+"_"+id),p=S.pags[id];
+      if(S.ctSit){const vp=parseVal($("#ctValPago").value),pe=$("#ctPagoEm").value||todayStr;
+        await ref.set({mes:S.mes,contaId:id,valor:isNaN(vp)?doc.valor:Math.round(vp*100)/100,em:p&&p.em||Date.now(),pagoEm:pe});
+        const ar=S.anexos[id+"_recibo"];if(ar&&ar.pagoEm!==pe)await S.db.doc("anexos/"+S.mes+"_"+id+"_recibo").update({pagoEm:pe,msg:""})}
+      else if(p)await ref.delete()}
+    $("#mConta").classList.remove("on");toast("Conta salva")}catch(err){handleWriteErr(err)}});
 
 /* ---------- dívidas ---------- */
 $("#dList").addEventListener("click",e=>{const t=e.target.closest("button[data-editdiv]");if(!t)return;openDiv(S.dividas.find(x=>x.id===t.dataset.editdiv))});
@@ -986,6 +1028,18 @@ $("#pagBox").addEventListener("change",e=>{const t=e.target;
     S.plano.sel[t.dataset.pgv]=true;salvarPlano();render()}});
 
 /* ---------- renda ---------- */
+function rendaPam(cfg){const q=cfg&&cfg.pamQ;return q&&q.on?(+q.v1||0)+(+q.v2||0):(+(cfg&&cfg.rendaPamala)||0)}
+function quinzRec(n){return S.lanc.find(l=>l.tipo==="entrada"&&l.quinz===n)}
+function renderQuinz(){const q=S.cfg&&S.cfg.pamQ,el=$("#rQuinz");if(!q||!q.on){el.innerHTML="";return}
+  el.innerHTML=`<h3>Salário da Pâmala (quinzenal)</h3><div class="sheet"><table><tbody>${[1,2].map(n=>{const r=quinzRec(n),d=q["d"+n],v=+q["v"+n]||0;
+    return `<tr><td style="min-width:0"><b>${n}ª parte</b><span class="sub">${d?"dia "+d+" · ":""}previsto ${brl(v)}</span></td><td class="v">${r?`<span class="chip ok">Recebido ${brl(+r.valor)}</span><span class="sub">${(r.data||"").slice(8,10)}/${(r.data||"").slice(5,7)}</span>`:S.readOnly?`<span class="chip mute">A receber</span>`:`<button class="btn sec" data-quinz="${n}">Recebi</button>`}</td></tr>`}).join("")}</tbody></table></div>`}
+$("#rQuinz").addEventListener("click",e=>{const b=e.target.closest("[data-quinz]");if(!b||!S.db)return;const n=+b.dataset.quinz,q=S.cfg.pamQ;
+  $("#mdTit").textContent=`Salário Pâmala · ${n}ª parte`;
+  $("#mdBody").innerHTML=`<div class="form"><div class="grid2"><div class="field"><label for="qV">Valor recebido (R$)</label><input id="qV" inputmode="decimal" value="${fmtIn(q["v"+n])}"></div><div class="field"><label for="qD">Data</label><input id="qD" type="date" value="${todayStr}"></div></div><button type="button" class="btn" id="qOk">Salvar recebimento</button></div>`;
+  $("#modal").classList.add("on");
+  $("#qOk").onclick=async()=>{const v=parseVal($("#qV").value);if(!(v>0)){toast("Digite um valor maior que zero");return}const data=$("#qD").value||todayStr;
+    try{await S.db.collection("lancamentos").add({tipo:"entrada",valor:Math.round(v*100)/100,cat:"Salário Pâmala",quem:"Pâmala",data,mes:data.slice(0,7),desc:`Salário Pâmala (${n}ª parte)`,quinz:n,criado:Date.now()});$("#modal").classList.remove("on");toast("Recebimento salvo")}catch(err){handleWriteErr(err)}}});
+$("#rpQ").addEventListener("change",()=>{$("#rpQBox").hidden=!$("#rpQ").checked;$("#rpP").disabled=$("#rpQ").checked});
 S.rQuem=S.quem||"Mailson";S.rTipo="Alunos";
 function drawRTipo(){$("#rTipo").innerHTML=CATS_E.map(c=>`<button type="button" data-v="${esc(c)}" class="${c===S.rTipo?"on":""}">${esc(c)}</button>`).join("");
   [...$("#rQuem").children].forEach(x=>x.classList.toggle("on",x.dataset.v===S.rQuem))}
@@ -993,7 +1047,8 @@ function renderRenda(k){drawRTipo();
   $("#rRec").textContent=brl(k.entradas);
   $("#rPrev").textContent=S.cfg?`Prevista ${brl0(k.renda)} · ${k.entradas>=k.renda?"passou "+brl0(k.entradas-k.renda)+" da previsão":"falta receber "+brl0(k.renda-k.entradas)}`:"";
   $("#rBar").style.width=(k.renda?Math.min(100,Math.round(k.entradas/k.renda*100)):0)+"%";
-  if(S.cfg&&!S._rpFilled){S._rpFilled=true;$("#rpM").value=fmtIn(S.cfg.rendaMailson);$("#rpP").value=fmtIn(S.cfg.rendaPamala)}
+  if(S.cfg&&!S._rpFilled){S._rpFilled=true;$("#rpM").value=fmtIn(S.cfg.rendaMailson);$("#rpP").value=fmtIn(rendaPam(S.cfg));const q=S.cfg.pamQ||{};$("#rpQ").checked=!!q.on;$("#rpQBox").hidden=!q.on;$("#rpP").disabled=!!q.on;$("#rpQd1").value=q.d1||"";$("#rpQv1").value=fmtIn(q.v1);$("#rpQd2").value=q.d2||"";$("#rpQv2").value=fmtIn(q.v2)}
+  renderQuinz();
   const es=S.lanc.filter(l=>l.tipo==="entrada").sort((a,b)=>(b.data||"").localeCompare(a.data||"")||((b.criado||0)-(a.criado||0)));
   const porQ={};es.forEach(l=>porQ[l.quem]=(porQ[l.quem]||0)+(+l.valor||0));
   if(!es.length){$("#rList").innerHTML=`<div class="empty">Nada recebido lançado em ${monthLabel(S.mes)}.</div>`;return}
@@ -1018,8 +1073,10 @@ $("#rList").addEventListener("click",async e=>{const b=e.target.closest("[data-r
   if(!b.dataset.armed){b.dataset.armed="1";b.textContent="Excluir?";return}
   try{await S.db.doc("lancamentos/"+b.dataset.rdel).delete();toast("Recebimento excluído")}catch(err){handleWriteErr(err)}});
 $("#fRPrev").addEventListener("submit",async e=>{e.preventDefault();if(!S.db)return;
-  const m=parseVal($("#rpM").value),p=parseVal($("#rpP").value);
-  try{await S.db.doc("config/geral").set({rendaMailson:isNaN(m)?0:m,rendaPamala:isNaN(p)?0:p},{merge:true});S._rpFilled=false;toast("Renda prevista salva")}catch(err){handleWriteErr(err)}});
+  const m=parseVal($("#rpM").value),qon=$("#rpQ").checked,v1=parseVal($("#rpQv1").value),v2=parseVal($("#rpQv2").value),d1=parseInt($("#rpQd1").value,10),d2=parseInt($("#rpQd2").value,10);
+  const pamQ={on:qon,v1:isNaN(v1)?0:v1,v2:isNaN(v2)?0:v2,d1:d1>=1&&d1<=31?d1:null,d2:d2>=1&&d2<=31?d2:null};
+  const p=qon?pamQ.v1+pamQ.v2:parseVal($("#rpP").value);
+  try{await S.db.doc("config/geral").set({rendaMailson:isNaN(m)?0:m,rendaPamala:isNaN(p)?0:p,pamQ},{merge:true});S._rpFilled=false;toast("Renda prevista salva")}catch(err){handleWriteErr(err)}});
 
 /* ---------- navegação ---------- */
 const TABS=["inicio","lancar","renda","contas","agenda","dividas","limites"];
@@ -1135,8 +1192,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12e";
-window.CASA_NOV=["Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-12f";
+window.CASA_NOV=["Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
