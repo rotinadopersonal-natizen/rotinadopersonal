@@ -114,6 +114,11 @@ nav.tabs button.on{color:#3b2f00;background:#FFD84D;border-radius:12px;margin:6p
 .it.tap{cursor:pointer}.ited{background:var(--surface2);border-radius:10px;padding:8px 10px;margin:2px 0 8px}
 .updl{margin:0;padding-left:20px}.updl li{margin:4px 0}
 #casaUpd{position:fixed;left:10px;right:10px;top:10px;z-index:40;display:flex;align-items:center;gap:10px;max-width:520px;margin:0 auto;background:#FFF4C2;color:#3b2f00;border:2px solid #C9A227;border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-weight:700;text-align:left}
+.pag{margin-top:10px}.pag-head{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:800;text-align:left;color:var(--fg)}
+.pag.open .pag-head{border-radius:14px 14px 0 0}.pg-body{background:var(--surface);border:1px solid var(--line);border-top:0;border-radius:0 0 14px 14px;padding:4px 0 10px}
+.pg-top{padding:10px 14px;background:var(--surface2)}.pg-r{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid var(--line)}.pg-r.on{background:var(--accent-soft)}
+.pg-r input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent);flex:none}.pg-n{flex:1;min-width:0}.pg-v{width:100px!important;flex:none;margin:0!important;text-align:right}
+.pg-sec{padding:12px 14px 4px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.pg-sec.bad{color:var(--bad)}
 #casaUpd small{display:block;font-weight:500}#casaUpd .bt{margin-left:auto;background:#1f6b4f;color:#fff;border-radius:10px;padding:8px 12px;white-space:nowrap}
 .inline-confirm{display:none;gap:6px}.inline-confirm.on{display:inline-flex}
 .edit-box{display:none;margin-top:10px}.edit-box.on{display:block}
@@ -185,6 +190,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
       <div class="more" id="hMore">Toque para ver onde está indo o dinheiro ›</div>
     </div>
     <div class="sheet brk" id="brk"></div>
+    <div class="pag" id="pagBox"></div>
     <div class="stats">
       <div class="stat"><div class="k">Gastos lançados</div><div class="n" id="sGastos">—</div></div>
       <div class="stat"><div class="k">Contas do mês</div><div class="n" id="sContas">—</div></div>
@@ -394,7 +400,7 @@ const curMonth=todayStr.slice(0,7);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("on"),1800)}
 
-const S={mes:curMonth,lanc:[],contas:[],pags:{},dividas:[],passos:[],cfg:null,direcao:null,db:null,tipo:"gasto",cat:"Mercado",quem:"Mailson",readOnly:false,atOff:new Set(),itEd:null,anexos:{},para:"Sophia",brkOpen:false,brkG:null,edP:"",somaSel:new Set(["atrasada","casa","mes","investimento","educacao"]),allPags:{},agenda:[],agF:"Todos",agQuem:"Família"};
+const S={mes:curMonth,lanc:[],contas:[],pags:{},dividas:[],passos:[],cfg:null,direcao:null,db:null,tipo:"gasto",cat:"Mercado",quem:"Mailson",readOnly:false,atOff:new Set(),plano:{sel:{},val:{}},pagOpen:false,itEd:null,anexos:{},para:"Sophia",brkOpen:false,brkG:null,edP:"",somaSel:new Set(["atrasada","casa","mes","investimento","educacao"]),allPags:{},agenda:[],agF:"Todos",agQuem:"Família"};
 let unsubMes=[];
 
 function monthLabel(m){const[y,mm]=m.split("-");return MESES[+mm-1]+" "+y}
@@ -466,7 +472,7 @@ function render(){
   $("#hAtr").innerHTML=S.cfg&&atr?`<b class="neg">Atrasado: ${brl0(atr)}</b>`:"";
   $("#hMore").textContent=S.brkOpen?"Fechar detalhe ˄":"Toque para ver onde está indo o dinheiro ›";
   renderBrk(G);
-  renderDirecao();if(typeof renderPerg==="function")renderPerg();renderSteps();renderLanc();renderContas(k);renderAtr();renderAgenda();renderDividas();renderLimites(k);
+  renderDirecao();if(typeof renderPerg==="function")renderPerg();renderSteps();renderLanc();renderContas(k);renderAtr();renderPag(k);renderAgenda();renderDividas();renderLimites(k);
 }
 function renderDirecao(){
   if(S.asking)return;
@@ -894,6 +900,41 @@ async function processFile(f,alvo){if(!S.db){toast("Entre na sua conta para salv
   catch(err){if(err&&err.code)handleWriteErr(err);else toast("Não deu para abrir o arquivo. Tente uma foto mais nítida.")}
   finally{S.lendo=null;render()}}
 
+/* ---------- somar para pagar (atrasados primeiro, valores negociáveis) ---------- */
+function itensPagar(k){const out=[],isCur=S.mes===curMonth,dia=today.getDate();
+  S.dividas.filter(d=>d.status==="atrasada").forEach(d=>out.push({k:"d:"+d.id,n:d.nome,v:+d.saldo||0,sec:1,ord:1e6,sub:"Dívida atrasada"}));
+  atrasadasAnteriores().forEach(a=>{if(a.c.soma===false)return;out.push({k:"c:"+a.mes+":"+a.c.id,n:a.c.nome+" ("+MESES[+a.mes.slice(5)-1].toLowerCase()+")",v:+a.c.valor||0,sec:1,ord:a.dias,sub:a.dias+" dias de atraso"})});
+  k.contas.filter(c=>c.soma!==false&&!S.pags[c.id]).forEach(c=>{const venc=!!(c.dia&&(S.mes<curMonth||(isCur&&c.dia<dia))),v=+valorConta(c)||0;
+    if(venc)out.push({k:"c:"+S.mes+":"+c.id,n:c.nome,v,sec:1,ord:diasAtraso(S.mes,c.dia),sub:diasAtraso(S.mes,c.dia)+" dias de atraso"});
+    else out.push({k:"c:"+S.mes+":"+c.id,n:c.nome,v,sec:3,ord:-(c.dia||99),sub:c.dia?"vence dia "+c.dia:"sem dia de vencimento"})});
+  S.dividas.filter(d=>d.status!=="atrasada"&&d.status!=="quitada"&&(+d.saldo||0)>0).forEach(d=>{const neg=/cheque|especial|limite|cart[aã]o/i.test(d.nome||"");
+    out.push({k:"s:"+d.id,n:d.nome,v:+d.saldo||0,sec:2,ord:neg?1:0,sub:(neg?"Deixa no negativo · ":"")+"saldo "+(d.status||"em dia")})});
+  return out.sort((a,b)=>(a.sec-b.sec)||(b.ord-a.ord))}
+function salvarPlano(){if(!S.db||S.readOnly)return;S.db.doc("plano/pagar").set(S.plano).catch(handleWriteErr)}
+function renderPag(k){const el=$("#pagBox");if(!el)return;const L=itensPagar(k),P=S.plano;
+  const valOf=x=>P.val[x.k]!=null?+P.val[x.k]:x.v,on=L.filter(x=>P.sel[x.k]);
+  const tot=on.reduce((a,x)=>a+valOf(x),0),tA=on.filter(x=>x.sec===1).reduce((a,x)=>a+valOf(x),0),tN=on.filter(x=>x.sec===2).reduce((a,x)=>a+valOf(x),0),tM=on.filter(x=>x.sec===3).reduce((a,x)=>a+valOf(x),0);
+  el.classList.toggle("open",!!S.pagOpen);
+  const head=`<button type="button" class="pag-head" data-pgopen aria-expanded="${!!S.pagOpen}"><span>🧮 Somar para pagar<span class="sub" style="font-weight:600">${on.length?on.length+" marcado"+(on.length>1?"s":""):"Atrasados primeiro · toque para montar"}</span></span><span style="font-variant-numeric:tabular-nums;white-space:nowrap">${brl(tot)} ${S.pagOpen?"˄":"›"}</span></button>`;
+  if(!S.pagOpen){el.innerHTML=head;return}
+  const ro=S.readOnly;const nomes={1:"Atrasados",2:"Dívidas e negativo (saldo)",3:"Contas do mês a vencer"};let last=0,rows="";
+  L.forEach(x=>{if(x.sec!==last){last=x.sec;rows+=`<div class="pg-sec ${x.sec===1?"bad":""}">${nomes[x.sec]}</div>`}
+    const sel=!!P.sel[x.k],edit=P.val[x.k]!=null&&+P.val[x.k]!==x.v;
+    rows+=`<div class="pg-r ${sel?"on":""}"><input type="checkbox" data-pgk="${esc(x.k)}" ${sel?"checked":""} ${ro?"disabled":""} aria-label="Somar ${esc(x.n)}"><div class="pg-n"><b>${esc(x.n)}</b><span class="sub ${x.sec===1?"neg":""}">${esc(x.sub)}${edit?` · original ${brl(x.v)} <button type="button" class="btn ghost" style="padding:0 4px" data-pgreset="${esc(x.k)}">↺</button>`:""}</span></div><input class="mini pg-v" inputmode="decimal" data-pgv="${esc(x.k)}" value="${fmtIn(valOf(x))}" ${ro?"disabled":""} aria-label="Valor a pagar"></div>`});
+  el.innerHTML=head+`<div class="pg-body"><div class="pg-top"><div class="somatot">${brl(tot)}</div><div class="sub">Atrasados ${brl(tA)} · Dívidas/negativo ${brl(tN)} · Contas a vencer ${brl(tM)}</div><div class="sub" style="margin-top:4px">Marquem o que vão pagar. Digitem outro valor se negociarem ou forem pagar só uma parte.</div>${ro?"":`<div class="row" style="margin-top:8px"><button type="button" class="mini" data-pgatr>Marcar atrasados</button><button type="button" class="mini" data-pgtudo>Marcar tudo</button><button type="button" class="mini" data-pglimpa>Limpar</button></div>`}</div>${L.length?rows:`<div class="empty">Nada em aberto. 👏</div>`}</div>`}
+$("#pagBox").addEventListener("click",e=>{
+  if(e.target.closest("[data-pgopen]")){S.pagOpen=!S.pagOpen;render();return}
+  const L=()=>itensPagar(calc());
+  if(e.target.closest("[data-pglimpa]")){if(!confirm("Confirma limpar a soma e os valores digitados?"))return;S.plano={sel:{},val:{}};salvarPlano();render();return}
+  if(e.target.closest("[data-pgatr]")){L().forEach(x=>{if(x.sec===1)S.plano.sel[x.k]=true});salvarPlano();render();return}
+  if(e.target.closest("[data-pgtudo]")){L().forEach(x=>S.plano.sel[x.k]=true);salvarPlano();render();return}
+  const r=e.target.closest("[data-pgreset]");if(r){delete S.plano.val[r.dataset.pgreset];salvarPlano();render()}});
+$("#pagBox").addEventListener("change",e=>{const t=e.target;
+  if(t.dataset.pgk){if(t.checked)S.plano.sel[t.dataset.pgk]=true;else delete S.plano.sel[t.dataset.pgk];salvarPlano();render();return}
+  if(t.dataset.pgv){const v=parseVal(t.value);if(isNaN(v)||v<0){toast("Digite um valor válido");render();return}
+    const x=itensPagar(calc()).find(z=>z.k===t.dataset.pgv);if(x&&Math.abs(v-x.v)<0.005)delete S.plano.val[x.k];else S.plano.val[t.dataset.pgv]=Math.round(v*100)/100;
+    S.plano.sel[t.dataset.pgv]=true;salvarPlano();render()}});
+
 /* ---------- navegação ---------- */
 const TABS=["inicio","lancar","contas","agenda","dividas","limites"];
 function go(t){if(!TABS.includes(t))t="inicio";document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+t));document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));window.scrollTo(0,0);try{localStorage.setItem("fc_tab",t)}catch(_){}}
@@ -980,6 +1021,7 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
     snapList(db.collection("contas"),a=>S.contas=a);
     snapList(db.collection("dividas"),a=>S.dividas=a);
     snapList(db.collection("passos"),a=>S.passos=a);
+    db.doc("plano/pagar").onSnapshot(s=>{const d=s.exists?s.data():{};S.plano={sel:d.sel||{},val:d.val||{}};render()},()=>{});
     snapList(db.collection("pagamentos"),a=>{S.allPags={};a.forEach(p=>S.allPags[p.mes+"_"+p.contaId]=p)});
     subMes();
   }
@@ -1007,8 +1049,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12a";
-window.CASA_NOV=["A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-12b";
+window.CASA_NOV=["Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
