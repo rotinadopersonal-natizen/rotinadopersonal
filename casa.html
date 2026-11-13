@@ -1007,25 +1007,25 @@ function itensPagar(k){const out=[],isCur=S.mes===curMonth,dia=today.getDate();
   return out.sort((a,b)=>(a.sec-b.sec)||(b.ord-a.ord))}
 function salvarPlano(){if(!S.db||S.readOnly)return;S.db.doc("plano/pagar").set(S.plano).catch(handleWriteErr)}
 function renderPag(k){const el=$("#pagBox");if(!el)return;const L=itensPagar(k),P=S.plano;
-  const valOf=x=>P.val[x.k]!=null?+P.val[x.k]:x.v,on=L.filter(x=>P.sel[x.k]);
+  const isOn=x=>x.sec===4?P.sel[x.k]!==false:!!P.sel[x.k];const valOf=x=>P.val[x.k]!=null?+P.val[x.k]:x.v,on=L.filter(isOn);
   const tot=on.reduce((a,x)=>a+valOf(x),0),tA=on.filter(x=>x.sec===1).reduce((a,x)=>a+valOf(x),0),tN=on.filter(x=>x.sec===2).reduce((a,x)=>a+valOf(x),0),tM=on.filter(x=>x.sec===3).reduce((a,x)=>a+valOf(x),0),tG=on.filter(x=>x.sec===4).reduce((a,x)=>a+valOf(x),0);
   el.classList.toggle("open",!!S.pagOpen);
   const head=`<button type="button" class="pag-head" data-pgopen aria-expanded="${!!S.pagOpen}"><span>🧮 Somar para pagar<span class="sub" style="font-weight:600">${on.length?on.length+" marcado"+(on.length>1?"s":""):"Atrasados primeiro · toque para montar"}</span></span><span style="font-variant-numeric:tabular-nums;white-space:nowrap">${brl(tot)} ${S.pagOpen?"˄":"›"}</span></button>`;
   if(!S.pagOpen){el.innerHTML=head;return}
   const ro=S.readOnly;const nomes={1:"Atrasados",2:"Dívidas, cartões e negativo (saldo)",3:"Contas do mês a vencer",4:"Gastos lançados no mês"};let last=0,rows="";
   L.forEach(x=>{if(x.sec!==last){last=x.sec;rows+=`<div class="pg-sec ${x.sec===1?"bad":""}">${nomes[x.sec]}</div>`}
-    const sel=!!P.sel[x.k],edit=P.val[x.k]!=null&&+P.val[x.k]!==x.v;
+    const sel=isOn(x),edit=P.val[x.k]!=null&&+P.val[x.k]!==x.v;
     rows+=`<div class="pg-r ${sel?"on":""}"><input type="checkbox" data-pgk="${esc(x.k)}" ${sel?"checked":""} ${ro?"disabled":""} aria-label="Somar ${esc(x.n)}"><div class="pg-n"><b>${esc(x.n)}</b><span class="sub ${x.sec===1?"neg":""}">${esc(x.sub)}${edit?` · original ${brl(x.v)} <button type="button" class="btn ghost" style="padding:0 4px" data-pgreset="${esc(x.k)}">↺</button>`:""}</span></div><input class="mini pg-v" inputmode="decimal" data-pgv="${esc(x.k)}" value="${fmtIn(valOf(x))}" ${ro?"disabled":""} aria-label="Valor a pagar"></div>`});
   el.innerHTML=head+`<div class="pg-body"><div class="pg-top"><div class="somatot">${brl(tot)}</div><div class="sub">Atrasados ${brl(tA)} · Dívidas/negativo ${brl(tN)} · Contas a vencer ${brl(tM)} · Gastos ${brl(tG)}</div><div class="sub" style="margin-top:4px">Marquem o que vão pagar. Digitem outro valor se negociarem ou forem pagar só uma parte.</div>${ro?"":`<div class="row" style="margin-top:8px"><button type="button" class="mini" data-pgatr>Marcar atrasados</button><button type="button" class="mini" data-pgtudo>Marcar tudo</button><button type="button" class="mini" data-pglimpa>Limpar</button></div>`}</div>${L.length?rows:`<div class="empty">Nada em aberto. 👏</div>`}</div>`}
 $("#pagBox").addEventListener("click",e=>{
   if(e.target.closest("[data-pgopen]")){S.pagOpen=!S.pagOpen;render();return}
   const L=()=>itensPagar(calc());
-  if(e.target.closest("[data-pglimpa]")){if(!confirm("Confirma limpar a soma e os valores digitados?"))return;S.plano={sel:{},val:{}};salvarPlano();render();return}
+  if(e.target.closest("[data-pglimpa]")){if(!confirm("Confirma limpar a soma e os valores digitados?"))return;S.plano={sel:{},val:{}};L().forEach(x=>{if(x.sec===4)S.plano.sel[x.k]=false});salvarPlano();render();return}
   if(e.target.closest("[data-pgatr]")){L().forEach(x=>{if(x.sec===1)S.plano.sel[x.k]=true});salvarPlano();render();return}
   if(e.target.closest("[data-pgtudo]")){L().forEach(x=>S.plano.sel[x.k]=true);salvarPlano();render();return}
   const r=e.target.closest("[data-pgreset]");if(r){delete S.plano.val[r.dataset.pgreset];salvarPlano();render()}});
 $("#pagBox").addEventListener("change",e=>{const t=e.target;
-  if(t.dataset.pgk){if(t.checked)S.plano.sel[t.dataset.pgk]=true;else delete S.plano.sel[t.dataset.pgk];salvarPlano();render();return}
+  if(t.dataset.pgk){const g=t.dataset.pgk.startsWith("g:");if(t.checked)S.plano.sel[t.dataset.pgk]=true;else if(g)S.plano.sel[t.dataset.pgk]=false;else delete S.plano.sel[t.dataset.pgk];salvarPlano();render();return}
   if(t.dataset.pgv){const v=parseVal(t.value);if(isNaN(v)||v<0){toast("Digite um valor válido");render();return}
     const x=itensPagar(calc()).find(z=>z.k===t.dataset.pgv);if(x&&Math.abs(v-x.v)<0.005)delete S.plano.val[x.k];else S.plano.val[t.dataset.pgv]=Math.round(v*100)/100;
     S.plano.sel[t.dataset.pgv]=true;salvarPlano();render()}});
@@ -1195,8 +1195,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12g";
-window.CASA_NOV=["“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-12h";
+window.CASA_NOV=["“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Cada gasto lançado já entra somado; desmarquem o que não for pagar. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
