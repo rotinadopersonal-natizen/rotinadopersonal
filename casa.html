@@ -105,8 +105,8 @@ h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-nav.tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);height:var(--nav-h)}
-nav.tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted)}
+nav.tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(7,1fr);height:var(--nav-h)}
+nav.tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted);min-width:0;padding:0}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs button.on{color:#3b2f00;background:#FFD84D;border-radius:12px;margin:6px 2px}
 #cList table{table-layout:fixed}#cList td,#cList th{overflow-wrap:anywhere}#cList th{padding:8px 6px}#cList td{padding:9px 6px}
@@ -185,7 +185,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
     <div class="hero tap" id="hero" role="button" tabindex="0" aria-expanded="false">
       <div class="lbl">Caixa do mês</div>
       <div class="big" id="hLivre">R$ 0</div>
-      <div class="exp" id="hExp">Renda − o que já foi pago − gastos lançados</div>
+      <div class="exp" id="hExp">Recebido − o que já foi pago − gastos lançados</div>
       <div class="exp" id="hSobra" style="margin-top:4px"></div>
       <div class="exp" id="hAtr" style="margin-top:4px"></div>
       <div class="more" id="hMore">Toque para ver onde está indo o dinheiro ›</div>
@@ -294,6 +294,39 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
     <div class="sheet"><ul class="steps" id="allSteps"></ul></div>
   </section>
 
+  <!-- RENDA -->
+  <section class="view" id="v-renda">
+    <h2>Renda</h2>
+    <div class="hero" style="margin-top:0">
+      <div class="lbl">Recebido no mês</div>
+      <div class="big" id="rRec">R$ 0</div>
+      <div class="exp" id="rPrev"></div>
+      <div class="bar"><i id="rBar" style="width:0"></i></div>
+    </div>
+    <h3>Lançar o que recebeu</h3>
+    <form class="form card" id="fRenda" autocomplete="off">
+      <div class="field"><label for="rValor">Valor (R$)</label><input id="rValor" class="money-in" inputmode="decimal" placeholder="0,00"></div>
+      <div class="grid2">
+        <div class="field"><label>De quem</label><div class="chips" id="rQuem"><button type="button" data-v="Mailson" class="on">Mailson</button><button type="button" data-v="Pâmala">Pâmala</button></div></div>
+        <div class="field"><label for="rData">Data</label><input id="rData" type="date"></div>
+      </div>
+      <div class="field"><label>Tipo</label><div class="chips" id="rTipo"></div></div>
+      <div class="field"><label for="rDesc">Descrição (opcional)</label><input id="rDesc" placeholder="Ex.: Aulas da semana, extra de sábado"></div>
+      <button class="btn" type="submit" id="rSave">Salvar recebimento</button>
+    </form>
+    <h3>Recebidos do mês</h3>
+    <div class="sheet" id="rList"></div>
+    <h3>Renda prevista do mês</h3>
+    <form class="form card" id="fRPrev" autocomplete="off">
+      <div class="grid2">
+        <div class="field"><label for="rpM">Mailson (R$)</label><input id="rpM" inputmode="decimal"></div>
+        <div class="field"><label for="rpP">Pâmala, líquida (R$)</label><input id="rpP" inputmode="decimal"></div>
+      </div>
+      <p class="note" style="margin:0">É só a base para a “sobra prevista”. O caixa usa o que vocês lançarem como recebido.</p>
+      <button class="btn sec" type="submit">Salvar renda prevista</button>
+    </form>
+  </section>
+
   <!-- AGENDA -->
   <section class="view" id="v-agenda">
     <h2>Agenda</h2>
@@ -350,6 +383,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
   <div class="in">
     <button data-tab="inicio" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Início</button>
     <button data-tab="lancar"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Lançar</button>
+    <button data-tab="renda"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg>Renda</button>
     <button data-tab="contas"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Contas</button>
     <button data-tab="agenda"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M8 14l3 3 5-6"/></svg>Agenda</button>
     <button data-tab="dividas"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 15l4-5 3 3 5-7"/></svg>Dívidas</button>
@@ -388,7 +422,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
 (function(){
 const CATS_G=["Mercado","Lanche e sorvete","Uber","Farmácia","Pet","Casa e roupas","Combustível","Trabalho","Ferramentas de trabalho","Datas especiais","Lazer","Educação","Investimento","Outros"];
 const PESSOAS=["Pâmala","Sophia","Mailson","Baby"];
-const CATS_E=["Alunos","Salário Pâmala","Outros"];
+const CATS_E=["Alunos","Salário Pâmala","Extra","Outros"];
 const MESES=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 const $=s=>document.querySelector(s);
 const brl=n=>(n<0?"−":"")+"R$ "+Math.abs(n||0).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -424,9 +458,10 @@ function calc(){
   /* Caixa: o que sobra de verdade — diminui a cada conta paga e a cada gasto lançado */
   let pagoNoMes=0;Object.values(S.allPags||{}).forEach(p=>{const quando=(p.pagoEm||p.mes||"").slice(0,7);if(quando!==m)return;const c=S.contas.find(x=>x.id===p.contaId);if(c&&c.soma===false)return;pagoNoMes+=+(p.valor!=null?p.valor:(c&&c.valor))||0});
   const aPagar=contasSoma.filter(c=>!S.pags[c.id]).reduce((a,c)=>a+(+valorConta(c)||0),0);
-  const caixa=renda-pagoNoMes-gastos;
+  const caixa=entradas-pagoNoMes-gastos;
+  const baseRenda=Math.max(renda,entradas);
   const porCat={};S.lanc.filter(l=>l.tipo==="gasto").forEach(l=>{porCat[l.cat]=(porCat[l.cat]||0)+(+l.valor||0)});
-  return {gastos,entradas,contas,contasTot,pagasTot,renda,meta,livre,porCat,caixa,pagoNoMes,aPagar};
+  return {gastos,entradas,contas,contasTot,pagasTot,renda,meta,livre,porCat,caixa,pagoNoMes,aPagar,baseRenda};
 }
 function valorConta(c){const p=S.pags[c.id];return p&&p.valor!=null?p.valor:c.valor}
 
@@ -468,8 +503,8 @@ function render(){
   $("#mLabel").textContent=monthLabel(S.mes);
   const k=calc();
   const big=$("#hLivre");big.textContent=S.cfg?brl0(k.caixa):"—";big.classList.toggle("neg",k.caixa<0);
-  $("#hExp").textContent=S.cfg?`${brl0(k.renda)} de renda − ${brl0(k.pagoNoMes)} já pago − ${brl0(k.gastos)} gastos`:"Carregando os dados da casa…";
-  $("#hSobra").innerHTML=S.cfg?`Ainda a pagar de contas: <b>${brl0(k.aPagar)}</b> · Meta das dívidas: <b>${brl0(k.meta)}</b> · Sobra prevista: <b class="${k.caixa-k.aPagar-k.meta<0?"neg":""}">${brl0(k.caixa-k.aPagar-k.meta)}</b>`:"";
+  $("#hExp").textContent=S.cfg?`${brl0(k.entradas)} recebido − ${brl0(k.pagoNoMes)} já pago − ${brl0(k.gastos)} gastos`:"Carregando os dados da casa…";
+  $("#hSobra").innerHTML=S.cfg?`Ainda a pagar de contas: <b>${brl0(k.aPagar)}</b> · Meta das dívidas: <b>${brl0(k.meta)}</b> · Falta receber: <b>${brl0(Math.max(0,k.renda-k.entradas))}</b> · Sobra prevista: <b class="${k.baseRenda-k.pagoNoMes-k.gastos-k.aPagar-k.meta<0?"neg":""}">${brl0(k.baseRenda-k.pagoNoMes-k.gastos-k.aPagar-k.meta)}</b>`:"";
   $("#sGastos").textContent=brl0(k.gastos);
   $("#sContas").textContent=brl0(k.contasTot);
   $("#sEntradas").textContent=brl0(k.entradas);
@@ -478,7 +513,7 @@ function render(){
   $("#hAtr").innerHTML=S.cfg&&atr?`<b class="neg">Atrasado: ${brl0(atr)}</b>`:"";
   $("#hMore").textContent=S.brkOpen?"Fechar detalhe ˄":"Toque para ver onde está indo o dinheiro ›";
   renderBrk(G);
-  renderDirecao();if(typeof renderPerg==="function")renderPerg();renderSteps();renderLanc();renderContas(k);renderAtr();renderPag(k);renderAgenda();renderDividas();renderLimites(k);
+  renderDirecao();if(typeof renderPerg==="function")renderPerg();renderSteps();renderLanc();renderContas(k);renderAtr();renderPag(k);renderRenda(k);renderAgenda();renderDividas();renderLimites(k);
 }
 function renderDirecao(){
   if(S.asking)return;
@@ -941,8 +976,44 @@ $("#pagBox").addEventListener("change",e=>{const t=e.target;
     const x=itensPagar(calc()).find(z=>z.k===t.dataset.pgv);if(x&&Math.abs(v-x.v)<0.005)delete S.plano.val[x.k];else S.plano.val[t.dataset.pgv]=Math.round(v*100)/100;
     S.plano.sel[t.dataset.pgv]=true;salvarPlano();render()}});
 
+/* ---------- renda ---------- */
+S.rQuem=S.quem||"Mailson";S.rTipo="Alunos";
+function drawRTipo(){$("#rTipo").innerHTML=CATS_E.map(c=>`<button type="button" data-v="${esc(c)}" class="${c===S.rTipo?"on":""}">${esc(c)}</button>`).join("");
+  [...$("#rQuem").children].forEach(x=>x.classList.toggle("on",x.dataset.v===S.rQuem))}
+function renderRenda(k){drawRTipo();
+  $("#rRec").textContent=brl(k.entradas);
+  $("#rPrev").textContent=S.cfg?`Prevista ${brl0(k.renda)} · ${k.entradas>=k.renda?"passou "+brl0(k.entradas-k.renda)+" da previsão":"falta receber "+brl0(k.renda-k.entradas)}`:"";
+  $("#rBar").style.width=(k.renda?Math.min(100,Math.round(k.entradas/k.renda*100)):0)+"%";
+  if(S.cfg&&!S._rpFilled){S._rpFilled=true;$("#rpM").value=fmtIn(S.cfg.rendaMailson);$("#rpP").value=fmtIn(S.cfg.rendaPamala)}
+  const es=S.lanc.filter(l=>l.tipo==="entrada").sort((a,b)=>(b.data||"").localeCompare(a.data||"")||((b.criado||0)-(a.criado||0)));
+  const porQ={};es.forEach(l=>porQ[l.quem]=(porQ[l.quem]||0)+(+l.valor||0));
+  if(!es.length){$("#rList").innerHTML=`<div class="empty">Nada recebido lançado em ${monthLabel(S.mes)}.</div>`;return}
+  $("#rList").innerHTML=`<table><thead><tr><th>Data</th><th>De onde</th><th class="v">Valor</th><th></th></tr></thead><tbody>${es.map(l=>`<tr>
+    <td class="num">${(l.data||"").slice(8,10)}/${(l.data||"").slice(5,7)}</td>
+    <td style="min-width:0">${esc(l.desc||l.cat)}<span class="sub">${esc(l.cat)} · ${esc(l.quem)}</span></td>
+    <td class="v pos">+${brl(+l.valor)}</td>
+    <td class="v">${S.readOnly?"":`<button class="btn ghost" data-rdel="${esc(l.id)}" aria-label="Excluir">✕</button>`}</td></tr>`).join("")}
+    <tr class="sum"><td></td><td>Total${Object.keys(porQ).length>1?`<span class="sub">${Object.entries(porQ).map(([q,v])=>esc(q)+" "+brl0(v)).join(" · ")}</span>`:""}</td><td class="v">${brl(k.entradas)}</td><td></td></tr></tbody></table>`}
+$("#rTipo").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.rTipo=b.dataset.v;drawRTipo()});
+$("#rQuem").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.rQuem=b.dataset.v;drawRTipo()});
+$("#rData").value=todayStr;
+$("#fRenda").addEventListener("submit",async e=>{e.preventDefault();
+  const v=parseVal($("#rValor").value);if(!(v>0)){toast("Digite um valor maior que zero");$("#rValor").focus();return}
+  if(!S.db){toast("Entre na sua conta para salvar");return}
+  const data=$("#rData").value||todayStr;
+  const doc={tipo:"entrada",valor:Math.round(v*100)/100,cat:S.rTipo,quem:S.rQuem,data,mes:data.slice(0,7),desc:$("#rDesc").value.trim(),criado:Date.now()};
+  $("#rSave").disabled=true;
+  try{await S.db.collection("lancamentos").add(doc);$("#rValor").value="";$("#rDesc").value="";toast("Recebimento salvo");if(doc.mes!==S.mes){S.mes=doc.mes;subMes()}}
+  catch(err){handleWriteErr(err)}finally{$("#rSave").disabled=false}});
+$("#rList").addEventListener("click",async e=>{const b=e.target.closest("[data-rdel]");if(!b||!S.db)return;
+  if(!b.dataset.armed){b.dataset.armed="1";b.textContent="Excluir?";return}
+  try{await S.db.doc("lancamentos/"+b.dataset.rdel).delete();toast("Recebimento excluído")}catch(err){handleWriteErr(err)}});
+$("#fRPrev").addEventListener("submit",async e=>{e.preventDefault();if(!S.db)return;
+  const m=parseVal($("#rpM").value),p=parseVal($("#rpP").value);
+  try{await S.db.doc("config/geral").set({rendaMailson:isNaN(m)?0:m,rendaPamala:isNaN(p)?0:p},{merge:true});S._rpFilled=false;toast("Renda prevista salva")}catch(err){handleWriteErr(err)}});
+
 /* ---------- navegação ---------- */
-const TABS=["inicio","lancar","contas","agenda","dividas","limites"];
+const TABS=["inicio","lancar","renda","contas","agenda","dividas","limites"];
 function go(t){if(!TABS.includes(t))t="inicio";document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+t));document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));window.scrollTo(0,0);try{localStorage.setItem("fc_tab",t)}catch(_){}}
 document.querySelector("nav.tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)go(b.dataset.tab)});
 $("#mPrev").addEventListener("click",()=>{S.mes=shiftMonth(S.mes,-1);subMes()});
@@ -1023,7 +1094,7 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
     const base=fs.doc(CASA);
     S.db={collection:n=>base.collection(n),doc:p=>fs.doc(CASA+"/"+p)};
     const db=S.db;showStatus("");
-    db.doc("config/geral").onSnapshot(s=>{S.cfg=s.exists?s.data():null;S._cfgFilled=false;render()},()=>{});
+    db.doc("config/geral").onSnapshot(s=>{S.cfg=s.exists?s.data():null;S._cfgFilled=false;S._rpFilled=false;render()},()=>{});
     snapList(db.collection("contas"),a=>S.contas=a);
     snapList(db.collection("dividas"),a=>S.dividas=a);
     snapList(db.collection("passos"),a=>S.passos=a);
@@ -1055,8 +1126,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12c";
-window.CASA_NOV=["“Livre para gastar” virou “Caixa do mês”: agora diminui a cada conta paga e a cada gasto lançado. Embaixo aparece quanto ainda falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-12d";
+window.CASA_NOV=["Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
