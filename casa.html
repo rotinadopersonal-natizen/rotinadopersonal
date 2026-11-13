@@ -108,7 +108,13 @@ nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surfa
 nav.tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);height:var(--nav-h)}
 nav.tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted)}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-nav.tabs button.on{color:var(--accent)}
+nav.tabs button.on{color:#3b2f00;background:#FFD84D;border-radius:12px;margin:6px 2px}
+#cList table{table-layout:fixed}#cList td,#cList th{overflow-wrap:anywhere}#cList th{padding:8px 6px}#cList td{padding:9px 6px}
+#cList .chip{white-space:normal;text-align:center;line-height:1.25}#cList .btn.ghost{padding:6px 2px}
+.it.tap{cursor:pointer}.ited{background:var(--surface2);border-radius:10px;padding:8px 10px;margin:2px 0 8px}
+.updl{margin:0;padding-left:20px}.updl li{margin:4px 0}
+#casaUpd{position:fixed;left:10px;right:10px;top:10px;z-index:40;display:flex;align-items:center;gap:10px;max-width:520px;margin:0 auto;background:#FFF4C2;color:#3b2f00;border:2px solid #C9A227;border-radius:14px;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25);font-weight:700;text-align:left}
+#casaUpd small{display:block;font-weight:500}#casaUpd .bt{margin-left:auto;background:#1f6b4f;color:#fff;border-radius:10px;padding:8px 12px;white-space:nowrap}
 .inline-confirm{display:none;gap:6px}.inline-confirm.on{display:inline-flex}
 .edit-box{display:none;margin-top:10px}.edit-box.on{display:block}
 .status{font-size:13px;color:var(--muted);text-align:center;padding:8px}
@@ -388,7 +394,7 @@ const curMonth=todayStr.slice(0,7);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("on"),1800)}
 
-const S={mes:curMonth,lanc:[],contas:[],pags:{},dividas:[],passos:[],cfg:null,direcao:null,db:null,tipo:"gasto",cat:"Mercado",quem:"Mailson",readOnly:false,anexos:{},para:"Sophia",brkOpen:false,brkG:null,edP:"",somaSel:new Set(["atrasada","casa","mes","investimento","educacao"]),allPags:{},agenda:[],agF:"Todos",agQuem:"Família"};
+const S={mes:curMonth,lanc:[],contas:[],pags:{},dividas:[],passos:[],cfg:null,direcao:null,db:null,tipo:"gasto",cat:"Mercado",quem:"Mailson",readOnly:false,atOff:new Set(),itEd:null,anexos:{},para:"Sophia",brkOpen:false,brkG:null,edP:"",somaSel:new Set(["atrasada","casa","mes","investimento","educacao"]),allPags:{},agenda:[],agF:"Todos",agQuem:"Família"};
 let unsubMes=[];
 
 function monthLabel(m){const[y,mm]=m.split("-");return MESES[+mm-1]+" "+y}
@@ -488,7 +494,7 @@ function renderContas(k){
   const cs=k.contas.slice().sort((a,b)=>(a.dia||99)-(b.dia||99));
   if(!cs.length){$("#cList").innerHTML=`<div class="empty">Nenhuma conta cadastrada para ${monthLabel(S.mes)}.</div>`;return}
   const isCur=S.mes===curMonth,dia=today.getDate();
-  $("#cList").innerHTML=`<table><thead><tr><th>Dia</th><th>Conta</th><th class="v">Valor</th><th class="v">Situação</th></tr></thead><tbody>${cs.map(c=>{
+  $("#cList").innerHTML=`<table><colgroup><col style="width:15%"><col><col style="width:25%"><col style="width:25%"></colgroup><thead><tr><th>Dia</th><th>Conta</th><th class="v">Valor</th><th class="v">Situação</th></tr></thead><tbody>${cs.map(c=>{
     const pago=!!S.pags[c.id];let chip;
     if(pago)chip=`<span class="chip ok">Paga</span>`;
     else if(S.mes<curMonth||(isCur&&c.dia&&c.dia<dia))chip=`<span class="chip bad">Atrasada${c.dia?" · "+diasAtraso(S.mes,c.dia)+" dias":""}</span>`;
@@ -695,26 +701,52 @@ function grupos(k){
     if(l.cat==="Educação")G.educacao.it.push({n,v,p:l.para||"",k:"l:"+l.id});else if(l.cat==="Investimento")G.investimento.it.push({n,v,k:"l:"+l.id});else G.mes.it.push({n:n+" · "+l.cat,v,k:"l:"+l.id})});
   Object.values(G).forEach(g=>g.tot=g.it.reduce((a,x)=>a+x.v,0));
   return G}
-const itH=x=>`<div class="it"><span>${esc(x.n)}</span><span>${brl(x.v)}</span></div>`;
+function itH(x,key){const id=key+"|"+x.k,ro=S.readOnly;
+  const ck=key==="atrasada"?`<input type="checkbox" data-atk="${esc(x.k)}" ${S.atOff.has(x.k)?"":"checked"} style="width:18px;height:18px;margin:0 8px 0 0;accent-color:var(--accent);flex:none" aria-label="Somar esta">`:"";
+  return `<div class="it${ro?"":" tap"}" ${ro?"":`data-ited="${esc(id)}"`}><span style="display:flex;align-items:center;min-width:0">${ck}${esc(x.n)}</span><span>${brl(x.v)}${ro?"":" ✎"}</span></div>`+(ro?"":edH(x,id))}
+function edH(x,id){if(S.itEd!==id)return "";const p=x.k.split(":");let quit="";
+  if(p[0]==="d"){const d=S.dividas.find(z=>z.id===p[1]);if(d&&d.status!=="quitada")quit=`<button type="button" class="mini" data-itquit>Quitada</button>`}
+  else if(p[0]==="c"){if(!(p.length===2&&S.pags[p[1]]))quit=`<button type="button" class="mini" data-itquit>Quitado (paguei)</button>`}
+  return `<div class="ited" data-itk="${esc(x.k)}"><label class="sub">${p[0]==="d"?"Saldo da dívida (R$)":"Valor (R$)"}</label><input class="mini" inputmode="decimal" data-itval value="${fmtIn(x.v)}"><div class="row" style="margin-top:6px"><button type="button" class="mini pri" data-itsave>Salvar valor</button>${quit}<button type="button" class="mini" data-itcancel>Fechar</button></div></div>`}
+async function ajustarItem(k,v){if(!S.db)return;const p=k.split(":");try{
+  if(p[0]==="d")await S.db.doc("dividas/"+p[1]).update({saldo:v,atualizado:Date.now()});
+  else if(p[0]==="l")await S.db.doc("lancamentos/"+p[1]).update({valor:Math.round(v*100)/100});
+  else if(p[0]==="c"){const id=p.length===3?p[2]:p[1],mes=p.length===3?p[1]:S.mes;if(S.allPags[mes+"_"+id])await S.db.doc("pagamentos/"+mes+"_"+id).update({valor:v});else await S.db.doc("contas/"+id).update({valor:v})}
+  toast("Valor ajustado")}catch(err){handleWriteErr(err)}}
+async function quitarItem(k){const p=k.split(":");
+  if(p[0]==="d"){try{await S.db.doc("dividas/"+p[1]).update({status:"quitada",atualizado:Date.now()});toast("Dívida quitada")}catch(err){handleWriteErr(err)}}
+  else if(p[0]==="c"){if(p.length===3)await setPago(p[2],true,todayStr,p[1]);else await setPago(p[1],true)}}
 const vazioH=t=>`<div class="it"><span>${t}</span><span></span></div>`;
 function somaH(G){const sel=S.somaSel,seen=new Set();let tot=0;
-  Object.entries(G).forEach(([key,g])=>{if(!sel.has(key))return;g.it.forEach(x=>{if(x.k&&seen.has(x.k))return;if(x.k)seen.add(x.k);tot+=x.v})});
+  Object.entries(G).forEach(([key,g])=>{if(!sel.has(key))return;g.it.forEach(x=>{if(key==="atrasada"&&S.atOff.has(x.k))return;if(x.k&&seen.has(x.k))return;if(x.k)seen.add(x.k);tot+=x.v})});
   return `<div class="soma"><div class="t">Somar</div><div class="pchips">${Object.entries(G).map(([key,g])=>`<button type="button" data-soma="${key}" aria-pressed="${sel.has(key)}" class="${sel.has(key)?"on":""}">${g.nome}</button>`).join("")}</div>
   <div class="somatot">${sel.size?brl(tot):"—"}</div><div class="sub">${sel.size?"Soma dos grupos marcados. Toque para tirar ou colocar. Conta vencida não entra duas vezes.":"Toque nos grupos para somar."}</div></div>`}
 function renderBrk(G){const el=$("#brk");el.classList.toggle("on",!!S.brkOpen);if(!S.brkOpen)return;
   el.innerHTML=somaH(G)+Object.entries(G).map(([key,g])=>{let items;
     if(key==="educacao"){const sel=S.edP;
       items=`<div class="pchips">${PESSOAS.map(p=>{const t=g.it.filter(x=>x.p===p).reduce((a,x)=>a+x.v,0);return `<button type="button" data-edp="${esc(p)}" class="${sel===p?"on":""}">${esc(p)} · ${brl0(t)}</button>`}).join("")}</div>`;
-      if(sel){const its=g.it.filter(x=>x.p===sel);items+=its.length?its.map(itH).join(""):vazioH("Nada de educação para "+esc(sel)+" neste mês.")}
+      if(sel){const its=g.it.filter(x=>x.p===sel);items+=its.length?its.map(x=>itH(x,key)).join(""):vazioH("Nada de educação para "+esc(sel)+" neste mês.")}
       else items+=vazioH("Toque num nome para ver os gastos dessa pessoa.");
-      const sem=g.it.filter(x=>!x.p);if(sem.length)items+=`<div class="it" style="font-weight:700;margin-top:6px"><span>Sem pessoa definida</span><span></span></div>`+sem.map(itH).join("")}
-    else items=g.it.length?g.it.map(itH).join(""):vazioH("Nada aqui neste mês.");
+      const sem=g.it.filter(x=>!x.p);if(sem.length)items+=`<div class="it" style="font-weight:700;margin-top:6px"><span>Sem pessoa definida</span><span></span></div>`+sem.map(x=>itH(x,key)).join("")}
+    else items=g.it.length?g.it.map(x=>itH(x,key)).join(""):vazioH("Nada aqui neste mês.");
+    if(key==="atrasada"&&g.it.length){const on=g.it.filter(x=>!S.atOff.has(x.k));items=`<div class="it" style="color:var(--fg);font-weight:800"><span>Selecionadas (${on.length} de ${g.it.length})</span><span>${brl(on.reduce((a,x)=>a+x.v,0))}</span></div><div class="row" style="margin:2px 0 6px"><button type="button" class="mini" data-attodas>Todas</button><button type="button" class="mini" data-atnenhuma>Nenhuma</button></div>`+items}
     if(key==="atrasada"&&g.it.length)items+=`<div class="note" style="margin-top:6px">As dívidas atrasadas não saem do “livre”: elas são pagas pela meta das dívidas. As contas vencidas do mês já estão descontadas.</div>`;
     return `<div class="grp ${S.brkG===key?"on":""}"><button type="button" data-grp="${key}" aria-expanded="${S.brkG===key}"><span>${g.nome}</span><span class="${key==="atrasada"&&g.tot?"neg":""}">${brl0(g.tot)} ${S.brkG===key?"˄":"›"}</span></button><div class="items">${items}</div></div>`}).join("")}
 function toggleHero(){S.brkOpen=!S.brkOpen;$("#hero").setAttribute("aria-expanded",S.brkOpen);render()}
 $("#hero").addEventListener("click",toggleHero);
 $("#hero").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleHero()}});
-$("#brk").addEventListener("click",e=>{const sm=e.target.closest("[data-soma]");if(sm){const k=sm.dataset.soma;if(S.somaSel.has(k))S.somaSel.delete(k);else S.somaSel.add(k);render();return}
+$("#brk").addEventListener("change",e=>{const c=e.target.closest("[data-atk]");if(!c)return;if(c.checked)S.atOff.delete(c.dataset.atk);else S.atOff.add(c.dataset.atk);render()});
+$("#brk").addEventListener("click",async e=>{if(e.target.matches("input"))return;
+  if(e.target.closest("[data-attodas]")){S.atOff.clear();render();return}
+  if(e.target.closest("[data-atnenhuma]")){grupos(calc()).atrasada.it.forEach(x=>S.atOff.add(x.k));render();return}
+  const sv=e.target.closest("[data-itsave],[data-itquit],[data-itcancel]");
+  if(sv){const box=sv.closest(".ited"),k=box.dataset.itk;
+    if(sv.hasAttribute("data-itcancel")){S.itEd=null;render();return}
+    if(sv.hasAttribute("data-itquit")){if(!confirm("Confirma marcar como quitado?"))return;await quitarItem(k)}
+    else{const v=parseVal(box.querySelector("[data-itval]").value);if(isNaN(v)||v<0){toast("Digite um valor válido");return}await ajustarItem(k,v)}
+    S.itEd=null;render();return}
+  const it=e.target.closest("[data-ited]");if(it){S.itEd=S.itEd===it.dataset.ited?null:it.dataset.ited;render();return}
+  const sm=e.target.closest("[data-soma]");if(sm){const k=sm.dataset.soma;if(S.somaSel.has(k))S.somaSel.delete(k);else S.somaSel.add(k);render();return}
   const g=e.target.closest("[data-grp]");if(g){S.brkG=S.brkG===g.dataset.grp?null:g.dataset.grp;render();return}
   const p=e.target.closest("[data-edp]");if(p){S.edP=S.edP===p.dataset.edp?"":p.dataset.edp;render()}});
 function drawPara(){const box=$("#lParaBox");box.hidden=!(S.tipo==="gasto"&&S.cat==="Educação");
@@ -973,4 +1005,21 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 })();
 </script>
 
+<script>
+/* Aviso de atualização do Finanças da Casa */
+window.CASA_VER="2026-11-12a";
+window.CASA_NOV=["A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+(function(){
+  function popup(){var m=document.getElementById("modal");if(!m)return;
+    document.getElementById("mdTit").textContent="Atualização do site";
+    document.getElementById("mdBody").innerHTML='<p style="margin:0 0 8px;font-weight:700">O que mudou:</p><ul class="updl">'+window.CASA_NOV.map(function(t){return "<li>"+t.replace(/[&<>]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})+"</li>"}).join("")+'</ul>';
+    m.classList.add("on");try{localStorage.setItem("casa_ver",window.CASA_VER)}catch(_){}}
+  var visto=null;try{visto=localStorage.getItem("casa_ver")}catch(_){}
+  if(visto!==window.CASA_VER)setTimeout(popup,1200);
+  function chk(){try{fetch(location.pathname+"?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.text()}).then(function(t){var m=t.match(/window\.CASA_VER="([^"]+)"/);if(!m||m[1]===window.CASA_VER||document.getElementById("casaUpd"))return;
+    var b=document.createElement("button");b.id="casaUpd";b.type="button";b.innerHTML='<span>🔔 Nova atualização!<small>Toque para ver o que mudou</small></span><span class="bt">Atualizar</span>';
+    b.onclick=function(){var u=new URL(location.href);u.searchParams.set("v",m[1]);location.replace(u.toString())};document.body.appendChild(b)}).catch(function(){})}catch(_){}}
+  setInterval(chk,10*60*1000);document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible")chk()});
+})();
+</script>
 </body></html>
