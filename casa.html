@@ -105,7 +105,7 @@ h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:8;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-nav.tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(7,1fr);height:var(--nav-h)}
+nav.tabs .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(8,1fr);height:var(--nav-h)}
 nav.tabs button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted);min-width:0;padding:0}
 nav.tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs button.on{color:#3b2f00;background:#FFD84D;border-radius:12px;margin:6px 2px}
@@ -240,6 +240,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
         <div class="field"><label for="lData">Data</label><input id="lData" type="date"></div>
       </div>
       <div class="field"><label for="lDesc">Descrição (opcional)</label><input id="lDesc" placeholder="Ex.: Supermercados BH"></div>
+      <div class="field" id="lPagoBox"><label>Pago agora?</label><div class="seg" id="lPago"><button type="button" data-v="1" class="on">Sim, já paguei</button><button type="button" data-v="0">Não, vou pagar</button></div></div>
       <button class="btn" type="submit" id="lSave">Salvar lançamento</button>
     </form>
     <p class="note">Compra no cartão de crédito: lance aqui no dia da compra. Na aba Contas, a fatura só é marcada como paga e não entra de novo na soma.</p>
@@ -342,6 +343,13 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
   </section>
 
   <!-- LIMITES -->
+  <section class="view" id="v-historico">
+    <h2>Histórico</h2>
+    <div class="form card"><div class="field"><label for="hBusca">Buscar conta ou lançamento</label><input id="hBusca" type="search" placeholder="Ex.: Cemig, Condomínio, Nubank" autocomplete="off"></div>
+      <div class="chips" id="hSug"></div></div>
+    <div id="hRes"></div>
+  </section>
+
   <section class="view" id="v-limites">
     <h2>Limites do mês</h2>
     <div class="sheet" id="limList"></div>
@@ -382,6 +390,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
     <button data-tab="contas"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Contas</button>
     <button data-tab="agenda"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M8 14l3 3 5-6"/></svg>Agenda</button>
     <button data-tab="dividas"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 15l4-5 3 3 5-7"/></svg>Dívidas</button>
+    <button data-tab="historico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>Histórico</button>
     <button data-tab="limites"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Limites</button>
   </div>
 </nav>
@@ -607,7 +616,8 @@ const fmtIn=v=>v==null||v===""?"":String(Math.round(+v*100)/100).replace(".",","
 /* ---------- formulário de lançamento ---------- */
 function drawCats(){const list=S.tipo==="gasto"?CATS_G:ordCat([...CATS_E,...((S.cfg&&S.cfg.catsE)||[])]);if(!list.includes(S.cat))S.cat=list[0];
   $("#lCat").innerHTML=list.map(c=>`<button type="button" data-v="${esc(c)}" class="${c===S.cat?"on":""}">${esc(c)}</button>`).join("")+(S.readOnly?"":`<button type="button" data-novacat>+ Nova categoria</button>`);drawPara()}
-$("#lTipo").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.tipo=b.dataset.v;[...$("#lTipo").children].forEach(x=>x.classList.toggle("on",x===b));S.cat=S.tipo==="gasto"?"Mercado":"Alunos";drawCats()});
+$("#lTipo").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.tipo=b.dataset.v;[...$("#lTipo").children].forEach(x=>x.classList.toggle("on",x===b));S.cat=S.tipo==="gasto"?"Mercado":"Alunos";$("#lPagoBox").hidden=S.tipo!=="gasto";drawCats()});
+S.lPago=true;$("#lPago").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;S.lPago=b.dataset.v==="1";[...$("#lPago").children].forEach(x=>x.classList.toggle("on",x===b))});
 $("#lCat").addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;if(b.hasAttribute("data-novacat")){const c=await novaCat(S.tipo);if(c){S.cat=c}drawCats();return}S.cat=b.dataset.v;drawCats()});
 function novaCat(tipo){return new Promise(res=>{const md=$("#modal");
   $("#mdTit").textContent="Nova categoria";$("#mdBody").innerHTML=`<div class="form"><div class="field"><label for="ncN">Nome da categoria</label><input id="ncN" placeholder="Ex.: Saúde"></div><button type="button" class="btn" id="ncOk">Criar</button></div>`;
@@ -627,7 +637,7 @@ $("#fLanc").addEventListener("submit",async e=>{e.preventDefault();
   const v=parseVal($("#lValor").value);if(!(v>0)){toast("Digite um valor maior que zero");$("#lValor").focus();return}
   if(!S.db){toast("Entre na sua conta para salvar");return}
   const data=$("#lData").value||todayStr;
-  const doc={tipo:S.tipo,valor:Math.round(v*100)/100,cat:S.cat,para:S.tipo==="gasto"&&S.cat==="Educação"?S.para:null,quem:S.quem,data,mes:data.slice(0,7),desc:$("#lDesc").value.trim(),criado:Date.now()};
+  const doc={tipo:S.tipo,valor:Math.round(v*100)/100,cat:S.cat,para:S.tipo==="gasto"&&S.cat==="Educação"?S.para:null,quem:S.quem,data,mes:data.slice(0,7),desc:$("#lDesc").value.trim(),criado:Date.now()};if(S.tipo==="gasto")doc.pago=S.lPago;
   $("#lSave").disabled=true;
   try{await S.db.collection("lancamentos").add(doc);$("#lValor").value="";$("#lDesc").value="";toast("Lançamento salvo");if(doc.mes!==S.mes){S.mes=doc.mes;subMes()}}
   catch(err){handleWriteErr(err)}finally{$("#lSave").disabled=false}
@@ -663,6 +673,33 @@ function editLanc(l){if(!l||S.readOnly)return;const md=$("#modal"),g=l.tipo==="g
     const data=$("#elDt").value||l.data||todayStr,cat=$("#elC").value;
     const upd={desc:$("#elD").value.trim(),valor:Math.round(v*100)/100,data,mes:data.slice(0,7),cat,quem,para:g&&cat==="Educação"?$("#elP").value:null};if(g)upd.pago=pago;
     try{await S.db.doc("lancamentos/"+l.id).update(upd);md.classList.remove("on");toast("Lançamento atualizado")}catch(err){handleWriteErr(err)}}}
+
+/* ---------- histórico ---------- */
+const semAc=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+const dBR=d=>d?d.slice(8,10)+"/"+d.slice(5,7)+"/"+d.slice(0,4):"";
+S.hLanc=null;
+async function histCarregar(){if(!S.db)return;try{const q=await S.db.collection("lancamentos").get();S.hLanc=q.docs.map(d=>Object.assign({id:d.id},d.data()))}catch(_){S.hLanc=[]}renderHist()}
+function renderHist(){const box=$("#hRes"),q=semAc($("#hBusca").value);
+  $("#hSug").innerHTML=ordCat(S.contas.map(c=>c.nome)).map(n=>`<button type="button" data-hs="${esc(n)}" class="${semAc(n)===q?"on":""}">${esc(n)}</button>`).join("");
+  if(q.length<2){box.innerHTML=`<p class="note">Digite pelo menos 2 letras ou toque numa conta acima.</p>`;return}
+  const rows=[];
+  S.contas.filter(c=>semAc(c.nome).includes(q)).forEach(c=>{
+    const meses=new Set(Object.values(S.allPags||{}).filter(p=>p.contaId===c.id).map(p=>p.mes));
+    let m=c.inicio&&c.inicio>"2026-10"?c.inicio:"2026-10",n=0;while(m<=curMonth&&n<60){if(contaAtiva(c,m))meses.add(m);m=shiftMonth(m,1);n++}
+    meses.forEach(m=>{const p=(S.allPags||{})[m+"_"+c.id],v=p&&p.valor!=null?+p.valor:+c.valor||0;
+      const venc=c.dia?m+"-"+pad(Math.min(c.dia,daysInMonth(m))):"";
+      const st=p?`<span class="chip ok">Paga${p.pagoEm?" em "+dBR(p.pagoEm):""}</span>`:(m<curMonth||(venc&&venc<todayStr))?`<span class="chip bad">Em aberto</span>`:`<span class="chip mute">A vencer</span>`;
+      rows.push({ord:m+"-"+(c.dia?pad(c.dia):"00"),nome:c.nome,sub:monthLabel(m)+(c.dia?" · vence dia "+c.dia:"")+(c.soma===false?" · fatura":""),v,st,pago:!!p})})});
+  (S.hLanc||[]).filter(l=>semAc(l.desc).includes(q)||semAc(l.cat).includes(q)).forEach(l=>{const e=l.tipo==="entrada";
+    rows.push({ord:l.data||l.mes||"",nome:l.desc||l.cat,sub:dBR(l.data)+" · "+(l.cat||"")+" · "+(l.quem||"")+" · lançamento",v:+l.valor||0,
+      st:e?`<span class="chip ok">Entrada</span>`:l.pago===true?`<span class="chip ok">Pago</span>`:`<span class="chip bad">A pagar</span>`,pago:e||l.pago===true,ent:e})});
+  if(!rows.length){box.innerHTML=`<p class="note">${S.hLanc?"Nada encontrado com esse nome.":"Carregando…"}</p>`;return}
+  rows.sort((a,b)=>b.ord.localeCompare(a.ord));
+  const tp=rows.filter(r=>r.pago&&!r.ent).reduce((a,r)=>a+r.v,0),ta=rows.filter(r=>!r.pago).reduce((a,r)=>a+r.v,0);
+  box.innerHTML=`<p class="sub" style="margin:10px 0">${rows.length} resultado${rows.length>1?"s":""} · Pago ${brl(tp)} · Em aberto <b class="neg">${brl(ta)}</b></p>
+  <div class="sheet"><table><tbody>${rows.map(r=>`<tr><td style="min-width:0"><b>${esc(r.nome)}</b><span class="sub">${esc(r.sub)}</span></td><td class="v">${r.ent?"+":""}${brl(r.v)}<span class="sub">${r.st}</span></td></tr>`).join("")}</tbody></table></div>`}
+$("#hBusca").addEventListener("input",renderHist);
+$("#hSug").addEventListener("click",e=>{const b=e.target.closest("[data-hs]");if(!b)return;$("#hBusca").value=b.dataset.hs;renderHist()});
 
 /* ---------- contas ---------- */
 $("#cList").addEventListener("click",async e=>{const t=e.target.closest("button");if(!t||!S.db)return;
@@ -1121,8 +1158,8 @@ $("#fRPrev").addEventListener("submit",async e=>{e.preventDefault();if(!S.db)ret
   try{await S.db.doc("config/geral").set({rendaMailson:isNaN(m)?0:m,rendaPamala:isNaN(p)?0:p,pamQ},{merge:true});S._rpFilled=false;toast("Renda prevista salva")}catch(err){handleWriteErr(err)}});
 
 /* ---------- navegação ---------- */
-const TABS=["inicio","lancar","renda","contas","agenda","dividas","limites"];
-function go(t){if(!TABS.includes(t))t="inicio";document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+t));document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));window.scrollTo(0,0);try{localStorage.setItem("fc_tab",t)}catch(_){}}
+const TABS=["inicio","lancar","renda","contas","agenda","dividas","historico","limites"];
+function go(t){if(!TABS.includes(t))t="inicio";if(t==="historico"){histCarregar();renderHist()}document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+t));document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab===t));window.scrollTo(0,0);try{localStorage.setItem("fc_tab",t)}catch(_){}}
 document.querySelector("nav.tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b)go(b.dataset.tab)});
 $("#mPrev").addEventListener("click",()=>{S.mes=shiftMonth(S.mes,-1);subMes()});
 $("#mNext").addEventListener("click",()=>{S.mes=shiftMonth(S.mes,1);subMes()});
@@ -1234,8 +1271,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-12i";
-window.CASA_NOV=["Lançar: nova categoria Moradia, botão “+ Nova categoria” e categorias em ordem alfabética. “Outros” saiu dos gastos.","Toque num lançamento do mês para editar descrição, valor, data, categoria, quem e se já foi pago.","“Somar para pagar” mostra cada gasto marcado como “a pagar”. Ao marcar como pago, ele sai da soma.","“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Cada gasto lançado já entra somado; desmarquem o que não for pagar. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-15a";
+window.CASA_NOV=["Lançar: novo “Pago agora?”. Gasto já pago sai como pago; “Não, vou pagar” entra no “Somar para pagar”.","Nova aba Histórico: busquem pelo nome (ex.: Cemig) e aparecem todos os meses dessa conta e os lançamentos com esse nome, pagos e em aberto.","Lançar: nova categoria Moradia, botão “+ Nova categoria” e categorias em ordem alfabética. “Outros” saiu dos gastos.","Toque num lançamento do mês para editar descrição, valor, data, categoria, quem e se já foi pago.","“Somar para pagar” mostra cada gasto marcado como “a pagar”. Ao marcar como pago, ele sai da soma.","“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Cada gasto lançado já entra somado; desmarquem o que não for pagar. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
