@@ -355,7 +355,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
   </section>
 
   <section class="view" id="v-limites">
-    <h2>Limites do mês</h2>
+    <h2>Limites para gastos</h2>
     <div class="sheet" id="limList"></div>
     <h3>Renda e meta</h3>
     <form class="form card" id="fCfg" autocomplete="off">
@@ -395,7 +395,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
     <button data-tab="agenda"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M8 14l3 3 5-6"/></svg>Agenda</button>
     <button data-tab="dividas"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 15l4-5 3 3 5-7"/></svg>Dívidas</button>
     <button data-tab="historico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg>Histórico</button>
-    <button data-tab="limites"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Limites</button>
+    <button data-tab="limites"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span style="line-height:1.05;white-space:nowrap">Limites<br><small style="font-size:.82em">p/ gastos</small></span></button>
   </div>
 </nav>
 <input type="file" id="fileIn" accept="image/*,application/pdf" hidden>
@@ -427,6 +427,7 @@ input.mini{font-weight:600;width:100%;margin-top:6px}
       <div class="row"><button class="btn" type="submit">Salvar conta</button><button class="btn sec" type="button" id="ctCancel">Cancelar</button><button class="btn ghost" type="button" id="ctDel" hidden>Excluir conta</button></div>
     </form>
 </div></div>
+<div class="modal" id="mAnx" role="dialog" aria-modal="true"><div class="box"><div class="row" style="justify-content:space-between;margin-bottom:8px;flex-wrap:nowrap"><b id="maTit" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></b><button class="btn sec" type="button" id="maClose">Fechar</button></div><div id="maBody"></div></div></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="box"><div class="row" style="justify-content:space-between;margin-bottom:8px;flex-wrap:nowrap"><b id="mdTit" style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></b><button class="btn sec" id="mdClose">Fechar</button></div><div id="mdBody"></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 <div class="lg" id="lg">
@@ -537,7 +538,7 @@ function alertas(k){
 }
 
 /* ---------- render ---------- */
-function render(){CATS_G=ordCat([...CATS_G0,...((S.cfg&&S.cfg.catsG)||[])]);if($("#lCat"))drawCats();
+function render(){if(S.anxPop)setTimeout(drawAnxPop,0);if($("#v-historico")&&$("#v-historico").classList.contains("on"))setTimeout(renderHist,0);CATS_G=ordCat([...CATS_G0,...((S.cfg&&S.cfg.catsG)||[])]);if($("#lCat"))drawCats();
   $("#mLabel").textContent=monthLabel(S.mes);
   const k=calc();
   const big=$("#hLivre");big.textContent=S.cfg?brl0(k.caixa):"—";big.classList.toggle("neg",k.caixa<0);
@@ -588,9 +589,9 @@ function renderContas(k){
     else chip=`<span class="chip mute">A pagar</span>`;
     const fimTxt=c.fim?` · até ${monthLabel(c.fim).toLowerCase()}`:"";
     return `<tr><td class="num">${c.dia||"—"}${c.diaConfirmado===false?`<span class="sub">confirmar</span>`:""}</td>
-    <td><button class="cname" data-editconta="${esc(c.id)}">${esc(c.nome)}</button><span class="sub">${c.soma===false?"Fatura: já contada nos lançamentos":grupoTxt(c)}${esc(fimTxt)}</span></td>
+    <td><button class="cname" data-editconta="${esc(c.id)}">${esc(c.nome)}</button><span class="sub">${c.soma===false?"Fatura: já contada nos lançamentos":grupoTxt(c)}${esc(fimTxt)}</span>${anxBtn(c)}</td>
     <td class="v">${c.soma===false?"—":brl(valorConta(c))}</td>
-    <td class="v">${chip}${!pago&&mesesAbertos(c,S.mes).length?`<br><span class="chip bad" style="margin-top:4px">+${mesesAbertos(c,S.mes).length} mês em aberto</span>`:""}${S.readOnly?"":`<br><button class="btn ghost" data-pagar="${esc(c.id)}">${pago?"Desfazer":"Paguei"}</button>${pago&&mesesAbertos(c,S.mes).length?`<br><button class="btn ghost" data-mover="${esc(c.id)}">Era de mês atrasado?</button>`:""}`}</td></tr>`+anxRow(c)}).join("")}
+    <td class="v">${chip}${!pago&&mesesAbertos(c,S.mes).length?`<br><span class="chip bad" style="margin-top:4px">+${mesesAbertos(c,S.mes).length} mês em aberto</span>`:""}${S.readOnly?"":`<br><button class="btn ghost" data-pagar="${esc(c.id)}">${pago?"Desfazer":"Paguei"}</button>${pago&&mesesAbertos(c,S.mes).length?`<br><button class="btn ghost" data-mover="${esc(c.id)}">Era de mês atrasado?</button>`:""}`}</td></tr>`}).join("")}
     <tr class="sum"><td></td><td>Total (pagas ${brl0(k.pagasTot)})</td><td class="v">${brl(k.contasTot)}</td><td></td></tr></tbody></table>`;
 }
 function renderDividas(){
@@ -667,10 +668,10 @@ function catPopup(cat){const md=$("#modal"),k=calc(),lim=((S.cfg&&S.cfg.limites)
 function editLanc(l){if(!l||S.readOnly)return;const md=$("#modal"),g=l.tipo==="gasto";
   const cats=g?ordCat([...CATS_G,l.cat]):ordCat([...CATS_E,...((S.cfg&&S.cfg.catsE)||[]),l.cat]);
   let quem=l.quem||"Mailson",pago=l.pago===true;
-  $("#mdTit").textContent=g?"Editar gasto":"Editar entrada";
+  $("#mdTit").textContent=!l.id?"Novo gasto":g?"Editar gasto":"Editar entrada";
   $("#mdBody").innerHTML=`<div class="form">
     <div class="field"><label for="elD">Descrição</label><input id="elD" value="${esc(l.desc||"")}"></div>
-    <div class="grid2"><div class="field"><label for="elV">Valor (R$)</label><input id="elV" inputmode="decimal" value="${fmtIn(l.valor)}"></div>
+    <div class="grid2"><div class="field"><label for="elV">Valor (R$)</label><input id="elV" inputmode="decimal" value="${isNaN(+l.valor)?"":fmtIn(l.valor)}"></div>
     <div class="field"><label for="elDt">Data</label><input id="elDt" type="date" value="${esc(l.data||todayStr)}"></div></div>
     <div class="field"><label for="elC">Categoria</label><select id="elC">${cats.map(c=>`<option ${c===l.cat?"selected":""}>${esc(c)}</option>`).join("")}<option value="__nova">+ Nova categoria…</option></select></div>
     <div class="field" id="elPBox" ${l.cat==="Educação"?"":"hidden"}><label for="elP">Para quem</label><select id="elP">${PESSOAS.map(p=>`<option ${p===l.para?"selected":""}>${esc(p)}</option>`).join("")}</select></div>
@@ -687,44 +688,51 @@ function editLanc(l){if(!l||S.readOnly)return;const md=$("#modal"),g=l.tipo==="g
   $("#elOk").onclick=async()=>{const v=parseVal($("#elV").value);if(!(v>0)){toast("Digite um valor maior que zero");return}if(!S.db)return;
     const data=$("#elDt").value||l.data||todayStr,cat=$("#elC").value;
     const upd={desc:$("#elD").value.trim(),valor:Math.round(v*100)/100,data,mes:data.slice(0,7),cat,quem,para:g&&cat==="Educação"?$("#elP").value:null};if(g)upd.pago=pago;
-    try{await S.db.doc("lancamentos/"+l.id).update(upd);md.classList.remove("on");toast("Lançamento atualizado")}catch(err){handleWriteErr(err)}}}
+    try{if(l.id)await S.db.doc("lancamentos/"+l.id).update(upd);else await S.db.collection("lancamentos").add(Object.assign(upd,{tipo:"gasto",pago:pago,criado:Date.now()}));md.classList.remove("on");toast(l.id?"Lançamento atualizado":"Lançamento salvo");if($("#v-historico").classList.contains("on"))histCarregar()}catch(err){handleWriteErr(err)}}}
 
 /* ---------- histórico ---------- */
 const semAc=t=>(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
 const dBR=d=>d?d.slice(8,10)+"/"+d.slice(5,7)+"/"+d.slice(0,4):"";
 S.hLanc=null;
 async function histCarregar(){if(!S.db)return;try{const q=await S.db.collection("lancamentos").get();S.hLanc=q.docs.map(d=>Object.assign({id:d.id},d.data()))}catch(_){S.hLanc=[]}renderHist()}
-function renderHist(){const box=$("#hRes"),q=semAc($("#hBusca").value);
-  $("#hSug").innerHTML=ordCat(S.contas.map(c=>c.nome)).map(n=>`<button type="button" data-hs="${esc(n)}" class="${semAc(n)===q?"on":""}">${esc(n)}</button>`).join("");
-  if(q.length<2){box.innerHTML=`<p class="note">Digite pelo menos 2 letras ou toque numa conta acima.</p>`;return}
-  const rows=[];
-  S.contas.filter(c=>semAc(c.nome).includes(q)).forEach(c=>{
+S.hSel=[];
+function histRows(fc,fl){const rows=[];
+  S.contas.filter(fc).forEach(c=>{
     const meses=new Set(Object.values(S.allPags||{}).filter(p=>p.contaId===c.id).map(p=>p.mes));
     let m=c.inicio&&c.inicio>"2026-10"?c.inicio:"2026-10",n=0;while(m<=curMonth&&n<60){if(contaAtiva(c,m))meses.add(m);m=shiftMonth(m,1);n++}
     meses.forEach(m=>{const p=(S.allPags||{})[m+"_"+c.id],v=p&&p.valor!=null?+p.valor:+c.valor||0;
       const venc=c.dia?m+"-"+pad(Math.min(c.dia,daysInMonth(m))):"";
       const st=p?`<span class="chip ok">Paga${p.pagoEm?" em "+dBR(p.pagoEm):""}</span>`:(m<curMonth||(venc&&venc<todayStr))?`<span class="chip bad">Em aberto</span>`:`<span class="chip mute">A vencer</span>`;
-      rows.push({ord:m+"-"+(c.dia?pad(c.dia):"00"),nome:c.nome,sub:monthLabel(m)+(c.dia?" · vence dia "+c.dia:"")+(c.soma===false?" · fatura":""),v,st,pago:!!p})})});
-  (S.hLanc||[]).filter(l=>semAc(l.desc).includes(q)||semAc(l.cat).includes(q)).forEach(l=>{const e=l.tipo==="entrada";
+      rows.push({ord:m+"-"+(c.dia?pad(c.dia):"00"),nome:c.nome,sub:monthLabel(m)+(c.dia?" · vence dia "+c.dia:"")+(c.soma===false?" · fatura":""),v,st,pago:!!p,at:`data-hp="${esc(m)}|${esc(c.id)}"`})})});
+  (S.hLanc||[]).filter(fl).forEach(l=>{const e=l.tipo==="entrada";
     rows.push({ord:l.data||l.mes||"",nome:l.desc||l.cat,sub:dBR(l.data)+" · "+(l.cat||"")+" · "+(l.quem||"")+" · lançamento",v:+l.valor||0,
-      st:e?`<span class="chip ok">Entrada</span>`:l.pago===true?`<span class="chip ok">Pago</span>`:`<span class="chip bad">A pagar</span>`,pago:e||l.pago===true,ent:e})});
-  if(!rows.length){box.innerHTML=`<p class="note">${S.hLanc?"Nada encontrado com esse nome.":"Carregando…"}</p>`;return}
-  rows.sort((a,b)=>b.ord.localeCompare(a.ord));
+      st:e?`<span class="chip ok">Entrada</span>`:l.pago===true?`<span class="chip ok">Pago</span>`:`<span class="chip bad">A pagar</span>`,pago:e||l.pago===true,ent:e,at:`data-hl="${esc(l.id)}"`})});
+  return rows.sort((a,b)=>b.ord.localeCompare(a.ord))}
+function histSec(tit,rows){if(!rows.length)return `<h3>${esc(tit)}</h3><p class="note">${S.hLanc?"Nada encontrado.":"Carregando…"}</p>`;
   const tp=rows.filter(r=>r.pago&&!r.ent).reduce((a,r)=>a+r.v,0),ta=rows.filter(r=>!r.pago).reduce((a,r)=>a+r.v,0);
-  box.innerHTML=`<p class="sub" style="margin:10px 0">${rows.length} resultado${rows.length>1?"s":""} · Pago ${brl(tp)} · Em aberto <b class="neg">${brl(ta)}</b></p>
-  <div class="sheet"><table><tbody>${rows.map(r=>`<tr><td style="min-width:0"><b>${esc(r.nome)}</b><span class="sub">${esc(r.sub)}</span></td><td class="v">${r.ent?"+":""}${brl(r.v)}<span class="sub">${r.st}</span></td></tr>`).join("")}</tbody></table></div>`}
+  return `<h3>${esc(tit)}</h3><p class="sub" style="margin:0 0 8px">${rows.length} resultado${rows.length>1?"s":""} · Pago ${brl(tp)} · Em aberto <b class="neg">${brl(ta)}</b></p>
+  <div class="sheet"><table><tbody>${rows.map(r=>`<tr ${S.readOnly?"":r.at} style="cursor:pointer"><td style="min-width:0"><b>${esc(r.nome)}</b> ${S.readOnly?"":'<span style="color:var(--muted)">✎</span>'}<span class="sub">${esc(r.sub)}</span></td><td class="v">${r.ent?"+":""}${brl(r.v)}<span class="sub">${r.st}</span></td></tr>`).join("")}</tbody></table></div>`}
+function renderHist(){const box=$("#hRes"),q=semAc($("#hBusca").value);
+  S.hSel=S.hSel.filter(n=>S.contas.some(c=>c.nome===n));
+  $("#hSug").innerHTML=ordCat(S.contas.map(c=>c.nome)).map(n=>`<button type="button" data-hs="${esc(n)}" class="${S.hSel.includes(n)?"on":""}">${esc(n)}</button>`).join("")+(S.hSel.length?`<button type="button" data-hlimpa>Limpar</button>`:"");
+  let h="";
+  S.hSel.forEach(n=>{h+=histSec(n,histRows(c=>c.nome===n,l=>semAc(l.desc)===semAc(n)))});
+  if(q.length>=2)h+=histSec(`Busca: “${$("#hBusca").value.trim()}”`,histRows(c=>semAc(c.nome).includes(q),l=>semAc(l.desc).includes(q)||semAc(l.cat).includes(q)));
+  box.innerHTML=h||`<p class="note">Toquem nas contas acima (podem ser várias) ou digitem um nome. Os resultados vão se juntando aqui embaixo. Toque num resultado para editar.</p>`}
+$("#hRes").addEventListener("click",e=>{if(S.readOnly)return;const hp=e.target.closest("[data-hp]");if(hp){const [m,id]=hp.dataset.hp.split("|");pagMesPopup(S.contas.find(c=>c.id===id),m);return}
+  const hl=e.target.closest("[data-hl]");if(hl){const l=(S.hLanc||[]).find(x=>x.id===hl.dataset.hl);if(l)editLanc(l)}});
 $("#hBusca").addEventListener("input",renderHist);
-$("#hSug").addEventListener("click",e=>{const b=e.target.closest("[data-hs]");if(!b)return;$("#hBusca").value=b.dataset.hs;renderHist()});
+$("#hSug").addEventListener("click",e=>{if(e.target.closest("[data-hlimpa]")){S.hSel=[];renderHist();return}const b=e.target.closest("[data-hs]");if(!b)return;const n=b.dataset.hs;S.hSel=S.hSel.includes(n)?S.hSel.filter(x=>x!==n):[...S.hSel,n];renderHist()});
 
 /* ---------- contas ---------- */
-$("#cList").addEventListener("click",async e=>{const t=e.target.closest("button");if(!t||!S.db)return;
+const cClick=async e=>{const t=e.target.closest("button");if(!t)return;if(t.dataset.anxpop){anxPop(t.dataset.anxpop);return}if(!S.db)return;
   if(t.dataset.pagar)await setPago(t.dataset.pagar,!S.pags[t.dataset.pagar]);
   if(t.dataset.mover)await moverPag(t.dataset.mover);
   if(t.dataset.anx){const [id,tipo]=t.dataset.anx.split("|");anxAlvo={id,tipo};const fi=$("#fileIn");fi.value="";fi.click()}
   if(t.dataset.ver)openViewer(t.dataset.ver);
   if(t.dataset.copy){navigator.clipboard.writeText(t.dataset.copy).then(()=>toast("Código copiado"),()=>toast("Não copiou. Segure no código e copie."))}
   if(t.dataset.editconta)openConta(S.contas.find(x=>x.id===t.dataset.editconta));
-});
+};$("#cList").addEventListener("click",cClick);$("#mAnx").addEventListener("click",e=>{if(e.target.id==="mAnx"||e.target.id==="maClose"){S.anxPop=null;$("#mAnx").classList.remove("on");return}cClick(e)});
 function openConta(c){if(S.readOnly)return;
   $("#ctId").value=c?c.id:"";$("#ctNome").value=c?c.nome:"";$("#ctValor").value=c?fmtIn(c.valor):"";$("#ctDia").value=c&&c.dia?c.dia:"";$("#ctFim").value=c&&c.fim?c.fim:"";$("#ctSoma").value=c&&c.soma===false?"0":"1";$("#ctGrupo").value=c?grupoConta(c):"casa";$("#ctPes").value=c?pessoaConta(c):"";togglePes();
   $("#ctTit").textContent=c?c.nome:"Nova conta";
@@ -888,6 +896,28 @@ function edH(x,id){if(S.itEd!==id)return "";const p=x.k.split(":");let quit="";
   if(p[0]==="d"){const d=S.dividas.find(z=>z.id===p[1]);if(d&&d.status!=="quitada")quit=`<button type="button" class="mini" data-itquit>Quitada</button>`}
   else if(p[0]==="c"){if(!(p.length===2&&S.pags[p[1]]))quit=`<button type="button" class="mini" data-itquit>Quitado (paguei)</button>`}
   return `<div class="ited" data-itk="${esc(x.k)}"><label class="sub">${p[0]==="d"?"Saldo da dívida (R$)":"Valor (R$)"}</label><input class="mini" inputmode="decimal" data-itval value="${fmtIn(x.v)}"><div class="row" style="margin-top:6px"><button type="button" class="mini pri" data-itsave>Salvar valor</button>${quit}<button type="button" class="mini" data-itcancel>Fechar</button></div></div>`}
+function itemPopup(k){if(S.readOnly)return;const p=k.split(":");
+  if(p[0]==="l"){editLanc(S.lanc.find(x=>x.id===p[1]));return}
+  if(p[0]==="c"&&p.length===2){openConta(S.contas.find(x=>x.id===p[1]));return}
+  if(p[0]==="c"&&p.length===3){pagMesPopup(S.contas.find(x=>x.id===p[2]),p[1]);return}
+  if(p[0]==="d"){const d=S.dividas.find(x=>x.id===p[1]);if(!d)return;const md=$("#modal");
+    $("#mdTit").textContent=d.nome;$("#mdBody").innerHTML=`<div class="form"><div class="field"><label for="dvS">Saldo da dívida (R$)</label><input id="dvS" inputmode="decimal" value="${fmtIn(d.saldo)}"></div><div class="row"><button type="button" class="btn" id="dvOk">Salvar</button>${d.status!=="quitada"?`<button type="button" class="btn sec" id="dvQ">Marcar quitada</button>`:""}</div><p class="note" style="margin:0">Para mudar nome, parcelas e status, use a aba Dívidas.</p></div>`;
+    md.classList.add("on");
+    $("#dvOk").onclick=async()=>{const v=parseVal($("#dvS").value);if(isNaN(v)||v<0){toast("Digite um valor válido");return}await ajustarItem(k,v);md.classList.remove("on")};
+    const q=$("#dvQ");if(q)q.onclick=async()=>{await quitarItem(k);md.classList.remove("on")}}}
+function pagMesPopup(c,m){if(!c||S.readOnly)return;const md=$("#modal"),key=m+"_"+c.id,p=(S.allPags||{})[key];let pg=!!p;
+  $("#mdTit").textContent=c.nome+" · "+monthLabel(m).toLowerCase();
+  $("#mdBody").innerHTML=`<div class="form"><div class="field"><label>Situação</label><div class="seg" id="pmS"><button type="button" data-v="0">Não paga</button><button type="button" data-v="1">Paga</button></div></div>
+    <div class="grid2" id="pmC"><div class="field"><label for="pmD">Data do pagamento</label><input id="pmD" type="date" value="${esc(p&&p.pagoEm||todayStr)}"></div><div class="field"><label for="pmV">Valor pago (R$)</label><input id="pmV" inputmode="decimal" value="${fmtIn(p&&p.valor!=null?p.valor:c.valor)}"></div></div>
+    <button type="button" class="btn" id="pmOk">Salvar</button><button type="button" class="btn sec" id="pmCt">Editar dados da conta</button></div>`;
+  const dr=()=>{[...$("#pmS").children].forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===pg));$("#pmC").hidden=!pg};dr();
+  $("#pmS").onclick=e=>{const b=e.target.closest("button");if(!b)return;const on=b.dataset.v==="1";if(on&&!pg)$("#pmD").value=todayStr;pg=on;dr()};
+  $("#pmCt").onclick=()=>{md.classList.remove("on");openConta(c)};
+  md.classList.add("on");
+  $("#pmOk").onclick=async()=>{if(!S.db)return;const ref=S.db.doc("pagamentos/"+key);try{
+    if(pg){const v=parseVal($("#pmV").value);await ref.set({mes:m,contaId:c.id,valor:isNaN(v)?(+c.valor||0):Math.round(v*100)/100,em:p&&p.em||Date.now(),pagoEm:$("#pmD").value||todayStr})}
+    else if(p)await ref.delete();
+    md.classList.remove("on");toast("Pagamento salvo")}catch(err){handleWriteErr(err)}}}
 async function ajustarItem(k,v){if(!S.db)return;const p=k.split(":");try{
   if(p[0]==="d")await S.db.doc("dividas/"+p[1]).update({saldo:v,atualizado:Date.now()});
   else if(p[0]==="l")await S.db.doc("lancamentos/"+p[1]).update({valor:Math.round(v*100)/100});
@@ -909,6 +939,7 @@ function renderBrk(G){const el=$("#brk");el.classList.toggle("on",!!S.brkOpen);i
       else items+=vazioH("Toque num nome para ver os gastos dessa pessoa.");
       const sem=g.it.filter(x=>!x.p);if(sem.length)items+=`<div class="it" style="font-weight:700;margin-top:6px"><span>Sem pessoa definida</span><span></span></div>`+sem.map(x=>itH(x,key)).join("")}
     else items=g.it.length?g.it.map(x=>itH(x,key)).join(""):vazioH("Nada aqui neste mês.");
+    if(!S.readOnly&&(key==="mes"||key==="educacao"||key==="investimento"))items+=`<button type="button" class="mini" style="margin-top:8px" data-novol="${key}">+ Novo lançamento</button>`;
     if(key==="atrasada"&&g.it.length){const on=g.it.filter(x=>!S.atOff.has(x.k));items=`<div class="it" style="color:var(--fg);font-weight:800"><span>Selecionadas (${on.length} de ${g.it.length})</span><span>${brl(on.reduce((a,x)=>a+x.v,0))}</span></div><div class="row" style="margin:2px 0 6px"><button type="button" class="mini" data-attodas>Todas</button><button type="button" class="mini" data-atnenhuma>Nenhuma</button></div>`+items}
     if(key==="atrasada"&&g.it.length)items+=`<div class="note" style="margin-top:6px">As dívidas atrasadas não saem do caixa: elas são pagas pela meta das dívidas. As contas vencidas do mês já estão descontadas.</div>`;
     return `<div class="grp ${S.brkG===key?"on":""}"><button type="button" data-grp="${key}" aria-expanded="${S.brkG===key}"><span>${g.nome}</span><span class="${key==="atrasada"&&g.tot?"neg":""}">${brl0(g.tot)} ${S.brkG===key?"˄":"›"}</span></button><div class="items">${items}</div></div>`}).join("")}
@@ -925,7 +956,8 @@ $("#brk").addEventListener("click",async e=>{if(e.target.matches("input"))return
     if(sv.hasAttribute("data-itquit")){if(!confirm("Confirma marcar como quitado?"))return;await quitarItem(k)}
     else{const v=parseVal(box.querySelector("[data-itval]").value);if(isNaN(v)||v<0){toast("Digite um valor válido");return}await ajustarItem(k,v)}
     S.itEd=null;render();return}
-  const it=e.target.closest("[data-ited]");if(it){S.itEd=S.itEd===it.dataset.ited?null:it.dataset.ited;render();return}
+  const nl=e.target.closest("[data-novol]");if(nl){const key=nl.dataset.novol;editLanc({tipo:"gasto",cat:key==="educacao"?"Educação":key==="investimento"?"Investimento":"Mercado",para:key==="educacao"?S.edP:null,quem:"Mailson",data:todayStr,desc:""});return}
+  const it=e.target.closest("[data-ited]");if(it){itemPopup(it.dataset.ited.split("|").slice(1).join("|"));return}
   const sm=e.target.closest("[data-soma]");if(sm){const k=sm.dataset.soma;if(S.somaSel.has(k))S.somaSel.delete(k);else S.somaSel.add(k);render();return}
   const g=e.target.closest("[data-grp]");if(g){S.brkG=S.brkG===g.dataset.grp?null:g.dataset.grp;render();return}
   const p=e.target.closest("[data-edp]");if(p){S.edP=S.edP===p.dataset.edp?"":p.dataset.edp;render()}});
@@ -1006,8 +1038,15 @@ $("#alerts").addEventListener("keydown",e=>{const a=e.target.closest&&e.target.c
 let anxAlvo=null;
 const fmtData=d=>d?d.slice(8,10)+"/"+d.slice(5,7)+"/"+d.slice(0,4):"";
 function fmtLinha(l){if(l.length===47)return l.slice(0,5)+"."+l.slice(5,10)+" "+l.slice(10,15)+"."+l.slice(15,21)+" "+l.slice(21,26)+"."+l.slice(26,32)+" "+l[32]+" "+l.slice(33);if(l.length===48)return [0,1,2,3].map(i=>l.slice(i*12,i*12+11)+"-"+l[i*12+11]).join(" ");return l}
-function anxRow(c){const ac=S.anexos[c.id+"_conta"],ar=S.anexos[c.id+"_recibo"],ro=S.readOnly;
-  if(S.lendo===c.id)return `<tr class="anx"><td></td><td colspan="3"><div class="sub">Lendo o arquivo…</div></td></tr>`;
+function anxBtn(c){const n=(S.anexos[c.id+"_conta"]?1:0)+(S.anexos[c.id+"_recibo"]?1:0);return `<button class="mini" style="margin-top:6px" data-anxpop="${esc(c.id)}">📎 Boleto e recibo${n?" · "+n+" anexo"+(n>1?"s":""):""}</button>`}
+function anxPop(id){S.anxPop=id;drawAnxPop();$("#mAnx").classList.add("on")}
+function drawAnxPop(){const id=S.anxPop,c=S.contas.find(x=>x.id===id);if(!id||!c){$("#mAnx").classList.remove("on");return}
+  $("#maTit").textContent=c.nome+" · "+monthLabel(S.mes).toLowerCase();
+  const im=k=>{const a=S.anexos[id+"_"+k];return a&&/^data:image\//.test(a.img||"")?`<div class="t" style="margin-top:12px">${k==="conta"?"Boleto":"Recibo"}</div><img src="${esc(a.img)}" alt="${k==="conta"?"Boleto":"Recibo"}" style="width:100%;border-radius:8px;border:1px solid var(--line);margin-top:4px">`:""};
+  $("#maBody").innerHTML=anxCols(c)+im("conta")+im("recibo")}
+function anxRow(c){return `<tr class="anx"><td></td><td colspan="3">${anxCols(c)}</td></tr>`}
+function anxCols(c){const ac=S.anexos[c.id+"_conta"],ar=S.anexos[c.id+"_recibo"],ro=S.readOnly;
+  if(S.lendo===c.id)return `<div class="sub">Lendo o arquivo…</div>`;
   let colC=`<div class="anxcol"><div class="t">Conta / boleto</div>`;
   if(ac){colC+=`<div class="row"><button class="mini" data-ver="${esc(c.id)}_conta">Ver</button>${ro?"":`<button class="mini" data-anx="${esc(c.id)}|conta">Trocar</button>`}</div>`;
     colC+=ac.linha?`<div class="linha">${esc(fmtLinha(ac.linha))}</div><button class="mini pri" data-copy="${esc(ac.linha)}">Copiar código</button>`:`<div class="sub" style="margin-top:6px">${esc(ac.msg||"Não achei o código.")}</div>${ro?"":`<input class="mini" data-linhain="${esc(c.id)}" inputmode="numeric" placeholder="Cole ou digite o código">`}`}
@@ -1020,15 +1059,15 @@ function anxRow(c){const ac=S.anexos[c.id+"_conta"],ar=S.anexos[c.id+"_recibo"],
   else{colR+=ro?`<span class="sub">Sem recibo</span>`:`<button class="mini" data-anx="${esc(c.id)}|recibo">🧾 Anexar recibo</button>`;
     const p=S.pags[c.id];if(p&&p.pagoEm)colR+=`<div class="sub" style="margin-top:6px">Paga em ${fmtData(p.pagoEm)}</div>`}
   colR+=`</div>`;
-  return `<tr class="anx"><td></td><td colspan="3"><div class="anxbox">${colC}${colR}</div></td></tr>`}
+  return `<div class="anxbox">${colC}${colR}</div>`}
 function openViewer(key){const a=S.anexos[key];if(!a||!/^data:image\//.test(a.img||""))return;
   $("#mdTit").textContent=(a.tipo==="recibo"?"Recibo":"Conta")+(a.nome?" · "+a.nome:"");$("#mdBody").innerHTML=`<img src="${esc(a.img)}" alt="Anexo">`;$("#modal").classList.add("on")}
 $("#mdClose").addEventListener("click",()=>$("#modal").classList.remove("on"));
 $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")$("#modal").classList.remove("on")});
-$("#cList").addEventListener("change",async e=>{const t=e.target;if(!S.db)return;
+const cChange=async e=>{const t=e.target;if(!S.db)return;
   if(t.dataset.pdate){const id=t.dataset.pdate,v=t.value;if(!v)return;try{await S.db.doc("anexos/"+S.mes+"_"+id+"_recibo").update({pagoEm:v,msg:""});await setPago(id,true,v,S.mes)}catch(err){handleWriteErr(err)}}
   if(t.dataset.linhain){let d=t.value.replace(/\D/g,"");if(d.length===44)d=barrasParaLinha(d);if(!validarLinha(d)){toast("Código inválido. Confira os números.");return}
-    try{await S.db.doc("anexos/"+S.mes+"_"+t.dataset.linhain+"_conta").update({linha:d,msg:""});toast("Código salvo")}catch(err){handleWriteErr(err)}}});
+    try{await S.db.doc("anexos/"+S.mes+"_"+t.dataset.linhain+"_conta").update({linha:d,msg:""});toast("Código salvo")}catch(err){handleWriteErr(err)}}};$("#cList").addEventListener("change",cChange);$("#mAnx").addEventListener("change",cChange);
 $("#fileIn").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(f&&anxAlvo)processFile(f,anxAlvo)});
 
 /* leitura do boleto: dígitos verificadores FEBRABAN */
@@ -1289,8 +1328,8 @@ const RP_OWNER="0HtqKqXRaLN9hQ34QlPmG4nB2fi1", CASA="casa/familia";
 
 <script>
 /* Aviso de atualização do Finanças da Casa */
-window.CASA_VER="2026-11-15c";
-window.CASA_NOV=["Avisos do Início: toquem no × para fechar. Fica salvo em cada celular, e “Mostrar avisos fechados” traz de volta. Se o valor do aviso mudar, ele aparece de novo.","Contas: o nome da conta agora fica num botão com ✎, para ficar claro que dá para tocar e editar.","Início: toque num aviso de categoria (ex.: “Outros passou do limite”) para ver todos os lançamentos dela no mês. Dá para editar cada um e o limite. O aviso de dívidas atrasadas abre a aba Dívidas.","Lançar: novo “Pago agora?”. Gasto já pago sai como pago; “Não, vou pagar” entra no “Somar para pagar”.","Nova aba Histórico: busquem pelo nome (ex.: Cemig) e aparecem todos os meses dessa conta e os lançamentos com esse nome, pagos e em aberto.","Lançar: nova categoria Moradia, botão “+ Nova categoria” e categorias em ordem alfabética. “Outros” saiu dos gastos.","Toque num lançamento do mês para editar descrição, valor, data, categoria, quem e se já foi pago.","“Somar para pagar” mostra cada gasto marcado como “a pagar”. Ao marcar como pago, ele sai da soma.","“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Cada gasto lançado já entra somado; desmarquem o que não for pagar. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
+window.CASA_VER="2026-11-17a";
+window.CASA_NOV=["Histórico: toquem em várias contas e os resultados vão se juntando embaixo. Toque num resultado para editar ali mesmo (pagamento do mês ou lançamento).","Contas: o botão “📎 Boleto e recibo” embaixo do nome abre uma janela para anexar e ver o boleto e o recibo.","Início, em “ver para onde está indo o dinheiro”: toque num item para editar numa janela. Em Gastos do mês, Educação e Investimento há o botão “+ Novo lançamento”.","A aba Limites agora se chama “Limites para gastos”.","Avisos do Início: toquem no × para fechar. Fica salvo em cada celular, e “Mostrar avisos fechados” traz de volta. Se o valor do aviso mudar, ele aparece de novo.","Contas: o nome da conta agora fica num botão com ✎, para ficar claro que dá para tocar e editar.","Início: toque num aviso de categoria (ex.: “Outros passou do limite”) para ver todos os lançamentos dela no mês. Dá para editar cada um e o limite. O aviso de dívidas atrasadas abre a aba Dívidas.","Lançar: novo “Pago agora?”. Gasto já pago sai como pago; “Não, vou pagar” entra no “Somar para pagar”.","Nova aba Histórico: busquem pelo nome (ex.: Cemig) e aparecem todos os meses dessa conta e os lançamentos com esse nome, pagos e em aberto.","Lançar: nova categoria Moradia, botão “+ Nova categoria” e categorias em ordem alfabética. “Outros” saiu dos gastos.","Toque num lançamento do mês para editar descrição, valor, data, categoria, quem e se já foi pago.","“Somar para pagar” mostra cada gasto marcado como “a pagar”. Ao marcar como pago, ele sai da soma.","“Somar para pagar” agora mostra também as faturas de cartão (como a do Nubank) e os gastos lançados no mês, por categoria. Cada gasto lançado já entra somado; desmarquem o que não for pagar. Atenção: se as compras do cartão já foram lançadas como gasto, marquem a fatura OU os gastos, não os dois.","Contas: toque no nome da conta e abre uma janela para ajustar valor, vencimento e pagamento do mês (paga ou não, data em que pagaram e valor pago com desconto). Ao marcar “Paga”, a data já vem com o dia de hoje.","Renda: o salário da Pâmala pode ser quinzenal. Em “Renda prevista”, marquem “recebe em 2 vezes” e coloquem dia e valor de cada parte. Depois é só tocar em “Recebi” em cada parte.","Conta com mais de um mês em aberto: ao tocar em “Paguei”, marquem quais meses foram pagos (um ou vários).","Nova aba Renda: lancem cada valor que receberem (alunos, salário, extras). O Caixa do mês passa a usar o que foi recebido de verdade.","“Livre para gastar” virou “Caixa do mês”: diminui a cada conta paga e gasto lançado, e mostra o que falta pagar e a sobra prevista.","Novo no Início: “Somar para pagar”. Atrasados primeiro, depois dívidas e o que deixa no negativo (como o cheque especial) e as contas a vencer. Marquem o que vão pagar e digitem outro valor se negociarem.","A aba Contas agora cabe inteira na tela, sem cortar a coluna Situação.","No Início, toque em qualquer item do detalhe para ajustar o valor ali mesmo ou marcar como quitado.","Em Dívida atrasada, marquem só as dívidas que querem somar para ver o total delas.","A aba em que vocês estão fica amarela."];
 (function(){
   function popup(){var m=document.getElementById("modal");if(!m)return;
     document.getElementById("mdTit").textContent="Atualização do site";
