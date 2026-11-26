@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Meus treinos</title>
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EFE7CC;--surface:#FBF8EF;--fg:#2A1F1A;--muted:#7A6E62;--line:#E2D8BE;--sunk:#F1EADA;--accent:#7A2A2A;--accent-fg:#fff;--f:"Public Sans",system-ui,sans-serif;--fd:"Barlow Condensed","Arial Narrow",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.w{max-width:720px;margin:0 auto;padding:18px 12px 40px;display:grid;gap:14px}
+.hd h1{margin:0;font-family:var(--fd);font-size:30px;line-height:1.1}
+.hd p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.c{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tg{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;cursor:pointer}
+.ltr{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--accent);color:var(--accent-fg);font-weight:800;font-size:17px}
+.tt{flex:1;display:grid;gap:2px;min-width:0}.tt b{font-size:17px}.tt small{color:var(--muted);font-size:12.5px}
+.chev{color:var(--muted);font-size:18px}
+.c.shut .bd{display:none}
+.bd{border-top:1px solid var(--line)}
+ol{list-style:none;margin:0;padding:6px 10px;display:grid;gap:2px}
+li{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;padding:8px 4px;border-bottom:1px dashed var(--line)}
+li:last-child{border-bottom:0}
+.md{all:unset;cursor:pointer;width:96px;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#15181d;position:relative;display:block}
+.md video,.md img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{height:100%;display:grid;place-items:center;align-content:center;gap:4px;color:#c9cdd3;font-size:10.5px;text-align:center;padding:6px;background:radial-gradient(circle at 50% 35%,#2a3038,#15181d 70%)}
+.play{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:22px;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.xb{display:grid;gap:3px;min-width:0}.xb b{font-size:15px;line-height:1.25}
+.ln{font-family:var(--fd);font-variant-numeric:tabular-nums;font-size:15px}
+.tec{justify-self:start;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--sunk)}
+.cj{font-size:12px;color:var(--muted)}
+.car{display:grid;gap:4px;margin:0 14px 12px;padding:10px 12px;border-radius:10px;background:var(--sunk);font-size:14px}
+.obs{margin:0 14px 14px;padding:10px 12px;border-radius:10px;border-left:4px solid var(--accent);background:var(--sunk);font-size:14px;white-space:pre-wrap}
+.msg{text-align:center;color:var(--muted);padding:40px 16px;font-size:15px}
+.ft{text-align:center;color:var(--muted);font-size:12px}
+.pop{position:fixed;inset:0;z-index:50;background:rgba(10,12,16,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:10px}
+.pop[hidden]{display:none}
+.pop .st{width:100%;max-width:640px;aspect-ratio:16/10;background:#000;border-radius:12px;overflow:hidden}
+.pop video,.pop img,.pop iframe{width:100%;height:100%;object-fit:contain;border:0;display:block}
+.pop b{color:#fff;font-size:17px;text-align:center}
+.pop button{border:0;border-radius:999px;padding:10px 22px;font-weight:700;font-size:15px;background:#fff;color:#111;cursor:pointer}
+@media (max-width:420px){li{grid-template-columns:76px 1fr;gap:10px}.md{width:76px}}
+</style>
+</head><body>
+<main class="w" id="app"><p class="msg">Carregando seus treinos…</p></main>
+<div class="pop" id="pop" hidden role="dialog" aria-modal="true"></div>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  var app=document.getElementById("app"), pop=document.getElementById("pop"), D=null, OPEN={};
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function yt(u){ var m=String(u||"").match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/); return m? m[1] : ""; }
+  function isVid(u){ return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u); }
+  function thumb(e){ var u=e.u||"";
+    if(!u) return '<div class="ph"><span>'+esc(e.mus||"exercício")+'</span></div>';
+    var y=yt(u); if(y) return '<img src="https://i.ytimg.com/vi/'+y+'/mqdefault.jpg" alt=""><span class="play">▶</span>';
+    if(isVid(u)) return '<video src="'+esc(u)+'" autoplay loop muted playsinline preload="metadata"></video>';
+    return '<img src="'+esc(u)+'" alt="">'; }
+  function big(u){ var y=yt(u);
+    if(y) return '<iframe src="https://www.youtube-nocookie.com/embed/'+y+'?autoplay=1&mute=1&loop=1&playlist='+y+'&playsinline=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Vídeo do exercício"></iframe>';
+    if(isVid(u)) return '<video src="'+esc(u)+'" autoplay loop muted playsinline controls></video>';
+    return '<img src="'+esc(u)+'" alt="">'; }
+  function cores(c){ if(!c) return; var r=document.documentElement.style;
+    [["bg","--bg"],["surface","--surface"],["fg","--fg"],["muted","--muted"],["line","--line"],["sunk","--sunk"],["accent","--accent"],["accentFg","--accent-fg"]].forEach(function(k){ if(c[k[0]]) r.setProperty(k[1],c[k[0]]); }); }
+  function render(){
+    if(!D){ app.innerHTML='<p class="msg">Não achei este treino. Peça ao seu professor o link novo.</p>'; return; }
+    cores(D.cores); document.title="Treinos de "+(D.aluno||"");
+    var cs=D.cards||[], dt=D.at? new Date(D.at) : null;
+    app.innerHTML='<header class="hd"><h1>Treinos de '+esc(D.aluno||"")+'</h1><p>'+esc(D.prof_nome||"")+'</p></header>'+
+      (cs.length? cs.map(function(c,i){ var op= OPEN[i]!=null? OPEN[i] : i===0;
+        return '<article class="c'+(op?"":" shut")+'"><button class="tg" data-tg="'+i+'" aria-expanded="'+op+'"><span class="ltr">'+esc(c.ltr||(c.dia||"•").slice(0,3))+'</span><span class="tt"><b>'+esc(c.t)+'</b><small>'+c.ex.length+' exercício'+(c.ex.length===1?"":"s")+(c.dia&&c.ltr?' · '+esc(c.dia):"")+'</small></span><span class="chev">'+(op?"▾":"▸")+'</span></button>'+
+          '<div class="bd"><ol>'+c.ex.map(function(e,j){ return '<li><button class="md" data-pl="'+i+'|'+j+'" aria-label="Ver o vídeo de '+esc(e.n)+'">'+thumb(e)+'</button><div class="xb"><b>'+esc(e.n)+'</b>'+(e.tec?'<span class="tec">'+esc(e.tec)+'</span>':"")+(e.lines||[]).map(function(l){ return '<span class="ln">'+esc(l)+'</span>'; }).join("")+(e.cj?'<span class="cj">🔗 junto com o próximo</span>':"")+'</div></li>'; }).join("")+'</ol>'+
+          (c.cardio||c.wod?'<div class="car">'+(c.cardio?'<span>❤️ '+esc(c.cardio)+'</span>':"")+(c.wod?'<span>🔥 '+esc(c.wod)+'</span>':"")+'</div>':"")+
+          (c.obs?'<div class="obs">📝 '+esc(c.obs)+'</div>':"")+'</div></article>'; }).join("") : '<p class="msg">Ainda não tem treino aqui.</p>')+
+      '<p class="ft">'+(dt?'Atualizado em '+dt.toLocaleDateString("pt-BR")+' · ':"")+'Bom treino! 💪</p>';
+  }
+  app.addEventListener("click",function(ev){ var t=ev.target.closest&&ev.target.closest("[data-tg],[data-pl]"); if(!t) return;
+    if(t.dataset.tg!=null){ var i=+t.dataset.tg, op= OPEN[i]!=null? OPEN[i] : i===0; OPEN[i]=!op; render(); return; }
+    var p=t.dataset.pl.split("|"), e=D.cards[+p[0]].ex[+p[1]]; if(!e||!e.u) return;
+    pop.innerHTML='<b>'+esc(e.n)+'</b><div class="st">'+big(e.u)+'</div><button data-x>Fechar</button>'; pop.hidden=false; });
+  pop.addEventListener("click",function(ev){ if(ev.target===pop||ev.target.closest("[data-x]")){ pop.hidden=true; pop.innerHTML=""; } });
+  var tok=decodeURIComponent((location.hash||"").slice(1)).trim();
+  if(!/^[\w-]{16,}$/.test(tok)){ app.innerHTML='<p class="msg">Link incompleto. Abra o link que o seu professor mandou no WhatsApp.</p>'; return; }
+  try{
+    firebase.initializeApp(window.RP_FIREBASE);
+    firebase.firestore().doc("portal/"+tok).onSnapshot(function(s){ D= s.exists? s.data() : null; render(); },
+      function(){ app.innerHTML='<p class="msg">Não consegui abrir agora. Confira a internet e tente de novo.</p>'; });
+  }catch(e){ app.innerHTML='<p class="msg">Não consegui abrir agora. Tente de novo.</p>'; }
+})();
+</script>
+</body></html>
