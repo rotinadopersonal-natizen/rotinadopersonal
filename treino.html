@@ -45,9 +45,14 @@ li:last-child{border-bottom:0}
 .nt{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.nb{all:unset;cursor:pointer;font-size:13px;font-weight:700;padding:6px 10px;border-radius:999px;background:var(--accent);color:var(--accent-fg)}
 .pop .bx{width:100%;max-width:560px;background:#fff;color:#111;border-radius:12px;padding:16px;font-size:16px;line-height:1.45;white-space:pre-wrap;max-height:65vh;overflow:auto}
 .pop audio{width:100%;max-width:560px}
+.lv{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:var(--accent);color:var(--accent-fg);box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.lv[hidden]{display:none}.lv .tm{font-family:var(--fd);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}.lv small{display:block;font-size:12px;opacity:.85}
+.lv button{all:unset;cursor:pointer;font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px;background:var(--accent-fg);color:var(--accent)}
+.pop .msgb{font-size:18px;font-weight:700;text-align:center}
 @media (max-width:420px){li{grid-template-columns:76px 1fr;gap:10px}.md{width:76px}}
 </style>
 </head><body>
+<div class="lv" id="lv" hidden></div>
 <main class="w" id="app"><p class="msg">Carregando seus treinos…</p></main>
 <div class="pop" id="pop" hidden role="dialog" aria-modal="true"></div>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -98,11 +103,37 @@ li:last-child{border-bottom:0}
     var p=t.dataset.pl.split("|"), e=D.cards[+p[0]].ex[+p[1]]; if(!e||!e.u) return;
     pop.innerHTML='<b>'+esc(e.n)+'</b><div class="st">'+big(e.u)+'</div><button data-x>Fechar</button>'; pop.hidden=false; });
   pop.addEventListener("click",function(ev){ if(ev.target===pop||ev.target.closest("[data-x]")){ pop.hidden=true; pop.innerHTML=""; } });
+  /* ---------- Treino ao vivo ---------- */
+  var lvEl=document.getElementById("lv"), LIVE=null;
+  function lvKey(){ return "rp_live_"+tok; }
+  function lvLoad(){ try{ return JSON.parse(localStorage.getItem(lvKey())||"null"); }catch(e){ return null; } }
+  function lvStore(){ try{ localStorage.setItem(lvKey(),JSON.stringify(LIVE)); }catch(e){} }
+  function lvCfg(){ return D&&D.live&&D.live.on? D.live : null; }
+  function lvSend(){ var L=lvCfg(); if(!L||!L.prof||!LIVE||!D.prof) return; try{ firebase.firestore().doc("portalLive/"+tok).set({prof:D.prof,aluno:D.aluno||"",ini:LIVE.ini,fim:LIVE.fim||null}).catch(function(){}); }catch(e){} }
+  function lvNew(){ LIVE={ini:Date.now(),fim:null,n:1}; lvStore(); lvSend(); lvBar(); }
+  function lvInit(){ var L=lvCfg(); if(!L){ lvEl.hidden=true; return; } if(!LIVE){ var s=lvLoad(); if(s&&Date.now()-s.ini<4*3600e3) LIVE=s; else { lvNew(); return; } } lvBar(); }
+  function hms(ms){ var s=Math.max(0,Math.floor(ms/1000)), h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+":"+(m<10?"0":""):"")+m+":"+(x<10?"0":"")+x; }
+  function lvBar(){ var L=lvCfg(); if(!L||!LIVE){ lvEl.hidden=true; return; } lvEl.hidden=false;
+    if(LIVE.fim) lvEl.innerHTML='<div><small>Treino terminado ✓</small><span class="tm">'+hms(LIVE.fim-LIVE.ini)+'</span></div><button data-lvnew>Começar outro treino</button>';
+    else lvEl.innerHTML='<div><small>Tempo de treino</small><span class="tm" id="lvT">'+hms(Date.now()-LIVE.ini)+'</span></div><button data-lvfim>Terminar treino</button>'; }
+  lvEl.addEventListener("click",function(ev){ var b=ev.target.closest&&ev.target.closest("button"); if(!b||!LIVE) return;
+    if(b.hasAttribute("data-lvfim")){ LIVE.fim=Date.now(); lvStore(); lvSend(); lvBar(); return; }
+    if(b.hasAttribute("data-lvnew")) lvNew(); });
+  function lvAlert(min){ var L=lvCfg(); if(!L) return; var M=L.midia||{}, h="";
+    if(L.aviso) h+='<div class="bx msgb">'+esc(String(L.msg||"⏱ {min} min de treino").replace(/\{min\}/g,min))+'</div>';
+    if(M.on&&M.t==="v"&&M.v){ var y=yt(M.v); h+='<div class="st">'+(y?'<iframe src="https://www.youtube-nocookie.com/embed/'+y+'?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Vídeo do professor"></iframe>':'<video src="'+esc(M.v)+'" autoplay controls playsinline></video>')+'</div>'; }
+    if(M.on&&M.t==="a"&&M.a) h+='<div class="bx" id="aub">Carregando o áudio do professor…</div>';
+    if(!h) return; pop.innerHTML='<b>⏱ '+min+' min de treino</b>'+h+'<button data-x>Fechar</button>'; pop.hidden=false;
+    try{ if(navigator.vibrate) navigator.vibrate([300,150,300]); }catch(e){}
+    if(M.on&&M.t==="a"&&M.a){ var id=M.a.id, show=function(d){ var b=document.getElementById("aub"); if(b) b.outerHTML='<audio controls autoplay src="'+esc(d)+'"></audio>'; };
+      if(AUD[id]) show(AUD[id]); else firebase.firestore().doc("portalAud/"+id).get().then(function(s){ var d=s.exists&&s.data().d; if(d){ AUD[id]=d; show(d); } else { var b=document.getElementById("aub"); if(b) b.remove(); } },function(){ var b=document.getElementById("aub"); if(b) b.textContent="Não consegui carregar o áudio."; }); } }
+  setInterval(function(){ var L=lvCfg(); if(!L||!LIVE||LIVE.fim) return; var ms=Date.now()-LIVE.ini, el=document.getElementById("lvT"); if(el) el.textContent=hms(ms);
+    var min=Math.floor(ms/60000), cada=Math.max(1,+L.cada||15); if(min>=(LIVE.n||1)*cada){ LIVE.n=Math.floor(min/cada)+1; lvStore(); lvAlert(min); } },1000);
   var tok=decodeURIComponent((location.hash||"").slice(1)).trim();
   if(!/^[\w-]{16,}$/.test(tok)){ app.innerHTML='<p class="msg">Link incompleto. Abra o link que o seu professor mandou no WhatsApp.</p>'; return; }
   try{
     firebase.initializeApp(window.RP_FIREBASE);
-    firebase.firestore().doc("portal/"+tok).onSnapshot(function(s){ D= s.exists? s.data() : null; render(); },
+    firebase.firestore().doc("portal/"+tok).onSnapshot(function(s){ D= s.exists? s.data() : null; render(); lvInit(); },
       function(){ app.innerHTML='<p class="msg">Não consegui abrir agora. Confira a internet e tente de novo.</p>'; });
   }catch(e){ app.innerHTML='<p class="msg">Não consegui abrir agora. Tente de novo.</p>'; }
 })();

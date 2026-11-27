@@ -101,6 +101,16 @@ service cloud.firestore {
       allow create: if request.auth != null && request.resource.data.prof == request.auth.uid && (isAdmin() || acessoOk(request.auth.uid)) && request.resource.data.d is string && request.resource.data.d.size() < 1000000;
       allow delete: if request.auth != null && resource.data.prof == request.auth.uid;
     }
+    // Treino ao vivo: a página do aluno grava início e fim; só o professor dono lê
+    match /portalLive/{tok} {
+      allow read: if request.auth != null && resource.data.prof == request.auth.uid;
+      allow create, update: if exists(/databases/$(database)/documents/portal/$(tok))
+        && get(/databases/$(database)/documents/portal/$(tok)).data.live.prof == true
+        && request.resource.data.prof == get(/databases/$(database)/documents/portal/$(tok)).data.prof
+        && request.resource.data.keys().hasOnly(["prof", "aluno", "ini", "fim"])
+        && request.resource.data.ini is int;
+      allow delete: if request.auth != null && resource.data.prof == request.auth.uid;
+    }
     // Finanças da Casa (casa.html): só o dono e os e-mails que ele liberar (confirmados)
     function membroCasa(casaId) {
       return request.auth != null
