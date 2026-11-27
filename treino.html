@@ -42,6 +42,9 @@ li:last-child{border-bottom:0}
 .pop video,.pop img,.pop iframe{width:100%;height:100%;object-fit:contain;border:0;display:block}
 .pop b{color:#fff;font-size:17px;text-align:center}
 .pop button{border:0;border-radius:999px;padding:10px 22px;font-weight:700;font-size:15px;background:#fff;color:#111;cursor:pointer}
+.nt{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.nb{all:unset;cursor:pointer;font-size:13px;font-weight:700;padding:6px 10px;border-radius:999px;background:var(--accent);color:var(--accent-fg)}
+.pop .bx{width:100%;max-width:560px;background:#fff;color:#111;border-radius:12px;padding:16px;font-size:16px;line-height:1.45;white-space:pre-wrap;max-height:65vh;overflow:auto}
+.pop audio{width:100%;max-width:560px}
 @media (max-width:420px){li{grid-template-columns:76px 1fr;gap:10px}.md{width:76px}}
 </style>
 </head><body>
@@ -65,6 +68,8 @@ li:last-child{border-bottom:0}
     if(y) return '<iframe src="https://www.youtube-nocookie.com/embed/'+y+'?autoplay=1&mute=1&loop=1&playlist='+y+'&playsinline=1&rel=0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen title="Vídeo do exercício"></iframe>';
     if(isVid(u)) return '<video src="'+esc(u)+'" autoplay loop muted playsinline controls></video>';
     return '<img src="'+esc(u)+'" alt="">'; }
+  function ms(s){ s=Math.max(0,Math.round(+s||0)); return Math.floor(s/60)+":"+(s%60<10?"0":"")+(s%60); }
+  var AUD={};
   function cores(c){ if(!c) return; var r=document.documentElement.style;
     [["bg","--bg"],["surface","--surface"],["fg","--fg"],["muted","--muted"],["line","--line"],["sunk","--sunk"],["accent","--accent"],["accentFg","--accent-fg"]].forEach(function(k){ if(c[k[0]]) r.setProperty(k[1],c[k[0]]); }); }
   function render(){
@@ -74,13 +79,22 @@ li:last-child{border-bottom:0}
     app.innerHTML='<header class="hd"><h1>Treinos de '+esc(D.aluno||"")+'</h1><p>'+esc(D.prof_nome||"")+'</p></header>'+
       (cs.length? cs.map(function(c,i){ var op= OPEN[i]!=null? OPEN[i] : i===0;
         return '<article class="c'+(op?"":" shut")+'"><button class="tg" data-tg="'+i+'" aria-expanded="'+op+'"><span class="ltr">'+esc(c.ltr||(c.dia||"•").slice(0,3))+'</span><span class="tt"><b>'+esc(c.t)+'</b><small>'+c.ex.length+' exercício'+(c.ex.length===1?"":"s")+(c.dia&&c.ltr?' · '+esc(c.dia):"")+'</small></span><span class="chev">'+(op?"▾":"▸")+'</span></button>'+
-          '<div class="bd"><ol>'+c.ex.map(function(e,j){ return '<li><button class="md" data-pl="'+i+'|'+j+'" aria-label="Ver o vídeo de '+esc(e.n)+'">'+thumb(e)+'</button><div class="xb"><b>'+esc(e.n)+'</b>'+(e.tec?'<span class="tec">'+esc(e.tec)+'</span>':"")+(e.lines||[]).map(function(l){ return '<span class="ln">'+esc(l)+'</span>'; }).join("")+(e.cj?'<span class="cj">🔗 junto com o próximo</span>':"")+'</div></li>'; }).join("")+'</ol>'+
+          '<div class="bd"><ol>'+c.ex.map(function(e,j){ return '<li><button class="md" data-pl="'+i+'|'+j+'" aria-label="Ver o vídeo de '+esc(e.n)+'">'+thumb(e)+'</button><div class="xb"><b>'+esc(e.n)+'</b>'+(e.tec?'<span class="tec">'+esc(e.tec)+'</span>':"")+(e.lines||[]).map(function(l){ return '<span class="ln">'+esc(l)+'</span>'; }).join("")+(e.cj?'<span class="cj">🔗 junto com o próximo</span>':"")+(e.o||e.a?'<div class="nt">'+(e.o?'<button class="nb" data-ob="'+i+'|'+j+'">📝 Ler orientação</button>':"")+(e.a?'<button class="nb" data-au="'+i+'|'+j+'">🎧 Ouvir orientação ('+ms(e.a.s)+')</button>':"")+'</div>':"")+'</div></li>'; }).join("")+'</ol>'+
           (c.cardio||c.wod?'<div class="car">'+(c.cardio?'<span>❤️ '+esc(c.cardio)+'</span>':"")+(c.wod?'<span>🔥 '+esc(c.wod)+'</span>':"")+'</div>':"")+
           (c.obs?'<div class="obs">📝 '+esc(c.obs)+'</div>':"")+'</div></article>'; }).join("") : '<p class="msg">Ainda não tem treino aqui.</p>')+
       '<p class="ft">'+(dt?'Atualizado em '+dt.toLocaleDateString("pt-BR")+' · ':"")+'Bom treino! 💪</p>';
   }
-  app.addEventListener("click",function(ev){ var t=ev.target.closest&&ev.target.closest("[data-tg],[data-pl]"); if(!t) return;
+  app.addEventListener("click",function(ev){ var t=ev.target.closest&&ev.target.closest("[data-tg],[data-pl],[data-ob],[data-au]"); if(!t) return;
     if(t.dataset.tg!=null){ var i=+t.dataset.tg, op= OPEN[i]!=null? OPEN[i] : i===0; OPEN[i]=!op; render(); return; }
+    if(t.dataset.ob!=null){ var q=t.dataset.ob.split("|"), eo=D.cards[+q[0]].ex[+q[1]]; if(!eo||!eo.o) return;
+      pop.innerHTML='<b>📝 '+esc(eo.n)+'</b><div class="bx">'+esc(eo.o)+'</div><button data-x>Fechar</button>'; pop.hidden=false; return; }
+    if(t.dataset.au!=null){ var r=t.dataset.au.split("|"), ea=D.cards[+r[0]].ex[+r[1]]; if(!ea||!ea.a) return; var id=ea.a.id;
+      pop.innerHTML='<b>🎧 '+esc(ea.n)+'</b><div class="bx" id="aub">Carregando o áudio…</div><button data-x>Fechar</button>'; pop.hidden=false;
+      var show=function(d){ var b=document.getElementById("aub"); if(!b) return; b.outerHTML='<audio controls autoplay src="'+esc(d)+'"></audio>'; };
+      if(AUD[id]){ show(AUD[id]); return; }
+      firebase.firestore().doc("portalAud/"+id).get().then(function(s){ var d=s.exists&&s.data().d; if(!d){ var b=document.getElementById("aub"); if(b) b.textContent="Este áudio não está mais disponível."; return; } AUD[id]=d; show(d); },
+        function(){ var b=document.getElementById("aub"); if(b) b.textContent="Não consegui carregar o áudio. Confira a internet."; });
+      return; }
     var p=t.dataset.pl.split("|"), e=D.cards[+p[0]].ex[+p[1]]; if(!e||!e.u) return;
     pop.innerHTML='<b>'+esc(e.n)+'</b><div class="st">'+big(e.u)+'</div><button data-x>Fechar</button>'; pop.hidden=false; });
   pop.addEventListener("click",function(ev){ if(ev.target===pop||ev.target.closest("[data-x]")){ pop.hidden=true; pop.innerHTML=""; } });

@@ -95,6 +95,12 @@ service cloud.firestore {
       allow update: if request.auth != null && resource.data.prof == request.auth.uid && request.resource.data.prof == request.auth.uid && (isAdmin() || acessoOk(request.auth.uid));
       allow delete: if request.auth != null && resource.data.prof == request.auth.uid;
     }
+    // Áudio de orientação por exercício (página do aluno): quem tem o código ouve; só o professor dono grava e apaga
+    match /portalAud/{id} {
+      allow get: if true;
+      allow create: if request.auth != null && request.resource.data.prof == request.auth.uid && (isAdmin() || acessoOk(request.auth.uid)) && request.resource.data.d is string && request.resource.data.d.size() < 1000000;
+      allow delete: if request.auth != null && resource.data.prof == request.auth.uid;
+    }
     // Finanças da Casa (casa.html): só o dono e os e-mails que ele liberar (confirmados)
     function membroCasa(casaId) {
       return request.auth != null
