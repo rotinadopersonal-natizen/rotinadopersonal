@@ -65,7 +65,7 @@ li:last-child{border-bottom:0}
   function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
   function yt(u){ var m=String(u||"").match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/); return m? m[1] : ""; }
   function isVid(u){ return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u); }
-  function thumb(e){ var u=e.u||"";
+  function thumb(e){ var u=e.u||""; if(/\/videos\/anim\//.test(u)) u="";
     if(!u) return '<div class="ph"><span>'+esc(e.mus||"exercício")+'</span></div>';
     var y=yt(u); if(y) return '<img src="https://i.ytimg.com/vi/'+y+'/mqdefault.jpg" alt=""><span class="play">▶</span>';
     if(isVid(u)) return '<video src="'+esc(u)+'" autoplay loop muted playsinline preload="metadata"></video>';
@@ -101,7 +101,7 @@ li:last-child{border-bottom:0}
       firebase.firestore().doc("portalAud/"+id).get().then(function(s){ var d=s.exists&&s.data().d; if(!d){ var b=document.getElementById("aub"); if(b) b.textContent="Este áudio não está mais disponível."; return; } AUD[id]=d; show(d); },
         function(){ var b=document.getElementById("aub"); if(b) b.textContent="Não consegui carregar o áudio. Confira a internet."; });
       return; }
-    var p=t.dataset.pl.split("|"), e=D.cards[+p[0]].ex[+p[1]]; if(!e||!e.u) return;
+    var p=t.dataset.pl.split("|"), e=D.cards[+p[0]].ex[+p[1]]; if(!e||!e.u||/\/videos\/anim\//.test(e.u)) return;
     pop.innerHTML='<b>'+esc(e.n)+'</b><div class="st">'+big(e.u)+'</div><button data-x>Fechar</button>'; pop.hidden=false; });
   pop.addEventListener("click",function(ev){ if(ev.target.closest&&ev.target.closest("[data-lvsim]")){ pop.hidden=true; pop.innerHTML=""; lvNew(); return; }
     if(ev.target===pop||ev.target.closest("[data-x]")){ pop.hidden=true; pop.innerHTML=""; } });
